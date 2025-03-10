@@ -13,6 +13,7 @@ export default function ProductItemPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  console.log({ router, params, searchParams, pathname });
   return (
     <div>
       <h2>ProductItemPage</h2>
