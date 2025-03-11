@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CleanupChild1 from "@/components/cleanup-child-1";
+import CleanupChild2 from "@/components/cleanup-child-2";
 
 export default function CleanUpPage() {
   const [showChild, setShowChild] = useState(false);
@@ -12,8 +13,7 @@ export default function CleanUpPage() {
       {showChild ? (
         <>
           <CleanupChild1 />
-          <div>Test</div>
-          <div>Test</div>
+          <CleanupChild2 />
         </>
       ) : null}
     </div>

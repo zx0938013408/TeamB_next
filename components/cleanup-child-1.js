@@ -7,7 +7,7 @@ export default function CleanupChild1() {
     console.log("CleanupChild1 mounted");
 
     const interval_id = setInterval(() => {
-      console.log({ num });
+      // console.log({ num }); // 因為 closure, num 只會拿到 0
       setNum((old) => old + 1);
     }, 300);
 
