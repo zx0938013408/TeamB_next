@@ -157,9 +157,9 @@ export default function ABListPage() {
                     <td>{r.birthday}</td>
                     <td>{r.address}</td>
                     <td>
-                      <a href="#">
+                      <Link href={`/address-book/${r.ab_id}`}>
                         <FaRegPenToSquare />
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 );
