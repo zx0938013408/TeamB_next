@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function ABNavbar() {
   return (
@@ -22,14 +23,14 @@ export default function ABNavbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  Home
-                </a>
+                <Link className="nav-link" href="/address-book">
+                  通訊錄列表
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
+                <Link className="nav-link" href="/address-book/add">
+                  新增
+                </Link>
               </li>
             </ul>
           </div>
