@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { AB_LIST, AVATAR_PATH } from "@/config/api-path";
+import { AB_LIST, AVATAR_PATH, AB_DELETE } from "@/config/api-path";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaRegTrashCan, FaRegPenToSquare } from "react-icons/fa6";
 
@@ -19,6 +19,14 @@ export default function ABListPage() {
     rows: [],
     keyword: "",
   });
+
+  const deleteItem = async (ab_id) => {
+    const r = await fetch(`${AB_DELETE}/${ab_id}`, {
+      method: "DELETE",
+    });
+    const result = await r.json();
+    console.log(result);
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -119,7 +127,13 @@ export default function ABListPage() {
                 return (
                   <tr key={i}>
                     <td>
-                      <a href="#">
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          deleteItem(r.ab_id);
+                        }}
+                      >
                         <FaRegTrashCan />
                       </a>
                     </td>

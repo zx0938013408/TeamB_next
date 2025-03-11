@@ -10,3 +10,7 @@ export const AB_LIST = `${API_SERVER}/address-book/api`;
 
 // 通訊錄: 新增資料 POST
 export const AB_ADD_POST = `${API_SERVER}/address-book/api`;
+
+// 通訊錄: 刪除項目 DELETE
+// `${API_SERVER}/address-book/api/${ab_id}`
+export const AB_DELETE = `${API_SERVER}/address-book/api`;
