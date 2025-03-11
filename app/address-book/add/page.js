@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { AB_ADD_POST } from "@/config/api-path";
 
 export default function ABAddPage() {
   const [myForm, setMyForm] = useState({
@@ -14,13 +15,31 @@ export default function ABAddPage() {
     setMyForm({ ...myForm, [e.target.name]: e.target.value });
   };
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    // TODO: 欄位檢查
+
+    const r = await fetch(AB_ADD_POST, {
+      method: "POST",
+      body: JSON.stringify(myForm),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await r.json();
+    if (result.success) {
+      alert("新增成功");
+    } else {
+      console.warn(result);
+    }
+  };
   return (
     <div className="row">
       <div className="col-6">
         <div className="card">
           <div className="card-body">
             <h5 className="card-title">新增通訊錄</h5>
-            <form>
+            <form onSubmit={onSubmit}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">
                   姓名 **
