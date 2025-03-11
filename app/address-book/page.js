@@ -42,6 +42,8 @@ export default function ABListPage() {
                 .map((v, i) => {
                   const p = listData.page - 5 + i;
                   if (p < 1 || p > listData.totalPages) return null;
+                  const usp = new URLSearchParams(searchParams.toString());
+                  usp.set("page", p);
                   return (
                     <li
                       className={
@@ -49,7 +51,7 @@ export default function ABListPage() {
                       }
                       key={p}
                     >
-                      <Link className="page-link" href={`?page=${p}`}>
+                      <Link className="page-link" href={`?${usp}`}>
                         {p}
                       </Link>
                     </li>
