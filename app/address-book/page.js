@@ -10,6 +10,7 @@ export default function ABListPage() {
   const router = useRouter();
   const searchRef = useRef();
 
+  const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState({
     success: false,
     perPage: 0,
@@ -26,6 +27,9 @@ export default function ABListPage() {
     });
     const result = await r.json();
     console.log(result);
+    if (result.success) {
+      setRefresh((o) => !o);
+    }
   };
 
   useEffect(() => {
@@ -48,7 +52,7 @@ export default function ABListPage() {
       // effect clean-up
       controller.abort(); // 取消 ajax 的回應
     };
-  }, [searchParams]);
+  }, [searchParams, refresh]);
 
   console.log(listData);
   return (
