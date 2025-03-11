@@ -38,10 +38,17 @@ export default function ABListPage() {
               {Array(11)
                 .fill(1)
                 .map((v, i) => {
+                  const p = listData.page - 5 + i;
+                  if (p < 1 || p > listData.totalPages) return null;
                   return (
-                    <li className="page-item" key={i}>
-                      <Link className="page-link" href={`?page=${i + 1}`}>
-                        {i + 1}
+                    <li
+                      className={
+                        p == listData.page ? "page-item active" : "page-item"
+                      }
+                      key={p}
+                    >
+                      <Link className="page-link" href={`?page=${p}`}>
+                        {p}
                       </Link>
                     </li>
                   );
