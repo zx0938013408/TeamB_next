@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AB_LIST, AVATAR_PATH } from "@/config/api-path";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ABListPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchRef = useRef();
 
   const [listData, setListData] = useState({
     success: false,
@@ -32,7 +34,7 @@ export default function ABListPage() {
   return (
     <>
       <div className="row">
-        <div className="col">
+        <div className="col-6">
           <nav aria-label="Page navigation example">
             <ul className="pagination">
               {Array(11)
@@ -55,6 +57,27 @@ export default function ABListPage() {
                 })}
             </ul>
           </nav>
+        </div>
+        <div className="col-6">
+          <form
+            className="d-flex"
+            role="search"
+            onSubmit={(e) => {
+              e.preventDefault(); // 不要以傳統的方式送出表單
+              router.push(`?keyword=${searchRef.current.value}`);
+            }}
+          >
+            <input
+              ref={searchRef}
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
         </div>
       </div>
       <div className="row">
