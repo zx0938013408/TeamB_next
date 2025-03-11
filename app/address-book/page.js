@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { AB_LIST, AVATAR_PATH } from "@/config/api-path";
 import { useRouter, useSearchParams } from "next/navigation";
+import { FaRegTrashCan, FaRegPenToSquare } from "react-icons/fa6";
 
 export default function ABListPage() {
   const searchParams = useSearchParams();
@@ -98,6 +99,9 @@ export default function ABListPage() {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
+                <th>
+                  <FaRegTrashCan />
+                </th>
                 <th>#</th>
                 <th>姓名</th>
                 <th>頭貼</th>
@@ -105,12 +109,20 @@ export default function ABListPage() {
                 <th>手機</th>
                 <th>生日</th>
                 <th>地址</th>
+                <th>
+                  <FaRegPenToSquare />
+                </th>
               </tr>
             </thead>
             <tbody>
               {listData.rows.map((r, i) => {
                 return (
                   <tr key={i}>
+                    <td>
+                      <a href="#">
+                        <FaRegTrashCan />
+                      </a>
+                    </td>
                     <td>{r.ab_id}</td>
                     <td>{r.name}</td>
                     <td>
@@ -126,6 +138,11 @@ export default function ABListPage() {
                     <td>{r.mobile}</td>
                     <td>{r.birthday}</td>
                     <td>{r.address}</td>
+                    <td>
+                      <a href="#">
+                        <FaRegPenToSquare />
+                      </a>
+                    </td>
                   </tr>
                 );
               })}
