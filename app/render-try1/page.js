@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useMemo, useState } from "react";
+import { useState } from "react";
 import ChildA from "@/components/common/child-a";
 import ChildB from "@/components/common/child-b";
 
