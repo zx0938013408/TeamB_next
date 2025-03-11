@@ -20,14 +20,25 @@ export default function ABListPage() {
   });
 
   useEffect(() => {
-    fetch(`${AB_LIST}${location.search}`)
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch(`${AB_LIST}${location.search}`, {
+      signal,
+    })
       .then((r) => r.json())
       .then((obj) => {
         console.log(obj);
         if (obj.success) {
           setListData(obj);
         }
-      });
+      })
+      .catch(console.warn);
+    return () => {
+      // 取消或清除
+      // effect clean-up
+      controller.abort(); // 取消 ajax 的回應
+    };
   }, [searchParams]);
 
   console.log(listData);
