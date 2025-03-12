@@ -8,11 +8,17 @@ export default function ABEditPage() {
   const params = useParams();
   const router = useRouter();
   const [myForm, setMyForm] = useState({
+    ab_id: 0,
     name: "",
     email: "",
     mobile: "",
     birthday: "",
     address: "",
+  });
+  // 呈現欄位錯誤提示的狀態
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
   });
 
   const myChangeForm = (e) => {
@@ -21,9 +27,53 @@ export default function ABEditPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // TODO: 欄位檢查
+    // 欄位檢查
     const zResult = abSchema.safeParse(myForm);
     console.log(JSON.stringify(zResult, null, 4));
+
+    // 預設每個欄位都沒有錯誤
+    let newErrors = {
+      name: "",
+      email: "",
+    };
+
+    // 驗證沒有成功時
+    if (!zResult.success) {
+      zResult.error?.issues.forEach((item) => {
+        newErrors[item.path[0]] = item.message;
+      });
+    }
+    setErrors(newErrors);
+
+    /*
+{
+    "success": false,
+    "error": {
+        "issues": [
+            {
+                "code": "too_small",
+                "minimum": 3,
+                "type": "string",
+                "inclusive": true,
+                "exact": false,
+                "message": "請填寫正確的姓名",
+                "path": [
+                    "name"
+                ]
+            },
+            {
+                "validation": "email",
+                "code": "invalid_string",
+                "message": "請填寫正確的電子郵箱",
+                "path": [
+                    "email"
+                ]
+            }
+        ],
+        "name": "ZodError"
+    }
+}
+    */
 
     /*
     const r = await fetch(AB_ADD_POST, {
@@ -56,7 +106,9 @@ export default function ABEditPage() {
       .then((result) => {
         console.log(result);
         if (result.success) {
-          setMyForm(result.data);
+          // 排除不要的欄位資料
+          const { ab_id, name, email, mobile, birthday, address } = result.data;
+          setMyForm({ ab_id, name, email, mobile, birthday, address });
         }
       });
   }, []);
@@ -78,8 +130,9 @@ export default function ABEditPage() {
                   name="name"
                   value={myForm.name}
                   onChange={myChangeForm}
+                  style={ errors.name ? {border: '2px solid red'} : {}}
                 />
-                <div className="form-text" />
+                <div className="form-text">{errors.name}</div>
               </div>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
@@ -92,8 +145,9 @@ export default function ABEditPage() {
                   name="email"
                   value={myForm.email}
                   onChange={myChangeForm}
+                  style={ errors.email ? {border: '2px solid red'} : {}}
                 />
-                <div className="form-text" />
+                <div className="form-text">{errors.email}</div>
               </div>
               <div className="mb-3">
                 <label htmlFor="mobile" className="form-label">
