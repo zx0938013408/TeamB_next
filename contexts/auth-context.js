@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { JWT_LOGIN_POST } from "@/config/api-path";
 
 const AuthContext = createContext();
@@ -43,6 +43,15 @@ export function AuthContextProvider({ children }) {
     return result.success;
   };
 
+  useEffect(() => {
+    const data = localStorage.getItem(storageKey);
+    if (data) {
+      try {
+        const authData = JSON.parse(data);
+        setAuth(authData);
+      } catch (ex) {}
+    }
+  }, []);
   return (
     <AuthContext.Provider value={{ auth, logout, login }}>
       {children}

@@ -4,10 +4,13 @@ import { useAuth } from "@/contexts/auth-context";
 
 export default function QuickLoginPage() {
   const { auth, login } = useAuth();
+  console.log({ auth });
+
   return (
     <>
       <div>
-        <button className="btn btn-primary"
+        <button
+          className="btn btn-primary"
           onClick={() => {
             login("ming@test.com", "123456");
           }}
@@ -17,7 +20,8 @@ export default function QuickLoginPage() {
       </div>
       <hr />
       <div>
-        <button className="btn btn-warning"
+        <button
+          className="btn btn-warning"
           onClick={() => {
             login("shin@test.com", "123456");
           }}
