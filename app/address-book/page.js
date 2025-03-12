@@ -187,8 +187,18 @@ export default function ABListPage() {
                             .then((r) => r.json())
                             .then((result) => {
                               console.log(result);
-                              if(result.success){
-                                setRefresh(! refresh); // 讓頁面重新抓資料
+                              if (result.success) {
+                                // setRefresh(! refresh); // 讓頁面重新抓資料
+
+                                // 另一種作法, 直接變更頁面資料的狀態
+                                const newListData = structuredClone(listData);
+                                newListData.rows.forEach((r) => {
+                                  if (r.ab_id == result.ab_id) {
+                                    r.like_id =
+                                      result.action == "add" ? true : false;
+                                  }
+                                });
+                                setListData(newListData);
                               }
                             });
                         }}
