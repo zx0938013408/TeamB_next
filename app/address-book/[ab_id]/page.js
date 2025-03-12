@@ -46,36 +46,6 @@ export default function ABEditPage() {
     setErrors(newErrors);
 
     /*
-{
-    "success": false,
-    "error": {
-        "issues": [
-            {
-                "code": "too_small",
-                "minimum": 3,
-                "type": "string",
-                "inclusive": true,
-                "exact": false,
-                "message": "請填寫正確的姓名",
-                "path": [
-                    "name"
-                ]
-            },
-            {
-                "validation": "email",
-                "code": "invalid_string",
-                "message": "請填寫正確的電子郵箱",
-                "path": [
-                    "email"
-                ]
-            }
-        ],
-        "name": "ZodError"
-    }
-}
-    */
-
-    /*
     const r = await fetch(AB_ADD_POST, {
       method: "POST",
       body: JSON.stringify(myForm),
@@ -128,9 +98,22 @@ export default function ABEditPage() {
                   className="form-control"
                   id="name"
                   name="name"
+                  value={myForm.ab_id}
+                  disabled
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">
+                  姓名 **
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  name="name"
                   value={myForm.name}
                   onChange={myChangeForm}
-                  style={ errors.name ? {border: '2px solid red'} : {}}
+                  style={errors.name ? { border: "2px solid red" } : {}}
                 />
                 <div className="form-text">{errors.name}</div>
               </div>
@@ -145,7 +128,7 @@ export default function ABEditPage() {
                   name="email"
                   value={myForm.email}
                   onChange={myChangeForm}
-                  style={ errors.email ? {border: '2px solid red'} : {}}
+                  style={errors.email ? { border: "2px solid red" } : {}}
                 />
                 <div className="form-text">{errors.email}</div>
               </div>
