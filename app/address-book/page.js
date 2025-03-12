@@ -3,7 +3,12 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { AB_LIST, AVATAR_PATH, AB_DELETE } from "@/config/api-path";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FaRegTrashCan, FaRegPenToSquare } from "react-icons/fa6";
+import {
+  FaRegTrashCan,
+  FaRegPenToSquare,
+  FaRegHeart,
+  FaHeart,
+} from "react-icons/fa6";
 import { useAuth } from "@/contexts/auth-context";
 
 export default function ABListPage() {
@@ -127,6 +132,9 @@ export default function ABListPage() {
                 <th>
                   <FaRegPenToSquare />
                 </th>
+                <th>
+                  <FaRegHeart />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -163,6 +171,11 @@ export default function ABListPage() {
                       <Link href={`/address-book/${r.ab_id}`}>
                         <FaRegPenToSquare />
                       </Link>
+                    </td>
+                    <td>
+                      <span style={{ color: "red" }}>
+                        {r.like_id ? <FaHeart /> : <FaRegHeart />}
+                      </span>
                     </td>
                   </tr>
                 );
