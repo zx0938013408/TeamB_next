@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 /*
@@ -9,9 +9,26 @@ const AuthContext = createContext();
   4. getAuthHeader(): 把 token 包在 headers 裡
 */
 
+const emptyAuth = {
+  id: 0,
+  account: "",
+  nickname: "",
+  token: "",
+};
+const storageKey = "shinder-auth"; // localStorage 的 key
+
 export function AuthContextProvider({ children }) {
+  const [auth, setAuth] = useState({ ...emptyAuth }); // 預設是沒有登入的狀態
+
+  const logout = () => {
+    localStorage.removeItem(storageKey);
+    setAuth({ ...emptyAuth });
+  };
+
   return (
-    <AuthContext.Provider value={{ auth: 100 }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ auth, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 }
 
