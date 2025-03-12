@@ -23,3 +23,8 @@ export const AB_DELETE = `${API_SERVER}/address-book/api`;
 // 通訊錄: 修改項目 PUT
 // `${API_SERVER}/address-book/api/${ab_id}`
 export const AB_ITEM_PUT = `${API_SERVER}/address-book/api`;
+
+
+
+// JWT 登入
+export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;

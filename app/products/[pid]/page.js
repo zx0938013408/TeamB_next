@@ -18,6 +18,8 @@ export default function ProductItemPage() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   console.log({ router, params, searchParams, pathname });
+  console.log({ auth });
+
   return (
     <div>
       <h2>ProductItemPage</h2>
