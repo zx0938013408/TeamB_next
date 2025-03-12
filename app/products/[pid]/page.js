@@ -26,7 +26,7 @@ export default function ProductItemPage() {
       <p>pathname: {pathname}</p>
       <p>params.pid: {params.pid}</p>
       <p>searchParams.get('name'): {searchParams.get("name")}</p>
-      <pre>{JSON.stringify(auth.null, 4)}</pre>
+      <pre>{JSON.stringify(auth, null, 4)}</pre>
     </div>
   );
 }
