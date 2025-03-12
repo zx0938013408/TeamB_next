@@ -37,7 +37,7 @@ export default function ABNavbar() {
 
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link" href="/quick-login">
+                <Link className="nav-link" href="/address-book/quick-login">
                   快速登入
                 </Link>
               </li>
