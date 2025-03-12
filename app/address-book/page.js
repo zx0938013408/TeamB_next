@@ -1,7 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { AB_LIST, AVATAR_PATH, AB_DELETE } from "@/config/api-path";
+import {
+  AB_LIST,
+  AVATAR_PATH,
+  AB_DELETE,
+  TOGGLE_LIKE,
+} from "@/config/api-path";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   FaRegTrashCan,
@@ -173,7 +178,18 @@ export default function ABListPage() {
                       </Link>
                     </td>
                     <td>
-                      <span style={{ color: "red" }}>
+                      <span
+                        style={{ color: "red" }}
+                        onClick={() => {
+                          fetch(`${TOGGLE_LIKE}/${r.ab_id}`, {
+                            headers: { ...getAuthHeader() },
+                          })
+                            .then((r) => r.json())
+                            .then((result) => {
+                              console.log(result);
+                            });
+                        }}
+                      >
                         {r.like_id ? <FaHeart /> : <FaRegHeart />}
                       </span>
                     </td>
