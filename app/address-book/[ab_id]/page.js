@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AB_ADD_POST, AB_ITEM_GET, AB_ITEM_PUT } from "@/config/api-path";
+import { AB_ITEM_GET, AB_ITEM_PUT } from "@/config/api-path";
 import { useParams, useRouter } from "next/navigation";
 import abSchema from "@/utils/schema/ab-schema";
 
@@ -44,10 +44,13 @@ export default function ABEditPage() {
       });
     }
     setErrors(newErrors);
+    if (newErrors.name || newErrors.email) {
+      // 有欄位沒通過檢查時, 直接返回結束
+      return;
+    }
 
-    /*
-    const r = await fetch(AB_ADD_POST, {
-      method: "POST",
+    const r = await fetch(`${AB_ITEM_PUT}/${myForm.ab_id}`, {
+      method: "PUT",
       body: JSON.stringify(myForm),
       headers: {
         "Content-Type": "application/json",
@@ -55,11 +58,12 @@ export default function ABEditPage() {
     });
     const result = await r.json();
     if (result.success) {
-      alert("新增成功");
+      alert("修改成功");
+      router.back(); // 回上一頁
     } else {
+      alert("資料沒有修改");
       console.warn(result);
     }
-      */
   };
 
   useEffect(() => {
