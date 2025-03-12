@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 
@@ -6,9 +7,9 @@ export default function ABNavbar() {
     <div className="container">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Navbar
-          </a>
+          <Link className="navbar-brand" href="/">
+            Home
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -30,6 +31,19 @@ export default function ABNavbar() {
               <li className="nav-item">
                 <Link className="nav-link" href="/address-book/add">
                   新增
+                </Link>
+              </li>
+            </ul>
+
+            <ul className="navbar-nav mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link" href="/quick-login">
+                  快速登入
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/register">
+                  會員註冊
                 </Link>
               </li>
             </ul>
