@@ -1,5 +1,7 @@
 "use client";
 
+import { useAuth } from "@/contexts/auth-context";
+
 import {
   useParams,
   usePathname,
@@ -9,6 +11,8 @@ import {
 import React from "react";
 
 export default function ProductItemPage() {
+  const { auth } = useAuth();
+
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -20,6 +24,7 @@ export default function ProductItemPage() {
       <p>pathname: {pathname}</p>
       <p>params.pid: {params.pid}</p>
       <p>searchParams.get('name'): {searchParams.get("name")}</p>
+      <pre>{JSON.stringify(auth.null, 4)}</pre>
     </div>
   );
 }

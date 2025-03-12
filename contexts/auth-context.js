@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useContext } from "react";
 
 const AuthContext = createContext();
@@ -10,7 +11,7 @@ const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
   return (
-    <AuthContext.Provider value={{ v: 100 }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ auth: 100 }}>{children}</AuthContext.Provider>
   );
 }
 
