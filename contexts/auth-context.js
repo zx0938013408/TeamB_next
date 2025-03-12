@@ -43,6 +43,13 @@ export function AuthContextProvider({ children }) {
     return result.success;
   };
 
+  const getAuthHeader = () => {
+    if (!auth.token) return {};
+    return {
+      Authorization: "Bearer " + auth.token,
+    };
+  };
+
   useEffect(() => {
     const data = localStorage.getItem(storageKey);
     if (data) {
