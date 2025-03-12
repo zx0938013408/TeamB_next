@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AB_ADD_POST } from "@/config/api-path";
-import { useParams } from "next/navigation";
+import { AB_ADD_POST, AB_ITEM_GET, AB_ITEM_PUT } from "@/config/api-path";
+import { useParams, useRouter } from "next/navigation";
 
 export default function ABEditPage() {
   const params = useParams();
+  const router = useRouter();
   const [myForm, setMyForm] = useState({
     name: "",
     email: "",
@@ -38,13 +39,28 @@ export default function ABEditPage() {
 
   useEffect(() => {
     console.log(params);
+
+    const ab_id = params.ab_id;
+    if (!ab_id) {
+      router.push("/address-book"); // 沒給 ab_id, 跳到列表頁
+      return;
+    }
+
+    fetch(`${AB_ITEM_GET}/${ab_id}`)
+      .then((r) => r.json())
+      .then((result) => {
+        console.log(result);
+        if (result.success) {
+          setMyForm(result.data);
+        }
+      });
   }, []);
   return (
     <div className="row">
       <div className="col-6">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">新增通訊錄</h5>
+            <h5 className="card-title">編輯通訊錄</h5>
             <form onSubmit={onSubmit}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">
@@ -115,7 +131,7 @@ export default function ABEditPage() {
                 />
               </div>
               <button type="submit" className="btn btn-primary">
-                新增
+                修改
               </button>
             </form>
           </div>

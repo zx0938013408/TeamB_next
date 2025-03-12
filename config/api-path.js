@@ -8,9 +8,18 @@ export const AVATAR_PATH = `${API_SERVER}/imgs`;
 // 取得通訊錄列表的資料 GET
 export const AB_LIST = `${API_SERVER}/address-book/api`;
 
+// 通訊錄: 取得單一項目資料
+// `${API_SERVER}/address-book/api/${ab_id}`
+export const AB_ITEM_GET = `${API_SERVER}/address-book/api`;
+
+
 // 通訊錄: 新增資料 POST
 export const AB_ADD_POST = `${API_SERVER}/address-book/api`;
 
 // 通訊錄: 刪除項目 DELETE
 // `${API_SERVER}/address-book/api/${ab_id}`
 export const AB_DELETE = `${API_SERVER}/address-book/api`;
+
+// 通訊錄: 修改項目 PUT
+// `${API_SERVER}/address-book/api/${ab_id}`
+export const AB_ITEM_PUT = `${API_SERVER}/address-book/api`;
