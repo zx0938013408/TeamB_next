@@ -4,11 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { AB_LIST, AVATAR_PATH, AB_DELETE } from "@/config/api-path";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaRegTrashCan, FaRegPenToSquare } from "react-icons/fa6";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function ABListPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchRef = useRef();
+  const { auth, getAuthHeader } = useAuth();
 
   const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState({
@@ -38,6 +40,7 @@ export default function ABListPage() {
 
     fetch(`${AB_LIST}${location.search}`, {
       signal,
+      headers: { ...getAuthHeader() },
     })
       .then((r) => r.json())
       .then((obj) => {
@@ -52,7 +55,7 @@ export default function ABListPage() {
       // effect clean-up
       controller.abort(); // 取消 ajax 的回應
     };
-  }, [searchParams, refresh]);
+  }, [searchParams, refresh, getAuthHeader]);
 
   console.log(listData);
   return (
