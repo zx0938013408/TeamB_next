@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AB_ADD_POST, AB_ITEM_GET, AB_ITEM_PUT } from "@/config/api-path";
 import { useParams, useRouter } from "next/navigation";
+import abSchema from "@/utils/schema/ab-schema";
 
 export default function ABEditPage() {
   const params = useParams();
@@ -21,7 +22,10 @@ export default function ABEditPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     // TODO: 欄位檢查
+    const zResult = abSchema.safeParse(myForm);
+    console.log(JSON.stringify(zResult, null, 4));
 
+    /*
     const r = await fetch(AB_ADD_POST, {
       method: "POST",
       body: JSON.stringify(myForm),
@@ -35,6 +39,7 @@ export default function ABEditPage() {
     } else {
       console.warn(result);
     }
+      */
   };
 
   useEffect(() => {
