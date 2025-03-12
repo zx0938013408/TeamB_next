@@ -187,6 +187,9 @@ export default function ABListPage() {
                             .then((r) => r.json())
                             .then((result) => {
                               console.log(result);
+                              if(result.success){
+                                setRefresh(! refresh); // 讓頁面重新抓資料
+                              }
                             });
                         }}
                       >
