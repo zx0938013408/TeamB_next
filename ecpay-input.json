@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "data": {
+    "action": "https://payment-stage.ecpay.com.tw//Cashier/AioCheckOut/V5",
+    "params": {
+      "MerchantID": "3002607",
+      "MerchantTradeNo": "od20250313111506760",
+      "MerchantTradeDate": "2025/03/13 11:15:06",
+      "PaymentType": "aio",
+      "EncryptType": 1,
+      "TotalAmount": 1200,
+      "TradeDesc": "商店線上付款",
+      "ItemName": "線上商店購買一批",
+      "ReturnURL": "https://www.ecpay.com.tw",
+      "ChoosePayment": "ALL",
+      "OrderResultURL": "http://localhost:3000/ecpay/api",
+      "CheckMacValue": "B0BDD66F1363B9CFAD8DCDF227CAF46EE8C68A7E4AE42B5BFFFE4747C1E747AA"
+    }
+  }
+}
