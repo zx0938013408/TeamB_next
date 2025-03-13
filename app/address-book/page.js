@@ -179,7 +179,7 @@ export default function ABListPage() {
                       </Link>
                     </td>
                     <td>
-                      <LikeHeart checked={true} />
+                      <LikeHeart checked={!!(+r.ab_id % 2)} />
                     </td>
                   </tr>
                 );
