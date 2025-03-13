@@ -8,7 +8,7 @@ export default function LikeHeart({ checked, onClick = () => {} }) {
     setMyChecked(checked);
   }, [checked]);
   return (
-    <span style={{ color: "red" }} onClick={() => setMyChecked(!myChecked)}>
+    <span style={{ color: "red" }} onClick={onClick}>
       {myChecked ? <FaHeart /> : <FaRegHeart />}
     </span>
   );
