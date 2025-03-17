@@ -12,7 +12,7 @@ html, body {
 }
 
 .mainContainer {
-  margin-top: 100px;
+  margin-top: 150px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

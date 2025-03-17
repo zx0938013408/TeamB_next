@@ -1,4 +1,5 @@
 import Script from "next/script";
+import '@/styles/globals.css'
 
 export const metadata = {
   title: "TeamB的網站",
