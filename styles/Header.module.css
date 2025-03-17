@@ -1,0 +1,135 @@
+/* ************** header **************** */
+.navbarHd {
+  width: 100%;
+  height: 130px;
+  padding: 50px;
+  background: #F4F4F4;
+  border-bottom: 3px solid #528F7C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Navbar 內容 */
+.navbarContent {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo */
+.logoContainer {
+  width: 321px;
+  height: 116px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Navbar 右側按鈕 */
+.navbarActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* 🔹 搜尋欄 (預設隱藏，避免 display: none) */
+.searchContainer {
+  opacity: 0;
+  display: none;
+  width: 200px;
+  height: 40px;
+  border-radius: 8px;
+  background: white;
+  border: 2px solid #29755D;
+  padding: 5px 10px;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* 🔹 當 active 類別存在時，顯示搜尋框 */
+.searchContainer.active {
+  opacity: 1;
+  display: flex;
+  transform: scale(1);
+}
+
+/* 搜尋輸入框 */
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+}
+
+/* 搜尋按鈕 */
+.searchToggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  color: #528F7C;
+  transition: background 0.3s;
+}
+
+.searchToggle:hover {
+  background: rgba(82, 143, 124, 0.2);
+}
+
+/* 購物車、登入圖示 */
+.iconSearch,
+.iconCart,
+.iconUser {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #528F7C;
+  font-size: 24px;
+}
+
+/* 快速開團按鈕 */
+.quickActionBtn {
+  padding: 10px 20px;
+  background: #BDE6D9;
+  border: 2px solid #29755D;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #29755D;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quickActionBtn:hover {
+  background: #A8D5C5;
+  font-size: 18px;
+}
+
+/* ************** Header 內的按鈕 **************** */
+/* Header 內的按鈕 */
+.navbarToggle {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #528F7C;
+}
