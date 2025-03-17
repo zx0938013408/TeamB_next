@@ -1,4 +1,4 @@
-import { AuthContextProvider } from "@/contexts/auth-context";
+// import { AuthContextProvider } from "@/contexts/auth-context";
 
 export const metadata = {
   title: "我的網站",
@@ -7,13 +7,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <AuthContextProvider>
+    <>
       <html lang="en">
         <head>
           <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           />
+          <link rel="styleIcons" href="public/TeamB_Icon/style.css" />
+
         </head>
         <body>
           {children}
@@ -23,6 +25,6 @@ export default function RootLayout({ children }) {
           ></script> */}
         </body>
       </html>
-    </AuthContextProvider>
+    </>
   );
 }

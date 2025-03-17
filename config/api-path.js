@@ -7,6 +7,8 @@ export const AVATAR_PATH = `${API_SERVER}/imgs`;
 
 // 取得通訊錄列表的資料 GET
 export const AB_LIST = `${API_SERVER}/address-book/api`;
+export const ACTIVITY_LIST = `${API_SERVER}/activity-list/api`;
+
 
 // 通訊錄: 取得單一項目資料
 // `${API_SERVER}/address-book/api/${ab_id}`
