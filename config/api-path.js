@@ -31,5 +31,5 @@ export const AB_ITEM_PUT = `${API_SERVER}/address-book/api`;
 export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
 
 // Toggle like
-// `${API_SERVER}/address-book/toggle-like/${ab_id}`
+`${API_SERVER}/address-book/toggle-like/${ab_id}`
 export const TOGGLE_LIKE = `${API_SERVER}/address-book/toggle-like`;
