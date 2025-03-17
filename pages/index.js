@@ -11,6 +11,9 @@ export default function Home() {
   return (
     <>
       <Header />
+      <div className="mainContainer">
+      <div className="content">
+        {/* 這裡放頁面內容 */}
       {/*
       <Hero />
       <SportsMenu />
@@ -18,7 +21,9 @@ export default function Home() {
       <Shop />
       <Contact />
        */}
+      </div>
       <Footer />
+    </div>
     </>
   );
 }

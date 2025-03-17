@@ -5,4 +5,31 @@ a {
   text-decoration: none !important; 
   color: inherit; /* 繼承父元素顏色 */
 }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+.mainContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1; /* 讓內容區塊自動填滿空間 */
+}
+
+.footerContainer {
+  width: 100%;
+  height: 100px;
+  background: #528F7C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+}
+
