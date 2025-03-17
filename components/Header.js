@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Header.module.css";
 import Navbar from "./Navbar"; // 引入 Navbar 組件

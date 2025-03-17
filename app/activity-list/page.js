@@ -1,7 +1,5 @@
 "use client";
 
-import "bootstrap/dist/css/bootstrap.min.css"; // 引入 Bootstrap 樣式
-import "bootstrap/dist/js/bootstrap.bundle.min"; // (選擇性) 引入 Bootstrap JS
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { ACTIVITY_LIST } from "@/config/api-path";
@@ -9,9 +7,11 @@ import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useSearchParams } from "next/navigation";
 
+
 export default function ActivityListPage() {
   const searchParams = useSearchParams();
   const searchRef = useRef();
+
   return (
     <>
       <div className={`${Styles.container} mx-auto ${Styles.bread}`}>

@@ -6,8 +6,8 @@ export const API_SERVER = `http://172.23.53.146:3001`;
 export const AVATAR_PATH = `${API_SERVER}/imgs`;
 
 // 取得通訊錄列表的資料 GET
-export const AB_LIST = `${API_SERVER}/address-book/api`;
-export const ACTIVITY_LIST = `${API_SERVER}/activity-list/api`;
+//export const AB_LIST = `${API_SERVER}/address-book/api`;
+//export const ACTIVITY_LIST = `${API_SERVER}/activity-list/api`;
 
 // 通訊錄: 取得單一項目資料
 // `${API_SERVER}/address-book/api/${ab_id}`
@@ -31,5 +31,5 @@ export const AB_ITEM_PUT = `${API_SERVER}/address-book/api`;
 export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
 
 // Toggle like
-`${API_SERVER}/address-book/toggle-like/${ab_id}`
-export const TOGGLE_LIKE = `${API_SERVER}/address-book/toggle-like`;
+//`${API_SERVER}/address-book/toggle-like/${ab_id}`
+//export const TOGGLE_LIKE = `${API_SERVER}/address-book/toggle-like`;
