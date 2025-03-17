@@ -6,13 +6,11 @@
   background: #F4F4F4;
   border-bottom: 3px solid #528F7C;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed; /* 確保它是固定在最上方 */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
   z-index: 1000;
 }
 
@@ -40,79 +38,86 @@
   gap: 20px;
 }
 
-/* 搜尋列 */
+/* 🔹 搜尋欄 (預設隱藏，避免 display: none) */
 .searchContainer {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  transition: width 0.3s ease-in-out;
-  margin-right:-20px; /* 確保與購物車、登入 icon 間距相等 */
-}
-
-.searchContainer.active {
-  width: 0;
-  height:70px;
-  border-radius: 8px;
-  border: 3px solid #29755D;
-  background: white;
+  opacity: 0;
+  display: none;
   width: 200px;
-  margin-right: 10px;
+  height: 40px;
+  border-radius: 8px;
+  background: white;
+  border: 2px solid #29755D;
+  padding: 5px 10px;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
+/* 🔹 當 active 類別存在時，顯示搜尋框 */
+.searchContainer.active {
+  opacity: 1;
+  display: flex;
+  transform: scale(1);
+}
+
+/* 搜尋輸入框 */
 .searchInput {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 20px;
-  color: #8F8F8F;
-  display: none; /* 預設隱藏 */
+  font-size: 16px;
+  color: #333;
 }
 
-.searchContainer.active .searchInput {
-  display: block; /* 展開後顯示輸入框 */
+/* 搜尋按鈕 */
+.searchToggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  color: #528F7C;
+  transition: background 0.3s;
 }
 
+.searchToggle:hover {
+  background: rgba(82, 143, 124, 0.2);
+}
 
 /* 購物車、登入圖示 */
 .iconSearch,
 .iconCart,
 .iconUser {
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #528f7c;
-  font-size: 50px;
+  color: #528F7C;
+  font-size: 24px;
 }
 
 /* 快速開團按鈕 */
 .quickActionBtn {
-  width: 269px;
-  padding: 13px 40px;
+  padding: 10px 20px;
   background: #BDE6D9;
-  box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
-  border-radius: 10px;
-  border: 3px solid rgba(41, 117, 93, 0.39);
-  font-size: 30px;
-  font-weight: 700;
+  border: 2px solid #29755D;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
   color: #29755D;
-  text-align: center;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
+
 .quickActionBtn:hover {
-  font-size: 32px;
+  background: #A8D5C5;
+  font-size: 18px;
 }
 
-/* 漢堡選單 */
-.menuToggle {
-  width: 27px;
-  height: 15px;
-  background: #7AAA9B;
-  border: 1px solid #7AAA9B;
-  transform: rotate(-3deg);
-}
-
+/* ************** Header 內的按鈕 **************** */
 /* Header 內的按鈕 */
 .navbarToggle {
   position: absolute;
