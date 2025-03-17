@@ -1,0 +1,105 @@
+/* ************** footer **************** */
+/* 頁腳容器 */
+.footerContainer {
+  align-self: stretch;
+  height: 600px;
+  padding: 100px 50px 50px 50px;
+  background: #528F7C;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 中間分隔線 */
+.footerDivider {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 122px;
+}
+
+.line {
+  flex: 1;
+  height: 0;
+  border: 8px rgba(255, 255, 255, 0.50) solid;
+}
+
+.footerLogo {
+  width: 196px;
+  height: 45px;
+}
+
+/* 主要連結區 */
+.footerLinks {
+  width: 100%;
+  padding: 0 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.footerSection {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.footerTitle {
+  font-size: 36px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 7.6px;
+  color: white;
+  text-align: center;
+  border-bottom: 1px white solid;
+}
+
+.footerLink {
+  font-size: 26px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+.footerLink:hover {
+  color: #BDE6D9;
+}
+
+/* 版權資訊 & 社群連結 */
+.footerBottom {
+  width: 100%;
+  padding: 0 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copyright {
+  font-size: 25px;
+  font-family: "Noto Sans TC", sans-serif;
+  font-weight: 400;
+  color: white;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.iconFb,
+.iconIg,
+.iconMail {
+  font-size: 30px;
+  color: white;
+}

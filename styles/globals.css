@@ -1,0 +1,8 @@
+*{
+  font-family: 'Inter', sans-serif;
+/* 讓所有連結 (a) 預設沒有底線 */
+a {
+  text-decoration: none !important; 
+  color: inherit; /* 繼承父元素顏色 */
+}
+}

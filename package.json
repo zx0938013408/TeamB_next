@@ -1,5 +1,5 @@
 {
-  "name": "mfee59-next",
+  "name": "TeamB-next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "next": "14.2.24",
     "react": "^18",
     "react-dom": "^18",
