@@ -1,7 +1,7 @@
   
   .container {
     width: 60%;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     margin: auto 100px;
     /* padding:  */
     /* margin-left: 100px; */
@@ -14,11 +14,13 @@
       /* margin-bottom: 0; */
       /* padding-bottom: 0; */
       padding: 0 20px;
+      margin-bottom: 10px;
   
       border-bottom: 3px solid #a0c4b0;
   }
   .breadcrumb{
       line-height:58px;
+      padding: 0;
   }
   
   .notActiveText{
@@ -61,6 +63,11 @@
     /* width: 1440px; */
     /* height: 330px; */
     padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+    margin-bottom: 10px;
+
   
     &:hover{
       background-color: #e4e4e4;
@@ -71,6 +78,7 @@
   .img {
     position: relative;
     padding: 0;
+    margin-right: 20px;
     width: 215px;
     height: 215px;
     background-image: url("/photo/activity/activity-basketballCourt.jpg");
@@ -82,16 +90,13 @@
   
   
   /* 收藏 */
-  .collect{
-      border: 0;
-      background-color: transparent;
+  .iconLikeStroke{
       position: absolute;
-  }
-  
-  
-  .heart{
-      position: absolute;
-      margin-top: 5px;
+      margin-top: 6px;
+      /* color: #29755d; */
+      font-size: 24px;
+      font-weight: bold;
+
       /* margin-top: 10px; */
   }
   
@@ -157,14 +162,13 @@
   .joinButton {
     width: 140px;
     height: 140px;
-    box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
     border-radius: 10px;
-    background-color: #bde6d9;
-    border: 2px solid rgba(41, 117, 93, 0.39);
+    background-color: #3f6d62;
+    border: none;
     box-sizing: border-box;
     font-size: 30px;
     font-weight: bold;
-    color: #3f6d62;
+    color: #fff;
     margin-bottom: 15px;
   
     &:active {
@@ -218,14 +222,13 @@
   }
   
   .register{
-    box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
     border-radius: 10px;
-    background-color: #bde6d9;
-    border: 2px solid rgba(41, 117, 93, 0.39);
+    background-color: #3f6d62;
+    border: none;
     box-sizing: border-box;
     /* font-size: 30px; */
     font-weight: bold;
-    color: #3f6d62;
+    color: #fff;
     height: 40px;
     /* margin-bottom: 15px; */
   
@@ -238,7 +241,6 @@
   }
   
   .cancel{
-      box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
     border-radius: 10px;
     background-color: gray;
     border: 2px solid gray;
@@ -266,6 +268,7 @@
       display: flex;
       align-items: center;
       margin: 15px 0;
+      margin-right: 3%;
       border: 3px solid #a0c4b0;
       padding: 5px 10px;
       border-radius: 10px;
@@ -275,7 +278,7 @@
   
   .selectGroup label {
       flex: 1;
-      color: #A3C4BA;
+      color: #3f6d62;
       font-weight: bold;
   }
   
@@ -287,7 +290,7 @@
       border: none;
       background: transparent;
       font-size: 16px;
-      color: #A3C4BA;
+      color: black;
       cursor: pointer;
       width: 300px;
   }
