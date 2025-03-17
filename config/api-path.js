@@ -9,7 +9,6 @@ export const AVATAR_PATH = `${API_SERVER}/imgs`;
 export const AB_LIST = `${API_SERVER}/address-book/api`;
 export const ACTIVITY_LIST = `${API_SERVER}/activity-list/api`;
 
-
 // 通訊錄: 取得單一項目資料
 // `${API_SERVER}/address-book/api/${ab_id}`
 export const AB_ITEM_GET = `${API_SERVER}/address-book/api`;
@@ -32,5 +31,5 @@ export const AB_ITEM_PUT = `${API_SERVER}/address-book/api`;
 export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
 
 // Toggle like
-// `${API_SERVER}/address-book/toggle-like/${ab_id}`
+`${API_SERVER}/address-book/toggle-like/${ab_id}`
 export const TOGGLE_LIKE = `${API_SERVER}/address-book/toggle-like`;
