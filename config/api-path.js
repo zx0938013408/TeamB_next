@@ -1,6 +1,6 @@
 
-// export const API_SERVER = `http://localhost:3001`;
-export const API_SERVER = `http://172.23.53.146:3001`;
+export const API_SERVER = `http://localhost:3001`;
+// export const API_SERVER = `http://172.23.53.146:3001`;
 
 // 頭貼的路
 export const AVATAR_PATH = `${API_SERVER}/imgs`;

@@ -9,6 +9,7 @@ import {
   AL_LIST,
   AVATAR_PATH,
 } from "@/config/api-path";
+import ActivityCard from "@/components/activity-list-card/ActivityCard";
 
 export default function ActivityListPage() {
   const searchParams = useSearchParams();
@@ -17,15 +18,7 @@ export default function ActivityListPage() {
   // const { auth, getAuthHeader } = useAuth();
 
   const [refresh, setRefresh] = useState(false);
-  const [listData, setListData] = useState({
-    success: false,
-    perPage: 0,
-    totalRows: 0,
-    totalPages: 0,
-    page: 0,
-    rows: [],
-    keyword: "",
-  });
+  const [listData, setListData] = useState([]);
 
   // const deleteItem = async (ab_id) => {
   //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
@@ -62,26 +55,38 @@ export default function ActivityListPage() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
-    fetch(`${AL_LIST}${location.search}`, {
-      signal,
-    })
-      .then((r) => r.json())
-      .then((obj) => {
-        console.log(obj);
+    const fetchData = async () => {
+      try {
+        const r = await fetch(`${AL_LIST}`);
+        const obj = await r.json();
         if (obj.success) {
-          setListData(obj);
+          setListData(obj.rows);
+        } 
+      }catch (error) {
+          console.warn(error);
         }
-      })
-      .catch(console.warn);
-    return () => {
-      // 取消或清除
-      // effect clean-up
-      controller.abort(); // 取消 ajax 的回應
-    };
-  }, [searchParams, refresh]);
-
-  console.log(listData);
+      }
+      fetchData();
+      }, [])
+      console.log('data:',listData);
+      
+  
+  //   fetch(`${AL_LIST}`, { signal })
+  //     .then((r) => r.json())
+  //     .then((obj) => {
+  //       console.log("API 回傳資料：", obj);
+  //       if (obj.success) {
+  //         setListData({...obj});
+  //       }
+  //     })
+  //     .catch(console.warn);
+  
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, [searchParams, refresh]);
+  
+  // console.log('data:',listData);
 
   return (
     <>
@@ -118,81 +123,17 @@ export default function ActivityListPage() {
         </Link>
       </div>
 
-      {listData.rows.map((r, i) => {
-        return (
+
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
-        <div className={`${Styles.list} row`}>
-          {/* 圖案(用CSS背景) */}
-          <div className={`${Styles.img} col-2`}>
-            {/* 愛心按鈕 */}
-            <span
-              className={`icon-Like-Stroke ${Styles.iconLikeStroke}`}
-            ></span>
-          </div>
-          <div className={`${Styles.information} col`}>
-            <div className={`${Styles.title} row`}>
-              <div className={`${Styles.titleIcons} col-1`}>
-                <span
-                  className={`icon-Badminton ${Styles.iconBadminton}`}
-                ></span>
-              </div>
-              <h2 className={`${Styles.titleText} col`}>
-                {r.activity_name}
-              </h2>
-            </div>
-            <div className={`${Styles.info}`}>
-              <p>
-                <span className={`${Styles.infoTitle}`}>地  點：</span>
-                <span>台南市 南區 XXXXX 羽球館</span>
-                <a
-                  href="https://www.google.com/maps?authuser=0"
-                  target="_blank"
-                >
-                  <i className="fa-solid fa-location-dot" />
-                </a>
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>活動時間：</span>
-                <span>{r.activity_time}</span>
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>報名期限：</span>
-                <span>{r.deadline}</span>
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>費  用：</span>每人 
-                <span>{r.payment}</span>
-                 元
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>主  揪：</span>
-                <span>{r.founder_id}</span>
-              </p>
-            </div>
-          </div>
-        );
-      })}
-          <div className="button col-2">
-            <a href="./activity-detail.html">
-              <button type="button" className={Styles.joinButton}>
-                查看
-                <br />
-                詳情
-              </button>
-            </a>
-            <button
-              type="button"
-              className={`${Styles.joinButton} ${Styles.joinInformation}`}
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-            >
-              快速報名
-            </button>
-            {/* <div class="memberButton">1/15人</div> */}
-          </div>
-        </div>
-        </div>
+        {listData.length > 0 ? (
+          listData.map((activity, i) => (
+            <ActivityCard key={i} activity={activity} />
+          ))
+        ) : (
+          <p className={`${Styles.noData}`}>目前沒有活動</p>
+        )}
+      </div>
 
         {/* 分頁按鈕 */}
         <div className={Styles.containerPage}>
