@@ -1,24 +1,35 @@
-import React from 'react';
-import styles from '../../styles/member-activity-edit/page.module.css' // 導入 CSS Modules
+//報名此活動的成員管理區 
+"use client";
+import React,{ useState, useEffect } from 'react';
+import styles from '../../styles/member-activity-edit/ParticipantsList.module.css' // 導入 CSS Modules
 import "@/public/TeamB_Icon/style.css"
-
+import Participants from './Participants'
 
 
 const ParticipantsList = () => {
-  const participants = [
-    { name: '陳美麗', cancelCount: 3, absenceCount: 2 },
-    { name: '陳美麗', cancelCount: 3, absenceCount: 2 },
-    { name: '陳美麗', cancelCount: 3, absenceCount: 2 },
-    { name: '陳美麗', cancelCount: 3, absenceCount: 2 },
-    { name: '陳美麗', cancelCount: 3, absenceCount: 2 },
-  ];
+  // 頁數控制
+  const [currentPage, setCurrentPage] = useState(0);
+  const rowsPerPage = 2;
+  const totalPages = Math.ceil(Participants.length / rowsPerPage);
+// 向前一頁
+  const handlePrevClick = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+// 向後一頁
+  const handleNextClick = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <section className={styles['participants-list']}>
       <h2 className={styles['section-title']}>報名成員</h2>
       <div className={styles['list-container']}>
-        <button className={styles['table-nav-button'] + ' prev'}>
-          <span className={`icon-Left ${styles.iconLeft}`}></span>
+        <button className={`${styles['table-nav-button']} ${styles['prev']}`} onClick={handlePrevClick}>
+          <span className="icon-Left"></span>
         </button>
         <div className={styles['list-content']}>
           <table className={styles['participants-table']}>
@@ -33,19 +44,19 @@ const ParticipantsList = () => {
               </tr>
             </thead>
             <tbody>
-              {participants.map((participant, index) => (
-                <tr className={styles['participant-row']} key={index}>
+              {Participants.slice(currentPage * rowsPerPage, (currentPage + 1) * rowsPerPage).map((participant, index) => (
+                <tr className={styles['table-row']} key={index}>
                   <td className={styles['participants-name']}>{participant.name}</td>
                   <td className={styles['cancel-count']}>{participant.cancelCount}</td>
                   <td className={styles['absence-count']}>{participant.absenceCount}</td>
                   <td className={styles['action-cell']}>
-                    <button className={styles['action-button'] + ' approve'}>核准</button>
+                    <button className={`${styles['action-button']} ${styles['approve']}`}>核准</button>
                   </td>
                   <td className={styles['action-cell']}>
-                    <button className={styles['action-button'] + ' reject'}>剔除</button>
+                    <button className={`${styles['action-button']} ${styles['reject']}`}>剔除</button>
                   </td>
                   <td className={styles['action-cell']}>
-                    <button className={styles['action-button'] + ' history'}>
+                    <button className={`${styles['action-button']} ${styles['history']}`}>
                       <a href="#">查看紀錄</a>
                     </button>
                   </td>
@@ -53,22 +64,22 @@ const ParticipantsList = () => {
               ))}
             </tbody>
           </table>
-          <div className="pagination">
-            <svg
-              width="40"
-              height="10"
-              viewBox="0 0 40 10"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="5" cy="5" r="5" fill="#ADADAD" />
-              <circle cx="20" cy="5" r="5" fill="#6C7275" />
-              <circle cx="35" cy="5" r="5" fill="#6C7275" />
+          <div className={styles['pagination']}>
+            <svg width="40" height="10" viewBox="0 0 40 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <circle
+                  key={index}
+                  cx={5 + index * 15}
+                  cy="5"
+                  r="5"
+                  fill={index === currentPage ? '#6C7275' : '#ADADAD'}
+                />
+              ))}
             </svg>
           </div>
         </div>
-        <button className={styles['table-nav-button'] + ' next'}>
-          <span className={`icon-Right ${styles.iconRight}`}></span>
+        <button className={`${styles['table-nav-button']} ${styles['next']}`} onClick={handleNextClick}>
+          <span className="icon-Right"></span>
         </button>
       </div>
     </section>
