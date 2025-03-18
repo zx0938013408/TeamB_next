@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import styles from '../../styles/member-activity-edit/EditContent.module.css';
+import styles from '@/styles/member-activity-edit/EditContent.module.css';
 
 const EditContent = () => {
   const [editStates, setEditStates] = useState(Array(6).fill(false));
