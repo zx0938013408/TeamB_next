@@ -15,6 +15,8 @@ export default function ActivityCreatePage() {
 
   const [sports, setSports] = useState([]); // 存 API 回傳的運動類別
   const [selectedSport, setSelectedSport] = useState(""); // 存當前點擊的運動類別
+  const [images, setImages] = useState(Array(4).fill(null)); // 儲存 4 張圖片
+
   const [loading, setLoading] = useState(true); // 資料載入狀態
   const [error, setError] = useState(null); // 錯誤處理
 
@@ -38,6 +40,29 @@ export default function ActivityCreatePage() {
 
     fetchSports();
   }, []);
+
+  // 上傳圖片功能
+  // TODO: 要修改可以上傳照片 (待修改)
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files); // 取得多張圖片
+    let newImages = [...images];
+
+    for (let file of files) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            // 找第一個 `null` 的位置填充圖片
+            const emptyIndex = newImages.findIndex((img) => img === null);
+            if (emptyIndex !== -1) {
+                newImages[emptyIndex] = reader.result;
+                setImages([...newImages]); // 更新圖片狀態
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+
+
 
   return (
     <>
@@ -269,34 +294,50 @@ export default function ActivityCreatePage() {
                 <div className={`${Styles.titleImg}`}>
                   新增封面相片 (最多4張)
                 </div>
-                <div
+
+                {/* 設定可以上傳照片的功能 */}
+                <input
+                    type="file"
+                    accept="image/*"
+                    id="imageInput"
+                    style={{ display: "none" }}
+                    multiple // 允許多張
+                    onChange={handleImageUpload}
+                />
+
+                <button
+                  type="button"
                   className={`${Styles.uploadImg} col`}
                   onMouseEnter={() => setHovered("photo1st")}
                   onMouseLeave={() => setHovered(null)}
+                  onClick={() => document.getElementById("imageInput").click()}
                 >
                   {hovered === "photo1st" ? "請上傳圖片" : "+"}
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
                   className={`${Styles.uploadImg} col`}
                   onMouseEnter={() => setHovered("photo2nd")}
                   onMouseLeave={() => setHovered(null)}
                 >
                   {hovered === "photo2nd" ? "請上傳圖片" : "+"}
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
                   className={`${Styles.uploadImg} col`}
                   onMouseEnter={() => setHovered("photo3rd")}
                   onMouseLeave={() => setHovered(null)}
                 >
                   {hovered === "photo3rd" ? "請上傳圖片" : "+"}
-                </div>
-                <div
+                </button>
+                <button
+                  type="button"
                   className={`${Styles.uploadImg} col`}
                   onMouseEnter={() => setHovered("photo4th")}
                   onMouseLeave={() => setHovered(null)}
                 >
                   {hovered === "photo4th" ? "請上傳圖片" : "+"}
-                </div>
+                </button>
               </div>
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
