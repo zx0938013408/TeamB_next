@@ -2,15 +2,86 @@
 
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
-import { ACTIVITY_LIST } from "@/config/api-path";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
-import { useSearchParams } from "next/navigation";
-
+import { useRouter,useSearchParams } from "next/navigation";
+import {
+  AL_LIST,
+  AVATAR_PATH,
+} from "@/config/api-path";
 
 export default function ActivityListPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const searchRef = useRef();
+  // const { auth, getAuthHeader } = useAuth();
+
+  const [refresh, setRefresh] = useState(false);
+  const [listData, setListData] = useState({
+    success: false,
+    perPage: 0,
+    totalRows: 0,
+    totalPages: 0,
+    page: 0,
+    rows: [],
+    keyword: "",
+  });
+
+  // const deleteItem = async (ab_id) => {
+  //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
+  //     method: "DELETE",
+  //   });
+  //   const result = await r.json();
+  //   console.log(result);
+  //   if (result.success) {
+  //     setRefresh((o) => !o);
+  //   }
+  // };
+  // const toggleLike = (ab_id) => {
+  //   fetch(`${TOGGLE_LIKE}/${ab_id}`, {
+  //     headers: { ...getAuthHeader() },
+  //   })
+  //     .then((r) => r.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //       if (result.success) {
+  //         // setRefresh(! refresh); // 讓頁面重新抓資料
+
+  //         // 另一種作法, 直接變更頁面資料的狀態
+  //         const newListData = structuredClone(listData);
+  //         newListData.rows.forEach((r) => {
+  //           if (r.ab_id == result.ab_id) {
+  //             r.like_id = result.action == "add" ? true : false;
+  //           }
+  //         });
+  //         setListData(newListData);
+  //       }
+  //     });
+  // };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch(`${AL_LIST}${location.search}`, {
+      signal,
+    })
+      .then((r) => r.json())
+      .then((obj) => {
+        console.log(obj);
+        if (obj.success) {
+          setListData(obj);
+        }
+      })
+      .catch(console.warn);
+    return () => {
+      // 取消或清除
+      // effect clean-up
+      controller.abort(); // 取消 ajax 的回應
+    };
+  }, [searchParams, refresh]);
+
+  console.log(listData);
 
   return (
     <>
@@ -47,6 +118,8 @@ export default function ActivityListPage() {
         </Link>
       </div>
 
+      {listData.rows.map((r, i) => {
+        return (
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
         <div className={`${Styles.list} row`}>
@@ -65,7 +138,7 @@ export default function ActivityListPage() {
                 ></span>
               </div>
               <h2 className={`${Styles.titleText} col`}>
-                羽球運動-放假鳩團一起來
+                {r.activity_name}
               </h2>
             </div>
             <div className={`${Styles.info}`}>
@@ -81,23 +154,25 @@ export default function ActivityListPage() {
               </p>
               <p>
                 <span className={`${Styles.infoTitle}`}>活動時間：</span>
-                <span>2025年3月22日 18:30 - 20:30</span>
+                <span>{r.activity_time}</span>
               </p>
               <p>
                 <span className={`${Styles.infoTitle}`}>報名期限：</span>
-                <span>2025年1月20日 00:00 - 2025年3月10日 23:59</span>
+                <span>{r.deadline}</span>
               </p>
               <p>
                 <span className={`${Styles.infoTitle}`}>費  用：</span>每人 
-                <span>150</span>
+                <span>{r.payment}</span>
                  元
               </p>
               <p>
                 <span className={`${Styles.infoTitle}`}>主  揪：</span>
-                <span>Andy</span>
+                <span>{r.founder_id}</span>
               </p>
             </div>
           </div>
+        );
+      })}
           <div className="button col-2">
             <a href="./activity-detail.html">
               <button type="button" className={Styles.joinButton}>
@@ -117,79 +192,10 @@ export default function ActivityListPage() {
             {/* <div class="memberButton">1/15人</div> */}
           </div>
         </div>
-        <div className={`${Styles.list} row`}>
-          {/* 圖案(用CSS背景) */}
-          <div className={`${Styles.img} col-2`}>
-            {/* 愛心按鈕 */}
-            <span
-              className={`icon-Like-Stroke ${Styles.iconLikeStroke}`}
-            ></span>
-          </div>
-          {/* 活動資訊 */}
-          <div className={`${Styles.information} col`}>
-            <div className={`${Styles.title} row`}>
-              <div className={`${Styles.titleIcons} col-1`}>
-                <span
-                  className={`icon-Badminton ${Styles.iconBadminton}`}
-                ></span>
-              </div>
-              <h2 className={`${Styles.titleText} col`}>
-                羽球運動-放假鳩團一起來
-              </h2>
-            </div>
-            <div className={`${Styles.info}`}>
-              <p>
-                <span className={`${Styles.infoTitle}`}>地  點：</span>
-                <span>台南市 南區 XXXXX 羽球館</span>
-                <a
-                  href="https://www.google.com/maps?authuser=0"
-                  target="_blank"
-                >
-                  <i className="fa-solid fa-location-dot" />
-                </a>
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>活動時間：</span>
-                <span>2025年3月22日 18:30 - 20:30</span>
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>報名期限：</span>
-                <span>2025年1月20日 00:00 - 2025年3月10日 23:59</span>
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>費  用：</span>每人 
-                <span>150</span>
-                 元
-              </p>
-              <p>
-                <span className={`${Styles.infoTitle}`}>主  揪：</span>
-                <span>Andy</span>
-              </p>
-            </div>
-          </div>
-          {/* BTN按鈕 */}
-          <div className="button col-2">
-            <a href="./activity-detail.html">
-              <button type="button" className={Styles.joinButton}>
-                查看
-                <br />
-                詳情
-              </button>
-            </a>
-            <button
-              type="button"
-              className={`${Styles.joinButton} ${Styles.joinInformation}`}
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-            >
-              快速報名
-            </button>
-            {/* <div class="memberButton">1/15人</div> */}
-          </div>
         </div>
 
         {/* 分頁按鈕 */}
-        <div className="containerPage">
+        <div className={Styles.containerPage}>
           <nav aria-label="Page navigation example">
             <ul className="pagination">
               <li className="pageItem">
@@ -224,8 +230,8 @@ export default function ActivityListPage() {
             </ul>
           </nav>
         </div>
-      </div>
-
+      
+    
       {/* Mobal */}
       <div
         className="modal fade"
