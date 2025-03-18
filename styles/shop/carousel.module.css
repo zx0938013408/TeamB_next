@@ -1,0 +1,60 @@
+.carouselContainer {
+  display: flex;
+  align-items: center; /* 垂直居中對齊 */
+  justify-content: center; /* 水平置中 */
+  gap: 10px; /* 控制按鈕與卡片之間的距離 */
+  width: 100%;
+}
+
+.cardWrapper {
+  display: flex;
+  justify-content: space-between; /* 讓卡片之間保持間距 */
+  min-width: 800px; /* 設定最小寬度，避免擠壓 */
+  max-width: 1000px; /* 限制最大寬度 */
+  flex-grow: 1;
+}
+
+/* .arrow {
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 10px;
+} */
+
+/* 左右箭頭 */
+
+.iconButton {
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #528f7c;
+  font-size: 30px;
+}
+
+.iconButton:hover {
+  background-color: #e6eaee;
+  border-radius: 50%;
+}
+
+/* .iconButton:disabled {
+  cursor: not-allowed; 
+} */
+
+.iconRight,
+.iconLeft {
+  color: #528f7c;
+  font-size: 30px;
+  background: none;
+}
+
+.iconRight:disabled,
+.iconLeft:disabled {
+  color: #4f4f4f;
+}
