@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/member-activity-edit/Title.module.css'
+import styles from '@/styles/member-activity-edit/page.module.css'
 
 // 標題:開團細項
 const Title = () => {

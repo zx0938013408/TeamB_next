@@ -1,8 +1,9 @@
 //報名此活動的成員管理區 
 "use client";
 import React,{ useState, useEffect } from 'react';
-import styles from '../../styles/member-activity-edit/ParticipantsList.module.css' // 導入 CSS Modules
+import styles from '@/styles/member-activity-edit/ParticipantsList.module.css' // 導入 CSS Modules
 import "@/public/TeamB_Icon/style.css"
+//導入報名成員名單的資料
 import Participants from './Participants'
 
 

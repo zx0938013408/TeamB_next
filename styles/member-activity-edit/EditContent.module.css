@@ -1,5 +1,15 @@
 /* 內文編輯 */
 
+.section-title {
+    color: #005b3e;
+    font-family: Inter;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 6.24px;
+    width: 100%;
+  }
+  
 .activity-edit {
   display: flex;
   padding-bottom: 50px;

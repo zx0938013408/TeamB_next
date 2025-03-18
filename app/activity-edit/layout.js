@@ -6,12 +6,12 @@ import Details from '@/components/member-activity-edit/Details'
 export default function AcitivityEdit({ children }) {
   return (
       <>
-        <main className="activity-page">
+        <div className="activity-page">
           <div className="activity-container">
             <Details currentCount={1} totalCount={8} />
             {children}
           </div>
-        </main>
+        </div>
       </>
   );
 }
