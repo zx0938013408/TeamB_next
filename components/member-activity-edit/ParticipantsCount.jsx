@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/participants.module.css'
+import styles from '../../styles/member-activity-edit/page.module.css'
 
 const ParticipantsCount = ({ currentCount, totalCount }) => {
   return (

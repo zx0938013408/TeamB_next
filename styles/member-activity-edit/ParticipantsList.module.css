@@ -1,6 +1,9 @@
 /* 內文編輯 */
 .iconLeft{
-  font-size: 100px;
+  font-size: 20px;
+}
+.iconRight{
+  font-size:20px
 }
 
 .activity-edit {
