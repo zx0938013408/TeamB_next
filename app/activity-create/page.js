@@ -176,12 +176,10 @@ export default function ActivityCreatePage() {
                   className={`modal-title ${Styles.inputTitle}`}
                   id="staticBackdropLabel"
                 >
-                  <span
-                    className={`icon-Badminton ${Styles.modalIcon}`}
-                  ></span>
+                  <span className={`icon-Badminton ${Styles.modalIcon}`}></span>
                   建立羽球活動
                 </h5>
-              ): (
+              ) : (
                 "請選擇"
               )}
               <button
@@ -266,14 +264,39 @@ export default function ActivityCreatePage() {
                 defaultValue={""}
               />
               <br />
+              {/* 上傳照片 */}
               <div className="row">
                 <div className={`${Styles.titleImg}`}>
                   新增封面相片 (最多4張)
                 </div>
-                <div className={`${Styles.uploadImg} col`}>+</div>
-                <div className={`${Styles.uploadImg} col`}>+</div>
-                <div className={`${Styles.uploadImg} col`}>+</div>
-                <div className={`${Styles.uploadImg} col`}>+</div>
+                <div
+                  className={`${Styles.uploadImg} col`}
+                  onMouseEnter={() => setHovered("photo1st")}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {hovered === "photo1st" ? "請上傳圖片" : "+"}
+                </div>
+                <div
+                  className={`${Styles.uploadImg} col`}
+                  onMouseEnter={() => setHovered("photo2nd")}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {hovered === "photo2nd" ? "請上傳圖片" : "+"}
+                </div>
+                <div
+                  className={`${Styles.uploadImg} col`}
+                  onMouseEnter={() => setHovered("photo3rd")}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {hovered === "photo3rd" ? "請上傳圖片" : "+"}
+                </div>
+                <div
+                  className={`${Styles.uploadImg} col`}
+                  onMouseEnter={() => setHovered("photo4th")}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {hovered === "photo4th" ? "請上傳圖片" : "+"}
+                </div>
               </div>
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>

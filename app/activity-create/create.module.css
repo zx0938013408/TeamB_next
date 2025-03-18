@@ -197,6 +197,7 @@
 
 .modalWidth{
     width: 100%;
+    background-color: #F4F4F4;
     /* margin: auto; */
 }
 
@@ -213,12 +214,13 @@
 
 .createInput{
     border: 3px solid #a0c4b0;
-    padding: 5px 10px;
+    padding: 10px 15px;
     border-radius: 10px;
     width: 100%;
     margin-bottom: 17px;
     background-color: #fff;
 }
+
 
 .uploadImg{
     margin: 0 10px;
@@ -228,6 +230,14 @@
     border-radius: 10px;
     text-align: center;
     line-height: 9rem;
+    background-color: #fff;
+    color: #a0c4b0;
+    font-size: 24px;
+
+    &:hover{
+        border: solid;
+        font-size: 18px;
+    }
 }
 
 .cancelBtn{
