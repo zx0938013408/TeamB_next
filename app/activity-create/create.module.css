@@ -190,18 +190,25 @@
 /* Modal */
 
 .modalContent{
-    width: 700px;
+    width: 700px !important;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .modalWidth{
     width: 100%;
-    margin: auto;
+    /* margin: auto; */
 }
 
 .inputTitle{
-    text-align: center;
+    text-align: center !important;
+    font-size: 30px;
+    color: #29755D;
+    font-weight: bold;
+}
+
+.modalIcon{
+    margin-right: 20px;
 }
 
 .createInput{
@@ -221,7 +228,7 @@
     /* padding-top: 16%; */
     border-radius: 10px;
     text-align: center;
-    line-height: 6rem;
+    line-height: 9rem;
 }
 
 .cancelBtn{
