@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../styles/ParticipantsList.module.css'; // 導入 CSS Modules
+import "@/public/TeamB_Icon/style.css"
 
 
 
@@ -17,7 +18,7 @@ const ParticipantsList = () => {
       <h2 className={styles['section-title']}>報名成員</h2>
       <div className={styles['list-container']}>
         <button className={styles['table-nav-button'] + ' prev'}>
-          <span className="icon-Left"></span>
+          <span className={`icon-Left ${styles.iconLeft}`}></span>
         </button>
         <div className={styles['list-content']}>
           <table className={styles['participants-table']}>

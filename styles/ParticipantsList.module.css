@@ -1,4 +1,7 @@
 /* 內文編輯 */
+.iconLeft{
+  font-size: 100px;
+}
 
 .activity-edit {
     display: flex;
