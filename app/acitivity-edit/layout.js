@@ -1,14 +1,14 @@
 
-import '@/styles/page.module.css'
+import '@/styles/member-activity-edit/page.module.css'
 
-import ActivityDetails from '@/components/ActivityDetails'
+import Details from '@/components/member-activity-edit/Details'
 
 export default function AcitivityEdit({ children }) {
   return (
       <>
         <main className="activity-page">
           <div className="activity-container">
-            <ActivityDetails currentCount={1} totalCount={8} />
+            <Details currentCount={1} totalCount={8} />
             {children}
           </div>
         </main>

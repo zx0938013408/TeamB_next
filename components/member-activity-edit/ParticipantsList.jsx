@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/ParticipantsList.module.css'; // 導入 CSS Modules
+import styles from '../../styles/member-activity-edit/page.module.css' // 導入 CSS Modules
 import "@/public/TeamB_Icon/style.css"
 
 
@@ -68,7 +68,7 @@ const ParticipantsList = () => {
           </div>
         </div>
         <button className={styles['table-nav-button'] + ' next'}>
-          <span className="icon-Right"></span>
+          <span className={`icon-Right ${styles.iconRight}`}></span>
         </button>
       </div>
     </section>
