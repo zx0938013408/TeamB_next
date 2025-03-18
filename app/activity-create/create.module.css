@@ -1,0 +1,235 @@
+.background{
+    background-color: #29755D;
+    margin: 0;
+    padding: 0;
+    height: 110vh;
+}
+
+/* 標題 */
+.title{
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    color: #fff;
+}
+
+/* 開圖頁面, 讓球類圖片排版使用 */
+.sportIndex{
+    position: relative;
+    height: 100% !important;
+
+}
+
+/* 扣除球類圖片的介面 */
+.sport{
+    z-index: 5;
+    height: 100% !important;
+}
+
+
+
+.select{
+    /* width: 33%; */
+    padding: 0 !important; 
+    margin: 0;
+}
+
+
+.sportType{
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px dashed #fff;
+    border-left: 1px dashed #fff;
+    opacity: 60%;
+
+    &:hover{
+    opacity: 100%;
+    }
+}
+
+.sportIcon{
+    font-size: 90px;
+    color: #fff;
+    
+}
+
+
+.sportType:hover .sportIcon,
+.sportType:hover .sportTitle {
+    transform: scale(1.5); /* 放大 1.5 倍 */
+    transition: transform 0.3s ease-in-out;
+    margin: 50px;
+}
+
+
+.sportTitle{
+    margin-top: 50px;
+    color: #fff;
+    /* text-decoration: none; */
+    
+    /* &:hover{
+        font-size: 64px;
+        } */
+    }
+    
+.selectActive{
+    opacity: 100%;
+}
+
+
+
+
+.basketballPhoto{
+    width: 700px;
+    height: 700px;
+    background-image: url("/photo/activity/activity-basketballCourt.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: absolute;
+    right: 20%;
+    top: 7%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+
+}
+
+.basketballPhotoHover{
+    width: 700px;
+    height: 700px;
+    background-image: url("/photo/activity-basketballCourt.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: absolute;
+    right: 20%;
+    top: 7%;
+    opacity: 60%;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.volleyballPhoto{
+    width: 700px;
+    height: 700px;
+    background-image: url("/photo/activity-volleyballCourt.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: absolute;
+    left: 20%;
+    top: 30%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+
+}
+
+.volleyballPhotoHover{
+    width: 700px;
+    height: 700px;
+    background-image: url("/photo/activity-volleyballCourt.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: absolute;
+    left: 20%;
+    top: 30%;
+    opacity: 60%;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+.shuttlecockPhoto{
+    width: 700px;
+    height: 700px;
+    background-image: url("/photo/activity-shuttlecockCourt.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: absolute;
+    left: -2%;
+    top: 3%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+
+}
+
+.shuttlecockPhotoHover{
+    width: 700px;
+    height: 700px;
+    background-image: url("/photo/activity-shuttlecockCourt.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: absolute;
+    left: -2%;
+    top: 3%;
+    opacity: 80%;
+    transition: opacity 0.3s ease-in-out;
+
+}
+
+
+/* Modal */
+
+.modalContent{
+    width: 700px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modalWidth{
+    width: 100%;
+    margin: auto;
+}
+
+.inputTitle{
+    text-align: center;
+}
+
+.createInput{
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 100%;
+    /* text-align: center; */
+    margin-bottom: 17px;
+    background-color: #fff;
+}
+
+.uploadImg{
+    margin: 0 10px;
+    border: 3px dashed #a0c4b0;
+    width: 25%;
+    /* padding-top: 16%; */
+    border-radius: 10px;
+    text-align: center;
+    line-height: 6rem;
+}
+
+.cancelBtn{
+    border-radius: 10px !important;
+}
+
+.okBtn{
+    background-color: #29755D !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+}
