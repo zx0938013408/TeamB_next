@@ -1,7 +1,7 @@
-import styles from "../top/shop_top.module.css";
+import styles from "./shop_top.module.css";
 import "@/public/TeamB_Icon/style.css";
-import Carousel from "../components/carousel";
-import Card from "../components/card";
+import Carousel from "../../../components/shop/carousel";
+import Card from "../../../components/shop/card";
 
 export default function TopPage() {
   return (
@@ -16,8 +16,7 @@ export default function TopPage() {
           <div className={styles.titleBg}>
             <div className={styles.title}>上衣</div>
           </div>
-          <Carousel />
-          <Card />
+          <Carousel categoryId={1} />
 
           {/* <div className={styles.more}>
             <div className={styles.textBox}>

@@ -1,6 +1,6 @@
 import styles from "./product.module.css";
-import "../../../public/TeamB_Icon/style.css";
-import Carousel from "../components/carousel";
+import "../../../public/TeamB_Icon";
+import Carousel from "../../../components/shop/carousel";
 import Link from "next/link";
 
 export default function ProductPage() {
