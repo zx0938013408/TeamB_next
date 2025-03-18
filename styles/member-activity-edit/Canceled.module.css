@@ -1,4 +1,4 @@
-.section-title {
+.sectionTitle {
     color: #005b3e;
     font-family: Inter;
     font-size: 26px;
@@ -34,7 +34,7 @@
     gap: 25px;
   }
   
-  .reason-option {
+  .reasonOption {
     display: flex;
     align-items: center;
     gap: 22px;
@@ -42,7 +42,7 @@
     position: relative;
   }
   
-  .reason-radio {
+  .reasonRadio {
     position: absolute;
     opacity: 0;
     width: 30px;
@@ -50,30 +50,9 @@
     cursor: pointer;
   }
   
-  /* 自訂 radio 樣式 */
-  .radio-custom {
-    width: 30px;
-    height: 30px;
-    border: 3px solid #a3c4ba;
-    border-radius: 50%;
-    background-color: white;
-    transition: background 0.3s, border-color 0.3s;
-  }
-  
-  /* 選取時的樣式 */
-  .reason-radio:checked+.radio-custom {
-    background-color: #528f7c;
-    border-color: #528f7c;
-  }
-  
-  /* 讓整個 label 可點擊 */
-  .reason-option:hover .radio-custom {
-    border-color: #528f7c;
-  }
-  
-  .reason-text {
+  .reasonText {
     color: #528f7c;
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 20px;
     font-weight: 700;
     line-height: 35px;
@@ -84,7 +63,29 @@
     background-color: #fff;
   }
   
-  .cancel-button {
+  /* 自訂 radio 樣式 */
+  .radioCustom {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #a3c4ba;
+    border-radius: 50%;
+    background-color: white;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  
+  /* 選取時的樣式 */
+  .reasonRadio:checked + .radioCustom {
+    background-color: #528f7c;
+    border-color: #528f7c;
+  }
+  
+  /* 讓整個 label 可點擊 */
+  .reasonOption:hover .radioCustom {
+    border-color: #528f7c;
+  }
+  
+  
+  .buttonGeneral {
     padding: 13px 40px;
     border-radius: 10px;
     outline: 3px solid var(--ousidestroke, rgba(41, 117, 93, 0.39));
@@ -103,20 +104,20 @@
   }
   
   /* 預設樣式 */
-  .cancel-button.default {
+  .cancelButtonDefault {
     background: #A5E1CF;
     box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
     color: #29755D;
   }
   
   /* 點擊後樣式 */
-  .cancel-button.clicked {
+  .cancelButtonClicked {
     background: #7AAA9B;
     outline: 3px solid #29755D;
   }
   
   /* 禁用樣式 */
-  .cancel-button.disabled {
+  .cancelButtonDisabled {
     background-color: #ADADAD;
     cursor: not-allowed;
     pointer-events: none;
@@ -126,6 +127,7 @@
     transition: background 0.2s;
     outline: 3px solid #6C7275;
   }
+  
   
   
   
