@@ -11,18 +11,34 @@ import "@/styles/globals.css"
 
 export default function ActivityCreatePage() {
   const [hovered, setHovered] = useState(null); // 存儲目前 hover 的運動類別
-  // const [selected, setSelected] = useState(null); // 用來存儲點擊的選項
+  const [selected, setSelected] = useState(null); // 用來存儲點擊的選項
   return (
     <>
       <div className={Styles.background}>
         {/* 選擇三項運動 */}
         <div className={Styles.sportIndex}>
           {/* 籃球圖片 */}
-          <div className={hovered ==="basketball" ? Styles.basketballPhotoHover : Styles.basketballPhoto} />
+          <div className={
+            selected === "basketball" 
+            ? Styles.basketballPhotoHover 
+            : hovered ==="basketball" 
+            ? Styles.basketballPhotoHover 
+            : Styles.basketballPhoto}
+             />
           {/* 排球圖片 */}
-          <div className={hovered ==="volleyball" ? Styles.volleyballPhotoHover : Styles.volleyballPhoto} />
+          <div className={
+            selected === "volleyball" 
+            ? Styles.volleyballPhotoHover 
+            : hovered ==="volleyball" 
+            ? Styles.volleyballPhotoHover 
+            : Styles.volleyballPhoto} />
           {/* 羽球圖片 */}
-          <div className={hovered ==="shuttlecock" ? Styles.shuttlecockPhotoHover : Styles.shuttlecockPhoto} />
+          <div className={
+            selected === "shuttlecock" 
+            ? Styles.shuttlecockPhotoHover 
+            : hovered ==="shuttlecock" 
+            ? Styles.shuttlecockPhotoHover 
+            : Styles.shuttlecockPhoto} />
           {/* 標題 */}
           <h1 className={Styles.title}>請選擇要開團的球局類別</h1>
           <div className={`${Styles.sport} row`}>
@@ -34,7 +50,7 @@ export default function ActivityCreatePage() {
                 data-bs-target="#staticBackdrop"
                 onMouseEnter={() => setHovered("basketball")}
                 onMouseLeave={() => setHovered(null)}
-              // onClick={() => setSelected("basketball")}
+                onClick={() => setSelected("basketball")}
             >
               {/* 籃球 icon + 文字 */}
               <div className={`${Styles.sportType} ${Styles.basketball}`}>
@@ -50,6 +66,7 @@ export default function ActivityCreatePage() {
               data-bs-target="#staticBackdrop"
               onMouseEnter={() => setHovered("volleyball")}
               onMouseLeave={() => setHovered(null)}
+              onClick={() => setSelected("volleyball")}
             >
               {/* 排球 icon + 文字 */}
               <div className={`${Styles.sportType} ${Styles.volleyball}`}>
@@ -65,6 +82,7 @@ export default function ActivityCreatePage() {
               data-bs-target="#staticBackdrop"
               onMouseEnter={() => setHovered("shuttlecock")}
               onMouseLeave={() => setHovered(null)}
+              onClick={() => setSelected("shuttlecock")}
               >
               {/* 羽球 icon + 文字 */}
               <div className={`${Styles.sportType} ${Styles.shuttlecock}`}>
@@ -100,6 +118,7 @@ export default function ActivityCreatePage() {
             className={`btn-close ${Styles.closeModal}`}
             data-bs-dismiss="modal"
             aria-label="Close"
+            onClick={() => setSelected("")}
           />
         </div>
         <div className={`modal-body ${Styles.modalWidth}`}>
@@ -185,6 +204,7 @@ export default function ActivityCreatePage() {
             type="button"
             className={`btn btn-secondary closeModal ${Styles.cancelBtn}`}
             data-bs-dismiss="modal"
+            onClick={() => setSelected("")}
           >
             取消
           </button>
