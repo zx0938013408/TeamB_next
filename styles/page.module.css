@@ -1,0 +1,18 @@
+.activity-page {
+  display: flex;
+  width: 100%;
+  padding: 100px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+}
+
+.activity-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 44px;
+  width: 100%;
+}
