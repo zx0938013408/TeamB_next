@@ -190,29 +190,37 @@
 /* Modal */
 
 .modalContent{
-    width: 700px;
+    width: 700px !important;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .modalWidth{
     width: 100%;
-    margin: auto;
+    background-color: #F4F4F4;
+    /* margin: auto; */
 }
 
 .inputTitle{
-    text-align: center;
+    text-align: center !important;
+    font-size: 30px;
+    color: #29755D;
+    font-weight: bold;
+}
+
+.modalIcon{
+    margin-right: 20px;
 }
 
 .createInput{
     border: 3px solid #a0c4b0;
-    padding: 5px 10px;
+    padding: 10px 15px;
     border-radius: 10px;
     width: 100%;
-    /* text-align: center; */
     margin-bottom: 17px;
     background-color: #fff;
 }
+
 
 .uploadImg{
     margin: 0 10px;
@@ -221,7 +229,15 @@
     /* padding-top: 16%; */
     border-radius: 10px;
     text-align: center;
-    line-height: 6rem;
+    line-height: 9rem;
+    background-color: #fff;
+    color: #a0c4b0;
+    font-size: 24px;
+
+    &:hover{
+        border: solid;
+        font-size: 18px;
+    }
 }
 
 .cancelBtn{
