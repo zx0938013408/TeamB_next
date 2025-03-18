@@ -1,0 +1,80 @@
+/* 卡片區 */
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr)); /* 4 欄布局 */
+  gap: 20px;
+}
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card {
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+  border-radius: 15px;
+  display: inline-block;
+  /* margin: 5px; */
+  flex: 1 1 calc(25% - 20px); /* 確保一排四個 */
+  max-width: calc(25% - 20px); /* 讓每張卡片最多佔 25% 寬度 */
+  width: calc((100% - (20px * 3)) / 4); /* 保持四張卡片時的寬度 */
+  min-width: 200px; /* 防止過小 */
+
+}
+
+.imgContainer {
+  width: 100%;
+  border-radius: 15px 15px 0px 0px;
+  overflow: hidden;
+  line-height: 0px;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.07);
+  box-shadow: 0px 6px 7.5px 4px rgba(114, 124, 142, 0.3);
+}
+.cardDetails {
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.productTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  -webkit-box-orient: vertical;
+  min-height: 3em; /* 設定最小高度，確保短標題也有足夠高度 */
+}
+
+.priceContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 20px;
+  color: #528f7c;
+  display: inline-block;
+}
+
+.cardIcons {
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+.cardIcons .iconLikeStroke,
+.iconCart {
+  color: #528f7c;
+  font-size: 20px;
+  background: none;
+  margin: 3px;
+}
