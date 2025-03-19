@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Styles from "./activity-list-detail.module.css";
-import { AL_ITEM_GET } from "../../../config/api-path";
+import { AL_ITEM_GET } from "@/config/api-path";
 
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!al_id) return;
@@ -41,24 +40,6 @@ export default function ActivityDetailPage() {
       .catch((error) => console.error("❌ fetch 錯誤:", error));
   }, [al_id]);
   
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await fetch(`${AL_ITEM_GET}/${al_id}`);
-  //       const data  = await res.json();
-  //       console.log("📦 API 回傳資料:", data);
-  //       setActivity(data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("❌ fetch 錯誤:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [al_id]);
-
-  // if (loading) return <p className={Styles.loading}>載入中...</p>;
-  // if (!activity) return <p className={Styles.loading}>找不到資料</p>;
   if (!activity) {
     return <p className={Styles.loading}>載入中...</p>;
   }
@@ -71,11 +52,12 @@ export default function ActivityDetailPage() {
         </a>
       </nav>
       <div className={Styles.imgContainer}>
-        {/* <img src="/public/photo/activity-shuttlecockCourt.jpg" alt="活動主圖" className={Styles.mainImage} /> */}
+        <img src="/public/photo/activity-shuttlecockCourt.jpg" alt="活動主圖" className={Styles.mainImage} /> 
       </div>
       <div className={Styles.eventInfo}>
         <h2 className={Styles.title}>{activity.activity_name}</h2>
-        <p><strong>地點：</strong> {activity.location}</p>
+        <p><strong>地點：</strong> {activity.court_name}</p>
+        <p><strong>地址：</strong> {activity.address}</p>
         <p><strong>活動時間：</strong> {activity.activity_time}</p>
         <p><strong>報名期限：</strong> {activity.deadline}</p>
         <p><strong>費用：</strong> {activity.payment} 元</p>
