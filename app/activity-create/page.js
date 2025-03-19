@@ -333,30 +333,7 @@ export default function ActivityCreatePage() {
                     )}
                   </button>
                 ))}
-                {/* <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo2nd")}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {hovered === "photo1st" ? "請上傳圖片" : "+"}
-                </button>
-                <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo3rd")}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {hovered === "photo3rd" ? "請上傳圖片" : "+"}
-                </button>
-                <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo4th")}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {hovered === "photo4th" ? "請上傳圖片" : "+"}
-                </button> */}
+                
               </div>
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
