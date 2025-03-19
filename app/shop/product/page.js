@@ -1,23 +1,26 @@
 import styles from "./product.module.css";
 import "../../../public/TeamB_Icon/style.css";
-import Carousel from "../components/carousel";
+import Carousel from "../../../components/shop/carousel";
 import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function ProductPage() {
   return (
-    <div className={styles.body}>
-      <div className={styles.container}>
-
+    <>
+      <Header />
+      <div className={styles.body}>
+        <div className={styles.container}>
           {/* section-a */}
           <div className={styles.aContainer}>
             <div className={styles.leftSection}>
               <div className={styles.mainImage}>
-                <img src="../products_pic/top-1.jpg" alt="商品圖片" />
+                <img src="/photo/products_pic/top-1.jpg" alt="商品圖片" />
               </div>
               <div className={styles.thumbnailImages}>
-                <img src="../products_pic/top-1.jpg" alt="縮略圖1" />
-                <img src="../products_pic/top-1.jpg" alt="縮略圖2" />
-                <img src="../products_pic/top-1.jpg" alt="縮略圖3" />
+                <img src="/photo/products_pic/top-1.jpg" alt="縮略圖1" />
+                <img src="/photo/products_pic/top-1.jpg" alt="縮略圖2" />
+                <img src="/photo/products_pic/top-1.jpg" alt="縮略圖3" />
               </div>
             </div>
             <div className={styles.rightSection}>
@@ -77,7 +80,9 @@ export default function ProductPage() {
                 </div>
                 <div className={styles.buttons}>
                   <button className={styles.iconButtonLarge} id="toggleBtn">
-                    <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} />
+                    <span
+                      className={`icon-Like-Stroke ${styles.iconLikeStroke}`}
+                    />
                   </button>
                   <button className={styles.btnPrimary}>加入購物車</button>
                   <button className={styles.btnSecondary}>立即購買</button>
@@ -86,37 +91,40 @@ export default function ProductPage() {
             </div>
           </div>
 
-          
           {/* 商品詳情 */}
           <div className={styles.bContainer}>
             <div className={styles.title}>商品詳情</div>
             <div className={styles.bDetailSection}>
-              <img src="../products_pic/top-1.jpg" alt="商品詳情圖片" />
-              <img src="../products_pic/top-1.jpg" alt="商品詳情圖片" />
-              <img src="../products_pic/top-1.jpg" alt="商品詳情圖片" />
+              <img src="/photo/products_pic/top-1.jpg" alt="商品詳情圖片" />
+              <img src="/photo/products_pic/top-1.jpg" alt="商品詳情圖片" />
+              <img src="/photo/products_pic/top-1.jpg" alt="商品詳情圖片" />
             </div>
           </div>
 
+          {/* 大家還看了 */}
+          <div className={styles.itemsSection}>
+            <div className={styles.titleBg}>
+              <div className={styles.title}>大家還看了</div>
+            </div>
 
-        {/* 大家還看了 */}
-        {/* TODO:隨機從資料庫抽出八個商品來放 */}
-        <div className={styles.itemsSection}>
-          <div className={styles.titleBg}>
-            <div className={styles.title}>大家還看了</div>
-          </div>
-          <Carousel />
-          <div className={styles.more}>
-            <div>
-              {/* <Link href="../shop/top" styles={{ textDecoration: "none" }}>
+            {/* TODO:隨機從資料庫抽出八~九個商品來放 */}
+            <Carousel categoryId={1} />
+
+
+            <div className={styles.more}>
+              <div>
+                {/* <Link href="../shop/top" styles={{ textDecoration: "none" }}>
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
                   </div>
                 </Link> */}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
