@@ -51,7 +51,7 @@ export default function ActivityCard({ activity }) {
           </div>
         </div>
         <div className="button col-2">
-          <Link href="/activity-detail">
+          <Link href="/activity-list/[al_id]" as={`/activity-list/${activity.al_id}`}>
             <button type="button" className={Styles.joinButton}>
               查看
               <br />
