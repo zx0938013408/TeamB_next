@@ -47,22 +47,26 @@ export default function ActivityCreatePage() {
     const files = Array.from(event.target.files); // 取得多張圖片
     let newImages = [...images];
 
+    // 限制最多只能 4 張
+    // if (newImages.length + files.length > 4) {
+    //   // TODO : 要改成Mo
+    //   alert("最多只能上傳 4 張圖片！");
+    //   return;
+    // }
+
     for (let file of files) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            // 找第一個 `null` 的位置填充圖片
-            const emptyIndex = newImages.findIndex((img) => img === null);
-            if (emptyIndex !== -1) {
-                newImages[emptyIndex] = reader.result;
-                setImages([...newImages]); // 更新圖片狀態
-            }
-        };
-        reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // 找第一個 `null` 的位置填充圖片
+        const emptyIndex = newImages.findIndex((img) => img === null);
+        if (emptyIndex !== -1) {
+          newImages[emptyIndex] = reader.result;
+          setImages([...newImages]); // 更新圖片狀態
+        }
+      };
+      reader.readAsDataURL(file);
     }
-};
-
-
-
+  };
 
   return (
     <>
@@ -297,47 +301,39 @@ export default function ActivityCreatePage() {
 
                 {/* 設定可以上傳照片的功能 */}
                 <input
-                    type="file"
-                    accept="image/*"
-                    id="imageInput"
-                    style={{ display: "none" }}
-                    multiple // 允許多張
-                    onChange={handleImageUpload}
+                  type="file"
+                  accept="image/*"
+                  id="imageInput"
+                  style={{ display: "none" }}
+                  multiple // 允許多張
+                  onChange={handleImageUpload}
                 />
 
-                <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo1st")}
-                  onMouseLeave={() => setHovered(null)}
-                  onClick={() => document.getElementById("imageInput").click()}
-                >
-                  {hovered === "photo1st" ? "請上傳圖片" : "+"}
-                </button>
-                <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo2nd")}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {hovered === "photo2nd" ? "請上傳圖片" : "+"}
-                </button>
-                <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo3rd")}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {hovered === "photo3rd" ? "請上傳圖片" : "+"}
-                </button>
-                <button
-                  type="button"
-                  className={`${Styles.uploadImg} col`}
-                  onMouseEnter={() => setHovered("photo4th")}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  {hovered === "photo4th" ? "請上傳圖片" : "+"}
-                </button>
+                {images.map((image, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`${Styles.uploadImg} col`}
+                    onMouseEnter={() => setHovered(`photo${index + 1}`)}
+                    onMouseLeave={() => setHovered(null)}
+                    onClick={() => {
+                      document.getElementById("imageInput").click();
+                    }}
+                  >
+                    {image ? (
+                      <img
+                        src={image}
+                        alt={`圖片 ${index + 1}`}
+                        className={Styles.imagePreview}
+                      />
+                    ) : hovered === `photo${index + 1}` ? (
+                      "請上傳圖片"
+                    ) : (
+                      "+"
+                    )}
+                  </button>
+                ))}
+                
               </div>
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
@@ -345,7 +341,9 @@ export default function ActivityCreatePage() {
                 type="button"
                 className={`btn btn-secondary closeModal ${Styles.cancelBtn}`}
                 data-bs-dismiss="modal"
-                onClick={() => setSelected("")}
+                onClick={() => {
+                  setSelected("");
+                }}
               >
                 取消
               </button>

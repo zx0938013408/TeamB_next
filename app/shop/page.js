@@ -19,6 +19,7 @@ export default function ShopPage() {
             <span className={`icon-Search ${styles.iconSearch}`} />
           </div>
 
+          {/* 上衣 top */}
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
               <div className={styles.title}>上衣</div>
@@ -35,7 +36,7 @@ export default function ShopPage() {
               </div>
             </div>
           </div>
-
+          {/* 褲類 bottom */}
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
               <div className={styles.title}>褲類</div>
@@ -43,7 +44,7 @@ export default function ShopPage() {
             <Carousel categoryId={2} />
             <div className={styles.more}>
               <div>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link href="../shop/bottom" style={{ textDecoration: "none" }}>
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
@@ -52,7 +53,7 @@ export default function ShopPage() {
               </div>
             </div>
           </div>
-
+          {/* 鞋類 shoes */}
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
               <div className={styles.title}>鞋類</div>
@@ -60,7 +61,7 @@ export default function ShopPage() {
             <Carousel categoryId={3} />
             <div className={styles.more}>
               <div>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link href="../shop/shoes" style={{ textDecoration: "none" }}>
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
@@ -69,7 +70,7 @@ export default function ShopPage() {
               </div>
             </div>
           </div>
-
+          {/* 運動配件 */}
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
               <div className={styles.title}>運動配件</div>
@@ -77,7 +78,10 @@ export default function ShopPage() {
             <Carousel categoryId={4} />
             <div className={styles.more}>
               <div>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link
+                  href="../shop/accessory"
+                  style={{ textDecoration: "none" }}
+                >
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
