@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import InfiniteCard from "@/components/shop/infinite-card";
 
-export default function TopPage() {
+export default function BottomPage() {
   return (
     <>
       <Header />
@@ -17,9 +17,9 @@ export default function TopPage() {
 
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
-              <div className={styles.title}>上衣</div>
+              <div className={styles.title}>鞋類</div>
             </div>
-            <InfiniteCard categoryId={1}/>
+            <InfiniteCard categoryId={3}/>
 
             {/* <div className={styles.more}>
             <div className={styles.textBox}>
