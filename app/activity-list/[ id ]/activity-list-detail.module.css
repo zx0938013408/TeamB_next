@@ -1,0 +1,58 @@
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.imgContainer {
+  display: flex;
+  padding-bottom: 100px;
+  background-color: #f4f4f4;
+  border-bottom: 3px solid #a0c4b0;
+}
+
+.breadcrumb {
+  padding: 0 20px;
+}
+
+.eventImages {
+  flex: 1;
+  text-align: center;
+}
+
+.mainImage {
+  width: 350px;
+  height: 350px;
+  border-radius: 10px;
+}
+
+.eventInfo {
+  flex: 1;
+  padding: 0 70px;
+}
+
+.eventInfo p {
+  font-size: 16px;
+  margin: 12px 0;
+}
+
+.eventActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.collect {
+  border: 0;
+  background-color: transparent;
+}
+
+.registerBtn {
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #29755D;
+  color: white;
+  border: none;
+}
