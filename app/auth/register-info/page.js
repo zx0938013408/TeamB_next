@@ -1,6 +1,4 @@
 "use client";
-import "../../../styles/globals.css";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import styles from "../../../styles/auth/register-info.module.css";
 import { useRouter } from "next/navigation";
@@ -123,7 +121,7 @@ const handleUploadClick = () => {
   <div className={styles.leftSection}>
     <h1>TeamB</h1>
     <div className={styles.separator}></div>
-    <p>註冊更多資訊</p>
+    <p>會員基本資料</p>
   </div>
      
           <form className={styles.form} onSubmit={handleSubmit} encType="multipart/form-data">

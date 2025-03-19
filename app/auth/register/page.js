@@ -1,10 +1,7 @@
 "use client";
-import AuthLayout from "../components/AuthLayout";
 import styles from "../../../styles/auth/register.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-
 
 const Register = () => {
   const router = useRouter();
@@ -47,7 +44,6 @@ const Register = () => {
       body: JSON.stringify({ email }),
     });
     const emailCheckData = await emailCheckRes.json();
-    
 
     if (!emailCheckData.success) {
       setEmailError("該用戶已註冊");
@@ -72,7 +68,13 @@ const Register = () => {
   };
 
   return (
-    <AuthLayout title="TeamB" description="">
+    <div className={styles.container}>
+    {/* 左側區塊 (綠色區塊) */}
+    <div className={styles.leftSection}>
+      <h1>TeamB</h1>
+      <div className={styles.separator}></div>
+      <p>加入我們。</p>
+    </div>
       <div className={styles.rightSection}>
         <h2>註冊</h2>
         <form onSubmit={handleNext}>
@@ -113,7 +115,7 @@ const Register = () => {
           </div>
         </form>
       </div>
-    </AuthLayout>
+   </div>
   );
 };
 

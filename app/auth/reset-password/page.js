@@ -1,10 +1,15 @@
 import React from 'react'
-import AuthLayout from '../components/AuthLayout'
-import styles from "../../../styles/reset-password.module.css"
+import styles from "../../../styles/auth/reset-password.module.css"
 
 const ResetPassword = () => {
   return (
-    <AuthLayout title="重置密碼" description="請輸入新密碼以繼續。">
+    <div className={styles.container}>
+    {/* 左側區塊 (綠色區塊) */}
+    <div className={styles.leftSection}>
+      <h1>重置密碼</h1>
+      <div className={styles.separator}></div>
+      <p>設定新密碼。</p>
+    </div>
     <div className={styles.rightSection}>
   <form id="reset-password-form">
     <div className={styles.inputBox}>
@@ -33,7 +38,7 @@ const ResetPassword = () => {
   </form>
 </div>
 
-    </AuthLayout>
+    </div>
   )
 }
 

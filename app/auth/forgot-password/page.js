@@ -1,6 +1,5 @@
 "use client"
 import React, { useState } from 'react'
-import AuthLayout from '../components/AuthLayout'
 import styles from "../../../styles/auth/forgot-password.module.css"
 
 const ForgotPassword = () => {
@@ -14,11 +13,13 @@ const ForgotPassword = () => {
   }
 
   return (
-    
-    <AuthLayout
-      title="重置密碼"
-      description="請輸入帳號使用的電子郵件地址以繼續。"
-    >
+    <div className={styles.container}>
+    {/* 左側區塊 (綠色區塊) */}
+    <div className={styles.leftSection}>
+      <h1>重置密碼</h1>
+      <div className={styles.separator}></div>
+      <p>請輸入電子郵件。</p>
+    </div>
       <div className={styles.rightSection}>
         <form onSubmit={handleSubmit}>
           {/* 電子郵件 */}
@@ -41,7 +42,7 @@ const ForgotPassword = () => {
           </div>
         </form>
       </div>
-    </AuthLayout>
+   </div>
   )
 }
 
