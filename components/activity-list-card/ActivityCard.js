@@ -11,9 +11,18 @@ export default function ActivityCard({ activity }) {
         <div className={`${Styles.information} col`}>
           <div className={`${Styles.title} row`}>
             <div className={`${Styles.titleIcons} col-1`}>
-              <span className={`icon-Badminton ${Styles.iconBadminton}`}></span>
+              {activity.sport_name === "籃球" ? (
+                <span className={`icon-Basketball ${Styles.iconTitle}`}></span>
+              ) : activity.sport_name === "排球" ? (
+                <span className={`icon-Volleyball ${Styles.iconTitle}`}></span>
+              )  : activity.sport_name === "羽球" ? (
+                <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
+              ) 
+              : null}
             </div>
-            <h2 className={`${Styles.titleText} col`}>{activity.activity_name}</h2>
+            <h2 className={`${Styles.titleText} col`}>
+              {activity.activity_name}
+            </h2>
           </div>
           <div className={`${Styles.info}`}>
             <p>
@@ -44,7 +53,9 @@ export default function ActivityCard({ activity }) {
         <div className="button col-2">
           <Link href="/activity-detail">
             <button type="button" className={Styles.joinButton}>
-              查看<br />詳情
+              查看
+              <br />
+              詳情
             </button>
           </Link>
           <button
