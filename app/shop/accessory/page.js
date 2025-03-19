@@ -17,7 +17,7 @@ export default function BottomPage() {
 
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
-              <div className={styles.title}>運動配件</div>
+              <div className={styles.title}>運動裝備</div>
             </div>
             <InfiniteCard categoryId={4}/>
 
