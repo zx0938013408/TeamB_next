@@ -227,13 +227,14 @@
 
 .uploadImg{
     margin: 0 10px;
+    padding: 0 !important;
     border: 3px dashed #a0c4b0;
     width: 25%;
     height: 9rem;
-    /* padding-top: 16%; */
     border-radius: 10px;
-    text-align: center;
-    line-height: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #fff;
     color: #a0c4b0;
     font-size: 24px;
@@ -242,6 +243,13 @@
         border: solid;
         font-size: 18px;
     }
+}
+
+.imagePreview {
+    width: 90%;
+    height: 90%;
+    object-fit: cover; /*確保圖片填滿區塊且保持 1:1 */
+    border-radius: 10px;
 }
 
 .cancelBtn{
