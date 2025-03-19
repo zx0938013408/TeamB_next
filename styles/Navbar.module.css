@@ -18,6 +18,10 @@
   transform: translateY(0);
 }
 
+.navbarBt.none {
+  display: none
+}
+
 .closeBtn {
   background: none;
   border: none;
