@@ -200,7 +200,7 @@ export default function ActivityListPage() {
               <div className={`${Styles.title} row`}>
                 <div className="titleIcons col-1">
                   <span
-                    className={`icon-Badminton ${Styles.iconBadminton}`}
+                    className={`icon-Badminton ${Styles.iconTitle}`}
                   ></span>
                 </div>
                 <h2 className={`${Styles.titleText} col`}>
