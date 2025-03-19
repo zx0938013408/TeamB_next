@@ -1,0 +1,656 @@
+.stepContainer {
+  margin-top: 100px;
+}
+.stepper,
+.stepper * {
+  box-sizing: border-box;
+ 
+}
+
+.stepper {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.stepper2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--components-stepper-main-gap-between-y, 8px);
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+  gap: var(--components-stepper-content-gap-between-x, 8px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.leftDivider {
+  background: var(--components-stepper-divider-color, #e5e7eb);
+  opacity: 0;
+  flex: 1;
+  height: var(--components-stepper-divider-height, 1px);
+  position: relative;
+}
+
+.buttonIcon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--components-stepper-button-icon-gap-between, 5px);
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.icon {
+  background: var(--components-stepper-icon-success-bg-color, #528F7C);
+  border-radius: var(--components-stepper-icon-border-radius, 999px);
+  border: 2px solid #528F7C; /* 設定邊框顏色 */
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--components-stepper-icon-height, 40px);
+  height: var(--components-stepper-icon-height, 40px);
+  position: relative;
+  box-shadow: var(
+    --drop-shadow-sm-box-shadow,
+    0px 1px 2px 0px rgba(0, 0, 0, 0.05)
+  );
+  overflow: hidden;
+}
+
+.stepNumber {
+  font-size: 20px; /* 設定數字大小 */
+  font-weight: bold;
+  color: #6C7275; /* 文字顏色 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.check {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  position: relative;
+  overflow: visible;
+}
+
+.rightDivider {
+  background: var(--components-stepper-icon-success-bg-color, #528F7C);
+  flex: 1;
+  height: var(--components-stepper-divider-height, 1px);
+  position: relative;
+}
+
+.verticalTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.step {
+  color: var(--components-stepper-title-color, #6C7275);
+  text-align: center;
+  font-family: var(--base-semi-bold-font-family, 'Inter-SemiBold', sans-serif);
+  font-size: var(--base-semi-bold-font-size, 18px);
+  line-height: var(--base-semi-bold-line-height, 24px);
+  letter-spacing: var(--base-semi-bold-letter-spacing, 0.005em);
+  font-weight: var(--base-semi-bold-font-weight, bold);
+  position: relative;
+}
+
+.leftDivider2 {
+  background: var(--components-stepper-icon-success-bg-color,#528F7C);
+  flex: 1;
+  height: var(--components-stepper-divider-height, 1px);
+  position: relative;
+}
+
+.check2,
+.check3 {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  position: relative;
+  overflow: visible;
+}
+
+.rightDivider2 {
+  background: var(--components-stepper-divider-color, #e5e7eb);
+  opacity: 0;
+  flex: 1;
+  height: var(--components-stepper-divider-height, 1px);
+  position: relative;
+}
+
+/* 購物車為空 */
+.emptyCart {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.emptyCart img {
+  width: 350px;
+  height: 250px;
+}
+
+.emptyCart span {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+/* 購物車清單 */
+.list {
+  width: 70vw;
+  /* width: 1000px; */
+  margin: 0px auto ;
+  display: flex;
+  flex-direction: column;
+}
+
+.list table {
+  table-layout: fixed; /*這樣可以讓欄位平均分配寬度*/
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 80px;
+}
+
+thead tr th:first-child {
+  border-top-left-radius: 15px; 
+}
+
+thead tr th:last-child {
+  border-top-right-radius: 15px; 
+}
+
+.list th {
+  padding: 15px 5px;
+}
+
+.list td {
+  padding: 5px;
+}
+
+.list thead {
+  background-color: #29755D;
+  color: #fff;
+}
+
+.checked {
+  width: 3%;
+  text-align: center;
+}
+
+.checked input {
+  appearance: none; /* 移除預設樣式 */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; 
+  border: 2px solid #F7BF58;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.total input {
+  appearance: none; /* 移除預設樣式 */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; 
+  border: 2px solid #F7BF58;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checked input:checked {
+  background-color: #29755D; /* 勾選時的顏色 */
+  border: 2px solid #F7BF58;
+  position: relative;
+}
+
+.total input:checked {
+  background-color: #29755D; /* 勾選時的顏色 */
+  border: 2px solid #F7BF58;
+  position: relative;
+}
+
+.checked input:checked::after {
+  content: '✔'; /*用 Unicode 符號表示勾選 */
+  font-size: 14px;
+  color: #F7BF58;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.total input:checked::after {
+  content: '✔'; /* 用 Unicode 符號表示勾選 */
+  font-size: 14px;
+  color: #F7BF58;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.titlePicture,
+.titleSpec,
+.titlePrice,
+.titleCount,
+.titleSuntotal {
+  text-align: center; 
+  font-size: 18px;
+}
+
+.titlePicture {
+  width: 100px;
+}
+
+.titleName {
+  width: 22%;
+  text-align: left;
+  font-size: 18px;
+}
+
+.titleSpec,
+.titleCount,
+.titlePrice,
+.titleSuntotal {
+  width: 15%;
+}
+
+.titleRemove {
+  text-align: left;
+  font-size: 18px;
+  width: 5%;
+}
+
+.item {
+  transition: all 0.5s;
+  display: table-row;
+  border-top: 1px solid #e4e4e4;
+}
+
+
+.item:hover {
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.item img {
+  width: 100px;
+  height: 100px;
+}
+
+.item .name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  width: 22%;
+}
+
+
+.price,
+.subTotal {
+  font-size: 18px;
+  color: firebrick;
+  width: 15%;
+  text-align: center;
+}
+
+.item .price,
+.item .subTotal,
+.amount {
+  font-size: 18px;
+}
+
+.spec {
+  width: 15%;
+  
+}
+
+.spec p {
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+}
+
+.count {
+  display: table-cell;
+  width: 15%;
+}
+
+.quantityControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 100%;
+}
+
+.plus,
+.minus {
+  display: flex;
+  align-items: center;
+  width: 25px; /* 按鈕寬度 */
+  height: 25px; /* 按鈕高度和輸入框一致 */
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.plus {
+  background-color: #29755D;
+  border: 2px solid #29755D;
+  color: #F7BF58;
+}
+
+.minus {
+  background-color: #fff;
+  border: 2px solid #F7BF58;
+  color: #29755D;
+}
+
+.input {
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  border: none;
+  background: none;
+  font-size: 18px;
+}
+
+.total {
+  box-sizing: border-box;
+  background-color: #29755D;
+  color: #fff;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px 5px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.total div {
+  display: flex;
+  align-items: center; /* 讓內容保持同一行 */
+  flex-wrap: nowrap; /* 防止換行 */
+}
+
+.total .amount {
+  color: #F7BF58;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+}
+
+  
+.checkTotal {
+  box-sizing: border-box;
+  background-color: #29755D;
+  color: #fff;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px 20px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.money {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+
+.checkTotal .amount {
+  color: #F7BF58;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.money span {
+  flex: 1;
+  font-size: 20px;
+}
+
+.remove {
+  border: none;
+  background: none;
+  font-size: 20px;
+  width: 5%;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.remove:hover {
+  opacity: 1;
+}
+
+/* 按鈕容器 */
+.btn {
+  display: flex;
+  justify-content: flex-end; 
+  margin: 60px 0px;
+}
+
+
+
+/* 手機版調整為卡片式 */
+@media (max-width: 768px) {
+  .list {
+    width: 85vw;
+    margin: auto;
+  }
+  .list table {
+    display: block;
+    width: 100%;
+  }
+
+  .list thead {
+    display: none; /* 隱藏表頭 */
+  }
+
+  .list tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .list tr {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    /* padding: 10px; */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    gap: 10px;
+  }
+
+  .list td {
+    display: block;
+    text-align: left;
+  }
+
+  .item .checked {
+    order: -1; /* 移到最左邊 */
+    padding: 0;
+    margin: 0;
+    width: 5%;
+  }
+
+  .checked input {
+    padding: 0;
+    margin: 0;
+ 
+  }
+
+  .list td img {
+    width: 80px;
+    height: 80px;
+    margin: 1px;
+    padding: 0;
+    object-fit: cover;
+  }
+
+  .list .name {
+    font-size: 16px;
+    font-weight: bold;
+    width: 30%;
+    text-align: left;
+    margin: 0;
+  }
+
+  .list .spec {
+    font-size: 13px;
+    text-align: center;
+    color: #666;
+    width: 15%;
+  }
+
+  .price {
+    font-size: 16px;
+    width: 40%;
+    margin-left: 30px;
+    padding: 0;
+    
+  }
+
+  .count {
+    width: 35%;
+  }
+  
+
+  .count input {
+    width: 25px;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+  }
+
+  .list .subTotal {
+    display: none;
+    /* width: 25%;
+    padding: 0;
+    font-size: 16px;
+     */
+  }
+
+  /* .titleRemove button {
+    background: none;
+    border: none;
+   
+    font-size: 14px;
+  } */
+
+  /* 讓卡片式樣式有間隔 */
+  /* .item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+  } */
+
+  /* 基本樣式 */
+.item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; /* 使右滑動作平滑 */
+}
+
+  .item .remove {
+    position: absolute;
+    right: -70px;  /* 刪除按鈕預設在右側之外 */
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none; /* 防止點擊，直到顯示出來 */
+    transition: opacity 0.3s ease, right 0.3s ease; /* 平滑顯示刪除按鈕 */
+  }
+  
+  .item.swiped .remove {
+    right: 0; /* 顯示刪除按鈕 */
+    opacity: 1; /* 顯示按鈕 */
+    pointer-events: auto; /* 允許點擊 */
+  }
+  
+
+  .quantityControls {
+    display: flex;
+    align-items: center;
+    /* gap: 3px; */
+  }
+
+  .total {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .total div {
+    font-size: 14px;
+    font-weight: bold;
+  }
+}

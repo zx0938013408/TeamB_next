@@ -1,0 +1,122 @@
+/* 按鈕1 */
+.link {
+    width: 140px;
+    position: relative;
+    padding: 20px 40px;
+    margin: 0 30px;
+    background: #29755D;
+    color: #F7BF58;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    text-decoration: none;
+    letter-spacing: 4px;
+    transform-style: preserve-3d;
+    transition: ease-in-out 2s;
+    border-radius: 15px;
+  }
+  
+  .link:hover{
+    transform: rotateX(-360deg);
+  }
+  
+  .link button {
+    all: unset; /* 移除所有預設樣式 */
+    cursor: pointer; /* 讓它仍然可點擊 */
+    display: flex; /* 使用 flexbox */
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+    width: 100%; /* 確保按鈕佔滿容器 */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transform-style: preserve-3d;
+    transform: perspective(100px) translateZ(20px);
+  }
+  
+  .link:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    right: 6px;
+    bottom: 4px;
+    border: 2px solid #F7BF58;
+    transform-style: preserve-3d;
+    transform: perspective(500px) translateZ(15px);
+    border-radius: 15px;
+  }
+  
+  .link:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 2px solid #F7BF58;
+    transform-style: preserve-3d;
+    transform: perspective(500px) translateZ(-15px);
+    border-radius: 15px;
+  }
+  
+  /* 按鈕2 */
+  .link2 {
+    width: 140px;
+    position: relative;
+    padding: 20px 40px;
+    background: #F7BF58;
+    color: #29755D;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    text-decoration: none;
+    letter-spacing: 4px;
+    transform-style: preserve-3d;
+    transition: ease-in-out 2s;
+    border-radius: 15px;
+  
+  }
+  
+  .link2:hover{
+    transform: rotateX(360deg);
+  }
+  
+  .link2 button {
+    all: unset; /* 移除所有預設樣式 */
+    cursor: pointer; /* 讓它仍然可點擊 */
+    display: flex; /* 使用 flexbox */
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+    width: 100%; /* 確保按鈕佔滿容器 */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transform-style: preserve-3d;
+    transform: perspective(100px) translateZ(20px);
+  }
+  
+  .link2:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    right: 6px;
+    bottom: 4px;
+    border: 2px solid #29755D;
+    transform-style: preserve-3d;
+    transform: perspective(500px) translateZ(15px);
+    border-radius: 15px;
+  }
+  
+  .link2:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 2px solid #29755D;
+    transform-style: preserve-3d;
+    transform: perspective(500px) translateZ(-15px);
+    border-radius: 15px;
+  }
+  
