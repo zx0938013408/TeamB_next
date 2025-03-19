@@ -19,7 +19,7 @@
 }
 
 .navbarBt.none {
-  display: none
+  visibility: hidden
 }
 
 .closeBtn {
