@@ -1,0 +1,17 @@
+.header {
+    background-color: #0f3d3e;
+    color: white;
+    padding: 10px 0;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .tagline {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  
