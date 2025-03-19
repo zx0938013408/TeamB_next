@@ -1,0 +1,80 @@
+/* ✅ 右側區塊 */
+.rightSection {
+    width: 80%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rightSection h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0F3D3E;
+    margin-bottom: 25px;
+}
+
+/* ✅ 輸入框樣式 */
+.inputBox {
+    margin-bottom: 30px;
+}
+
+
+
+.input {
+    width: 100%;
+    padding: 16px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    border-color: #0F3D3E;
+}
+
+/* ✅ 註冊按鈕 */
+.submitSection {
+    width: 100%;
+    margin-top: 60px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.registerBtn {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: #0F3D3E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.registerBtn:hover {
+    background: #146C94;
+}
+
+/* ✅ 連結區域 */
+.links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.links a {
+    text-decoration: none;
+    color: #0F3D3E;
+    font-weight: bold;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}

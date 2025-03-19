@@ -1,0 +1,201 @@
+.container {
+    display: flex;
+    max-width: 1200px;  /* 限制最大寬度 */
+    min-height: 600px;  /* 設定最小高度 */
+    width: 100%;         /* 避免過度壓縮 */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 50px auto;  /* 置中 */
+
+  }
+  /* 側邊欄 */
+  .sidebar {
+    width: 220px;
+    background: #3F6D62;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px 0 0 10px;
+  }
+  
+  .sidebar a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .sidebar a:hover, .sidebar a.active {
+    background: #29755D;
+  }
+  
+  .mainContent {
+    width: 70%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+  
+  
+  }
+  #profileForm{
+    display: flex;
+    justify-content:space-around;
+  }
+  
+  .rightSection {
+    display: flex;
+    margin-left: 150px;
+    align-content: center;
+    gap: 100px;
+    width: 100%;
+    height: 100%;
+  }
+  .title {
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 10PX;
+    font-size: 36px;
+    font-weight: 700;
+    color: black;
+  
+  }
+  .avatarContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 水平置中 */
+    gap: 10px; /* 讓圖片與按鈕有間距 */
+  }
+  
+  .avatar {
+    margin-top: 30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  #avatarUpload {
+    display: none; /* 隱藏原始的文件選擇框 */
+  }
+  
+  .uploadLabel {
+    background: #29755D;
+    color: white;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    width: auto;
+  }
+  
+  .uploadLabel:hover {
+    background: #3F6D62;
+  }
+  
+  .uploadLabel {
+      background: #29755D;
+      color: white;
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+      text-align: center;
+  }
+  
+  .uploadLabel:hover {
+      background: #3F6D62;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 50px;
+    margin-left: 100px;
+  }
+  .inputBox,
+  .selectBox {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    border: 2px solid #a3c4ba;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .checkboxGroup{
+    display: flex;
+  }
+  .checkboxGroup{
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    border: 2px solid #a3c4ba;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .confirm{
+    display: flex;
+    justify-content: flex-end;
+  
+  
+  }
+  .confirmBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+    background:  #29755D;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    border: 3px solid #29755D;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    line-height: 40px;
+  }
+  .confirmBtn:hover {
+    width: 120px;
+    height: 40px;
+    background: #A3C4BA;
+    border-radius: 5px;
+    border: 3px solid #29755D;
+    color:#29755D;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer; 
+  
+  }
+  
+  

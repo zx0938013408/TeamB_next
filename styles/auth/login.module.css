@@ -1,0 +1,110 @@
+.container {
+    display: flex;
+    justify-content: center;  /* 水平居中 */
+    align-items: center;      /* 垂直居中 */
+    width: 80%; /* 調整寬度 */
+    max-width: 1200px; /* 設置最大寬度 */
+    min-height: 700px; /* 增加最小高度 */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 0 auto; /* 確保容器在頁面中水平居中 */
+}
+
+.rightSection {
+    width: 100%;
+    max-width: 600px; /* 設定最大寬度 */
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* 垂直居中內容 */
+}
+
+/* 標題 */
+.rightSection h2 {
+    font-size: 32px; /* 增大字體 */
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #0F3D3E;
+}
+
+/* 輸入框區域 */
+.inputBox {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.inputBox label {
+    display: block;
+    font-size: 16px; /* 增大字體 */
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.inputBox input {
+    width: 100%; /* 讓輸入框填滿父容器 */
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-size: 16px; /* 增大字體 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.inputBox input:focus {
+    border-color: #0F3D3E;
+}
+
+/* 登入按鈕 */
+.submitSection {
+    width: 100%;
+    margin-top: 60px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.loginBtn {
+    width: 100%;
+    padding: 18px;
+    font-size: 20px; /* 增大字體 */
+    font-weight: bold;
+    color: white;
+    background: #0F3D3E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.loginBtn:hover {
+    background: #146C94;
+}
+
+/* 底部連結 */
+.links {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 16px; /* 增大字體 */
+    color: #666;
+}
+
+.links a {
+    color: #0F3D3E;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: red;
+    font-size: 16px; /* 增大字體 */
+    margin-top: 5px;
+}
