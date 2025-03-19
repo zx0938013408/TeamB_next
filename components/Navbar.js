@@ -11,10 +11,10 @@ const Navbar = ({ isOpen, setIsOpen }) => {
         </div>
         <div className={styles.navSection}>
           <div className={styles.navTitle}>商城</div>
-          <Link href="#" className={styles.navLink}>上衣</Link>
-          <Link href="#" className={styles.navLink}>褲裝</Link>
-          <Link href="#" className={styles.navLink}>鞋類</Link>
-          <Link href="#" className={styles.navLink}>運動用品</Link>
+          <Link href="../../shop/top" className={styles.navLink}>上衣</Link>
+          <Link href="../../shop/bottom" className={styles.navLink}>褲裝</Link>
+          <Link href="../../shop/shoes" className={styles.navLink}>鞋類</Link>
+          <Link href="../../shop/accessory" className={styles.navLink}>運動裝備</Link>
         </div>
         <div className={styles.navSection}>
                 <div className={styles.navTitle}>關於TeamB</div>

@@ -1,0 +1,85 @@
+/* 卡片區 */
+
+.cardContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* 卡片變小 */
+  gap: 32px; /* 增加間距 */
+  align-items: start;
+}
+
+.card {
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* 讓 Grid 來控制寬度 */
+}
+
+.imgContainer {
+  width: 100%;
+  border-radius: 15px 15px 0px 0px;
+  overflow: hidden;
+  line-height: 0px;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.07);
+  box-shadow: 0px 6px 7.5px 4px rgba(114, 124, 142, 0.3);
+}
+.cardDetails {
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.productTitle {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  -webkit-box-orient: vertical;
+  min-height: 3em; /* 設定最小高度，確保短標題也有足夠高度 */
+}
+
+.priceContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 20px;
+  color: #528f7c;
+  display: inline-block;
+}
+
+.cardIcons {
+  border: none;
+  cursor: pointer;
+  /* width: 25px;
+    height: 25px; */
+  background: none;
+}
+
+.iconLikeStroke,
+.iconCart {
+  color: #528f7c;
+  font-size: 20px;
+  background: none;
+  margin: 3px;
+}
+
+/* 載入 */
+
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #666;
+}

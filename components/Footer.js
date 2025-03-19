@@ -23,10 +23,10 @@ const Footer = () => {
 
         <div className={styles.footerSection}>
           <div className={styles.footerTitle}>商城</div>
-          <Link href="#" className={styles.footerLink}>上衣</Link>
-          <Link href="#" className={styles.footerLink}>褲裝</Link>
-          <Link href="#" className={styles.footerLink}>鞋類</Link>
-          <Link href="#" className={styles.footerLink}>運動用品</Link>
+          <Link href="../../shop/top" className={styles.footerLink}>上衣</Link>
+          <Link href="../../shop/bottom" className={styles.footerLink}>褲裝</Link>
+          <Link href="../../shop/shoes" className={styles.footerLink}>鞋類</Link>
+          <Link href="../../shop/accessory" className={styles.footerLink}>運動裝備</Link>
         </div>
 
         <div className={styles.footerSection}>
