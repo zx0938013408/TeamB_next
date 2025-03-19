@@ -1,35 +1,94 @@
+/* 主容器 */
 .container {
   max-width: 1000px;
-  margin: auto;
+  margin: auto 100px;
   padding: 20px;
   background-color: #f4f4f4;
 }
 
 .imgContainer {
   display: flex;
+  max-width: 1000px;
+  margin: auto 100px;
+  padding: 20px;
   padding-bottom: 100px;
   background-color: #f4f4f4;
   border-bottom: 3px solid #a0c4b0;
 }
 
-.breadcrumb {
+/* 麵包屑 */
+.bread {
+  border-bottom: 3px solid #a0c4b0;
   padding: 0 20px;
 }
 
-.eventImages {
-  flex: 1;
-  text-align: center;
+.notActiveText {
+  border: none;
+  color: #000;
 }
 
+/* 左側圖片區 */
 .mainImage {
+  height: 100%;
+  width: 100%;
   width: 350px;
   height: 350px;
   border-radius: 10px;
 }
 
+.thumbnailContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  margin-top: 10px;
+  width: 350px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.thumbnail {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.1);
+}
+
+/* 右側資訊區 */
 .eventInfo {
   flex: 1;
   padding: 0 70px;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.titleIcons {
+  width: 35px;
+  height: 35px;
+  margin-right: 44px;
+}
+
+.titleIcon {
+  height: 100%;
+}
+
+.title .titleText {
+  font-size: 26px;
+  font-family: Inter;
+  font-weight: bold;
+  color: #3f6d62;
+}
+
+.eventInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .eventInfo p {
@@ -37,22 +96,231 @@
   margin: 12px 0;
 }
 
-.eventActions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
+/* 地圖 icons */
+.info i {
+  margin-left: 10px;
+  color: crimson;
 }
 
+.info i:hover {
+  color: rgb(233, 95, 122);
+}
+
+/* 報名情形 */
+.registerInfoBtn {
+  border: 3px solid #ABABAB;
+  border-radius: 10px;
+  width: 200px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #ABABAB;
+  margin-right: 13px;
+}
+
+.registerInfoBtn1 {
+  border: 0;
+  color: #29755d;
+  text-align: right;
+  background-color: #f4f4f4;
+}
+
+/* 人數選擇 */
+.selectGroup {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  border: 3px solid #a0c4b0;
+  padding: 5px 10px;
+  border-radius: 10px;
+  width: 520px;
+}
+
+.selectGroup label {
+  flex: 1;
+  color: #A3C4BA;
+  font-weight: bold;
+}
+
+.selectGroup select {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #A3C4BA;
+  cursor: pointer;
+  width: 400px;
+}
+
+.eventActions {
+  margin-right: 1px;
+}
+
+/* 收藏按鈕 */
 .collect {
   border: 0;
   background-color: transparent;
+  padding: 0px;
+  margin: 0;
 }
 
+/* 報名按鈕 */
 .registerBtn {
   border-radius: 10px;
+  box-sizing: border-box;
   font-size: 24px;
   font-weight: bold;
   background-color: #29755D;
   color: white;
   border: none;
+}
+
+.registerBtn:active {
+  background-color: #7aaa9b;
+  border: 2px solid #29755d;
+  color: #3f6d62;
+}
+
+/* 活動詳情 */
+.information {
+  margin: 0;
+  padding: 0;
+  border-bottom: 3px solid #a0c4b0;
+  padding-bottom: 100px;
+}
+
+.information1 {
+  padding: 20px;
+}
+
+.infoTitle {
+  text-align: left;
+  color: #528F7C;
+  padding-bottom: 30px;
+}
+
+/* 商品推薦 */
+.advertise {
+  background-color: #f4f4f4;
+}
+
+.shopTitle {
+  text-align: left;
+  color: #528F7C;
+}
+
+/* 輪播容器 */
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.carousel-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  z-index: 10;
+  color: #528F7C;
+}
+
+.prev-btn {
+  left: -30px;
+}
+
+.next-btn {
+  right: -30px;
+}
+
+/* 輪播區 */
+.carousel {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+  white-space: nowrap;
+  scrollbar-width: none; /* 隱藏滾動條 (Firefox) */
+}
+
+.carousel::-webkit-scrollbar {
+  display: none; /* 隱藏滾動條 (Chrome, Safari) */
+}
+
+/* 商品卡片 */
+.product-card {
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: left;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+/* 商品圖片 */
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* 產品資訊 */
+.product-info {
+  padding: 10px;
+}
+
+.product-info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.price {
+  color: #528F7C;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* 收藏與購物車 */
+.icons {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+/* 查看更多 */
+.seeMore {
+  margin-top: 20px;
+  text-align: end;
+}
+
+.seeMore a {
+  color: #528F7C;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  position: relative;
+}
+
+.seeMore a::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #166534;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+.seeMore a:hover {
+  color: darkgreen;
 }
