@@ -120,9 +120,7 @@ export default function ActivityListPage() {
           <button className={`${Styles.create}`}>
             直接開團
           </button>
-        </Link>
       </div>
-
 
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
