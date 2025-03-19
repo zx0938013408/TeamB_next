@@ -309,6 +309,7 @@ export default function ActivityCreatePage() {
                   onChange={handleImageUpload}
                 />
 
+                {/* 顯示照片 */}
                 {images.map((image, index) => (
                   <button
                     key={index}
@@ -333,7 +334,7 @@ export default function ActivityCreatePage() {
                     )}
                   </button>
                 ))}
-                
+
               </div>
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>

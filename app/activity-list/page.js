@@ -4,11 +4,8 @@ import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
-import { useRouter,useSearchParams } from "next/navigation";
-import {
-  AL_LIST,
-  AVATAR_PATH,
-} from "@/config/api-path";
+import { useRouter, useSearchParams } from "next/navigation";
+import { AL_LIST, AVATAR_PATH } from "@/config/api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 
 export default function ActivityListPage() {
@@ -61,16 +58,15 @@ export default function ActivityListPage() {
         const obj = await r.json();
         if (obj.success) {
           setListData(obj.rows);
-        } 
-      }catch (error) {
-          console.warn(error);
         }
+      } catch (error) {
+        console.warn(error);
       }
-      fetchData();
-      }, [])
-      console.log('data:',listData);
-      
-  
+    };
+    fetchData();
+  }, []);
+  console.log("data:", listData);
+
   //   fetch(`${AL_LIST}`, { signal })
   //     .then((r) => r.json())
   //     .then((obj) => {
@@ -80,12 +76,12 @@ export default function ActivityListPage() {
   //       }
   //     })
   //     .catch(console.warn);
-  
+
   //   return () => {
   //     controller.abort();
   //   };
   // }, [searchParams, refresh]);
-  
+
   // console.log('data:',listData);
 
   return (
@@ -116,10 +112,11 @@ export default function ActivityListPage() {
       </div>
       {/* 開團按鈕 */}
       <div className={`${Styles.container} mx-auto ${Styles.bread}`}>
-        <Link href="#">
-          <button className={`${Styles.create}`}>
-            直接開團
-          </button>
+      <Link href="/activity-create">
+        <button className={`${Styles.create}`}>
+          直接開團
+        </button>
+      </Link>
       </div>
 
       {/* 活動列表 */}
@@ -133,44 +130,39 @@ export default function ActivityListPage() {
         )}
       </div>
 
-        {/* 分頁按鈕 */}
-        <div className={Styles.containerPage}>
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li className="pageItem">
-                <a
-                  className="page-link pageLink"
-                  href="#"
-                  aria-label="Previous"
-                >
-                  <span aria-hidden="true">«</span>
-                </a>
-              </li>
-              <li className="pageItem">
-                <a className="page-link pageLink" href="#">
-                  1
-                </a>
-              </li>
-              <li className="pageItem">
-                <a className="page-link pageLink" href="#">
-                  2
-                </a>
-              </li>
-              <li className="pageItem">
-                <a className="page-link pageLink" href="#">
-                  3
-                </a>
-              </li>
-              <li className="pageItem">
-                <a className="page-link pageLink" href="#" aria-label="Next">
-                  <span aria-hidden="true">»</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      
-    
+      {/* 分頁按鈕 */}
+      <div className={Styles.containerPage}>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="pageItem">
+              <a className="page-link pageLink" href="#" aria-label="Previous">
+                <span aria-hidden="true">«</span>
+              </a>
+            </li>
+            <li className="pageItem">
+              <a className="page-link pageLink" href="#">
+                1
+              </a>
+            </li>
+            <li className="pageItem">
+              <a className="page-link pageLink" href="#">
+                2
+              </a>
+            </li>
+            <li className="pageItem">
+              <a className="page-link pageLink" href="#">
+                3
+              </a>
+            </li>
+            <li className="pageItem">
+              <a className="page-link pageLink" href="#" aria-label="Next">
+                <span aria-hidden="true">»</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
       {/* Mobal */}
       <div
         className="modal fade"
@@ -197,9 +189,7 @@ export default function ActivityListPage() {
             <div className="modal-body">
               <div className={`${Styles.title} row`}>
                 <div className="titleIcons col-1">
-                  <span
-                    className={`icon-Badminton ${Styles.iconTitle}`}
-                  ></span>
+                  <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
                 </div>
                 <h2 className={`${Styles.titleText} col`}>
                   羽球運動-放假鳩團一起來

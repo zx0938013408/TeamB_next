@@ -41,7 +41,6 @@
   /* 開團按鈕 */
   .create{
       width: 97%;
-      box-shadow: -3px -4px 4px rgba(0, 0, 0, 0.14) inset;
       border-radius: 10px;
       background-color: #f7bf58;
       border: none;

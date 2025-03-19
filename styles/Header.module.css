@@ -102,12 +102,12 @@
 /* 快速開團按鈕 */
 .quickActionBtn {
   padding: 10px 20px;
-  background: #BDE6D9;
-  border: 2px solid #29755D;
+  background: #29755D;
+  border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
-  color: #29755D;
+  color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -115,6 +115,8 @@
 .quickActionBtn:hover {
   background: #A8D5C5;
   font-size: 18px;
+  color: #29755D;
+  border: none;
 }
 
 /* ************** Header 內的按鈕 **************** */
