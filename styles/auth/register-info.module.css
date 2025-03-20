@@ -1,0 +1,171 @@
+
+/* ✅ 右側區塊 (表單) */
+.container {
+    display: flex;
+    max-width: 1200px;
+    max-height: 700px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+.form {
+    width: 90%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/* 左側區塊設為綠色背景，內容對齊 */
+.leftSection {
+    width: 55%; /* 調整為 40%，讓右側區塊佔更大區域 */
+    background: #0F3D3E;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    text-align: left;
+  }
+  
+  .leftSection p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+  
+  .leftSection h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+/* ✅ 輸入框樣式 */
+.inputBox
+ {
+    width: 98%;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    margin-bottom: 30px;
+}
+
+.selectBox{
+    width: 100%;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    margin-bottom: 30px;
+
+}
+.inputBox:focus,
+.selectBox:focus {
+    border-color: #0F3D3E;
+}
+
+/* ✅ 勾選框群組 */
+.checkboxGroup {
+    display: flex;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+    width: 99%;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.checkboxGroup:focus{
+    border-color: #0F3D3E;
+}
+
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    
+}
+
+/* ✅ 送出按鈕 */
+.submitSection {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.submitButton {
+    width: 120px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: #0F3D3E;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submitButton:hover {
+    background: #146C94;
+}
+
+/* 讓頭像與姓名欄位水平排列 */
+.avatarNameContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;  /* 控制間距 */
+}
+
+/* 頭像區域 */
+.avatarContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 頭像預覽 */
+.avatarPreview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+/* 隱藏 input[type=file] */
+.hiddenFileInput {
+    display: none;
+}
+
+/* 按鈕樣式 */
+.uploadButton {
+    background-color: #1d3b34;
+    color: white;
+    border: none;
+    padding: 6px 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: 10px;
+
+   
+}
+
+.uploadButton:hover {
+    background-color: #173029;
+}
+

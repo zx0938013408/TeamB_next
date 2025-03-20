@@ -1,0 +1,105 @@
+.container {
+    display: flex;
+    max-width: 1200px;  /* 限制最大寬度 */
+    min-height: 600px;  /* 設定最小高度 */
+    width: 100%;         /* 避免過度壓縮 */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 50px auto;  /* 置中 */
+  }
+
+/* ✅ 側邊欄 */
+.sidebar {
+    width: 220px;
+    background: #3F6D62;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px 0 0 10px;
+  }
+
+.menuItem {
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.menuItem:hover, 
+.menuItem.active {
+    background-color: #146C94;
+}
+
+/* ✅ 內容區塊 */
+.content {
+    padding: 30px;
+    flex: 1;
+}
+
+/* ✅ 頭像區塊 */
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.userInfo h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.tabMenu {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.tabLeft {
+    display: flex;
+    gap: 15px;
+}
+
+.tabItem {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.tabItem:hover {
+    color: #146C94;
+}
+
+.tabItem.active {
+    border-bottom: 2px solid #146C94;
+    font-weight: bold;
+}
+
+/* ✅ 搜尋框 */
+.searchContainer input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* ✅ 內容顯示區 */
+.tabContent {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
