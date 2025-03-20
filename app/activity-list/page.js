@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AL_LIST, AVATAR_PATH } from "@/config/api-path";
+import { AL_LIST, AVATAR_PATH, AL_ITEM_GET } from "@/config/api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 
 export default function ActivityListPage() {
@@ -16,6 +16,8 @@ export default function ActivityListPage() {
 
   const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState([]);
+  const [activityName, setActivityName] = useState(null);
+  const [selectedPeople, setSelectedPeople] = useState(1);
 
   // const deleteItem = async (ab_id) => {
   //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
@@ -112,18 +114,20 @@ export default function ActivityListPage() {
       </div>
       {/* 開團按鈕 */}
       <div className={`${Styles.container} mx-auto ${Styles.bread}`}>
-      <Link href="/activity-create">
-        <button className={`${Styles.create}`}>
-          直接開團
-        </button>
-      </Link>
+        <Link href="/activity-create">
+          <button className={`${Styles.create}`}>直接開團</button>
+        </Link>
       </div>
 
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
         {listData.length > 0 ? (
           listData.map((activity, i) => (
-            <ActivityCard key={i} activity={activity} />
+            <ActivityCard
+              key={i}
+              activity={activity}
+              onQuickSignUp={setActivityName}
+            />
           ))
         ) : (
           <p className={`${Styles.noData}`}>目前沒有活動</p>
@@ -192,7 +196,7 @@ export default function ActivityListPage() {
                   <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
                 </div>
                 <h2 className={`${Styles.titleText} col`}>
-                  羽球運動-放假鳩團一起來
+                  {activityName?.activity_name}
                 </h2>
                 {/* 人數選擇 */}
                 <div className={Styles.inputGroup}>
@@ -204,6 +208,10 @@ export default function ActivityListPage() {
                       id="people"
                       name="people"
                       className={`${Styles.people}`}
+                      value={selectedPeople} // ✅ 讓 `<select>` 綁定 `useState`
+                      onChange={(e) =>
+                        setSelectedPeople(Number(e.target.value))
+                      } // ✅ 更新 `selectedPeople`
                     >
                       <option value={1}>1 人</option>
                       <option value={2}>2 人</option>
@@ -216,8 +224,8 @@ export default function ActivityListPage() {
                     type="text"
                     name=""
                     id=""
-                    defaultValue="報名費用: 總計 150 元"
-                    disabled="true"
+                    defaultValue={`報名費用: 總計 ${activityName?.payment ? activityName?.payment * selectedPeople : 0} 元`}
+                    disabled
                   />
                   <textarea
                     className={`${Styles.textareaInput}`}

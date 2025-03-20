@@ -33,7 +33,7 @@ const Header = () => {
           {/* Logo */}
           <div className={styles.logoContainer}>
             <Link href="#">
-              <Image src={Logo} alt="TeamB Logo"/>
+              <Image src={Logo} alt="TeamB Logo" priority />
             </Link>
           </div>
 
