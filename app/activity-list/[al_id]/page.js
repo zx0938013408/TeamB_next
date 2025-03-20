@@ -7,6 +7,8 @@ import Styles from "./activity-list-detail.module.css";
 import { AL_ITEM_GET } from "@/config/api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
+import { AVATAR_PATH } from "@/config/api-path";
+
 
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
@@ -66,10 +68,33 @@ export default function ActivityDetailPage() {
       {/* 左側圖片區 */}
         <div className={Styles.eventImages}>
           <div className={Styles.mainImage}></div>
+          {activity.avatar ? (
+                      <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
+                    ) : 
+                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
+                  }
           <div className={Styles.thumbnailContainer}>
-            <div className={Styles.thumbnail}></div>
-            <div className={Styles.thumbnail}></div>
-            <div className={Styles.thumbnail}></div>
+            <div className={Styles.thumbnail}>
+            {activity.avatar ? (
+                      <img src={`${AVATAR_PATH}${activity.avatar2}`} alt="" height="100" />
+                    ) : 
+                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
+                  }
+            </div>
+            <div className={Styles.thumbnail}>
+            {activity.avatar ? (
+                      <img src={`${AVATAR_PATH}${activity.avatar3}`} alt="" height="100" />
+                    ) : 
+                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
+                  }
+            </div>
+            <div className={Styles.thumbnail}>
+            {activity.avatar ? (
+                      <img src={`${AVATAR_PATH}${activity.avatar4}`} alt="" height="100" />
+                    ) : 
+                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
+                  }
+            </div>
           </div>
         </div>
         {/* 右側活動資訊 */}
