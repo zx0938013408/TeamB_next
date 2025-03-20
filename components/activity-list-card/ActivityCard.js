@@ -2,15 +2,23 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import { useState } from "react";
 import LikeHeart from "../like-hearts";
+import { AVATAR_PATH } from "@/config/api-path";
 
 export default function ActivityCard({ activity, onQuickSignUp }) {
+  const imageUrl = `${AVATAR_PATH}${activity.avatar}`;
+  console.log("最終圖片 URL:", imageUrl);
   const [isLiked, setIsLiked] = useState(false);
 
   return (
     <div className={`${Styles.card} mx-auto`}>
       <div className={`${Styles.list} row`}>
         <div className={`${Styles.img} col-2`}>
-          <span className={`${Styles.iconLikeStroke}`}><LikeHeart  /></span>
+          <span className={`${Styles.iconLikeStroke}`}>
+            <LikeHeart />
+            {activity.avatar ? (
+            <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
+          ) : null}
+          </span>
         </div>
         <div className={`${Styles.information} col`}>
           <div className={`${Styles.title} row`}>
@@ -19,10 +27,9 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
                 <span className={`icon-Basketball ${Styles.iconTitle}`}></span>
               ) : activity.sport_name === "排球" ? (
                 <span className={`icon-Volleyball ${Styles.iconTitle}`}></span>
-              )  : activity.sport_name === "羽球" ? (
+              ) : activity.sport_name === "羽球" ? (
                 <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
-              ) 
-              : null}
+              ) : null}
             </div>
             <h2 className={`${Styles.titleText} col`}>
               {activity.activity_name}
@@ -55,7 +62,10 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
           </div>
         </div>
         <div className="button col-2">
-          <Link href="/activity-list/[al_id]" as={`/activity-list/${activity.al_id}`}>
+          <Link
+            href="/activity-list/[al_id]"
+            as={`/activity-list/${activity.al_id}`}
+          >
             <button type="button" className={Styles.joinButton}>
               查看
               <br />
@@ -68,7 +78,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             className={`${Styles.joinButton} ${Styles.joinInformation}`}
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
-            onClick={()=>onQuickSignUp(activity)}
+            onClick={() => onQuickSignUp(activity)}
           >
             快速報名
           </button>

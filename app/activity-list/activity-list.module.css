@@ -80,8 +80,7 @@
     margin-right: 20px;
     width: 215px;
     height: 215px;
-    background-image: url("/photo/activity/activity-basketballCourt.jpg");
-    background-size: cover;
+    /* background-image: url("/photo/activity/activity-basketballCourt.jpg"); */
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
