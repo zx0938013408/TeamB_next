@@ -31,7 +31,7 @@ export default function ActivityCard({ activity }) {
           <div className={`${Styles.info}`}>
             <p>
               <span className={`${Styles.infoTitle}`}>地  點：</span>
-              <span>{activity.location}</span>
+              <span>{activity.court_name}</span>
               <a href="https://www.google.com/maps" target="_blank">
                 <i className="fa-solid fa-location-dot" />
               </a>
