@@ -17,7 +17,9 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             <LikeHeart />
             {activity.avatar ? (
             <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
-          ) : null}
+          ) : 
+          <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
+        }
           </span>
         </div>
         <div className={`${Styles.information} col`}>
