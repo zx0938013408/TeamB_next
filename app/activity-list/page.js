@@ -217,7 +217,7 @@ export default function ActivityListPage() {
                     name=""
                     id=""
                     defaultValue="報名費用: 總計 150 元"
-                    disabled="true"
+                    disabled
                   />
                   <textarea
                     className={`${Styles.textareaInput}`}
