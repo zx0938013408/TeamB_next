@@ -16,22 +16,9 @@ export default function Button2({ text, href, onClick }) {
 
   return (
     <div className={styles.link2}>
-      <button  onClick={handleClick}>
+      <button  onClick={handleClick} className={styles.btn}>
         {text}
       </button>
     </div>
   )
 }
-// 'use client'
-// import styles from './button.module.css'
-// import Link from 'next/link'
-
-// export default function Button2({ text, href, onClick  }) {
-//   return (
-//     <>
-//       <Link  href={href} className={styles.link2}>
-//         <button>{text}</button>
-//       </Link>
-//     </>
-//   )
-// }

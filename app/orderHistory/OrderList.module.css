@@ -1,0 +1,199 @@
+/* tab */
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.tabs button {
+  flex: 1;
+  border: none;
+  padding: 10px 20px;
+  background-color: #FFF;
+  cursor: pointer;
+  font-size: 18px;
+  border-bottom: 3px solid #ddd;
+}
+
+/* 當Tab被選中時的樣式 */
+.activeTab {
+  font-weight: bold;
+  border-bottom: 3px solid #29755D !important; /* 底部邊框顯示綠色 */
+  color: #29755D; /* Tab文字顯示為綠色 */
+} 
+
+.title {
+  width: 100%;
+  margin-top: 80px;
+  padding: 15px 5px;
+  display: flex;
+  background-color: #29755D;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  box-sizing: border-box;
+  overflow: hidden; /* 避免內容溢出 */
+}
+
+.titleName {
+  width: 100%;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+
+}
+
+.idName {
+  color: #F7BF58;
+}
+
+/* 清單 */
+.list {
+  width: 70vw;
+  /* width: 1000px; */
+  margin: 0px auto ;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.list .table {
+  width: 100%;
+  table-layout: fixed; /* 讓表格欄位均分 */
+  
+}
+
+/* 整筆訂單外圍的邊框 */
+.orderWrapper {
+  /* width: 100%; */
+  margin-bottom: 20px; /* 設定每筆訂單之間的間距 */
+  
+}
+
+.item {
+  width: 100%;
+  transition: all 0.5s;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e4e4e4;
+  padding: 15px 0px;
+  padding-right: 3px;
+  /* box-sizing: border-box; */
+}
+
+.item:hover {
+  background-color: #f5f5f5;
+}
+
+
+
+.item img {
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+  margin-right: 8px;
+}
+
+.item .name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  width: 30%;
+}
+
+
+.price {
+  font-size: 18px;
+  color: firebrick;
+  width: 20%;
+  text-align: center;
+}
+
+
+
+.spec {
+  width: 20%;
+  
+}
+
+.spec p {
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+}
+
+.count {
+  width: 20%;
+}
+
+.quantityControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 100%;
+}
+
+
+
+
+.input {
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  border: none;
+  background: none;
+  font-size: 18px;
+}
+
+
+.toggleCell {
+  display: flex;
+  text-align: center;
+  padding: 10px;
+  justify-content: center;
+}
+
+.toggleButton {
+  padding: 8px 12px;
+  border: none;
+  background-color: #FFF;
+  color: #29755D;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  
+}
+
+
+.noOrders {
+  margin-top: 80px;
+  text-align: center;
+  font-size: 18px;
+}  
+
+.total {
+  box-sizing: border-box;
+  background-color: #29755D;
+  color: #fff;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px 5px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.total .amount {
+  color: #F7BF58;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+}

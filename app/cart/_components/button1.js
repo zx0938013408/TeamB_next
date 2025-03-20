@@ -6,7 +6,7 @@ export default function Button1({ text, href }) {
   return (
     <>
       <Link  href={href} className={styles.link}>
-        <button>{text}</button>
+        <button className={styles.button}>{text}</button>
       </Link>
     </>
   )
