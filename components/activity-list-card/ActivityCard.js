@@ -3,7 +3,7 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import { useState } from "react";
 import LikeHeart from "../like-hearts";
 
-export default function ActivityCard({ activity }) {
+export default function ActivityCard({ activity, onQuickSignUp }) {
   const [isLiked, setIsLiked] = useState(false);
 
   return (
@@ -62,11 +62,13 @@ export default function ActivityCard({ activity }) {
               詳情
             </button>
           </Link>
+
           <button
             type="button"
             className={`${Styles.joinButton} ${Styles.joinInformation}`}
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
+            onClick={()=>onQuickSignUp(activity)}
           >
             快速報名
           </button>
