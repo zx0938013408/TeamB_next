@@ -5,7 +5,9 @@ import { useParams } from "next/navigation";
 import "@/public/TeamB_Icon/style.css";
 import Styles from "./activity-list-detail.module.css";
 import { AL_ITEM_GET } from "@/config/api-path";
-import Image from "next/image";
+import LikeHeart from "@/components/like-hearts";
+import { ST } from "next/dist/shared/lib/utils";
+
 
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
@@ -147,11 +149,7 @@ export default function ActivityDetailPage() {
             className={`${Styles.collect} col-2`}
             //onClick={toggleHeartStatus}
           >
-            {/* <img
-                src={heartClicked ? "../public/icon/icon-heart-click.svg" : "../public/icon/icon-heart-green.svg"}
-                alt="收藏按鈕"
-                className="heart"
-              /> */}
+            <span className={Styles.likeHeart}><LikeHeart/></span>
           </button>
           <button className={`${Styles.registerBtn} col`}>我要報名</button>
         </div>
