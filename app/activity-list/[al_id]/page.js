@@ -8,7 +8,6 @@ import { AL_ITEM_GET } from "@/config/api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
 
-
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
@@ -62,100 +61,125 @@ export default function ActivityDetailPage() {
           </ol>
         </nav>
       </div>
-      {/* 左側圖片區 */}
+      
       <div className={`${Styles.container} mx-auto ${Styles.imgContainer}`}>
+      {/* 左側圖片區 */}
         <div className={Styles.eventImages}>
           <div className={Styles.mainImage}></div>
           <div className={Styles.thumbnailContainer}>
             <div className={Styles.thumbnail}></div>
             <div className={Styles.thumbnail}></div>
             <div className={Styles.thumbnail}></div>
-        </div>
-      </div>
-            {/* 右側活動資訊 */}
-            <div className={Styles.eventInfo}>
-        <div className={`${Styles.title} row`}>
-          <div className={`${Styles.titleIcons} col-1`}>
-            {activity.sport_name === "籃球" ? (
-              <span
-                className={`icon-Basketball ${Styles.titleIcon} col`}
-              ></span>
-            ) : activity.sport_name === "排球" ? (
-              <span
-                className={`icon-Volleyball ${Styles.titleIcon} col`}
-              ></span>
-            ) : activity.sport_name === "羽球" ? (
-              <span className={`icon-Badminton ${Styles.titleIcon} col`}></span>
-            ) : null}
           </div>
-          <h2 className={`${Styles.titleText} col`}>
-            {activity.activity_name}
-          </h2>
         </div>
+        {/* 右側活動資訊 */}
+        <div className={Styles.eventInfo}>
+          <div className={`${Styles.title} row`}>
+            <div className={`${Styles.titleIcons} col-1`}>
+              {activity.sport_name === "籃球" ? (
+                <span
+                  className={`icon-Basketball ${Styles.titleIcon} col`}
+                ></span>
+              ) : activity.sport_name === "排球" ? (
+                <span
+                  className={`icon-Volleyball ${Styles.titleIcon} col`}
+                ></span>
+              ) : activity.sport_name === "羽球" ? (
+                <span
+                  className={`icon-Badminton ${Styles.titleIcon} col`}
+                ></span>
+              ) : null}
+            </div>
+            <h2 className={`${Styles.titleText} col`}>
+              {activity.activity_name}
+            </h2>
+          </div>
 
-        <div className={Styles.info}>
-          <p>
-            <strong>地&emsp;&emsp;點：</strong>
-            {activity.court_name}{" "}
-            <a href="https://www.google.com/maps?authuser=0" target="_blank">
-              <i className="fa-solid fa-location-dot"></i>
-            </a>
-          </p>
-          <p>
-            <strong>地&emsp;&emsp;址：</strong>
-            {activity.address}
-          </p>
-          <p>
-            <strong>活動時間：</strong> {activity.activity_time}
-          </p>
-          <p>
-            <strong>報名期限：</strong> {activity.deadline}
-          </p>
-          <p>
-            <strong>費&emsp;&emsp;用：</strong> {activity.payment} 元
-          </p>
-          <p>
-            <strong>主&emsp;&emsp;辦：</strong> {activity.name}
-          </p>
-        </div>
+          <div className={Styles.info}>
+            <p>
+              <strong>地&emsp;&emsp;點：</strong>
+              {activity.court_name}{" "}
+              <a href="https://www.google.com/maps?authuser=0" target="_blank">
+                <i className="fa-solid fa-location-dot"></i>
+              </a>
+            </p>
+            <p>
+              <strong>地&emsp;&emsp;址：</strong>
+              {activity.address}
+            </p>
+            <p>
+              <strong>活動時間：</strong> {activity.activity_time}
+            </p>
+            <p>
+              <strong>報名期限：</strong> {activity.deadline}
+            </p>
+            <p>
+              <strong>費&emsp;&emsp;用：</strong> {activity.payment} 元
+            </p>
+            <p>
+              <strong>主&emsp;&emsp;辦：</strong> {activity.name}
+            </p>
+          </div>
 
-        {/* 報名情況 */}
-        <div className={`${Styles.registerInfo} row`}>
-          <h3 className="col">報名情況：</h3>
-          <button
-            type="button"
-            className={`${Styles.registerInfoBtn} col`}
-            //onClick={toggleRegisterStatus}
-          >
-            額滿 : 1/15 人
-          </button>
-        </div>
+          {/* 報名情況 */}
+          <div className={`${Styles.registerInfo} row`}>
+            <h3 className="col">報名情況：</h3>
+            <button
+              type="button"
+              className={`${Styles.registerInfoBtn} col`}
+              //onClick={toggleRegisterStatus}
+            >
+              額滿 : 1/15 人
+            </button>
+          </div>
 
-        {/* 人數選擇 */}
-        <div className={Styles.selectGroup}>
-          <label htmlFor="people">人數</label>
-          <select id="people" name="people">
-            <option value="1">1 人</option>
-            <option value="2">2 人</option>
-            <option value="3">3 人</option>
-            <option value="4">4 人</option>
-          </select>
-        </div>
+          {/* 人數選擇 */}
+          <div className={Styles.selectGroup}>
+            <label htmlFor="people">人數</label>
+            <select id="people" name="people">
+              <option value="1">1 人</option>
+              <option value="2">2 人</option>
+              <option value="3">3 人</option>
+              <option value="4">4 人</option>
+            </select>
+          </div>
 
-        {/* 收藏與報名按鈕 */}
-        <div className={`${Styles.eventActions} row`}>
-          <button
-            type="button"
-            className={`${Styles.collect} col-2`}
-            //onClick={toggleHeartStatus}
-          >
-            <span className={Styles.likeHeart}><LikeHeart/></span>
-          </button>
-          <button className={`${Styles.registerBtn} col`}>我要報名</button>
+          {/* 收藏與報名按鈕 */}
+          <div className={`${Styles.eventActions} row`}>
+            <button
+              type="button"
+              className={`${Styles.collect} col-2`}
+              //onClick={toggleHeartStatus}
+            >
+              <span className={Styles.likeHeart}>
+                <LikeHeart />
+              </span>
+            </button>
+            <button className={`${Styles.registerBtn} col`}>我要報名</button>
+          </div>
         </div>
       </div>
+
+
+      {/* 活動詳情 */}
+      <div className={`${Styles.container} mx-auto ${Styles.information}`}>
+        <div className={Styles.information1}>
+          <h2 className={Styles.infoTitle}>活動詳情</h2>
+          <br />
+          <p className={Styles.infoText}>{activity.introduction}</p>
+        </div>
       </div>
 
+        {/* 商品推薦區 */}
+        <div className={`${Styles.container} mx-auto ${Styles.advertise}`}>
+        <h2 className={Styles.shopTitle}>中場休息 - 好物推薦</h2>
+        <div className={`${Styles.shop} row`}>
+              {/* 放入推薦商品（與首頁商品區相同) */}
+          <div className={Styles.seeMore}>
+            <a href="#">查看更多</a>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
