@@ -92,11 +92,16 @@
   .iconLikeStroke{
       position: absolute;
       margin-top: 6px;
-      /* color: #29755d; */
       font-size: 24px;
       font-weight: bold;
+  }
 
-      /* margin-top: 10px; */
+  .iconLikeStrokeFill{
+    position: absolute;
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: bold;
+      color: deeppink;
   }
   
   .information{

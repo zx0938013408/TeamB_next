@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
+import { useState } from "react";
+import LikeHeart from "../like-hearts";
 
 export default function ActivityCard({ activity }) {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <div className={`${Styles.card} mx-auto`}>
       <div className={`${Styles.list} row`}>
         <div className={`${Styles.img} col-2`}>
-          <span className={`icon-Like-Stroke ${Styles.iconLikeStroke}`}></span>
+          <span className={`${Styles.iconLikeStroke}`}><LikeHeart  /></span>
         </div>
         <div className={`${Styles.information} col`}>
           <div className={`${Styles.title} row`}>
