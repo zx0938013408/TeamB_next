@@ -57,7 +57,9 @@ const Header = () => {
 
             <Link href="#"><span className={`icon-Cart ${styles.iconCart}`}></span></Link>
             <Link href="#"><span className={`icon-User ${styles.iconUser}`}></span></Link>
+            <Link href="/activity-create">
             <button className={styles.quickActionBtn}>快速開團</button>
+            </Link>
           </div>
 
           {/* Navbar 開關按鈕 */}

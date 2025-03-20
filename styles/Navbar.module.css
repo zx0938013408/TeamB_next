@@ -18,6 +18,10 @@
   transform: translateY(0);
 }
 
+.navbarBt.none {
+  visibility: hidden
+}
+
 .closeBtn {
   background: none;
   border: none;
