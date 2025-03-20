@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Navbar = ({ isOpen, setIsOpen }) => {
   return (
-    <nav className={`${styles.navbarBt} ${isOpen ? styles.active : ""}`}>
+    <nav className={`${styles.navbarBt} ${isOpen ? styles.active : styles.none}`}>
       <div className={styles.navContainer}>
         <div className={styles.navSection}>
           <div className={styles.navTitle}>活動列表</div>

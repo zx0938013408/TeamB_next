@@ -1,0 +1,14 @@
+.iconHeartFill{
+    color: crimson;
+    font-size: 24px;
+
+}
+
+.iconLikeStroke{
+    color: #8f8f8f;
+    font-size: 24px;
+
+    &:hover{
+    color: #b7b7b7;
+    }
+}

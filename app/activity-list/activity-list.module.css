@@ -41,7 +41,6 @@
   /* 開團按鈕 */
   .create{
       width: 97%;
-      box-shadow: -3px -4px 4px rgba(0, 0, 0, 0.14) inset;
       border-radius: 10px;
       background-color: #f7bf58;
       border: none;
@@ -93,11 +92,16 @@
   .iconLikeStroke{
       position: absolute;
       margin-top: 6px;
-      /* color: #29755d; */
       font-size: 24px;
       font-weight: bold;
+  }
 
-      /* margin-top: 10px; */
+  .iconLikeStrokeFill{
+    position: absolute;
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: bold;
+      color: deeppink;
   }
   
   .information{
