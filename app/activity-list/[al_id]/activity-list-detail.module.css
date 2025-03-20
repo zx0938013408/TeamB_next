@@ -34,6 +34,7 @@
   width: 350px;
   height: 350px;
   border-radius: 10px;
+  background-image: url(../../../public/photo/activity-shuttlecockCourt.jpg);
 }
 
 .thumbnailContainer {
@@ -52,6 +53,7 @@
   height: 110px;
   border-radius: 10px;
   transition: transform 0.2s;
+  background-image: url(../../../public/photo/activity-shuttlecockCourt.jpg);
 }
 
 .thumbnail:hover {
@@ -76,6 +78,8 @@
 
 .titleIcon {
   height: 100%;
+  color: #3f6d62;
+  font-size: 36px;
 }
 
 .title .titleText {
