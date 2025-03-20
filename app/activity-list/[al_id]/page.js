@@ -54,7 +54,7 @@ export default function ActivityDetailPage() {
         <nav aria-label="breadcrumb">
           <ol className={Styles.breadcrumb}>
             <li className={Styles.notActive}>
-              <a href="./activity-list.html" className={Styles.notActiveText}>
+              <a href="/activity-list" className={Styles.notActiveText}>
                 回上一頁
               </a>
             </li>
