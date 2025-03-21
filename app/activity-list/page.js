@@ -227,7 +227,7 @@ export default function ActivityListPage() {
         </nav>
       </div>
 
-      {/* Mobal */}
+      {/* Modal */}
       <div
         className="modal fade"
         id="staticBackdrop"
