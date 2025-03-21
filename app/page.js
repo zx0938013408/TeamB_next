@@ -61,6 +61,8 @@ const HomePage = () => {
     // GSAP 動畫
     let tl = gsap.timeline();
     gsap.registerPlugin(MotionPathPlugin);
+    const headerEl = document.querySelector(".navbar-hd");
+const sportsEl = document.querySelector(".sports-section");
 
     // 隱藏 Header 和 球類選單
     gsap.set([".navbar-hd"], { opacity: 0, y: "-100%", position: "absolute", display: "flex" });
@@ -157,9 +159,9 @@ const HomePage = () => {
             });
             // 動畫結束後等 7 秒才隱藏 Hero
             tl.to(".hero-container", { duration: 1, opacity: 0, display: "none" }, "+=7")
-                .to(".sports-section", { duration: 1, opacity: 1, display: "flex" }, "+=0") // **Hero 隱藏後馬上顯示球類選單**
-                .to(".navbar-hd", { duration: 1.5, opacity: 1, y: "0%", position: "fixed", ease: "power2.out" }, "+=1") // **Header 以滑入方式出現**
-                .to(".sports-section", { duration: 1, marginTop: "130px", ease: "power2.out" }, "-=1.3"); // **同步 Header 出現時，讓球類選單下移**
+                .to(sportsEl, { duration: 1, opacity: 1, display: "flex" }, "+=0") // **Hero 隱藏後馬上顯示球類選單**
+                .to(headerEl, { duration: 1.5, opacity: 1, y: "0%", position: "fixed", ease: "power2.out" }, "+=1") // **Header 以滑入方式出現**
+                .to(sportsEl, { duration: 1, marginTop: "130px", ease: "power2.out" }, "-=1.3"); // **同步 Header 出現時，讓球類選單下移**
         });
   }, []);
 
