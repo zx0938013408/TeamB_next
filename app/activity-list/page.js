@@ -17,8 +17,57 @@ export default function ActivityListPage() {
 
   const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [activityName, setActivityName] = useState(null);
   const [selectedPeople, setSelectedPeople] = useState(1);
+  const [notes, setNotes] = useState("");
+  const modalRef = useRef(null);
+
+    // 新增報名資料至資料庫
+    const handleRegister = async () => {
+      setLoading(true);
+  
+      // 檢查 activityName 是否存在
+      if (!activityName || !activityName.al_id) {
+        alert("請選擇活動");
+        setLoading(false);
+        return;
+      }
+  
+      // 設定要發送的資料
+      const formData = {
+        member_id: 35, // 測試用，應該從登入 session 取得
+        activity_id: activityName?.al_id, // 測試用，應該根據選擇的活動變動
+        num: selectedPeople,
+        notes: notes.trim(),
+      };
+      try {
+        const response = await fetch(ACTIVITY_ADD_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+  
+        const data = await response.json();
+        
+        if (data.success) {
+          // alert("報名成功！");
+          setNotes(""); // ✅ 清除輸入框
+          setSelectedPeople(1); // ✅ 重設人數選擇
+          // ✅ 關閉 modal
+          const modalElement = document.getElementById("staticBackdrop");
+          const modal = bootstrap.Modal.getInstance(modalElement);
+          modal.hide();
+          fetchRegisteredData(); // 重新載入資料
+        } else {
+          // alert("報名失敗：" + data.error);
+        }
+      } catch (error) {
+        console.error("報名失敗", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   // const deleteItem = async (ab_id) => {
   //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
@@ -69,6 +118,16 @@ export default function ActivityListPage() {
     fetchData();
   }, []);
   console.log("data:", listData);
+
+    // Modal Debug
+    const openModal = () => {
+      const modal = document.getElementById("staticBackdrop");
+      if (modal) {
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false"); // ✅ 顯示 modal
+        modal.removeAttribute("inert"); // ✅ 允許焦點移入
+      }
+    };
 
   //   fetch(`${AL_LIST}`, { signal })
   //     .then((r) => r.json())
