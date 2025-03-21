@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { AB_LIST } from "../../config/shop-api-path";
-import { useAuth } from "../../contexts/auth-context";
+import { useAuth } from "../../context/auth-context";
 import Card from "./card";
 import styles from "../../styles/shop/carousel.module.css";
 

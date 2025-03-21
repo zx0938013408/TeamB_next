@@ -2,11 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { AB_LIST, AVATAR_PATH } from "../../config/shop-api-path";
-import { useAuth } from "../../contexts/auth-context";
+import { useAuth } from "../../context/auth-context";
 import styles from "../../styles/shop/card.module.css";
+import LikeHeart from "../like-hearts";
 
-function Card({ listData, categoryId, startIndex, itemsPerPage, setCategoryLength }) {
-  // const { getAuthHeader } = useAuth();
+function Card({
+  listData,
+  categoryId,
+  startIndex,
+  itemsPerPage,
+  setCategoryLength,
+}) {
+  const { getAuthHeader } = useAuth();
   // const [listData, setListData] = useState([]);
 
   // 過濾該分類的資料，並限制最多 9 筆
@@ -19,18 +26,16 @@ function Card({ listData, categoryId, startIndex, itemsPerPage, setCategoryLengt
     setCategoryLength(filteredData.length);
   }, [filteredData.length, setCategoryLength]);
 
-  // useEffect(() => {
-  //   fetch(AB_LIST, { headers: getAuthHeader() })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         setListData(data.rows);
-  //       }
-  //     })
-  //     .catch(console.error);
-  // }, [getAuthHeader]);
-
-
+  useEffect(() => {
+    fetch(AB_LIST, { headers: getAuthHeader() })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setListData(data.rows);
+        }
+      })
+      .catch(console.error);
+  }, [getAuthHeader]);
 
   return (
     <div className={styles.cardContainer}>
@@ -45,7 +50,8 @@ function Card({ listData, categoryId, startIndex, itemsPerPage, setCategoryLengt
             <div className={styles.priceContainer}>
               <div className={styles.price}>NT$ {item.price}</div>
               <div className={styles.cardIcons}>
-                <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} />
+                {/* <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} /> */}
+                <LikeHeart />
                 <span className={`icon-Cart ${styles.iconCart}`} />
               </div>
             </div>
