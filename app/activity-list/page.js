@@ -6,6 +6,7 @@ import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AL_LIST } from "@/config/api-path";
+import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 
 export default function ActivityListPage() {
@@ -16,40 +17,57 @@ export default function ActivityListPage() {
 
   const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [activityName, setActivityName] = useState(null);
   const [selectedPeople, setSelectedPeople] = useState(1);
+  const [notes, setNotes] = useState("");
+  const modalRef = useRef(null);
 
-  // const deleteItem = async (ab_id) => {
-  //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
-  //     method: "DELETE",
-  //   });
-  //   const result = await r.json();
-  //   console.log(result);
-  //   if (result.success) {
-  //     setRefresh((o) => !o);
-  //   }
-  // };
-  // const toggleLike = (ab_id) => {
-  //   fetch(`${TOGGLE_LIKE}/${ab_id}`, {
-  //     headers: { ...getAuthHeader() },
-  //   })
-  //     .then((r) => r.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //       if (result.success) {
-  //         // setRefresh(! refresh); // 讓頁面重新抓資料
-
-  //         // 另一種作法, 直接變更頁面資料的狀態
-  //         const newListData = structuredClone(listData);
-  //         newListData.rows.forEach((r) => {
-  //           if (r.ab_id == result.ab_id) {
-  //             r.like_id = result.action == "add" ? true : false;
-  //           }
-  //         });
-  //         setListData(newListData);
-  //       }
-  //     });
-  // };
+    // 新增報名資料至資料庫
+    const handleRegister = async () => {
+      setLoading(true);
+  
+      // 檢查 activityName 是否存在
+      if (!activityName || !activityName.al_id) {
+        alert("請選擇活動");
+        setLoading(false);
+        return;
+      }
+  
+      // 設定要發送的資料
+      const formData = {
+        member_id: 35, // 測試用，應該從登入 session 取得
+        activity_id: activityName?.al_id, // 測試用，應該根據選擇的活動變動
+        num: selectedPeople,
+        notes: notes.trim(),
+      };
+      try {
+        const response = await fetch(ACTIVITY_ADD_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+  
+        const data = await response.json();
+        
+        if (data.success) {
+          // alert("報名成功！");
+          setNotes(""); // ✅ 清除輸入框
+          setSelectedPeople(1); // ✅ 重設人數選擇
+          // ✅ 關閉 modal
+          const modalElement = document.getElementById("staticBackdrop");
+          const modal = bootstrap.Modal.getInstance(modalElement);
+          modal.hide();
+          fetchRegisteredData(); // 重新載入資料
+        } else {
+          // alert("報名失敗：" + data.error);
+        }
+      } catch (error) {
+        console.error("報名失敗", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -68,6 +86,16 @@ export default function ActivityListPage() {
     fetchData();
   }, []);
   console.log("data:", listData);
+
+    // Modal Debug
+    const openModal = () => {
+      const modal = document.getElementById("staticBackdrop");
+      if (modal) {
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false"); // ✅ 顯示 modal
+        modal.removeAttribute("inert"); // ✅ 允許焦點移入
+      }
+    };
 
   //   fetch(`${AL_LIST}`, { signal })
   //     .then((r) => r.json())
@@ -167,7 +195,7 @@ export default function ActivityListPage() {
         </nav>
       </div>
 
-      {/* Mobal */}
+      {/* Modal */}
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -176,6 +204,7 @@ export default function ActivityListPage() {
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
+        ref={modalRef}
       >
         <div className="modal-dialog">
           <div className="modal-content bgc">
@@ -193,7 +222,19 @@ export default function ActivityListPage() {
             <div className="modal-body">
               <div className={`${Styles.title} row`}>
                 <div className="titleIcons col-1">
-                  <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
+                {activityName?.sport_name === "籃球" ? (
+                    <span
+                      className={`icon-Basketball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "排球" ? (
+                    <span
+                      className={`icon-Volleyball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "羽球" ? (
+                    <span
+                      className={`icon-Badminton ${Styles.iconTitle}`}
+                    ></span>
+                  ) : null}
                 </div>
                 <h2 className={`${Styles.titleText} col`}>
                   {activityName?.activity_name}
@@ -232,7 +273,7 @@ export default function ActivityListPage() {
                     name=""
                     id=""
                     placeholder="備註:ex 3男2女 (填)"
-                    defaultValue={""}
+                    onChange={(e) => setNotes(e.target.value)}
                   />
                   <div className="modal-footer">
                     <button
@@ -242,8 +283,10 @@ export default function ActivityListPage() {
                     >
                       取消
                     </button>
-                    <button type="button" className={Styles.register}>
-                      確定報名
+                    <button type="button" className={Styles.register}
+                    onClick={handleRegister}
+                    disabled={loading}>
+                      {loading ? "報名中..." : "確定報名"}
                     </button>
                   </div>
                 </div>
