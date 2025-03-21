@@ -3,7 +3,7 @@ import styles from "@/app/cart/cart.module.css"; // 假設你的樣式在這個�
 
 const TableHeader = () => {
   return (
-    <thead>
+    <thead className={styles.thead}>
       <tr>
         <th className={styles.checked}></th>
         <th className={styles.titlePicture}></th>

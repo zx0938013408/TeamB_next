@@ -77,13 +77,13 @@
 .icon-Search,
 .icon-Cart,
 .icon-User {
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #528f7c;
-  font-size: 50px;
+  color: #528F7C;
+  font-size: 24px;
 }
 
 /* 快速開團按鈕 */

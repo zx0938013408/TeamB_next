@@ -1,0 +1,127 @@
+.address,
+.address * {
+  box-sizing: border-box;
+}
+
+.formFrame {
+  background: var(--white, #ffffff);
+  padding: 15px 20px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  width: 500px;
+}
+
+.formFrame2 {
+  background: var(--white, #ffffff);
+  padding: 20px 20px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  margin-left: 5px;
+}
+
+.city {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  /* width: 500px; */
+  position: relative;
+  gap: 10px;
+}
+
+.formFrame .name,
+.formFrame2 .name {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.formFrame label,
+.formFrame2 label,
+.addressName {
+  color: var(--main-color-g, black);
+  text-align: left;
+  font-size: var(--h6cn-font-size, 18px);
+  font-weight: bold;
+  position: relative;
+}
+
+.formFrame select,
+.formFrame .name input,
+.formFrame2 .name input {
+  background: var(--white, #ffffff);
+  border-radius: 10px;
+  border-style: solid;
+  border-color: var(--main-color-g, #3f6d62);
+  border-width: 3px;
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  width: 220px;
+}
+
+.formFrame input {
+  background: var(--white, #ffffff);
+  border-radius: 10px;
+  border-style: solid;
+  border-color: var(--main-color-g, #3f6d62);
+  border-width: 3px;
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.street {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  /* align-items: flex-start; */
+  /* justify-content: flex-start; */
+  flex-shrink: 0;
+  width: 450px;
+  position: relative;
+}
+
+/* 選擇門市按鈕 */
+.storeBtn {
+  width: 200px;
+  height: 50px;
+  border-radius: 15px;
+  background: #f7bf58;
+  color: #29755d;
+  border: 2px solid #29755d;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
