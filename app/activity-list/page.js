@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import { Modal } from "bootstrap";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -55,9 +56,7 @@ export default function ActivityListPage() {
           setNotes(""); // ✅ 清除輸入框
           setSelectedPeople(1); // ✅ 重設人數選擇
           // ✅ 關閉 modal
-          const modalElement = document.getElementById("staticBackdrop");
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal.hide();
+          closeModal();
           fetchRegisteredData(); // 重新載入資料
         } else {
           // alert("報名失敗：" + data.error);
