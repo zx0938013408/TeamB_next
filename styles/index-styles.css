@@ -755,7 +755,7 @@
 
 
 /* 設定每個圖片區塊的背景 */
-#item1 { background: url('/public/photo/slogan_volleyball.png') center/cover no-repeat; }
+#item1 { background-image: url('/public/photo/slogan_badminton.png') center/cover no-repeat; }
 #item2 { background: url('/public/photo/slogan_badminton.png') center/cover no-repeat; }
 #item3 { background: url('/public/photo/slogan_basketball.png') center/cover no-repeat; }
 #item4 { background: #2D5A4D; }
