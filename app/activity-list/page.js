@@ -315,8 +315,10 @@ export default function ActivityListPage() {
                     >
                       取消
                     </button>
-                    <button type="button" className={Styles.register}>
-                      確定報名
+                    <button type="button" className={Styles.register}
+                    onClick={handleRegister}
+                    disabled={loading}>
+                      {loading ? "報名中..." : "確定報名"}
                     </button>
                   </div>
                 </div>
