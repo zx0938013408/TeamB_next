@@ -210,6 +210,7 @@ export default function CheckInfoPage() {
           </div>
         </div>
 
+        {/* 按鈕 */}
         <div className={styles.btn}>
           <Button1 text="返回購物車" href="/cart" />
           <Button2 text="結帳" href="/orderResult" />

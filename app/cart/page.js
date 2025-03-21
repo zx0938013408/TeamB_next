@@ -62,6 +62,7 @@ export default function CartPage() {
       cancelButtonColor: '#29755D',
       cancelButtonText: '取消',
       confirmButtonText: '是的，我要刪除!',
+      scrollbarPadding: false, // 防止滾動條影響佈局
     }).then((result) => {
       // 按下確定刪除按鈕
       if (result.isConfirmed) {
@@ -70,6 +71,7 @@ export default function CartPage() {
           text: `${cartItemName} 已從購物車中刪除!`,
           icon: 'success',
           confirmButtonColor: '#F7BF58',
+          scrollbarPadding: false, // 防止滾動條影響佈局
         })
 
         // 刪除功能
@@ -82,7 +84,8 @@ export default function CartPage() {
     // 檢查是否有選擇商品
     if (selectedItems.length === 0) {
       const MySwal = withReactContent(Swal) // 將 SweetAlert2 包裝為 React 版本
-
+      
+      
       MySwal.fire({
         title: '請選擇商品！',
         text: '您必須選擇至少一項商品才能繼續。',
@@ -94,7 +97,9 @@ export default function CartPage() {
           title: 'custom-title',
           content: 'custom-content',
           confirmButton: 'custom-confirm-button',
+        
         },
+        
       })
     } else {
       // 如果有選擇商品，跳轉到 checkInfo 頁面
