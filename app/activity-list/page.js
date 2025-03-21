@@ -236,6 +236,7 @@ export default function ActivityListPage() {
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
+        ref={modalRef}
       >
         <div className="modal-dialog">
           <div className="modal-content bgc">
@@ -253,7 +254,19 @@ export default function ActivityListPage() {
             <div className="modal-body">
               <div className={`${Styles.title} row`}>
                 <div className="titleIcons col-1">
-                  <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
+                {activityName?.sport_name === "籃球" ? (
+                    <span
+                      className={`icon-Basketball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "排球" ? (
+                    <span
+                      className={`icon-Volleyball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "羽球" ? (
+                    <span
+                      className={`icon-Badminton ${Styles.iconTitle}`}
+                    ></span>
+                  ) : null}
                 </div>
                 <h2 className={`${Styles.titleText} col`}>
                   {activityName?.activity_name}
