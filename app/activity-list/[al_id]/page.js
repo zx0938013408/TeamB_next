@@ -9,7 +9,6 @@ import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
 import { AVATAR_PATH } from "@/config/api-path";
 
-
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
@@ -63,37 +62,65 @@ export default function ActivityDetailPage() {
           </ol>
         </nav>
       </div>
-      
+
       <div className={`${Styles.container} mx-auto ${Styles.imgContainer}`}>
-      {/* 左側圖片區 */}
+        {/* 左側圖片區 */}
         <div className={Styles.eventImages}>
           <div className={Styles.mainImage}></div>
           {activity.avatar ? (
-                      <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
-                    ) : 
-                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
-                  }
+            <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
+          ) : (
+            <img
+              src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
+              alt=""
+              height="100"
+            />
+          )}
           <div className={Styles.thumbnailContainer}>
             <div className={Styles.thumbnail}>
-            {activity.avatar ? (
-                      <img src={`${AVATAR_PATH}${activity.avatar2}`} alt="" height="100" />
-                    ) : 
-                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
-                  }
+              {activity.avatar ? (
+                <img
+                  src={`${AVATAR_PATH}${activity.avatar2}`}
+                  alt=""
+                  height="100"
+                />
+              ) : (
+                <img
+                  src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
+                  alt=""
+                  height="100"
+                />
+              )}
             </div>
             <div className={Styles.thumbnail}>
-            {activity.avatar ? (
-                      <img src={`${AVATAR_PATH}${activity.avatar3}`} alt="" height="100" />
-                    ) : 
-                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
-                  }
+              {activity.avatar ? (
+                <img
+                  src={`${AVATAR_PATH}${activity.avatar3}`}
+                  alt=""
+                  height="100"
+                />
+              ) : (
+                <img
+                  src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
+                  alt=""
+                  height="100"
+                />
+              )}
             </div>
             <div className={Styles.thumbnail}>
-            {activity.avatar ? (
-                      <img src={`${AVATAR_PATH}${activity.avatar4}`} alt="" height="100" />
-                    ) : 
-                    <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
-                  }
+              {activity.avatar ? (
+                <img
+                  src={`${AVATAR_PATH}${activity.avatar4}`}
+                  alt=""
+                  height="100"
+                />
+              ) : (
+                <img
+                  src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
+                  alt=""
+                  height="100"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -185,7 +212,6 @@ export default function ActivityDetailPage() {
         </div>
       </div>
 
-
       {/* 活動詳情 */}
       <div className={`${Styles.container} mx-auto ${Styles.information}`}>
         <div className={Styles.information1}>
@@ -195,11 +221,11 @@ export default function ActivityDetailPage() {
         </div>
       </div>
 
-        {/* 商品推薦區 */}
-        <div className={`${Styles.container} mx-auto ${Styles.advertise}`}>
+      {/* 商品推薦區 */}
+      <div className={`${Styles.container} mx-auto ${Styles.advertise}`}>
         <h2 className={Styles.shopTitle}>中場休息 - 好物推薦</h2>
         <div className={`${Styles.shop} row`}>
-              {/* 放入推薦商品（與首頁商品區相同) */}
+          {/* 放入推薦商品（與首頁商品區相同) */}
           <div className={Styles.seeMore}>
             <a href="#">查看更多</a>
           </div>

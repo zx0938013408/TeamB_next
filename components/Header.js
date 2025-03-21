@@ -32,7 +32,7 @@ const Header = () => {
         <div className={styles.navbarContent}>
           {/* Logo */}
           <div className={styles.logoContainer}>
-            <Link href="#">
+            <Link href="/">
               <Image src={Logo} alt="TeamB Logo" priority />
             </Link>
           </div>
