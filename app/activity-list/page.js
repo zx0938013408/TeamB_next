@@ -6,6 +6,7 @@ import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AL_LIST } from "@/config/api-path";
+import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 
 export default function ActivityListPage() {
