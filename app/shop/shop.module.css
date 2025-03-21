@@ -47,50 +47,15 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  background-color: #528f7c;
-  padding: 15px 0 15px 0;
+  background-color: #29755D;
+  padding: 10px 0 10px 0;
   border-radius: 15px 15px 0 0;
 }
 .title {
   color: #ffffff;
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 700;
   letter-spacing: 9.6px;
-}
-
-/* 卡片區 */
-.content {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.iconButton {
-  border: none;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  background: none;
-}
-
-.iconButton:hover {
-  background-color: #e6eaee;
-  border-radius: 50%;
-}
-
-.iconRight,
-.iconLeft {
-  color: #528f7c;
-  font-size: 30px;
-  background: none;
-}
-
-.detailSection {
-  width: 95%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
 }
 
 /* more */

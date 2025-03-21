@@ -1,85 +1,52 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { AB_LIST } from "../../config/shop-api-path";
-import { useAuth } from "../../contexts/auth-context";
-import Card from "./card";
+import { useState } from "react";
 import styles from "../../styles/shop/carousel.module.css";
+import Card from "./card";
 
-function Carousel({ categoryId }) {
-  const { getAuthHeader } = useAuth();
-  const [listData, setListData] = useState([]);
+function Carousel({ items, categoryId, itemsPerPage = 4 }) {
   const [startIndex, setStartIndex] = useState(0);
-  const itemsPerPage = 4;
-  // 控制分類出現的數量
-  const [categoryLength, setCategoryLength] = useState(0); 
 
-  const [disabled, setDisabled] = useState(false);
+  // ✅ 根據 categoryId 過濾商品
+  const filteredItems = items.filter((item) => item.category_id === categoryId);
 
-  useEffect(() => {
-    fetch(AB_LIST, {
-      headers: { ...getAuthHeader() },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          setListData(data.rows || []);
-        }
-      })
-      .catch(console.warn);
-  }, [getAuthHeader]);
-
-  const handleNext = () => {
-    if (startIndex + itemsPerPage < categoryLength) {
-      setStartIndex(startIndex + itemsPerPage);
-    }
-  };
-
-  const handlePrev = () => {
-    if (startIndex - itemsPerPage >= 0) {
-      setStartIndex(startIndex - itemsPerPage);
-    }
-  };
+  // 控制左右鍵
+  const canGoPrev = startIndex > 0;
+  const canGoNext = startIndex + itemsPerPage < filteredItems.length;
 
   return (
     <div className={styles.carouselContainer}>
-      {/* 左按鈕 */}
+      {/* 左鍵 */}
       <button
-        onClick={handlePrev}
-        disabled={startIndex === 0}
+        onClick={() =>
+          setStartIndex((prev) => Math.max(0, prev - itemsPerPage))
+        }
+        disabled={!canGoPrev}
         className={styles.iconButton}
       >
-        <span
-          className={`icon-Left ${styles.iconButton} ${
-            disabled ? "disabled" : ""
-          }`}
-        ></span>
+        <span className={`icon-Left ${styles.iconButton}`}></span>
       </button>
 
       {/* 卡片組件放中間 */}
       <div className={styles.cardWrapper}>
-        <Card
-          listData={listData}
-          categoryId={categoryId}
-          startIndex={startIndex}
-          itemsPerPage={itemsPerPage}
-          setCategoryLength={setCategoryLength} // 讓 Card 回傳該分類的資料長度
-        />
+        {filteredItems
+          .slice(startIndex, startIndex + itemsPerPage)
+          .map((item) => (
+            <Card key={item.id} item={item} />
+          ))}
       </div>
 
-      {/* 右按鈕 */}
+      {/* 右鍵 */}
       <button
-        onClick={handleNext}
-        // disabled確認沒有數量之後不會再換到空白的一頁
-        disabled={startIndex + itemsPerPage >= listData.length}
+        onClick={() =>
+          setStartIndex((prev) =>
+            Math.min(filteredItems.length - itemsPerPage, prev + itemsPerPage)
+          )
+        }
+        disabled={!canGoNext}
         className={styles.iconButton}
       >
-        <span
-          className={`icon-Right ${styles.iconRight} ${
-            disabled ? "disabled" : ""
-          }`}
-        ></span>
+        <span className={`icon-Right ${styles.iconRight}`}></span>
       </button>
     </div>
   );

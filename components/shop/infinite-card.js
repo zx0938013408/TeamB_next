@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { AB_LIST } from "../../config/shop-api-path";
-import { useAuth } from "../../contexts/auth-context";
+import { useAuth } from "../../context/auth-context";
 import styles from "../../styles/shop/infinite-card.module.css";
+import LikeHeart from "../like-hearts";
 
 function InfiniteCard({ categoryId }) {
   const { getAuthHeader } = useAuth();
@@ -77,7 +78,8 @@ function InfiniteCard({ categoryId }) {
             <div className={styles.priceContainer}>
               <div className={styles.price}>NT$ {item.price}</div>
               <div className={styles.cardIcons}>
-                <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} />
+              <LikeHeart/>
+                {/* <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} /> */}
                 <span className={`icon-Cart ${styles.iconCart}`} />
               </div>
             </div>
