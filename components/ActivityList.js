@@ -5,7 +5,7 @@ import "@/styles/index-styles.css";
 import ActivityCard from "./activity-list-card/ActivityCard";
 import { useRef, useState, useEffect } from "react";
 import { AL_LIST } from "@/config/api-path";
-
+import Link from "next/link";
 
 
 const ActivityList = () => {
@@ -52,7 +52,7 @@ const ActivityList = () => {
         
       </div>
       <div className="activity-footer">
-        <a href="#" className="more-link">查看更多活動</a>
+        <Link href="/activity-list" className="more-link">查看更多活動</Link>
       </div>
     </section>
   );
