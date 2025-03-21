@@ -8,7 +8,9 @@ import { FaPlus, FaMinus, FaTrashAlt } from 'react-icons/fa'
 import TableHeader from './_components/TableHeader'
 import Button1 from './_components/button1'
 import Button2 from './_components/button2'
-// import Header from '@/components/Header'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 
 export default function CartPage() {
   // 從useCart解構所需的context的value屬性
@@ -102,11 +104,10 @@ export default function CartPage() {
 
   return (
     <>
-      {/* <hr /> */}
       {/* <Link href="/product">商品列表</Link> */}
-      
+      <Header/>
+      <Navbar/>
       <div className={styles.list}>
-      
         {/* step */}
         <div className={styles.stepContainer}>
           <div className={styles.stepper}>
@@ -187,9 +188,9 @@ export default function CartPage() {
         {/* 檢查購物車是否為空 */}
         {cartItems.length === 0 ? (
           <div className={styles.emptyCart}>
-            <img src="/images/noCart.png" alt="" />
+            <img src="/photo/noCart.png" alt="" />
             <span>您的購物車沒有商品</span>
-            <Button1 text="來去逛逛" href="/" />
+            <Button1 text="來去逛逛" href="/shop" />
           </div>
         ) : (
           <>
@@ -297,6 +298,7 @@ export default function CartPage() {
           </>
         )}
       </div>
+      <Footer/>
     </>
   )
 }
