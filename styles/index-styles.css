@@ -477,7 +477,6 @@
 }
 
 /* ************** 活動列表 **************** */
-/* 避免與 Bootstrap 衝突，命名使用 activity- 前綴 */
 /* 活動區塊 */
 .activity-container {
   display: flex;
@@ -503,7 +502,7 @@
 
 /* 內容框 */
 .activity-box {
-  width: 700px;
+  width: 1200px;
   padding: 70px;
   border: 5px solid #528F7C;
   border-radius: 10px;
@@ -553,7 +552,6 @@
   margin-bottom: 50px;
 }
 /* ************** 購物商城 **************** */
-/* 避免與 Bootstrap 衝突，命名統一為 shop- */
 /* 商城區塊 */
 .shop-container {
   display: flex;

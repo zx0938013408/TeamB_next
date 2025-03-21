@@ -69,38 +69,6 @@ export default function ActivityListPage() {
       }
     };
 
-  // const deleteItem = async (ab_id) => {
-  //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
-  //     method: "DELETE",
-  //   });
-  //   const result = await r.json();
-  //   console.log(result);
-  //   if (result.success) {
-  //     setRefresh((o) => !o);
-  //   }
-  // };
-  // const toggleLike = (ab_id) => {
-  //   fetch(`${TOGGLE_LIKE}/${ab_id}`, {
-  //     headers: { ...getAuthHeader() },
-  //   })
-  //     .then((r) => r.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //       if (result.success) {
-  //         // setRefresh(! refresh); // 讓頁面重新抓資料
-
-  //         // 另一種作法, 直接變更頁面資料的狀態
-  //         const newListData = structuredClone(listData);
-  //         newListData.rows.forEach((r) => {
-  //           if (r.ab_id == result.ab_id) {
-  //             r.like_id = result.action == "add" ? true : false;
-  //           }
-  //         });
-  //         setListData(newListData);
-  //       }
-  //     });
-  // };
-
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
