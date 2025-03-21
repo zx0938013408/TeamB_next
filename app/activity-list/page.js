@@ -305,7 +305,7 @@ export default function ActivityListPage() {
                     name=""
                     id=""
                     placeholder="備註:ex 3男2女 (填)"
-                    defaultValue={""}
+                    onChange={(e) => setNotes(e.target.value)}
                   />
                   <div className="modal-footer">
                     <button
