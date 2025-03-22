@@ -64,7 +64,18 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             </p>
           </div>
         </div>
+         
         <div className={`col-2 d-flex flex-column align-items-end ${Styles.groupButton}`}>
+        {/* 報名情況 */}
+        <div className={`${Styles.registerInfo}`}>
+            <button
+              type="button"
+              className={`${Styles.registerInfoBtn}`}
+              //onClick={toggleRegisterStatus}
+            >
+              額滿 : 1/15 人
+            </button>
+          </div>
   <div className={Styles.buttonWrapper}>
     <Link
       href="/activity-list/[al_id]"

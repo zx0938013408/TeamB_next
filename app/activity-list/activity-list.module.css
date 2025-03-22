@@ -174,7 +174,16 @@
     justify-content: flex-end;
     gap: 10px;
   }
-  
+  /* 報名情形 */
+.registerInfoBtn {
+  border: 3px solid #ABABAB;
+  border-radius: 10px;
+  width: 200px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #ABABAB;
+  margin-right: 13px;
+}
   
   /* 我要報名按鈕 */
   
