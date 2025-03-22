@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "../../styles/shop/infinite-card.module.css";
 import LikeHeart from "../like-hearts";
+import Link from "next/link";
 
-function InfiniteCard({ categoryId, items = [] }) {
+function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
   const [visibleData, setVisibleData] = useState([]); // 當前顯示的資料
   const [page, setPage] = useState(1);
   const itemsPerPage = 5; // 每次載入 5 筆
@@ -45,26 +46,31 @@ function InfiniteCard({ categoryId, items = [] }) {
   return (
     <div className={styles.cardContainer}>
       {visibleData.map((item, index) => (
-        <div
-          key={item.id}
-          className={styles.card}
-          ref={index === visibleData.length - 1 ? observer : null}
-        >
-          <div className={styles.imgContainer}>
-            <img src="/photo/products_pic/top-1.jpg" alt={item.product_name} />
-          </div>
-          <div className={styles.cardDetails}>
-            <div className={styles.productTitle}>{item.product_name}</div>
-            <div className={styles.priceContainer}>
-              <div className={styles.price}>NT$ {item.price}</div>
-              <div className={styles.cardIcons}>
-                <LikeHeart />
-                {/* <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} /> */}
-                <span className={`icon-Cart ${styles.iconCart}`} />
+        <Link href={`${linkPath}/${item.id}`} passHref key={item.id}>
+          <div
+            key={item.id}
+            className={styles.card}
+            ref={index === visibleData.length - 1 ? observer : null}
+          >
+            <div className={styles.imgContainer}>
+              <img
+                src="/photo/products_pic/top-1.jpg"
+                alt={item.product_name}
+              />
+            </div>
+            <div className={styles.cardDetails}>
+              <div className={styles.productTitle}>{item.product_name}</div>
+              <div className={styles.priceContainer}>
+                <div className={styles.price}>NT$ {item.price}</div>
+                <div className={styles.cardIcons}>
+                  <LikeHeart />
+                  {/* <span className={`icon-Like-Stroke ${styles.iconLikeStroke}`} /> */}
+                  <span className={`icon-Cart ${styles.iconCart}`} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
 
       {visibleData.length < filteredItems.length && (
