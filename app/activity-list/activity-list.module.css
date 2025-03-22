@@ -175,11 +175,13 @@
     gap: 10px;
   }
   
+  
   /* 我要報名按鈕 */
   
   .joinButton {
-    width: 140px;
+   
     height: auto;
+    padding: 10px 20px;
     border-radius: 10px;
     background-color: #3f6d62;
     border: none;

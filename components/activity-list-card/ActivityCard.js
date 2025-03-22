@@ -23,7 +23,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
     className={`${Styles.avatarImage}`}
   />
 </div>
-        <div className={`${Styles.information} col-8`}>
+        <div className={`${Styles.information} col-6`}>
           <div className={`${Styles.title} row`}>
             <div className={`${Styles.titleIcons} col-1`}>
               {activity.sport_name === "籃球" ? (
@@ -63,28 +63,28 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
               <span>{activity.name}</span>
             </p>
           </div>
-          <div className={Styles.groupButton}>
-          <Link
-            href="/activity-list/[al_id]"
-            as={`/activity-list/${activity.al_id}`}
-          >
-            <button type="button" className={Styles.joinButton}>
-              查看詳情
-            </button>
-          </Link>
-
-          <button
-            type="button"
-            className={`${Styles.joinButton} ${Styles.joinInformation}`}
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-            onClick={() => onQuickSignUp(activity)}
-          >
-            快速報名
-          </button>
         </div>
-        </div>
-        
+        <div className={`col-2 d-flex flex-column align-items-end ${Styles.groupButton}`}>
+  <div className={Styles.buttonWrapper}>
+    <Link
+      href="/activity-list/[al_id]"
+      as={`/activity-list/${activity.al_id}`}
+    >
+      <button type="button" className={Styles.joinButton}>
+        查看詳情
+      </button>
+    </Link>
+  </div>
+  <div className={Styles.buttonWrapper}>
+    <button
+      type="button"
+      className={`${Styles.joinButton} ${Styles.joinInformation}`}
+      onClick={() => onQuickSignUp(activity)}
+    >
+      快速報名
+    </button>
+  </div>
+</div>
       </div>
     </div>
   );
