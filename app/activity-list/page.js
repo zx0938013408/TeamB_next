@@ -277,7 +277,7 @@ export default function ActivityListPage() {
                     type="text"
                     name=""
                     id=""
-                    defaultValue={`報名費用: 總計 ${
+                    value={`報名費用: 總計 ${
                       activityName?.payment
                         ? activityName?.payment * selectedPeople
                         : 0
@@ -289,6 +289,7 @@ export default function ActivityListPage() {
                     name=""
                     id=""
                     placeholder="備註:ex 3男2女 (填)"
+                    value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                   />
                   <div className="modal-footer">
