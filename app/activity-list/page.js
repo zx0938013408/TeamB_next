@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
-import { Modal } from "bootstrap";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -47,52 +46,6 @@ export default function ActivityListPage() {
 
 
     // 新增報名資料至資料庫
-    const handleRegister = async () => {
-      setLoading(true);
-  
-      // 檢查 activityName 是否存在
-      if (!activityName || !activityName.al_id) {
-        alert("請選擇活動");
-        setLoading(false);
-        return;
-      }
-  
-      // 設定要發送的資料
-      const formData = {
-        member_id: 35, // 測試用，應該從登入 session 取得
-        activity_id: activityName?.al_id, // 測試用，應該根據選擇的活動變動
-        num: selectedPeople,
-        notes: notes.trim(),
-      };
-      try {
-        const response = await fetch(ACTIVITY_ADD_POST, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-  
-        const data = await response.json();
-        
-        if (data.success) {
-          // alert("報名成功！");
-          setNotes(""); // ✅ 清除輸入框
-          setSelectedPeople(1); // ✅ 重設人數選擇
-          // ✅ 關閉 modal
-          closeModal();
-          fetchRegisteredData(); // 重新載入資料
-        } else {
-          // alert("報名失敗：" + data.error);
-        }
-      } catch (error) {
-        console.error("報名失敗", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
     const fetchData = async () => {
       try {
         const r = await fetch(`${AL_LIST}`);
@@ -104,11 +57,51 @@ export default function ActivityListPage() {
         console.warn(error);
       }
     };
-    fetchData();
-
-  }, []);
-  console.log("data:", listData);
-
+    
+    // ✅ 報名送出後可以使用
+    const handleRegister = async () => {
+      setLoading(true);
+    
+      if (!activityName || !activityName.al_id) {
+        alert("請選擇活動");
+        setLoading(false);
+        return;
+      }
+    
+      const formData = {
+        member_id: 35,
+        activity_id: activityName?.al_id,
+        num: selectedPeople,
+        notes: notes.trim(),
+      };
+    
+      try {
+        const response = await fetch(ACTIVITY_ADD_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+    
+        const data = await response.json();
+    
+        if (data.success) {
+          setNotes("");
+          setSelectedPeople(1);
+          closeModal();
+          await fetchData(); // 正確呼叫更新列表
+        }
+      } catch (error) {
+        console.error("報名失敗", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // 初次載入資料
+    useEffect(() => {
+      fetchData();
+    }, []);
+  console.log("data:", listData);  // end Modal 報名
 
 
   const handleSortChange = (sortBy) => {
