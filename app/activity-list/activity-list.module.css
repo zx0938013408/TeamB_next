@@ -59,8 +59,8 @@
   
   /* 單一列表 */
   .list {
-    /* width: 1440px; */
-    /* height: 330px; */
+    width: 100%;
+    height: auto;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -78,8 +78,9 @@
     position: relative;
     padding: 0;
     margin-right: 20px;
-    width: 215px;
-    height: 215px;
+    width: 300px;
+    height: auto;
+    aspect-ratio: 4/3;
     /* background-image: url("/photo/activity/activity-basketballCourt.jpg"); */
     background-position: center;
     background-repeat: no-repeat;
@@ -127,7 +128,7 @@
   }
   
   .title .titleText {
-    font-size: 26px;
+    font-size: 24px;
     font-family: Inter;
     font-weight: bold;
     color: #3f6d62;
@@ -136,13 +137,13 @@
   /* 活動資訊 */
   .info {
     padding: 0;
-    font-weight: 300;
     color: #000;
   }
   
   /* 內容文字 */
   .info p {
     font-style: 16px;
+    font-weight: bold;
     font-family: Inter;
     margin-bottom: 12px;
   }
@@ -164,12 +165,12 @@
   
   .joinButton {
     width: 140px;
-    height: 140px;
+    height: auto;
     border-radius: 10px;
     background-color: #3f6d62;
     border: none;
     box-sizing: border-box;
-    font-size: 30px;
+    font-size: 16px;
     font-weight: bold;
     color: #fff;
     margin-bottom: 15px;
@@ -179,11 +180,6 @@
       border: 2px solid #29755d;
       color: #3f6d62;
     }
-  }
-  
-  .joinInformation{
-    height: 60px;
-    font-size: 24px;
   }
   
   .memberButton {

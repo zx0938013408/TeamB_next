@@ -69,9 +69,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             as={`/activity-list/${activity.al_id}`}
           >
             <button type="button" className={Styles.joinButton}>
-              查看
-              <br />
-              詳情
+              查看詳情
             </button>
           </Link>
 
