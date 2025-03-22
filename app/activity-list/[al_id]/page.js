@@ -207,8 +207,12 @@ export default function ActivityDetailPage() {
                 <LikeHeart />
               </span>
             </button>
-            <button className={`${Styles.registerBtn} col`}>我要報名</button>
-          </div>
+            <button
+  className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
+  disabled={activity.registered_people >= activity.need_num}
+>
+  {activity.registered_people >= activity.need_num ? '已額滿' : '我要報名'}
+</button>          </div>
         </div>
       </div>
 

@@ -344,3 +344,10 @@
 .seeMore a:hover {
   color: darkgreen;
 }
+
+.buttonDisabled {
+  background-color: gray !important;
+  color: white !important;
+  cursor: not-allowed;
+  border: none;
+}
