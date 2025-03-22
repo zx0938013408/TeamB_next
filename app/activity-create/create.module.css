@@ -1,6 +1,3 @@
-.test{
-    
-}
 .background{
     background-color: #29755D;
     margin: 0;
@@ -16,6 +13,20 @@
     transform: translateX(-50%);
     font-size: 50px;
     color: #fff;
+}
+
+/* 上一頁標籤 */
+.goBack{
+    position: absolute;
+    top: 5%;
+    background-color: #29755D;
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    z-index: 10;
+    border: none;
+    width: 6.5rem;
 }
 
 /* 開圖頁面, 讓球類圖片排版使用 */
