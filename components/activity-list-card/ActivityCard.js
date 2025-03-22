@@ -69,8 +69,8 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
         {/* 報名情況 */}
         <div className={`${Styles.registerInfo}`}> 
         <button type="button" className={Styles.registerInfoBtn}>
-  <span className={Styles.number}>1人</span><br />
-  <span className={Styles.total}>/15 額滿</span>
+  <span className={Styles.number}>{activity.registered_people}人</span><br />
+  <span className={Styles.total}>/{activity.need_num} 額滿</span>
 </button>
 
           </div>
