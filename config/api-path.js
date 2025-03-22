@@ -24,6 +24,10 @@ export const AL_DELETE = `${API_SERVER}/activity-list/api`;
 // `${API_SERVER}/activity-list/api/${ab_id}`
 export const AL_ITEM_PUT = `${API_SERVER}/activity-list/api`;
 
+// 取得某會員的活動列表
+export const MEMBER_ACTIVITIES = (memberId) => `${API_SERVER}/members/${memberId}/activities`;
+
+
 
 
 // JWT 登入
