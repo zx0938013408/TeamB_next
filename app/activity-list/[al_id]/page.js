@@ -181,7 +181,7 @@ export default function ActivityDetailPage() {
               className={`${Styles.registerInfoBtn} col`}
               //onClick={toggleRegisterStatus}
             >
-              額滿 : 1/15 人
+              額滿 : {activity.registered_people}/{activity.need_num} 人
             </button>
           </div>
 
