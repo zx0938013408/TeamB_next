@@ -9,12 +9,16 @@
 }
 
 .card {
+  width: 100%;
   background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
   border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  width: 100%; /* 讓 Grid 來控制寬度 */
+  display: inline-block;
+  margin: 0 5px;
+  flex: 1 1 calc(25% - 20px); /* 確保一排四個 */
+  max-width: calc(25% - 20px); /* 讓每張卡片最多佔 25% 寬度 */
+  width: calc((100% - (20px * 3)) / 4); /* 保持四張卡片時的寬度 */
+  min-width: 200px; /* 防止過小 */
 }
 
 .imgContainer {
