@@ -23,6 +23,28 @@ export default function ActivityListPage() {
   const [selectedPeople, setSelectedPeople] = useState(1);
   const [notes, setNotes] = useState("");
   const modalRef = useRef(null);
+  const bsModal = useRef(null);
+
+  // Modal 功能
+  // Debug 專用：開啟 modal
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const bootstrap = require("bootstrap");
+      if (modalRef.current) {
+        bsModal.current = new bootstrap.Modal(modalRef.current);
+      }
+    }
+  }, []);
+
+    const openModal = () => {
+      if (bsModal.current) bsModal.current.show();
+    };
+    
+    const closeModal = () => {
+      if (bsModal.current) bsModal.current.hide();
+    };
+
 
     // 新增報名資料至資料庫
     const handleRegister = async () => {
@@ -87,15 +109,7 @@ export default function ActivityListPage() {
   }, []);
   console.log("data:", listData);
 
-    // Modal Debug
-    const openModal = () => {
-      const modal = document.getElementById("staticBackdrop");
-      if (modal) {
-        modal.classList.add("show");
-        modal.setAttribute("aria-hidden", "false"); // ✅ 顯示 modal
-        modal.removeAttribute("inert"); // ✅ 允許焦點移入
-      }
-    };
+
 
   const handleSortChange = (sortBy) => {
     const sorted = [...listData]; // 複製一份原始資料
@@ -166,7 +180,10 @@ export default function ActivityListPage() {
             <ActivityCard
               key={i}
               activity={activity}
-              onQuickSignUp={setActivityName}
+              onQuickSignUp={(activity) => {
+                setActivityName(activity); // 設定活動資料
+                openModal();
+              }}
             />
           ))
         ) : (
