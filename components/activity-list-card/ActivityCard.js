@@ -12,17 +12,18 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
   return (
     <div className={`${Styles.card} mx-auto`}>
       <div className={`${Styles.list} row`}>
-        <div className={`${Styles.img} col-2`}>
-          <span className={`${Styles.iconLikeStroke}`}>
-            <LikeHeart />
-            {activity.avatar ? (
-            <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
-          ) : 
-          <img src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`} alt="" height="100" />
-        }
-          </span>
-        </div>
-        <div className={`${Styles.information} col`}>
+      <div className={`${Styles.img} col-4`}>
+      <div className={`${Styles.iconLikeStroke}`}>
+    <LikeHeart />
+    
+  </div>
+  <img
+    src={activity.avatar ? `${AVATAR_PATH}${activity.avatar}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`}
+    alt=""
+    className={`${Styles.avatarImage}`}
+  />
+</div>
+        <div className={`${Styles.information} col-8`}>
           <div className={`${Styles.title} row`}>
             <div className={`${Styles.titleIcons} col-1`}>
               {activity.sport_name === "籃球" ? (
@@ -62,8 +63,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
               <span>{activity.name}</span>
             </p>
           </div>
-        </div>
-        <div className="button col-2">
+          <div className={Styles.groupButton}>
           <Link
             href="/activity-list/[al_id]"
             as={`/activity-list/${activity.al_id}`}
@@ -83,6 +83,8 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             快速報名
           </button>
         </div>
+        </div>
+        
       </div>
     </div>
   );
