@@ -21,12 +21,19 @@
     top: 5%;
     background-color: #29755D;
     color: #fff;
-    border-radius: 10px;
+    border-radius: 5px;
     display: flex;
     justify-content: space-around;
     z-index: 10;
     border: none;
     width: 6.5rem;
+
+    &:hover{
+        font-weight: bold;
+        background: #A8D5C5;
+        color: #29755D;
+        border: none;
+    }
 }
 
 /* 開圖頁面, 讓球類圖片排版使用 */

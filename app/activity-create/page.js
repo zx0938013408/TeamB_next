@@ -9,7 +9,7 @@ import Image from 'next/image'
 import Styles from "./create.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
-// import { SPORT_TYPE_ITEM_GET } from "@/config/api-path";
+import { SPORT_TYPE_ITEM_GET } from "@/config/api-path";
 
 export default function ActivityCreatePage() {
   const router = useRouter() // 回上一頁
@@ -248,8 +248,9 @@ export default function ActivityCreatePage() {
               <select
                 className={`${Styles.createInput}`}
                 aria-label="Default select example"
+                onChange={(e) => setSelectedArea(e.target.value)}
               >
-                <option selected="">--請選擇地區--</option>
+                <option>--請選擇地區--</option>
                 <option value={1}>東區</option>
                 <option value={2}>南區</option>
                 <option value={3}>永康區</option>
@@ -305,7 +306,6 @@ export default function ActivityCreatePage() {
                 id="note"
                 className={`${Styles.createInput}`}
                 placeholder="本活動歡迎新手參加"
-                defaultValue={""}
               />
               <br />
               {/* 上傳照片 */}
