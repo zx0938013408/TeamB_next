@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // 使用 next/navigation 的 useParams
@@ -15,7 +15,7 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState(null);
   const params = useParams();
   const pd_id = params.pd_id;
-  
+
   useEffect(() => {
     if (!pd_id) return;
 
@@ -43,7 +43,7 @@ export default function ProductDetailPage() {
         }
       })
       .catch((error) => console.error("❌ fetch 錯誤:", error));
-  }, [pd_id]);  // 依賴 pd_id
+  }, [pd_id]); // 依賴 pd_id
 
   if (!product) {
     return <p className={styles.loading}>載入中...</p>;
@@ -58,22 +58,45 @@ export default function ProductDetailPage() {
           <div className={styles.aContainer}>
             <div className={styles.leftSection}>
               <div className={styles.mainImage}>
-                <img src={product.imageUrl || "/photo/products_pic/top-1.jpg"} alt="商品圖片" />
+                {/* {product.mainImage?.map((image, index) => (
+                  <img key={index} src={image} alt={`大圖${index + 1}`} />
+                ))} */}
+                <img
+                  src={product.imageUrl || "/photo/products_pic/top-1.jpg"}
+                  alt="商品圖片"
+                />
               </div>
               <div className={styles.thumbnailImages}>
-                {product.thumbnailImages?.map((image, index) => (
+                {/* {product.thumbnailImages?.map((image, index) => (
                   <img key={index} src={image} alt={`縮略圖${index + 1}`} />
-                ))}
+                ))} */}
+                <img
+                  src={product.imageUrl || "/photo/products_pic/top-1.jpg"}
+                  alt="商品圖片"
+                />
+                <img
+                  src={product.imageUrl || "/photo/products_pic/top-1.jpg"}
+                  alt="商品圖片"
+                />
+                <img
+                  src={product.imageUrl || "/photo/products_pic/top-1.jpg"}
+                  alt="商品圖片"
+                />
               </div>
             </div>
 
             <div className={styles.rightSection}>
               <div className={styles.productInfo}>
                 <div className={styles.productNameSection}>
-                <div className={styles.category}>{product.categories_name}</div>
-                <LikeHeart/>
-                  <div className={styles.productName}>{product.product_name}</div>
-                  
+                <div className={styles.topColumn}>
+                  <div className={styles.category}>
+                    {product.categories_name}
+                  </div>
+                  <LikeHeart/>
+                </div>
+                  <div className={styles.productName}>
+                    {product.product_name}
+                  </div>
                 </div>
                 <div>
                   <span className={styles.detailPrice}>NT$</span>
@@ -96,7 +119,7 @@ export default function ProductDetailPage() {
                     <option value="3">3</option>
                     <option value="4">4</option>
                   </select>
-                  <div className={styles.inventory}>庫存： {product.inventory}件</div>
+                  <div className={styles.inventory}>庫存：{product.inventory} 件</div>
                 </div>
                 <div className={styles.buttons}>
                   <button className={styles.btnPrimary}>加入購物車</button>
