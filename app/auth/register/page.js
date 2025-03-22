@@ -38,7 +38,7 @@ const Register = () => {
     }
 
     // 檢查 email 是否已經註冊
-    const emailCheckRes = await fetch("http://localhost:3001/api/check-email", {
+    const emailCheckRes = await fetch("http://localhost:3001/auth/api/check-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -64,7 +64,7 @@ const Register = () => {
     localStorage.setItem("registerTemp", JSON.stringify({ email, password }));
 
     // ✅ 跳轉到第二頁
-    router.push(`/register-info`);
+    router.push(`/auth/register-info`);
   };
 
   return (
@@ -73,7 +73,7 @@ const Register = () => {
     <div className={styles.leftSection}>
       <h1>TeamB</h1>
       <div className={styles.separator}></div>
-      <p>加入我們。</p>
+      <p>Team進球場!Ball出火花。</p>
     </div>
       <div className={styles.rightSection}>
         <h2>註冊</h2>

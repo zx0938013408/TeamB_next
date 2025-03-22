@@ -8,7 +8,7 @@ const ResetPassword = () => {
     <div className={styles.leftSection}>
       <h1>重置密碼</h1>
       <div className={styles.separator}></div>
-      <p>設定新密碼。</p>
+      <p>請輸入傳送的新密碼。。</p>
     </div>
     <div className={styles.rightSection}>
   <form id="reset-password-form">

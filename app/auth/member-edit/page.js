@@ -7,17 +7,17 @@ import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation"; // 引入 useRouter
 import Header from "../../../components/Header";
 import "@/public/TeamB_Icon/style.css";
+import { useParams, useRouter } from "next/navigation";
+
 
 const MemberEdit = () => {
-  const { auth, getAuthHeader } = useAuth(); // 從上下文獲取 auth 資料
-  const router = useRouter(); // 用於導航
-
+  const { auth, getAuthHeader } = useAuth(); 
   const [name, setName] = useState(auth.name || ""); // 設定初始值
   const [gender, setGender] = useState(auth.gender || ""); 
   const [sports, setSports] = useState(auth.sport ? auth.sport.split("、") : []); // 解析喜愛運動
   const [phone, setPhone] = useState(auth.phone || ""); 
   const [address, setAddress] = useState(auth.address || ""); 
-  const [avatar, setAvatar] = useState(`http://localhost:3001${auth.avatar}`  || ""); 
+  const [avatar, setAvatar] = useState(`http://localhost:3001/${auth.avatar}`  || ""); 
 
   // 提交修改資料
   const handleSubmit = async (e) => {

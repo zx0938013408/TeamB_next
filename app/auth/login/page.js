@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import AuthLayout from "../components/AuthLayout";
 import styles from "../../../styles/auth/login.module.css";
-import { useAuth } from "../../context/auth-context"; // 引入 useAuth
+import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation"; // 引入 useRouter
 
 const Login = () => {
@@ -51,7 +50,7 @@ const Login = () => {
         alert("登入成功！");
   
         // 導向會員頁面
-        router.push("/member");
+        router.push("/auth/member");
       } else {
         // 如果登入失敗，顯示帳號或密碼錯誤的訊息
         setEmailError("帳號錯誤");  // 這裡會顯示 email 錯誤訊息
@@ -64,8 +63,6 @@ const Login = () => {
     {/* 左側區塊 (綠色區塊) */}
     <div className={styles.leftSection}>
       <h1>TeamB</h1>
-      <div className={styles.separator}></div>
-      <p>註冊更多資訊</p>
     </div>
       <div className={styles.rightSection}>
       <form onSubmit={handleLogin}>
@@ -109,11 +106,11 @@ const Login = () => {
 
           {/* 連結 */}
           <div className={styles.links}>
-            <a href="/forgot-password" className="forgot-link">
+            <a href="/auth/forgot-password" className="forgot-link">
               忘記密碼
             </a>
             <span>尚未註冊？</span>
-            <a href="/register" className="register-link">
+            <a href="/auth/register" className="register-link">
               前往註冊會員
             </a>
           </div>
