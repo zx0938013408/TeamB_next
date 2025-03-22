@@ -4,12 +4,15 @@ import "bootstrap/dist/css/bootstrap.min.css"; // 引入 Bootstrap 樣式
 import "bootstrap/dist/js/bootstrap.bundle.min"; // (選擇性) 引入 Bootstrap JS
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import Styles from "./create.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
 // import { SPORT_TYPE_ITEM_GET } from "@/config/api-path";
 
 export default function ActivityCreatePage() {
+  const router = useRouter() // 回上一頁
   const [hovered, setHovered] = useState(null); // 存儲目前 hover 的運動類別
   const [selected, setSelected] = useState(null); // 用來存儲點擊的選項
 
@@ -105,6 +108,18 @@ export default function ActivityCreatePage() {
           ></div>
           {/* 標題 */}
           <h1 className={Styles.title}>請選擇要開團的球局類別</h1>
+          <button
+            className={Styles.goBack}
+            onClick={() => router.back()}
+          >
+            <Image
+              src="/photo/logo/TeamB-logo-whiteYellow.png"        // public 資料夾內的路徑，前面要加 /
+              alt="TeamB Logo"
+              width={20}                // 設定圖片寬度
+              height={20}               // 設定圖片高度
+            />
+            回上一頁
+          </button>
           <div className={`${Styles.sport} row`}>
             {/* 籃球 選單 */}
             <a
