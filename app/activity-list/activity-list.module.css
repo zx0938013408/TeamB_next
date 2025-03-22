@@ -189,7 +189,7 @@
   }
 
   .number {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
   }
 
@@ -202,7 +202,7 @@
   /* 我要報名按鈕 */
 
   .joinButton {
-
+    width: 100px;
     height: auto;
     padding: 10px 20px;
     border-radius: 10px;
