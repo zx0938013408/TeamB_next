@@ -88,7 +88,11 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
   <button
   type="button"
   className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
-  onClick={() => onQuickSignUp(activity)}
+  onClick={() => {
+    if (activity.registered_people < activity.need_num) {
+      onQuickSignUp(activity); // 傳送活動資訊到上層
+    }
+  }}
   disabled={activity.registered_people >= activity.need_num}
 >
   {activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
