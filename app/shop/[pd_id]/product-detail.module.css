@@ -16,17 +16,20 @@
 
 .aContainer {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;     /* 讓內容置中 */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin: 0 auto;
 }
 
 .leftSection {
-  width: 50%;
-  padding: 0 60px 0 0;
+  padding-right: 60px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 30px;
+  align-items: flex-start;
+  height: 100%;
 }
 .mainImage {
   width: 100%;
@@ -43,6 +46,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-self: flex-end;
 }
 
 .thumbnailImages img {
@@ -53,27 +57,34 @@
 }
 
 .rightSection {
-  width: 50%;
-  padding: 0 0 0 60px;
+  padding-left: 60px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.topColumn {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .category {
   color: #528f7c;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .productName {
-  font-size: 39px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 500;
   color: #241c23;
   margin: 5px 0px 10px 0px;
 }
 
 .detailPrice {
-  font-size: 39px;
+  font-size: 24px;
   color: #528f7c;
 }
 
@@ -88,15 +99,15 @@
 .sizeSection,
 .quantitySection {
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
   border: 2px solid #a3c4ba;
-  font-size: 18px;
+  font-size: 16px;
 }
 
-.stock {
+.inventory {
   color: #528f7c;
-  font-size: 20px;
+  font-size: 16px;
   margin-top: 10px;
 }
 
@@ -166,11 +177,12 @@
 .btnPrimary,
 .btnSecondary {
   padding: 10px 40px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
+  width: 49%;
 }
 
 .btnPrimary {
