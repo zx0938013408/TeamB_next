@@ -64,13 +64,13 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             </p>
           </div>
         </div>
-         
+        
         <div className={`col-2 d-flex flex-column align-items-end ${Styles.groupButton}`}>
         {/* 報名情況 */}
         <div className={`${Styles.registerInfo}`}> 
         <button type="button" className={Styles.registerInfoBtn}>
-  <span className={Styles.number}>{activity.registered_people}人</span><br />
-  <span className={Styles.total}>/{activity.need_num} 額滿</span>
+  <span className={Styles.number}>目前人數</span><br />
+  <span className={Styles.total}>{activity.registered_people}/{activity.need_num}人</span>
 </button>
 
           </div>
@@ -85,13 +85,15 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
     </Link>
   </div>
   <div className={Styles.buttonWrapper}>
-    <button
-      type="button"
-      className={`${Styles.joinButton} ${Styles.joinInformation}`}
-      onClick={() => onQuickSignUp(activity)}
-    >
-      快速報名
-    </button>
+  <button
+  type="button"
+  className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
+  onClick={() => onQuickSignUp(activity)}
+  disabled={activity.registered_people >= activity.need_num}
+>
+  {activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
+</button>
+
   </div>
 </div>
       </div>
