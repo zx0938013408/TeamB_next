@@ -4,11 +4,13 @@ import { useState } from "react";
 import styles from "../../styles/shop/carousel.module.css";
 import Card from "./card";
 
-function Carousel({ items, categoryId, itemsPerPage = 4 }) {
+function Carousel({ items = [], categoryId, itemsPerPage = 4 }) {
   const [startIndex, setStartIndex] = useState(0);
 
   // ✅ 根據 categoryId 過濾商品
-  const filteredItems = items.filter((item) => item.category_id === categoryId);
+  const filteredItems = items?.filter((item) => 
+    categoryId && item?.category_id === categoryId
+  ) || [];
 
   // 控制左右鍵
   const canGoPrev = startIndex > 0;
