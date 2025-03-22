@@ -86,7 +86,7 @@
 }
 
 .title .titleText {
-  font-size: 26px;
+  font-size: 24px;
   font-family: Inter;
   font-weight: bold;
   color: #3f6d62;
@@ -99,7 +99,8 @@
 }
 
 .eventInfo p {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
   margin: 12px 0;
 }
 
@@ -112,7 +113,10 @@
 .info i:hover {
   color: rgb(233, 95, 122);
 }
-
+.registerInfo{
+  font-size: 18px;
+  font-weight: border;
+}
 /* 報名情形 */
 .registerInfoBtn {
   border: 3px solid #ABABAB;

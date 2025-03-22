@@ -1,4 +1,3 @@
-  
   .container {
     width: 60%;
     /* background-color: #f4f4f4; */
@@ -8,71 +7,72 @@
     /* margin-right: 100px; */
     /* display: flex; */
   }
-  
+
   /* 麵包屑 */
-  .bread{
-      /* margin-bottom: 0; */
-      /* padding-bottom: 0; */
-      padding: 0 20px;
-      margin-bottom: 10px;
-  
-      border-bottom: 3px solid #a0c4b0;
+  .bread {
+    /* margin-bottom: 0; */
+    /* padding-bottom: 0; */
+    padding: 0 20px;
+    margin-bottom: 10px;
+
+    border-bottom: 3px solid #a0c4b0;
   }
-  .breadcrumb{
-      line-height:58px;
-      padding: 0;
+
+  .breadcrumb {
+    line-height: 58px;
+    padding: 0;
   }
-  
-  .notActiveText{
-      text-decoration: none;
-      color: #000;
+
+  .notActiveText {
+    text-decoration: none;
+    color: #000;
   }
-  
-  .active{
-      color: #29755d;
-      font-weight: bold;
+
+  .active {
+    color: #29755d;
+    font-weight: bold;
   }
-  
-  .top{
-      display: flex;
-      justify-content: space-between;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
   }
-  
+
   /* 開團按鈕 */
-  .create{
-      width: 97%;
+  .create {
+    width: 97%;
+    border-radius: 10px;
+    background-color: #f7bf58;
+    border: none;
+    font-size: 30px;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: bold;
+
+    &:active {
       border-radius: 10px;
-      background-color: #f7bf58;
-      border: none;
-      font-size: 30px;
-      color: #fff;
-      margin-bottom: 10px;
-      font-weight: bold;
-  
-      &:active{
-          border-radius: 10px;
-          background-color: #f3b46a;
-          /* border: 3px solid #c87a1e; */
-          color: #a26318;
-      }
+      background-color: #f3b46a;
+      /* border: 3px solid #c87a1e; */
+      color: #a26318;
+    }
   }
-  
+
   /* 單一列表 */
   .list {
     width: 100%;
     height: auto;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     margin-bottom: 10px;
 
-  
-    &:hover{
+
+    &:hover {
       background-color: #e4e4e4;
     }
   }
-  
+
   /* 單一活動圖片 */
   /* .img {
     position: relative;
@@ -87,42 +87,42 @@
   } */
 
   .avatarImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-}
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
 
-  
-  
+
+
   /* 收藏 */
-  .iconLikeStroke{
-      position: absolute;
-      margin-top: 10px;
-      margin-left: 10px;
-      font-size: 20px;
-      font-weight: bold;
+  .iconLikeStroke {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
   }
 
-  .iconLikeStrokeFill{
+  .iconLikeStrokeFill {
     position: absolute;
-      margin-top: 10px;
-      margin-left: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      color: deeppink;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: deeppink;
   }
-  
-  .information{
-      width: 300px;
+
+  .information {
+    width: 300px;
   }
-  
+
   /* 單一活動標題 */
   .title {
     margin-bottom: 10px;
   }
-  
-  .iconTitle{
+
+  .iconTitle {
     color: #29755d;
     font-size: 26px;
   }
@@ -131,20 +131,20 @@
     height: 100%;
     margin-right: 24px;
   }
-  
+
   .title .titleText {
     font-size: 24px;
     font-family: Inter;
     font-weight: bold;
     color: #3f6d62;
   }
-  
+
   /* 活動資訊 */
   .info {
     padding: 0;
     color: #000;
   }
-  
+
   /* 內容文字 */
   .info p {
     font-style: 18px;
@@ -152,15 +152,16 @@
     font-family: Inter;
     margin-bottom: 12px;
   }
-  
+
   .info p .infoTitle {
     font-weight: bold;
   }
-  
+
   /* 地圖 icons */
   .info i {
     margin-left: 18px;
     color: crimson;
+
     &:hover {
       color: rgb(233, 95, 122);
     }
@@ -174,28 +175,52 @@
     justify-content: flex-end;
     gap: 10px;
   }
-  
-  /* 我要報名按鈕 */
-  
-  .joinButton {
-    width: 140px;
+
+  /* 報名情形 */
+  .registerInfoBtn {
+    border: solid #ABABAB;
     height: auto;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ABABAB;
+    box-sizing: border-box;
+  }
+
+  .number {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .total {
+    font-size: 14px;
+    color: #999;
+  }
+
+
+  /* 我要報名按鈕 */
+
+  .joinButton {
+
+    height: auto;
+    padding: 10px 20px;
     border-radius: 10px;
     background-color: #3f6d62;
     border: none;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #fff;
-  
-  
+
+
     &:active {
       background-color: #7aaa9b;
       border: 2px solid #29755d;
       color: #3f6d62;
     }
   }
-  
+
   .memberButton {
     margin-top: 35px;
     width: 100%;
@@ -213,28 +238,28 @@
     color: #3f6d62;
     font-family: Inter;
   }
-  
-  .buttonDisabled{
+
+  .buttonDisabled {
+    background-color: gray;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+
+    &:active {
       background-color: gray;
       color: #fff;
-      box-shadow:none;
+      box-shadow: none;
       border: none;
-  
-      &:active{
-        background-color: gray;
-        color: #fff;
-        box-shadow:none;
-        border: none;
-      }
+    }
   }
-  
-  
+
+
   /* Modal */
-  .bgc{
-      background-color: #F4F4F4;
+  .bgc {
+    background-color: #F4F4F4;
   }
-  
-  .register{
+
+  .register {
     border-radius: 10px;
     background-color: #3f6d62;
     border: none;
@@ -244,16 +269,16 @@
     color: #fff;
     height: 40px;
     /* margin-bottom: 15px; */
-  
-  
+
+
     &:active {
       background-color: #7aaa9b;
       border: 2px solid #29755d;
       color: #3f6d62;
     }
   }
-  
-  .cancel{
+
+  .cancel {
     border-radius: 10px;
     background-color: gray;
     border: 2px solid gray;
@@ -262,90 +287,90 @@
     font-weight: bold;
     color: #fff;
     height: 40px;
-  
+
     &:active {
       background-color: black;
       border: 2px solid black;
       color: #fff;
     }
   }
-  
-  .inputGroup{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
+
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
-  
+
   /* 人數選擇 */
   .selectGroup {
-      display: flex;
-      align-items: center;
-      margin: 15px 0;
-      margin-right: 3%;
-      border: 3px solid #a0c4b0;
-      padding: 5px 10px;
-      border-radius: 10px;
-      width: 300px;
-      background-color: #fff;
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    margin-right: 3%;
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 300px;
+    background-color: #fff;
   }
-  
+
   .selectGroup label {
-      flex: 1;
-      color: #3f6d62;
-      font-weight: bold;
+    flex: 1;
+    color: #3f6d62;
+    font-weight: bold;
   }
-  
-  .selectGroup .peopleLabel{
+
+  .selectGroup .peopleLabel {
     width: 60px;
   }
-  
+
   .selectGroup select {
-      border: none;
-      background: transparent;
-      font-size: 16px;
-      color: black;
-      cursor: pointer;
-      width: 300px;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+    width: 300px;
   }
-  
-  .group1{
+
+  .group1 {
     width: 450px;
   }
-  
-  .selectGroup .people{
+
+  .selectGroup .people {
     width: 290px;
   }
-  
-  .inputPrice{
-      border: 3px solid #a0c4b0;
-      padding: 5px 10px;
-      border-radius: 10px;
-      width: 450px;
-      text-align: center;
-      margin-bottom: 17px;
-      background-color: #fff;
-  
+
+  .inputPrice {
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 450px;
+    text-align: center;
+    margin-bottom: 17px;
+    background-color: #fff;
+
   }
-  
-  .textareaInput{
-      border: 3px solid #a0c4b0;
-      padding: 5px 10px;
-      border-radius: 10px;
-      width: 450px;
-      height: 180px;
+
+  .textareaInput {
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 450px;
+    height: 180px;
   }
-  
+
   /* 分頁 */
-  .containerPage{
-      display: flex;
-      justify-content: center;
-      
+  .containerPage {
+    display: flex;
+    justify-content: center;
+
   }
-  
-  .pagination{
-      margin-top: 50px;
+
+  .pagination {
+    margin-top: 50px;
   }
-  
-  .pageLink{
-      color: #29755d;
+
+  .pageLink {
+    color: #29755d;
   }
