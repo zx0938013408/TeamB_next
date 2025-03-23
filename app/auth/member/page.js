@@ -7,10 +7,15 @@ import { useAuth } from "../../../context/auth-context";
 import Header from "../../../components/Header";
 import moment from 'moment';
 import "@/public/TeamB_Icon/style.css";
+import {AVATAR_PATH} from "../../../config/auth.api"
+
 
 const Member = () => {
   const { auth } = useAuth(); // 從上下文獲取 auth 資料
   const [user, setUser] = useState(null); // 記錄用戶資料
+
+
+
   useEffect(() => {
 
     if (auth.id) {
@@ -45,7 +50,7 @@ const Member = () => {
         <div className={styles.profileHeader}>
            {/* 會員的 Avatar */}
            <img
-  src={user?.avatar ? `http://localhost:3001/${user.avatar}` : "http://localhost:3001/imgs/images.jpeg"}
+  src={user?.avatar ? `${AVATAR_PATH}/${user.avatar}` : `${AVATAR_PATH}/imgs.png`}
   alt="User Avatar"
   className={styles.avatar}
 
@@ -54,7 +59,7 @@ const Member = () => {
           <h2>{user?.name || "未命名使用者"}</h2>
           <p>生日：{user?.birthday_date ? moment(user.birthday_date).format('YYYY-MM-DD') : "未填寫"}</p>
 
-            <p>喜愛運動：{user?.sport || "未填寫"}</p>
+            <p>喜愛運動：{user?.sports || "未填寫"}</p>
           </div>
         </div>
 

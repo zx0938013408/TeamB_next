@@ -3,37 +3,59 @@ import React, { useEffect, useState } from "react";
 import styles from "../../../styles/auth/register-info.module.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
+import {MB_CITY_GET ,MB_REGISTER_GET,MB_AREA_GET} from "../../../config/auth.api";
+   
 
 const RegisterInfo = () => {
 
-    const [sports, setSports] = useState([]); // 運動資料
-    const [cities, setCities] = useState([]); // 城市資料
+
     const [selectedSports, setSelectedSports] = useState([]);
     const [selectedGender, setSelectedGender] = useState("");
     const [idCard, setIdCard] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
-    const [selectedDistrict, setSelectedDistrict] = useState("");
     const [address, setAddress] = useState("");
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [preview, setPreview] = useState(""); // 🔹 存圖片預覽 URL
     const [school, setSchool] = useState("");
     const [birthday_date, setBirthday_date] =useState("");
-  
-    useEffect(() => {
-      // 從後端API獲取運動資料
-      axios.get("/api/sports").then(response => {
-        setSports(response.data);
-      });
-      // 從後端API獲取城市資料
-      axios.get("/api/cities").then(response => {
-        setCities(response.data);
-      });
-    }, []);
+    const [cities, setCities] = useState([]);// 城市資料
+    const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [areas, setAreas] = useState([]);    // 用來儲存區域資料
+    const [avatar, setAvatar] = useState([]);    // 用來儲存區域資料
+    const router = useRouter(); // 用於導航
 
     
-  
+      useEffect(() =>{
+        const fetchCities = async()=>{
+          try{
+            const response = await fetch(MB_CITY_GET);
+            const data = await response.json();
+            if(data.success){
+              setCities(data.data)
+            }
+          }catch(error){
+            console.error("Error fetching areas:", error);
+          }
+        };
+        fetchCities();
+      }, []); 
+
+      const handleCityChange = async (cityId) => {
+        setSelectedCity(cityId);  // 更新選擇的縣市
+        try {
+          const response = await fetch(`${MB_AREA_GET}/${cityId}`);
+          const data = await response.json();
+          if (data.success) {
+            setAreas(data.data);  // 根據選擇的縣市更新區域資料
+          }
+        } catch (error) {
+          console.error("Error fetching areas:", error);
+        }
+      };
+
+
+
     // 更新選中的運動
     const handleSportChange = (sportId) => {
       setSelectedSports((prev) =>
@@ -41,26 +63,12 @@ const RegisterInfo = () => {
       );
     };
   
-    // 全選運動
-    const handleSelectAllSports = () => {
-      if (selectedSports.length === sports.length) {
-        setSelectedSports([]);
-      } else {
-        setSelectedSports(sports.map((sport) => sport.id)); // 假設運動資料有 id
-      }
-    };
-
-    const handleCityChange = (cityId) => {
-      setSelectedCity(cityId);
-      // 呼叫後端 API 獲取對應 cityId 的區域資料
-    };
-  
     // 處理上傳頭像
-    const handleAvatarChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
+    const handleAvatarChange = (e) => {//用戶選擇新的檔案時被
+      const file = e.target.files[0]; //選擇的第一個檔案
+      if (file) {         //如果 file 存在，即用戶選擇了檔案，則進行後續操作
         // 顯示圖片預覽
-        setPreview(URL.createObjectURL(file)); 
+        setPreview(URL.createObjectURL(file));   //預覽圖的狀態:創建一個指向檔案的 URL，用來顯示預覽圖片。這個 URL 只在瀏覽器會話中有效
     
         // 更新 FormData，儲存檔案本身
         setAvatar((prev) => ({
@@ -69,14 +77,17 @@ const RegisterInfo = () => {
         }));
       }
     };
+    //這裡使用了 setAvatar 函式來更新 avatar 狀態。prev 是之前的狀態（avatar），...prev 用來保留先前的屬性，並更新 avatar 屬性為選擇的檔案。
   
+    
     // 提交表單
     const handleSubmit = async (event) => {
       event.preventDefault();
       const formData = new FormData();
-      formData.append("avatar", avatar);
+      const res = JSON.parse(localStorage.getItem("registerTemp"));
+      formData.append("avatar", avatar.avatar);
       formData.append("gender", selectedGender);
-      formData.append("sports", selectedSports.join(","));
+      formData.append("sport", selectedSports.join(","));
       formData.append("idCard", idCard);
       formData.append("city", selectedCity);
       formData.append("district", selectedDistrict);
@@ -85,18 +96,22 @@ const RegisterInfo = () => {
       formData.append("phone", phone);
       formData.append("school", school);
       formData.append("birthday_date", birthday_date);
+      formData.append("email",res.email)
+      formData.append("password",res.password)
     
       try {
-        const response = await axios.post("/api/register", formData, {
+        const response = await axios.post(`${MB_REGISTER_GET}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("註冊成功！");
-        router.push("/auth/join");
+        router.push("/auth/login");
 
       } catch (error) {
         alert("註冊失敗！");
+        console.error("註冊失敗，錯誤訊息:", error);  // 打印出錯誤訊息
       }
     };
+
 
 
     return (
@@ -113,7 +128,7 @@ const RegisterInfo = () => {
             <div className={styles.avatarNameContainer}>
               <div className={styles.avatarContainer}>
               <img src={preview || ""}  alt="頭像預覽" className={styles.avatarPreview} />
-                <input id="fileInput" type="file" accept="image/*" className={styles.hiddenFileInput} onChange={handleAvatarChange} />
+                <input id="fileInput" name="avatar" type="file" accept="image/*" className={styles.hiddenFileInput} onChange={handleAvatarChange} />
                 <button type="button" onClick={() => document.getElementById("fileInput").click()} className={styles.uploadButton}>
                   上傳頭像
                 </button>
@@ -131,24 +146,24 @@ const RegisterInfo = () => {
   {/* 性別選擇 */}
   <select className={styles.selectBox} name="gender" required onChange={(e) => setSelectedGender(e.target.value)}>
               <option value="" hidden> 性別 </option>
-              <option value="male"> 男 </option>
-              <option value="female"> 女 </option>
-              <option value="other"> 其他 </option>
+              <option value="男"> 男 </option>
+              <option value="女"> 女 </option>
+              <option value="其他"> 其他 </option>
             </select>
 
             {/* 喜愛運動選擇 */}
-            <div className={styles.checkboxGroup}>
+            <div className={styles.checkboxGroup} onChange={(e) =>handleSportChange(e.target.value)}>
               <label>喜愛運動：</label>
               <label>
-                <input type="checkbox" value="籃球" />
+                <input type="checkbox" value="1" />
                 籃球
               </label>
               <label>
-                <input type="checkbox" value="排球"  />
+                <input type="checkbox" value="2"  />
                 排球
               </label>
               <label>
-                <input type="checkbox" value="羽球" />
+                <input type="checkbox" value="3" />
                 羽球
               </label>
             </div>
@@ -182,9 +197,13 @@ const RegisterInfo = () => {
   ))}
         </select>
 
-        <select  className={styles.cityBox} value={selectedDistrict}onChange={(e) => setSelectedDistrict(e.target.value)}>
+        <select  className={styles.cityBox} value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
         <option value="">選擇地區</option>
-          {/* 根據 selectedCity 獲取對應地區資料 */}
+        {areas.map((area) => (
+          <option key={area.area_id} value={area.area_id}>
+            {area.name}
+          </option>
+        ))}
         </select>
 
         <input
@@ -195,8 +214,6 @@ const RegisterInfo = () => {
           placeholder="請輸入詳細地址"
         />
       </div>
-
-
 
 <div className={styles.row}>
   <input
@@ -213,12 +230,10 @@ const RegisterInfo = () => {
     name="elementary_school"
     placeholder="國小的學校"
     required
-    onChange={(e) => setFormData({ ...formData, elementary_school: e.target.value })}
+    onChange={(e) => setSchool( e.target.value)}
   />
 </div>
 
-
-            {/* 送出按鈕 */}
             <div className={styles.submitSection}>
               <button type="submit" className={styles.submitButton}>
                 完成

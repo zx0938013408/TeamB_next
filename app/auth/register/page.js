@@ -2,6 +2,7 @@
 import styles from "../../../styles/auth/register.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {MB_EMAIL_POST} from "../../../config/auth.api"
 
 const Register = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const Register = () => {
     }
 
     // 檢查 email 是否已經註冊
-    const emailCheckRes = await fetch("http://localhost:3001/auth/api/check-email", {
+    const emailCheckRes = await fetch(`${MB_EMAIL_POST}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
