@@ -14,8 +14,6 @@ export default function ActivityListPage() {
   const router = useRouter();
   const searchRef = useRef();
   // const { auth, getAuthHeader } = useAuth();
-
-  const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activityName, setActivityName] = useState(null);
@@ -26,6 +24,15 @@ export default function ActivityListPage() {
   // 搜尋功能
   const [searchQuery, setSearchQuery] = useState("");
   const [originalData, setOriginalData] = useState([]);
+  // 分頁
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // 每頁顯示的活動數量
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = listData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(listData.length / itemsPerPage);
+
 
 
   // 當使用者輸入時即時搜尋
@@ -47,10 +54,6 @@ export default function ActivityListPage() {
     }
   };
   
-
-
-
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const bootstrap = require("bootstrap");
@@ -201,54 +204,48 @@ export default function ActivityListPage() {
 
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
-        {listData.length > 0 ? (
-          listData.map((activity, i) => (
-            <ActivityCard
-              key={i}
-              activity={activity}
-              onQuickSignUp={(activity) => {
-                setActivityName(activity); // 設定活動資料
-                openModal();
-              }}
-            />
-          ))
-        ) : (
-          <p className={`${Styles.noData}`}>目前沒有活動</p>
-        )}
+      {currentItems.length > 0 ? (
+  currentItems.map((activity, i) => (
+    <ActivityCard
+      key={i}
+      activity={activity}
+      onQuickSignUp={(activity) => {
+        setActivityName(activity);
+        openModal();
+      }}
+    />
+  ))
+) : (
+  <p className={`${Styles.noData}`}>目前沒有活動</p>
+)}
+
       </div>
 
       {/* 分頁按鈕 */}
       <div className={Styles.containerPage}>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#" aria-label="Previous">
-                <span aria-hidden="true">«</span>
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#">
-                1
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#">
-                2
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#">
-                3
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#" aria-label="Next">
-                <span aria-hidden="true">»</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+  <nav aria-label="Page navigation">
+    <ul className="pagination justify-content-center">
+      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+        <button className="page-link" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}>
+          «
+        </button>
+      </li>
+      {Array.from({ length: totalPages }, (_, i) => (
+        <li key={i} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
+          <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
+            {i + 1}
+          </button>
+        </li>
+      ))}
+      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+        <button className="page-link" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
+          »
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
 
       {/* Modal */}
       <div
