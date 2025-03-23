@@ -57,6 +57,16 @@
     }
   }
 
+  /* 搜尋列 */
+  .searchInput {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+
   /* 單一列表 */
   .list {
     width: 100%;
@@ -72,19 +82,6 @@
       background-color: #e4e4e4;
     }
   }
-
-  /* 單一活動圖片 */
-  /* .img {
-    position: relative;
-    padding: 0;
-    margin-right: 20px;
-    width: 300px;
-    height: auto;
-    aspect-ratio: 4/3;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 10px;
-  } */
 
   .avatarImage {
     width: 100%;

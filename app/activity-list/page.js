@@ -23,9 +23,33 @@ export default function ActivityListPage() {
   const [notes, setNotes] = useState("");
   const modalRef = useRef(null);
   const bsModal = useRef(null);
+  // 搜尋功能
+  const [searchQuery, setSearchQuery] = useState("");
+  const [originalData, setOriginalData] = useState([]);
 
-  // Modal 功能
-  // Debug 專用：開啟 modal
+
+  // 當使用者輸入時即時搜尋
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  
+    if (query.trim() === "") {
+      setListData(originalData); // 還原完整資料
+    } else {
+      const lowerQuery = query.toLowerCase();
+      const filtered = originalData.filter((activity) => {
+        return (
+          activity.activity_name.toLowerCase().includes(lowerQuery) ||
+          activity.court_name.toLowerCase().includes(lowerQuery) ||
+          activity.name.toLowerCase().includes(lowerQuery)
+        );
+      });
+      setListData(filtered);
+    }
+  };
+  
+
+
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -51,7 +75,8 @@ export default function ActivityListPage() {
         const r = await fetch(`${AL_LIST}`);
         const obj = await r.json();
         if (obj.success) {
-          setListData(obj.rows);
+          setOriginalData(obj.rows);  // 儲存完整活動資料
+          setListData(obj.rows);      // 顯示在畫面上的活動資料
         }
       } catch (error) {
         console.warn(error);
@@ -143,6 +168,14 @@ export default function ActivityListPage() {
               活動列表
             </span>
           </ol>
+          <div className={`${Styles.selectGroup}`}>
+  <input
+    type="text"
+    placeholder="搜尋活動名稱、地點、主揪…"
+    className={Styles.searchInput}
+    onChange={(e) => handleSearch(e.target.value)}
+  />
+</div>
 
           {/* 篩選列 */}
           <div className={Styles.selectGroup}>
