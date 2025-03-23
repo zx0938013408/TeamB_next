@@ -21,7 +21,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .iconSearch {
@@ -39,149 +39,20 @@
   justify-content: center;
   flex-direction: column;
 }
-.titleBg {
+.titleBg{
   width: 100%;
   margin-bottom: 50px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   text-align: center;
-  background-color: #528f7c;
-  padding: 15px 0 15px 0;
+  background-color: #29755D;
+  padding: 10px 0 10px 0;
   border-radius: 15px 15px 0 0;
 }
 .title {
   color: #ffffff;
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 700;
   letter-spacing: 9.6px;
-}
-
-.content {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* .iconButton {
-  border: none;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  background: none;
-}
-
-.iconButton:hover {
-  background-color: #e6eaee;
-  border-radius: 50%;
-}
-
-.iconRight,
-.iconLeft {
-  color: #528f7c;
-  font-size: 30px;
-  background: none;
-} */
-
-.detailSection {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.card {
-  width: calc(25% - 42px) ;
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
-  border-radius: 15px;
-  display: inline-block;
-  margin: 10px;
-}
-
-.imgContainer {
-  width: 100%;
-  border-radius: 15px 15px 0px 0px;
-  overflow: hidden;
-  line-height: 0px;
-}
-
-.card img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
-.card:hover {
-  transform: scale(1.07);
-  box-shadow: 0px 6px 7.5px 4px rgba(114, 124, 142, 0.3);
-}
-.cardDetails {
-  padding: 20px;
-  border-radius: 15px;
-}
-
-.productTitle {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.priceContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.price {
-  font-size: 20px;
-  color: #528f7c;
-  display: inline-block;
-}
-
-.cardIcons {
-  border: none;
-  cursor: pointer;
-  /* width: 25px;
-  height: 25px; */
-  background: none;
-}
-
-.iconLikeStroke,
-.iconCart {
-  color: #528f7c;
-  font-size: 20px;
-  background: none;
-  margin: 3px;
-}
-
-/* more */
-
-.more {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center; /* 讓內容垂直對齊 */
-  margin-top: 50px;
-  width: 95%;
-}
-
-.textBox {
-  display: flex;
-  justify-content: end;
-  align-content: center; /* 讓文字和底線 + 箭頭都對齊 */
-  position: relative;
-}
-
-.text {
-  color: #528f7c;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1.2; /* 避免行高過大影響對齊 */
-  letter-spacing: 6.24px;
-  text-align: center;
-}
-
-.textBox .iconRight {
-  font-size: 26px;
 }
