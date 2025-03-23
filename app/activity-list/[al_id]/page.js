@@ -13,6 +13,9 @@ export default function ActivityDetailPage() {
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
   const [showLightbox, setShowLightbox] = useState(false);
+  // 點擊圖片放大
+  const [selectedImage, setSelectedImage] = useState(null);
+
 
 
   useEffect(() => {
@@ -70,32 +73,36 @@ export default function ActivityDetailPage() {
         <div className={Styles.eventImages}>
   {/* 主圖：點擊可放大 */}
   <figure className={Styles.mainImage} onClick={() => setShowLightbox(true)}>
-    <img
-      src={
-        activity.avatar
-          ? `${AVATAR_PATH}${activity.avatar}`
-          : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
-      }
-      alt="主圖"
-      className={Styles.clickableImage}
-    />
-  </figure>
+  <img
+    src={
+      selectedImage
+        ? selectedImage
+        : activity.avatar
+        ? `${AVATAR_PATH}${activity.avatar}`
+        : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+    }
+    alt="主圖"
+    className={Styles.clickableImage}
+  />
+</figure>
+
 
   {/* 縮圖 */}
   <div className={Styles.thumbnailContainer}>
-    {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
-      <div key={i} className={Styles.thumbnail}>
-        <img
-          src={
-            img
-              ? `${AVATAR_PATH}${img}`
-              : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
-          }
-          alt={`縮圖 ${i + 1}`}
-        />
-      </div>
-    ))}
-  </div>
+  {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
+    <div key={i} className={Styles.thumbnail} onClick={() => setSelectedImage(`${AVATAR_PATH}${img}`)}>
+      <img
+        src={
+          img
+            ? `${AVATAR_PATH}${img}`
+            : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+        }
+        alt={`縮圖 ${i + 1}`}
+      />
+    </div>
+  ))}
+</div>
+
 </div>
         {/* 右側活動資訊 */}
         <div className={Styles.eventInfo}>
