@@ -11,7 +11,6 @@
   max-width: calc(25% - 20px); /* 讓每張卡片最多佔 25% 寬度 */
   width: calc((100% - (20px * 3)) / 4); /* 保持四張卡片時的寬度 */
   min-width: 200px; /* 防止過小 */
-
 }
 
 .imgContainer {

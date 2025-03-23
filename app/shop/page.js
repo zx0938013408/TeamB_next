@@ -10,9 +10,7 @@ import Carousel from "@/components/shop/carousel";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-
 export default function ShopPage() {
-// 
   const [products, setProducts] = useState([]);
 
   // 取得商品資料
@@ -27,8 +25,6 @@ export default function ShopPage() {
       })
       .catch((error) => console.error("❌ API 錯誤:", error));
   }, []);
-
-
 
   return (
     <>
@@ -47,7 +43,7 @@ export default function ShopPage() {
             <div className={styles.titleBg}>
               <div className={styles.title}>上衣</div>
             </div>
-            <Carousel items={products} categoryId={1} itemsPerPage={4}/>
+            <Carousel items={products} categoryId={1} itemsPerPage={4} />
             <div className={styles.more}>
               <div>
                 <Link href="../shop/top" style={{ textDecoration: "none" }}>
@@ -64,10 +60,10 @@ export default function ShopPage() {
             <div className={styles.titleBg}>
               <div className={styles.title}>褲類</div>
             </div>
-            <Carousel items={products} categoryId={2} itemsPerPage={4}/>
+            <Carousel items={products} categoryId={2} itemsPerPage={4} />
             <div className={styles.more}>
               <div>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link href="../shop/bottom" style={{ textDecoration: "none" }}>
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
@@ -79,12 +75,12 @@ export default function ShopPage() {
           {/* 褲類 shoes */}
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
-              <div className={styles.title}>褲類</div>
+              <div className={styles.title}>鞋類</div>
             </div>
-            <Carousel items={products} categoryId={3} itemsPerPage={4}/>
+            <Carousel items={products} categoryId={3} itemsPerPage={4} />
             <div className={styles.more}>
               <div>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link href="../shop/shoes" style={{ textDecoration: "none" }}>
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
@@ -93,15 +89,15 @@ export default function ShopPage() {
               </div>
             </div>
           </div>
-          {/* 運動配件 */}
+          {/* 運動配件 accessory */}
           <div className={styles.itemsSection}>
             <div className={styles.titleBg}>
               <div className={styles.title}>運動配件</div>
             </div>
-            <Carousel items={products} categoryId={4} itemsPerPage={4}/>
+            <Carousel items={products} categoryId={4} itemsPerPage={4} />
             <div className={styles.more}>
               <div>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link href="../shop/accessory" style={{ textDecoration: "none" }}>
                   <div className={styles.textBox}>
                     <div className={styles.text}>查看更多</div>
                     <span className={`icon-Right ${styles.iconRight}`} />
