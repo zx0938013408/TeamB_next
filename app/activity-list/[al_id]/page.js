@@ -66,63 +66,32 @@ export default function ActivityDetailPage() {
       <div className={`${Styles.container} mx-auto ${Styles.imgContainer}`}>
         {/* 左側圖片區 */}
         <div className={Styles.eventImages}>
-          <div className={Styles.mainImage}></div>
-          {activity.avatar ? (
-            <img src={`${AVATAR_PATH}${activity.avatar}`} alt="" height="100" />
-          ) : (
-            <img
-              src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
-              alt=""
-              height="100"
-            />
-          )}
-          <div className={Styles.thumbnailContainer}>
-            <div className={Styles.thumbnail}>
-              {activity.avatar ? (
-                <img
-                  src={`${AVATAR_PATH}${activity.avatar2}`}
-                  alt=""
-                  height="100"
-                />
-              ) : (
-                <img
-                  src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
-                  alt=""
-                  height="100"
-                />
-              )}
-            </div>
-            <div className={Styles.thumbnail}>
-              {activity.avatar ? (
-                <img
-                  src={`${AVATAR_PATH}${activity.avatar3}`}
-                  alt=""
-                  height="100"
-                />
-              ) : (
-                <img
-                  src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
-                  alt=""
-                  height="100"
-                />
-              )}
-            </div>
-            <div className={Styles.thumbnail}>
-              {activity.avatar ? (
-                <img
-                  src={`${AVATAR_PATH}${activity.avatar4}`}
-                  alt=""
-                  height="100"
-                />
-              ) : (
-                <img
-                  src={`${AVATAR_PATH}/TeamB-logo-greenYellow.png`}
-                  alt=""
-                  height="100"
-                />
-              )}
-            </div>
+          <div className={Styles.mainImage}>
+          <img
+      src={
+        activity.avatar
+          ? `${AVATAR_PATH}${activity.avatar}`
+          : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+      }
+      alt="主圖"
+    />
           </div>
+
+       {/* 縮圖 */}   
+          <div className={Styles.thumbnailContainer}>
+          {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
+      <div key={i} className={Styles.thumbnail}>
+        <img
+          src={
+            img
+              ? `${AVATAR_PATH}${img}`
+              : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+          }
+          alt={`縮圖 ${i + 1}`}
+        />
+      </div>
+    ))}
+  </div>
         </div>
         {/* 右側活動資訊 */}
         <div className={Styles.eventInfo}>
