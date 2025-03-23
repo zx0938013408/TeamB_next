@@ -138,7 +138,7 @@ export default function ActivityListPage() {
     switch (sortBy) {
       case "date":
         sorted.sort(
-          (a, b) => new Date(a.activity_time) - new Date(b.activity_time)
+          (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
         );
         break;
       case "location":
