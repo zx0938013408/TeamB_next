@@ -12,6 +12,8 @@ import { AVATAR_PATH } from "@/config/api-path";
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
+  const [showLightbox, setShowLightbox] = useState(false);
+
 
   useEffect(() => {
     if (!al_id) return;
@@ -66,20 +68,22 @@ export default function ActivityDetailPage() {
       <div className={`${Styles.container} mx-auto ${Styles.imgContainer}`}>
         {/* 左側圖片區 */}
         <div className={Styles.eventImages}>
-          <div className={Styles.mainImage}>
-          <img
+  {/* 主圖：點擊可放大 */}
+  <figure className={Styles.mainImage} onClick={() => setShowLightbox(true)}>
+    <img
       src={
         activity.avatar
           ? `${AVATAR_PATH}${activity.avatar}`
           : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
       }
       alt="主圖"
+      className={Styles.clickableImage}
     />
-          </div>
+  </figure>
 
-       {/* 縮圖 */}   
-          <div className={Styles.thumbnailContainer}>
-          {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
+  {/* 縮圖 */}
+  <div className={Styles.thumbnailContainer}>
+    {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
       <div key={i} className={Styles.thumbnail}>
         <img
           src={
@@ -92,7 +96,7 @@ export default function ActivityDetailPage() {
       </div>
     ))}
   </div>
-        </div>
+</div>
         {/* 右側活動資訊 */}
         <div className={Styles.eventInfo}>
           <div className={`${Styles.title} row`}>
@@ -204,6 +208,26 @@ export default function ActivityDetailPage() {
           </div>
         </div>
       </div>
+
+      {showLightbox && (
+  <div className={Styles.lightboxOverlay} onClick={() => setShowLightbox(false)}>
+    <div className={Styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
+      <img
+        src={
+          activity.avatar
+            ? `${AVATAR_PATH}${activity.avatar}`
+            : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+        }
+        alt="放大圖"
+      />
+      <button className={Styles.closeButton} onClick={() => setShowLightbox(false)}>
+        &times;
+      </button>
+    </div>
+  </div>
+)}
+
     </>
   );
+  
 }
