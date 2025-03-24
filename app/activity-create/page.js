@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Styles from "./create.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
+import { AL_CREATE_POST } from "@/config/api-path";
 import CityAreaPage from "@/components/city-area/city-area";
 
 export default function ActivityCreatePage() {
@@ -14,17 +15,18 @@ export default function ActivityCreatePage() {
   const [hovered, setHovered] = useState(null);
   const [selected, setSelected] = useState(null);
   const [images, setImages] = useState(Array(4).fill(null));
-  const imageInputRef = useRef(null);
+  const imageInputRef = useRef([]);
   const [formData, setFormData] = useState({
     activity_name: "",
     sport_type_id: "",
     area_id: "",
-    address: "",
+    court_id : 3,
     activity_time: "",
     deadline: "",
     payment: "",
     need_num: "",
     introduction: "",
+    address: "",
   });
 
   const handleImageUpload = (event) => {
@@ -57,6 +59,10 @@ export default function ActivityCreatePage() {
     Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     });
+
+    // ✨ 補上預設的 court_id 與 founder_id（實際可從 UI 或登入者取得）
+
+
     images.forEach((imgObj, i) => {
       if (imgObj && imgObj.file) {
         data.append(`avatar${i === 0 ? "" : i + 1}`, imgObj.file);
@@ -64,7 +70,7 @@ export default function ActivityCreatePage() {
     });
 
     try {
-      const response = await fetch("/activity-list/api", {
+      const response = await fetch(AL_CREATE_POST, {
         method: "POST",
         body: data,
       });
@@ -73,7 +79,8 @@ export default function ActivityCreatePage() {
         alert("活動建立成功！");
         router.refresh();
       } else {
-        alert("建立失敗：" + (result.error || "未知錯誤"));
+        alert("建立失敗：" + (result.error?.issues?.[0]?.message || "未知錯誤"));
+      console.error();
       }
     } catch (err) {
       console.error("發生錯誤:", err);
@@ -131,19 +138,23 @@ export default function ActivityCreatePage() {
               <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={() => setSelected("")} />
             </div>
             <div className={`modal-body ${Styles.modalWidth}`}>
+              <label>創建者</label>
+              <input type="text" name="founder_id" className={Styles.createInput} onChange={handleInputChange} />
               <label>活動名稱</label>
               <input type="text" name="activity_name" className={Styles.createInput} onChange={handleInputChange} />
               <label>運動類別 ID（手動輸入測試用）</label>
               <input type="text" name="sport_type_id" className={Styles.createInput} onChange={handleInputChange} />
               <label>活動地點</label>
-              <CityAreaPage className={Styles.createInput} />
-              <select name="area_id" className={Styles.createInput} onChange={handleInputChange}>
-                <option value="">--請選擇地區--</option>
+              <select 
+              name="area_id" 
+              className={Styles.createInput} 
+              onChange={handleInputChange}
+              >
                 <option value="1">東區</option>
                 <option value="2">南區</option>
                 <option value="3">永康區</option>
               </select>
-              <input type="text" name="address" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} />
+              <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} />
               <label>活動時間</label>
               <input type="datetime-local" name="activity_time" className={Styles.createInput} onChange={handleInputChange} />
               <label>報名截止期限</label>
@@ -160,7 +171,8 @@ export default function ActivityCreatePage() {
                 type="file" 
                 accept="image/*"
                 style={{ display: "none" }} 
-                multiple 
+                multiple
+                ref={imageInputRef}
                 onChange={handleImageUpload} />
                 {images.map((image, index) => (
                   <button 
