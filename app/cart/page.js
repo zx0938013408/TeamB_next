@@ -12,6 +12,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 
+
 export default function CartPage() {
   // 從useCart解構所需的context的value屬性
   const {
@@ -62,7 +63,7 @@ export default function CartPage() {
       cancelButtonColor: '#29755D',
       cancelButtonText: '取消',
       confirmButtonText: '是的，我要刪除!',
-      scrollbarPadding: false, // 防止滾動條影響佈局
+      backdrop: true, // 讓 SweetAlert2 自己管理滾動條
     }).then((result) => {
       // 按下確定刪除按鈕
       if (result.isConfirmed) {
@@ -71,7 +72,6 @@ export default function CartPage() {
           text: `${cartItemName} 已從購物車中刪除!`,
           icon: 'success',
           confirmButtonColor: '#F7BF58',
-          scrollbarPadding: false, // 防止滾動條影響佈局
         })
 
         // 刪除功能
@@ -97,7 +97,6 @@ export default function CartPage() {
           title: 'custom-title',
           content: 'custom-content',
           confirmButton: 'custom-confirm-button',
-        
         },
         
       })
@@ -138,7 +137,7 @@ export default function CartPage() {
                 ></div>
               </div>
               <div className={styles.verticalTitle}>
-                <div className={styles.step} style={{ color: '#528F7C' }}>
+                <div className={styles.step} style={{ color: '#528F7C'  ,         textShadow: '2px 2px 4px rgba(255, 255, 255, 0.6), -2px -2px 4px rgba(0, 0, 0, 0.3)'}}>
                   確認購物車清單
                 </div>
               </div>
@@ -199,8 +198,10 @@ export default function CartPage() {
           </div>
         ) : (
           <>
+          <div className={styles.telHead}>購物車清單</div>
             <table title="購物車">
               <TableHeader />
+              
               <tbody>
                 {cartItems.map((cartItem) => {
                   const { id, picture, name, size,color, price, count } = cartItem
@@ -296,7 +297,7 @@ export default function CartPage() {
             <div className={styles.btn}>
               <Button2
                 text="確認"
-                href="/checkInfo"
+               
                 onClick={handleConfirmClick}
               />
             </div>

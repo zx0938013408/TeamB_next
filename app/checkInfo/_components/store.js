@@ -17,23 +17,7 @@ export default function ShipPage() {
     { autoCloseMins: 3 } // x分鐘沒完成選擇會自動關閉，預設5分鐘。
   )
 
-// 'use client'
 
-// import { useState } from 'react'
-// import styles from './address.module.css'
-
-// export default function Store() {
-//   const [storeInfo, setStoreInfo] = useState({
-//     storeName: '',
-//     storeAddress: '',
-//   })
-
-//   const handleChange = (field, value) => {
-//     setStoreInfo((prev) => ({
-//       ...prev,
-//       [field]: value,
-//     }))
-//   }
   return (
     <>
       <div className={styles.formFrame}>

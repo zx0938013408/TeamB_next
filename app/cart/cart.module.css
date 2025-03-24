@@ -1,3 +1,4 @@
+/* 步驟 */
 .stepContainer {
   margin-top: 100px;
   margin-bottom: 80px;
@@ -208,6 +209,17 @@
   color: #fff;
 }
 
+.telHead {
+  display: none;
+  background-color: #29755D;
+  color: #fff;
+  padding: 15px 5px;
+  font-weight: bold;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  text-align: center;
+}
+
 .checked {
   width: 3%;
   text-align: center;
@@ -237,6 +249,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 2px;
 }
 
 .checked input:checked {
@@ -499,14 +512,17 @@
     width: 100%;
   }
 
-  .list thead {
+  .list .thead {
     display: none; /* 隱藏表頭 */
+  }
+
+  .telHead {
+    display: block;
   }
 
   .list tbody {
     display: flex;
     flex-direction: column;
-    gap: 10px;
   }
 
   .list tr {
@@ -515,11 +531,9 @@
     align-items: center;
     justify-content: space-between;
     background: #fff;
-    /* padding: 10px; */
-    border-radius: 10px;
+    padding: 5px 0px;
+   
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-    gap: 10px;
   }
 
   .list td {
@@ -529,7 +543,7 @@
 
   .item .checked {
     order: -1; /* 移到最左邊 */
-    padding: 0;
+    padding-left: 6px;
     margin: 0;
     width: 5%;
   }
@@ -557,10 +571,14 @@
   }
 
   .list .spec {
-    font-size: 13px;
     text-align: center;
     color: #666;
-    width: 15%;
+    width: 20%;
+  }
+
+  .spec p {
+    font-size: 14px;
+    margin-bottom: 5px;
   }
 
   .price {
@@ -598,13 +616,6 @@
     font-size: 14px;
   } */
 
-  /* 讓卡片式樣式有間隔 */
-  /* .item {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 10px;
-  } */
 
   /* 基本樣式 */
 .item {
@@ -614,7 +625,6 @@
   justify-content: space-between;
   padding: 10px;
   background-color: #fff;
-  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease; /* 使右滑動作平滑 */
 }
@@ -646,8 +656,6 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .total div {
