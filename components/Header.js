@@ -36,7 +36,7 @@ const Header = () => {
               <Image src={Logo} alt="TeamB Logo" priority />
             </Link>
           </div>
-
+          <div className={styles.actionsContainer}>
           {/* 搜尋、購物車、登入按鈕 */}
           <div className={styles.navbarActions}>
             {/* 搜尋按鈕 */}
@@ -72,6 +72,7 @@ const Header = () => {
               <span className="icon-Dropdown"></span>
             </button>
           </div>
+        </div>
         </div>
       </header>
 

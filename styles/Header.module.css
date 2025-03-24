@@ -1,7 +1,7 @@
 /* ************** header **************** */
 .navbarHd {
   width: 100%;
-  height: 90px;
+  height: auto;
   padding: 50px;
   background: #F4F4F4;
   border-bottom: 3px solid #528F7C;
@@ -135,3 +135,67 @@
   cursor: pointer;
   color: #528F7C;
 }
+
+/* 手機版 RWD：小於 768px */
+/* 手機版 RWD：小於 768px */
+@media screen and (max-width: 768px) {
+  .navbarContent {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logoContainer {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .actionsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .navbarActions,
+  .navbarToggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .navbarToggle {
+    position: static; /* ✅ 移除 position absolute */
+    transform: none;  /* ✅ 移除 transform */
+    top: auto;
+    right: auto;
+  }
+
+  .toggleBtn {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .quickActionBtn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+
+  .searchContainer {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+
+
