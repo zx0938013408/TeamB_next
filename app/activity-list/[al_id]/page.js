@@ -194,7 +194,7 @@ const [currentIndex, setCurrentIndex] = useState(0);
               //onClick={toggleHeartStatus}
             >
               <span className={Styles.likeHeart}>
-                <LikeHeart />
+      <LikeHeart checked={activity.is_favorite} activityId={activity.al_id} />
               </span>
             </button>
             <button
