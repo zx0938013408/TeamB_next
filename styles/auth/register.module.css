@@ -44,7 +44,7 @@
 /* ✅ 右側區塊 */
 .rightSection {
     width: 50%;
-    padding: 40px;
+    padding: 140px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,15 +53,23 @@
 .rightSection h2 {
     font-size: 24px;
     font-weight: bold;
-    color: #0F3D3E;
     margin-bottom: 25px;
-}
+    color: #0F3D3E;
+  }
 
 /* ✅ 輸入框樣式 */
 .inputBox {
     margin-bottom: 30px;
 }
 
+
+.inputBox label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
 
 
 .input {
@@ -121,3 +129,9 @@
 .links a:hover {
     text-decoration: underline;
 }
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import styles from "../../styles/shop/card.module.css";
 import LikeHeart from "../like-hearts";
+import { AVATAR_PATH } from "@/config/api-path";
 
 // 參數item、愛心跟購物車是否出現
 function Card({ item, showLike = true, showCart = true }) {
@@ -10,8 +11,7 @@ function Card({ item, showLike = true, showCart = true }) {
     <Link href={`/shop/${item.id}`} passHref>
       <div key={item.id} className={styles.card}>
         <div className={styles.imgContainer}>
-          <img src={"/photo/products_pic/top-1.jpg"} alt={item.product_name} />
-          {/* <img src={`${AVATAR_PATH}/${item.image}`} alt={item.product_name} /> */}
+          <img src={`${AVATAR_PATH}/${item.image}`} alt={item.product_name} />
         </div>
         <div className={styles.cardDetails}>
           <div className={styles.productTitle}>{item.product_name}</div>
