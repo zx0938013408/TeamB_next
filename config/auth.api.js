@@ -48,6 +48,19 @@ export const MB_CHECK_GET=`${AUTH_GET}/api/check-email`;
 export const MB_EMAIL_POST=`${AUTH_GET}/api/check-email`;
 
 
+//驗證舊密碼
+export const MB_OLD_PASSWORD_POST=`${AUTH_GET}/api/check-old-password`;
+
+
+
+
+//會員更改密碼
+export const MB_PASSWORD_POST=`${AUTH_GET}/api/change-password`;
+
+
+
+
+
 //登入
 export const MB_LOGIN_POST =`${AUTH_GET}/login-jwt`;
 

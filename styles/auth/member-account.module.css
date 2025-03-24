@@ -164,7 +164,7 @@
   }
   .confirm{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
   
   
   }
@@ -199,4 +199,18 @@
   
   }
   
+
+  .errorArea{
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .prp{
+  
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+
+  }
+
   

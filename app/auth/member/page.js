@@ -16,13 +16,6 @@ const Member = () => {
 
 
 
-  useEffect(() => {
-
-    if (auth.id) {
-      console.log("獲取到的用戶資料:", auth);
-      setUser(auth); // 如果用戶已登入，將 auth 資料設置到 user 狀態
-    }
-  }, [auth]);
   
   useEffect(() => {
     if (auth.id) {

@@ -284,4 +284,22 @@
     margin-bottom: 30px;
 }
 
+.errorArea {
+  display: flex;
+ flex-direction: column;
+ align-items: start;
+  color: red;
+  font-size: 16px;
+  margin-left: 10px;
   
+}
+  
+.submitSection{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+.errorText {
+  color: red;
+  text-align: left;
+}
