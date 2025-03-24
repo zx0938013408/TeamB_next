@@ -18,7 +18,7 @@ const Footer = () => {
       <div className={styles.footerLinks}>
         <div className={styles.footerSection}>
           <div className={styles.footerTitle}>活動列表</div>
-          <Link href="#" className={styles.footerLink}>活動列表</Link>
+          <Link href="/activity-list" className={styles.footerLink}>活動列表</Link>
         </div>
 
         <div className={styles.footerSection}>

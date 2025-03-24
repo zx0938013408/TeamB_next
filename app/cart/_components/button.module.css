@@ -1,6 +1,6 @@
 /* 按鈕1 */
 .link {
-    width: 140px;
+    width: 220px;
     position: relative;
     padding: 20px 40px;
     margin: 0 30px;
@@ -19,7 +19,7 @@
     transform: rotateX(-360deg);
   }
   
-  .link button {
+  .link .button {
     all: unset; /* 移除所有預設樣式 */
     cursor: pointer; /* 讓它仍然可點擊 */
     display: flex; /* 使用 flexbox */
@@ -61,7 +61,7 @@
   
   /* 按鈕2 */
   .link2 {
-    width: 140px;
+    width: 220px;
     position: relative;
     padding: 20px 40px;
     background: #F7BF58;
@@ -80,7 +80,7 @@
     transform: rotateX(360deg);
   }
   
-  .link2 button {
+  .link2 .btn {
     all: unset; /* 移除所有預設樣式 */
     cursor: pointer; /* 讓它仍然可點擊 */
     display: flex; /* 使用 flexbox */

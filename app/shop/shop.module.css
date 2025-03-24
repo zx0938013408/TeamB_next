@@ -5,92 +5,88 @@
 }
 
 .container {
-  width: 70%;
+  width: 80%;
   margin: auto;
   padding: 150px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+}
+
+.Main{
+  display: flex;
+  flex-direction: row;
+}
+
+.breadcrumb{
+  margin: 10px 0;
+}
+
+.sideBar{
+  width: 15%;
+  margin-right: 60px;
+}
+
+.mainContent{
+  width: 85%;
+  margin-left: 60px;
 }
 
 .search {
-  width: 98%;
-  height: 70px;
-  border-bottom: 3px solid #528f7c;
+  width: 100%;
+  height: 50px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.input {
+  width: 90%;
+  height: 30px;
+  outline: none; /* 點擊時去除外框線 */
+  border-style: none; /* 去除預設外框線 */
+  border-bottom: 3px solid #528f7c; /* 預設底線 */
+  margin-right: 10px;
+  position: relative; /* 讓偽元素相對於 input 來定位 */
+}
+
+.input:focus {
+  border: none; /* 聚焦時移除預設邊框 */
+  border-bottom: 3px solid #f7bf58;
 }
 
 .iconSearch {
   display: flex;
   align-items: center;
-  font-size: 30px;
+  font-size: 24px;
   color: #528f7c;
   cursor: pointer;
 }
 
+
 .itemSection {
   width: 100%;
-  padding-bottom: 100px;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
-.titleBg{
+.titleBg {
   width: 100%;
   margin-bottom: 50px;
-  margin-top: 50px;
   display: flex;
   justify-content: center;
   text-align: center;
-  background-color: #528f7c;
-  padding: 15px 0 15px 0;
+  background-color: #29755d;
+  padding: 10px 0 10px 0;
   border-radius: 15px 15px 0 0;
 }
 .title {
   color: #ffffff;
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 700;
   letter-spacing: 9.6px;
-}
-
-/* 卡片區 */
-.content {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.iconButton {
-  border: none;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  background: none;
-}
-
-.iconButton:hover {
-  background-color: #e6eaee;
-  border-radius: 50%;
-}
-
-.iconRight,
-.iconLeft {
-  color: #528f7c;
-  font-size: 30px;
-  background: none;
-}
-
-.detailSection {
-  width: 95%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
 }
 
 /* more */
@@ -100,6 +96,7 @@
   justify-content: flex-end;
   align-items: center; /* 讓內容垂直對齊 */
   margin-top: 50px;
+  margin-bottom: 50px;
   width: 95%;
 }
 
@@ -108,7 +105,6 @@
   justify-content: end;
   align-content: center; /* 讓文字和底線 + 箭頭都對齊 */
   position: relative;
-
 }
 
 .text {
@@ -120,6 +116,16 @@
   text-align: center;
 }
 
-.textBox .iconRight{
+.textBox .iconRight {
   font-size: 26px;
+  transition: transform 0.3s ease;
+  color: #528f7c;
+}
+
+.textBox:hover .iconRight {
+  transform: translateX(10px);
+  text-shadow: 
+  -8px 0 4px rgba(0, 0, 0, 0.3), 
+    -16px 0 5px rgba(0, 0, 0, 0.25), 
+    -24px 0 6px rgba(0, 0, 0, 0.2);
 }

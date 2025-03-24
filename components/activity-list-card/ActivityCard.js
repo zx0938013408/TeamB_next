@@ -2,27 +2,37 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import { useState } from "react";
 import LikeHeart from "../like-hearts";
+import { AVATAR_PATH } from "@/config/api-path";
 
 export default function ActivityCard({ activity, onQuickSignUp }) {
+  const imageUrl = `${AVATAR_PATH}${activity.avatar}`;
+  console.log("最終圖片 URL:", imageUrl);
   const [isLiked, setIsLiked] = useState(false);
 
   return (
     <div className={`${Styles.card} mx-auto`}>
       <div className={`${Styles.list} row`}>
-        <div className={`${Styles.img} col-2`}>
-          <span className={`${Styles.iconLikeStroke}`}><LikeHeart  /></span>
-        </div>
-        <div className={`${Styles.information} col`}>
+      <div className={`${Styles.img} col-4`}>
+      <div className={`${Styles.iconLikeStroke}`}>
+    <LikeHeart />
+    
+  </div>
+  <img
+    src={activity.avatar ? `${AVATAR_PATH}${activity.avatar}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`}
+    alt=""
+    className={`${Styles.avatarImage}`}
+  />
+</div>
+        <div className={`${Styles.information} col-6`}>
           <div className={`${Styles.title} row`}>
             <div className={`${Styles.titleIcons} col-1`}>
               {activity.sport_name === "籃球" ? (
                 <span className={`icon-Basketball ${Styles.iconTitle}`}></span>
               ) : activity.sport_name === "排球" ? (
                 <span className={`icon-Volleyball ${Styles.iconTitle}`}></span>
-              )  : activity.sport_name === "羽球" ? (
+              ) : activity.sport_name === "羽球" ? (
                 <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
-              ) 
-              : null}
+              ) : null}
             </div>
             <h2 className={`${Styles.titleText} col`}>
               {activity.activity_name}
@@ -54,25 +64,42 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             </p>
           </div>
         </div>
-        <div className="button col-2">
-          <Link href="/activity-list/[al_id]" as={`/activity-list/${activity.al_id}`}>
-            <button type="button" className={Styles.joinButton}>
-              查看
-              <br />
-              詳情
-            </button>
-          </Link>
+        
+        <div className={`col-2 d-flex flex-column align-items-end ${Styles.groupButton}`}>
+        {/* 報名情況 */}
+        <div className={`${Styles.registerInfo}`}> 
+        <button type="button" className={Styles.registerInfoBtn}>
+  <span className={Styles.number}>目前人數</span><br />
+  <span className={Styles.total}>{activity.registered_people}/{activity.need_num}人</span>
+</button>
 
-          <button
-            type="button"
-            className={`${Styles.joinButton} ${Styles.joinInformation}`}
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-            onClick={()=>onQuickSignUp(activity)}
-          >
-            快速報名
-          </button>
-        </div>
+          </div>
+  <div className={Styles.buttonWrapper}>
+    <Link
+      href="/activity-list/[al_id]"
+      as={`/activity-list/${activity.al_id}`}
+    >
+      <button type="button" className={Styles.joinButton}>
+        查看詳情
+      </button>
+    </Link>
+  </div>
+  <div className={Styles.buttonWrapper}>
+  <button
+  type="button"
+  className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
+  onClick={() => {
+    if (activity.registered_people < activity.need_num) {
+      onQuickSignUp(activity); // 傳送活動資訊到上層
+    }
+  }}
+  disabled={activity.registered_people >= activity.need_num}
+>
+  {activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
+</button>
+
+  </div>
+</div>
       </div>
     </div>
   );

@@ -5,7 +5,8 @@ import { useRef, useState, useEffect } from "react";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AL_LIST, AVATAR_PATH, AL_ITEM_GET } from "@/config/api-path";
+import { AL_LIST } from "@/config/api-path";
+import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 
 export default function ActivityListPage() {
@@ -13,78 +14,148 @@ export default function ActivityListPage() {
   const router = useRouter();
   const searchRef = useRef();
   // const { auth, getAuthHeader } = useAuth();
-
-  const [refresh, setRefresh] = useState(false);
   const [listData, setListData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [activityName, setActivityName] = useState(null);
   const [selectedPeople, setSelectedPeople] = useState(1);
+  const [notes, setNotes] = useState("");
+  const modalRef = useRef(null);
+  const bsModal = useRef(null);
+  // 搜尋功能
+  const [searchQuery, setSearchQuery] = useState("");
+  const [originalData, setOriginalData] = useState([]);
+  // 分頁
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // 每頁顯示的活動數量
 
-  // const deleteItem = async (ab_id) => {
-  //   const r = await fetch(`${AB_DELETE}/${ab_id}`, {
-  //     method: "DELETE",
-  //   });
-  //   const result = await r.json();
-  //   console.log(result);
-  //   if (result.success) {
-  //     setRefresh((o) => !o);
-  //   }
-  // };
-  // const toggleLike = (ab_id) => {
-  //   fetch(`${TOGGLE_LIKE}/${ab_id}`, {
-  //     headers: { ...getAuthHeader() },
-  //   })
-  //     .then((r) => r.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //       if (result.success) {
-  //         // setRefresh(! refresh); // 讓頁面重新抓資料
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = listData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(listData.length / itemsPerPage);
 
-  //         // 另一種作法, 直接變更頁面資料的狀態
-  //         const newListData = structuredClone(listData);
-  //         newListData.rows.forEach((r) => {
-  //           if (r.ab_id == result.ab_id) {
-  //             r.like_id = result.action == "add" ? true : false;
-  //           }
-  //         });
-  //         setListData(newListData);
-  //       }
-  //     });
-  // };
 
+
+  // 當使用者輸入時即時搜尋
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  
+    if (query.trim() === "") {
+      setListData(originalData); // 還原完整資料
+    } else {
+      const lowerQuery = query.toLowerCase();
+      const filtered = originalData.filter((activity) => {
+        return (
+          activity.activity_name.toLowerCase().includes(lowerQuery) ||
+          activity.court_name.toLowerCase().includes(lowerQuery) ||
+          activity.name.toLowerCase().includes(lowerQuery)
+        );
+      });
+      setListData(filtered);
+    }
+  };
+  
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+    if (typeof window !== "undefined") {
+      const bootstrap = require("bootstrap");
+      if (modalRef.current) {
+        bsModal.current = new bootstrap.Modal(modalRef.current);
+      }
+    }
+  }, []);
+
+    const openModal = () => {
+      if (bsModal.current) bsModal.current.show();
+    };
+    
+    const closeModal = () => {
+      if (bsModal.current) bsModal.current.hide();
+    };
+
+
+    // 新增報名資料至資料庫
     const fetchData = async () => {
       try {
         const r = await fetch(`${AL_LIST}`);
         const obj = await r.json();
         if (obj.success) {
-          setListData(obj.rows);
+          setOriginalData(obj.rows);  // 儲存完整活動資料
+          setListData(obj.rows);      // 顯示在畫面上的活動資料
         }
       } catch (error) {
         console.warn(error);
       }
     };
-    fetchData();
-  }, []);
-  console.log("data:", listData);
+    
+    // ✅ 報名送出後可以使用
+    const handleRegister = async () => {
+      setLoading(true);
+    
+      if (!activityName || !activityName.al_id) {
+        alert("請選擇活動");
+        setLoading(false);
+        return;
+      }
+    
+      const formData = {
+        member_id: 35,
+        activity_id: activityName?.al_id,
+        num: selectedPeople,
+        notes: notes.trim(),
+      };
+    
+      try {
+        const response = await fetch(ACTIVITY_ADD_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+    
+        const data = await response.json();
+    
+        if (data.success) {
+          setNotes("");
+          setSelectedPeople(1);
+          closeModal();
+          await fetchData(); // 正確呼叫更新列表
+        }
+      } catch (error) {
+        console.error("報名失敗", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // 初次載入資料
+    useEffect(() => {
+      fetchData();
+    }, []);
+  console.log("data:", listData);  // end Modal 報名
 
-  //   fetch(`${AL_LIST}`, { signal })
-  //     .then((r) => r.json())
-  //     .then((obj) => {
-  //       console.log("API 回傳資料：", obj);
-  //       if (obj.success) {
-  //         setListData({...obj});
-  //       }
-  //     })
-  //     .catch(console.warn);
 
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, [searchParams, refresh]);
+  const handleSortChange = (sortBy) => {
+    const sorted = [...listData]; // 複製一份原始資料
 
-  // console.log('data:',listData);
+    switch (sortBy) {
+      case "date":
+        sorted.sort(
+          (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+        );
+        break;
+      case "location":
+        sorted.sort((a, b) => a.court_name.localeCompare(b.court_name));
+        break;
+      case "price":
+        sorted.sort((a, b) => a.payment - b.payment);
+        break;
+      case "people":
+        sorted.sort((a, b) => b.registered_people - a.registered_people); // 等已報名人數匯入
+        break;
+      default:
+        break;
+    }
+
+    setListData(sorted);
+  };
 
   return (
     <>
@@ -100,14 +171,26 @@ export default function ActivityListPage() {
               活動列表
             </span>
           </ol>
+          <div className={`${Styles.selectGroup}`}>
+  <input
+    type="text"
+    placeholder="搜尋活動名稱、地點、主揪…"
+    className={Styles.searchInput}
+    onChange={(e) => handleSearch(e.target.value)}
+  />
+</div>
 
           {/* 篩選列 */}
           <div className={Styles.selectGroup}>
-            <select id="people" name="people">
-              <option value={1}>依照活動日期排序</option>
-              <option value={2}>依照地區排序</option>
-              <option value={3}>依照費用排序</option>
-              <option value={4}>依照報名人數排序</option>
+          <select
+              id="people"
+              name="people"
+              onChange={(e) => handleSortChange(e.target.value)}
+            >
+              <option value="date">依照活動日期排序</option>
+              <option value="location">依照地區排序</option>
+              <option value="price">依照費用排序</option>
+              <option value="people">依照報名人數排序</option>
             </select>
           </div>
         </nav>
@@ -121,53 +204,50 @@ export default function ActivityListPage() {
 
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
-        {listData.length > 0 ? (
-          listData.map((activity, i) => (
-            <ActivityCard
-              key={i}
-              activity={activity}
-              onQuickSignUp={setActivityName}
-            />
-          ))
-        ) : (
-          <p className={`${Styles.noData}`}>目前沒有活動</p>
-        )}
+      {currentItems.length > 0 ? (
+  currentItems.map((activity, i) => (
+    <ActivityCard
+      key={i}
+      activity={activity}
+      onQuickSignUp={(activity) => {
+        setActivityName(activity);
+        openModal();
+      }}
+    />
+  ))
+) : (
+  <p className={`${Styles.noData}`}>目前沒有活動</p>
+)}
+
       </div>
 
       {/* 分頁按鈕 */}
       <div className={Styles.containerPage}>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#" aria-label="Previous">
-                <span aria-hidden="true">«</span>
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#">
-                1
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#">
-                2
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#">
-                3
-              </a>
-            </li>
-            <li className="pageItem">
-              <a className="page-link pageLink" href="#" aria-label="Next">
-                <span aria-hidden="true">»</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+  <nav aria-label="Page navigation">
+    <ul className="pagination justify-content-center">
+      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+        <button className="page-link" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}>
+          «
+        </button>
+      </li>
+      {Array.from({ length: totalPages }, (_, i) => (
+        <li key={i} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
+          <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
+            {i + 1}
+          </button>
+        </li>
+      ))}
+      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+        <button className="page-link" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
+          »
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
 
-      {/* Mobal */}
+
+      {/* Modal */}
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -176,6 +256,7 @@ export default function ActivityListPage() {
         tabIndex={-1}
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
+        ref={modalRef}
       >
         <div className="modal-dialog">
           <div className="modal-content bgc">
@@ -193,7 +274,19 @@ export default function ActivityListPage() {
             <div className="modal-body">
               <div className={`${Styles.title} row`}>
                 <div className="titleIcons col-1">
-                  <span className={`icon-Badminton ${Styles.iconTitle}`}></span>
+                {activityName?.sport_name === "籃球" ? (
+                    <span
+                      className={`icon-Basketball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "排球" ? (
+                    <span
+                      className={`icon-Volleyball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "羽球" ? (
+                    <span
+                      className={`icon-Badminton ${Styles.iconTitle}`}
+                    ></span>
+                  ) : null}
                 </div>
                 <h2 className={`${Styles.titleText} col`}>
                   {activityName?.activity_name}
@@ -224,7 +317,11 @@ export default function ActivityListPage() {
                     type="text"
                     name=""
                     id=""
-                    defaultValue={`報名費用: 總計 ${activityName?.payment ? activityName?.payment * selectedPeople : 0} 元`}
+                    value={`報名費用: 總計 ${
+                      activityName?.payment
+                        ? activityName?.payment * selectedPeople
+                        : 0
+                    } 元`}
                     disabled
                   />
                   <textarea
@@ -232,7 +329,8 @@ export default function ActivityListPage() {
                     name=""
                     id=""
                     placeholder="備註:ex 3男2女 (填)"
-                    defaultValue={""}
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
                   />
                   <div className="modal-footer">
                     <button
@@ -242,8 +340,13 @@ export default function ActivityListPage() {
                     >
                       取消
                     </button>
-                    <button type="button" className={Styles.register}>
-                      確定報名
+                    <button
+                      type="button"
+                      className={Styles.register}
+                      onClick={handleRegister}
+                      disabled={loading}
+                    >
+                      {loading ? "報名中..." : "確定報名"}
                     </button>
                   </div>
                 </div>

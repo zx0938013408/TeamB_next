@@ -7,7 +7,7 @@ const Navbar = ({ isOpen, setIsOpen }) => {
       <div className={styles.navContainer}>
         <div className={styles.navSection}>
           <div className={styles.navTitle}>活動列表</div>
-          <Link href="#" className={styles.navLink}>活動列表</Link>
+          <Link href="/activity-list" className={styles.navLink}>活動列表</Link>
         </div>
         <div className={styles.navSection}>
           <div className={styles.navTitle}>商城</div>
