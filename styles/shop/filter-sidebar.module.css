@@ -1,0 +1,32 @@
+.Section{
+display: flex;
+flex-direction: column;
+}
+.title {
+  font-size: 18px;
+  margin: 20px 0 10px 0;
+}
+.check{
+    display: flex;
+flex-direction: column;
+}
+
+/* 篩選按鈕 */
+
+.btn {
+  padding: 5px;
+  margin-top: 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  width: 50%;
+  background: #bde6d9;
+  color: #29755d;
+  border: 3px solid #29755d63;
+}
+.btn:hover {
+  background: #7aaa9b;
+  color: #29755d;
+  border: 3px solid #29755d;
+}
