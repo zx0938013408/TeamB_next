@@ -1,14 +1,14 @@
 "use client"
 
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Styles from "./create.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
 import { AL_CREATE_POST } from "@/config/api-path";
-import CityAreaPage from "@/components/city-area/city-area";
+// import CityAreaPage from "@/components/city-area/city-area";
 
 export default function ActivityCreatePage() {
   const router = useRouter();
@@ -16,6 +16,8 @@ export default function ActivityCreatePage() {
   const [selected, setSelected] = useState(null);
   const [images, setImages] = useState(Array(4).fill(null));
   const imageInputRef = useRef([]);
+  const modalRef = useRef(null);
+  const bsModal = useRef(null);
   const [formData, setFormData] = useState({
     activity_name: "",
     sport_type_id: "",
@@ -54,6 +56,24 @@ export default function ActivityCreatePage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const bootstrap = require("bootstrap");
+      if (modalRef.current) {
+        bsModal.current = new bootstrap.Modal(modalRef.current);
+      }
+    }
+  }, []);
+
+  const openModal = () => {
+    if (bsModal.current) bsModal.current.show();
+  };
+
+  const closeModal = () => {
+    if (bsModal.current) bsModal.current.hide();
+  };
+  
+
   const handleSubmit = async () => {
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -61,8 +81,6 @@ export default function ActivityCreatePage() {
     });
 
     // ✨ 補上預設的 court_id 與 founder_id（實際可從 UI 或登入者取得）
-
-
     images.forEach((imgObj, i) => {
       if (imgObj && imgObj.file) {
         data.append(`avatar${i === 0 ? "" : i + 1}`, imgObj.file);
@@ -76,8 +94,17 @@ export default function ActivityCreatePage() {
       });
       const result = await response.json();
       if (result.success) {
+        const al_id = result.result.insertId;
         alert("活動建立成功！");
-        router.refresh();
+        // 先關閉 Modal
+        closeModal();
+        setSelected("")
+        
+        // 延遲導向，避免 Modal 遮罩殘留
+        setTimeout(() => {
+          router.push(`/activity-list/${al_id}`);
+        }, 400); // Bootstrap Modal 動畫大約 300ms
+
       } else {
         alert("建立失敗：" + (result.error?.issues?.[0]?.message || "未知錯誤"));
       console.error();
@@ -104,19 +131,31 @@ export default function ActivityCreatePage() {
             <Image src="/photo/logo/TeamB-logo-whiteYellow.png" alt="TeamB Logo" width={20} height={20} /> 回上一頁
           </button>
           <div className={`${Styles.sport} row`}>
-            <a href="#" className={`col ${Styles.select}`} data-bs-toggle="modal" data-bs-target="#staticBackdrop" onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} onClick={() => setSelected("basketball")}>
+            <a href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
+            onClick={() => {
+              setSelected("basketball")
+              openModal()
+              }}>
               <div className={`${Styles.sportType} ${Styles.basketball}`}>
                 <div className={`icon-Basketball ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>籃球</h3>
               </div>
             </a>
-            <Link href="#" className={`col ${Styles.select}`} data-bs-toggle="modal" data-bs-target="#staticBackdrop" onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} onClick={() => setSelected("volleyball")}>
+            <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
+            onClick={() => {
+              setSelected("volleyball")
+              openModal()
+            }}>
               <div className={`${Styles.sportType} ${Styles.volleyball}`}>
                 <div className={`icon-Volleyball ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>排球</h3>
               </div>
             </Link>
-            <Link href="#" className={`col ${Styles.select}`} data-bs-toggle="modal" data-bs-target="#staticBackdrop" onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} onClick={() => setSelected("shuttlecock")}>
+            <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
+            onClick={() => {
+              setSelected("shuttlecock")
+              openModal()
+              }}>
               <div className={`${Styles.sportType} ${Styles.shuttlecock}`}>
                 <div className={`icon-Badminton ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>羽球</h3>
@@ -127,7 +166,15 @@ export default function ActivityCreatePage() {
       </div>
 
       {/* Modal */}
-      <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div 
+      className="modal fade" 
+      id="staticBackdrop" 
+      data-bs-backdrop="static" 
+      data-bs-keyboard="false" 
+      tabIndex={-1} 
+      ref={modalRef}
+      aria-labelledby="staticBackdropLabel" 
+      aria-hidden="true">
         <div className="modal-dialog">
           <div className={`modal-content ${Styles.modalContent}`}>
             <div className={`modal-header ${Styles.modalWidth}`}>
@@ -188,7 +235,11 @@ export default function ActivityCreatePage() {
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
               <button type="button" className={`btn btn-secondary closeModal ${Styles.cancelBtn}`} data-bs-dismiss="modal" onClick={() => setSelected("")}>取消</button>
-              <button type="button" className={`${Styles.okBtn} btn`} onClick={handleSubmit}>確定建立</button>
+              <button 
+                type="button" 
+                className={`${Styles.okBtn} btn`} 
+                onClick={handleSubmit}
+              >確定建立</button>
             </div>
           </div>
         </div>
