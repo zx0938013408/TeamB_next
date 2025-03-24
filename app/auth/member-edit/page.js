@@ -9,6 +9,7 @@ import "@/public/TeamB_Icon/style.css";
 import { useParams, useRouter } from "next/navigation";
 import {MB_CITY_GET ,MB_AREA_GET} from "../../../config/auth.api";
 import {MB_AVATAR_POST} from "../../../config/auth.api"
+import { AVATAR_PATH } from "@/config/auth.api";
 
 
 
@@ -27,10 +28,19 @@ const MemberEdit = () => {
   const [cityId, setCityId] = useState(auth.city_id || "");
   const [areaId, setAreaId] = useState(auth.area_id || "");
   const [avatar, setAvatar] = useState(auth.avatar || "");
-  const [sport, setSport] = useState(auth.sport ||"" )
-  const [selectedSports, setSelectedSports] = useState([]);
+  const [sport, setSport] = useState(auth.sport ||[] )
+  const [selectedSports, setSelectedSports] = useState("");
   const router = useRouter(); // 用於導航
   const [preview, setPreview] = useState(""); // 🔹 存圖片預覽 URL
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+  
+    if (auth.id) {
+      console.log("獲取到的用戶資料:", auth);
+      setUser(auth); // 如果用戶已登入，將 auth 資料設置到 user 狀態
+    }
+  }, [auth]);
 
 
   
@@ -66,11 +76,15 @@ const MemberEdit = () => {
   };
 
 
+
+
   const handleSportChange = (sportId) => {
     setSelectedSports((prev) =>
       prev.includes(sportId) ? prev.filter((id) => id !== sportId) : [...prev, sportId]
     );
   };
+
+
 
 
   const handleSubmit = async (e) => {
@@ -141,7 +155,6 @@ const MemberEdit = () => {
       
       
       if (data.success) {
-        console.log("User data:", data);
         let user = data.data[0];
         setAddress(user.address);
         handleCityChange(user.city_id);
@@ -163,6 +176,7 @@ const MemberEdit = () => {
   // // 取得用戶資料時，可以在 component mount 時呼叫
   useEffect(() => {
     getUserData(); // 在組件載入時呼叫
+    
   }, []);
 
   return (
@@ -196,7 +210,12 @@ const MemberEdit = () => {
             {/* 頭像上傳 */}
             <div className={styles.avatarContainer}>
               <div className={styles.avatar}>
-                <img  src={`${MB_AVATAR_POST}/${avatar}`}  alt="Avatar" />
+              <img
+  src={preview || `${AVATAR_PATH}/${user?.avatar}`}
+  alt="User Avatar"
+  className={styles.avatar}
+
+/>
               </div>
   
               <label htmlFor="avatar-upload" className={styles.uploadLabel}>

@@ -6,64 +6,86 @@ import styles from "../../../styles/auth/member-account.module.css";
 import Header from "../../../components/Header";
 import "@/public/TeamB_Icon/style.css";
 import { useAuth } from "../../../context/auth-context"; 
-
 import axios from "axios"; 
+import { useRouter } from "next/navigation"; // 引入 useRouter
+import {MB_PASSWORD_POST,MB_OLD_PASSWORD_POST} from "../../../config/auth.api"
+
 
 
 const MemberAccount =()=>{
 
-  const { auth } = useAuth(); // 假設用戶登錄後可以從 auth 中取得用戶信息
+  const { auth, getAuthHeader } = useAuth(); // 從 AuthContext 中獲取 auth 和 getAuthHeader 函數
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+  const router = useRouter(); // 用於導航
+  
 
-  // 表單提交處理
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+ 
 
-    // 密碼檢查
-    if (!newPassword || !confirmPassword || !oldPassword) {
-      setError("所有欄位都是必填的");
+    if(!oldPassword ||!newPassword ||!confirmPassword){
+      setError('每個欄位都是必填');
       return;
     }
 
+    // 驗證新密碼和確認密碼是否一致
     if (newPassword !== confirmPassword) {
-      setError("新密碼與確認密碼不一致");
+      setError('新密碼和確認密碼不一致');
+      return;
+    }
+
+    // 檢查新密碼長度
+    if (newPassword.length < 6) {
+      setError('新密碼至少需要 6 個字符');
       return;
     }
 
     try {
-      // 向後端發送請求
-      const response = await axios.put(
-        `http://localhost:3001/auth/update/password/${auth.id}`, // 用戶 ID 應從 auth 中獲取
-        { newPassword },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`, // 傳遞 Token
-          },
-        }
+      // 先驗證舊密碼是否正確
+      const headers = getAuthHeader(); // 使用 getAuthHeader 獲取 token
+      const passwordCheckResponse = await axios.post(
+        MB_OLD_PASSWORD_POST, // 確保你的後端有這個 API 來檢查舊密碼
+        { oldPassword },
+        { headers }
       );
-
-      if (response.data.success) {
-        setMessage("密碼更新成功");
-        setOldPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-      } else {
-        setError(response.data.message || "更新密碼時發生錯誤");
+      
+      console.log("Password Check Response:", passwordCheckResponse.data); // 確認後端是否正確回傳
+    
+      if (!passwordCheckResponse.data.success) {
+        setError('舊密碼不正確');
+        return; // 結束，避免繼續處理
       }
+    
+      // 如果舊密碼正確，則繼續更改密碼
+      const response = await axios.post(
+        MB_PASSWORD_POST,
+        { oldPassword, newPassword, confirmPassword },
+        { headers }
+      );
+    
+      alert(response.data.message); // 顯示後端傳來的成功訊息
+      router.push("/auth/login");
+      
     } catch (error) {
-      console.error("錯誤:", error);
-      setError("無法更新密碼，請稍後再試");
+      console.error("更改密碼時出錯:", error);
+    
+      // 嘗試讀取後端錯誤訊息
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("伺服器錯誤，請稍後再試");
+      }
     }
+    
   };
-
 
      return (
       <>
-        {/* <Header/> */}
+        <Header/>
       <div className={styles.container}>
       {/* 側邊欄 */}
       <div className={styles.sidebar}>
@@ -88,9 +110,7 @@ const MemberAccount =()=>{
   <div className={styles.title}>帳號管理</div>
   <div className={styles.rightSection}>
     <form className={styles.form} method="POST"  onSubmit={handleSubmit}>
-    {error && <p style={{ color: "red" }}>{error}</p>}
-    {message && <p style={{ color: "green" }}>{message}</p>}
-    <p>原始密碼</p>
+    <p className={styles.prp}>原始密碼</p>
       <input
         className={styles.inputBox}
         type="password"
@@ -99,7 +119,7 @@ const MemberAccount =()=>{
         placeholder="請輸入原始密碼"
         required=""
       />
-    <p>新密碼</p>
+    <p className={styles.prp}>新密碼</p>
 
       <input
         className={styles.inputBox}
@@ -119,10 +139,16 @@ const MemberAccount =()=>{
       />
       
       <div className={styles.confirm}>
+
+<div className={styles.errorArea}>
+{error && <p style={{ color: 'red' }}>{error}</p>}
+</div>
+
         <button type="submit" className={styles.confirmBtn}>
           確認
         </button>
       </div>
+    
     </form>
   </div>
 </div>

@@ -11,7 +11,7 @@ const RegisterInfo = () => {
 
     const [selectedSports, setSelectedSports] = useState([]);
     const [selectedGender, setSelectedGender] = useState("");
-    const [idCard, setIdCard] = useState("");
+    const [id_card, setId_card] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [address, setAddress] = useState("");
     const [name, setName] = useState("");
@@ -24,7 +24,24 @@ const RegisterInfo = () => {
     const [areas, setAreas] = useState([]);    // 用來儲存區域資料
     const [avatar, setAvatar] = useState([]);    // 用來儲存區域資料
     const router = useRouter(); // 用於導航
+    const [error, setError] = useState("");
+  
 
+    const idCardRegex = /^[0-9]{4}$/;
+    const phoneRegex = /^09\d{8}$/;
+
+    const validateIdCard = (idCard) => {
+      return idCardRegex.test(idCard);
+    };
+    
+    const validatePhone = (phone) => {
+      return phoneRegex.test(phone);
+    };
+
+    const addressRegex = /^[\u4e00-\u9fa50-9]{5,}$/;  // 只允許數字和國字，且至少5個字符
+    const validateAddress = (address) => {
+      return addressRegex.test(address);
+    };
     
       useEffect(() =>{
         const fetchCities = async()=>{
@@ -55,6 +72,8 @@ const RegisterInfo = () => {
       };
 
 
+    
+
 
     // 更新選中的運動
     const handleSportChange = (sportId) => {
@@ -83,12 +102,39 @@ const RegisterInfo = () => {
     // 提交表單
     const handleSubmit = async (event) => {
       event.preventDefault();
+
+      let errors = {};
+
+      if (!validatePhone(phone)) {
+        setError ("手機格式不正確");
+        return;
+      };
+
+      if (!validateAddress(address)) {
+        setError("地址格式不正確，請填寫有效地址");
+        return;
+      };
+
+      if (!validateIdCard(id_card)) {
+        setError("身分證後四碼格式不正確");
+        return;
+      };
+
+   
+
+      if (Object.keys(errors).length > 0) {
+        setError(errors); // 更新錯誤訊息
+        return; // 阻止表單提交
+      }
+
+
+
       const formData = new FormData();
       const res = JSON.parse(localStorage.getItem("registerTemp"));
       formData.append("avatar", avatar.avatar);
       formData.append("gender", selectedGender);
       formData.append("sport", selectedSports.join(","));
-      formData.append("idCard", idCard);
+      formData.append("id_card", id_card);
       formData.append("city", selectedCity);
       formData.append("district", selectedDistrict);
       formData.append("address", address);
@@ -99,6 +145,7 @@ const RegisterInfo = () => {
       formData.append("email",res.email)
       formData.append("password",res.password)
     
+      
       try {
         const response = await axios.post(`${MB_REGISTER_GET}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -190,17 +237,17 @@ const RegisterInfo = () => {
 
    {/* 地址：縣市 + 地區 + 地址 */}
    <div>
-        <select className={styles.cityBox} value={selectedCity} onChange={(e) => handleCityChange(e.target.value)}>
-          <option value="">選擇縣市</option>
+        <select className={styles.cityBox} required value={selectedCity} onChange={(e) => handleCityChange(e.target.value)}>
+          <option value="" required>選擇縣市</option>
           {cities.map((city) => (
     <option key={city.id} value={city.id}>{city.name}</option>
   ))}
         </select>
 
-        <select  className={styles.cityBox} value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
-        <option value="">選擇地區</option>
+        <select  className={styles.cityBox} required value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
+        <option value="" >選擇地區</option>
         {areas.map((area) => (
-          <option key={area.area_id} value={area.area_id}>
+          <option key={area.area_id} value={area.area_id} >
             {area.name}
           </option>
         ))}
@@ -222,7 +269,7 @@ const RegisterInfo = () => {
     name="id_last4"
     placeholder="身分證後4碼"
     required
-    onChange={(e) => setIdCard(e.target.value)}
+    onChange={(e) => setId_card(e.target.value)}
   />
   <input
     className={styles.inputBox}
@@ -234,7 +281,13 @@ const RegisterInfo = () => {
   />
 </div>
 
+
             <div className={styles.submitSection}>
+            <div className={styles.errorArea}>
+            
+            {error && <p className={styles.errorText}>{error}</p>}
+            </div>
+
               <button type="submit" className={styles.submitButton}>
                 完成
               </button>
