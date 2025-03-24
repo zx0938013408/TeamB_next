@@ -14,7 +14,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
       <div className={`${Styles.list} row`}>
       <div className={`${Styles.img} col-4`}>
       <div className={`${Styles.iconLikeStroke}`}>
-    <LikeHeart />
+      <LikeHeart checked={activity.is_favorite} activityId={activity.al_id} />
     
   </div>
   <img
