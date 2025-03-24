@@ -28,7 +28,34 @@ export function CartProvider({ children }) {
   const [shippingCost, setShippingCost] = useState(0)
 
   // 記錄使用者選了哪一個值的狀態(沒選or選項其一)
-  const [PayMethod, setPayMethod] = useState('')
+  const [selectedPayMethod, setSelectedPayMethod ] = useState('')
+
+  
+  // 新增收件人資訊的狀態
+  const [recipient, setRecipient] = useState({
+    recipientName: '',
+    phone: ''
+  })
+
+  // 更新收件人資訊的函數
+  const updateRecipient = (newData) => {
+    setRecipient((prevRecipient) => ({
+      ...prevRecipient,
+      ...newData
+    }))
+  }
+
+   // 地址資訊
+   const [selectedCity, setSelectedCity] = useState("")
+   const [selectedArea, setSelectedArea] = useState("")
+   const [address, setAddress] = useState('')
+ 
+   // 更新地址的函數
+   const updateAddress = (newData) => {
+     setSelectedCity(newData.city)
+     setSelectedArea(newData.area)
+     setAddress(newData.address)
+   }
 
   // 記錄首次渲染是否完成的信號值
   const [didMount, setDidMount] = useState(false)
@@ -185,9 +212,12 @@ export function CartProvider({ children }) {
         setShippingMethod, // 可以讓子組件更改運送方式
         shippingCost,
         setShippingCost, // 可以讓子組件更改運費
-        PayMethod,
-        setPayMethod,
+        selectedPayMethod,
+        setSelectedPayMethod ,
         finalTotal,
+        recipient,  // 提供收件人資料
+        updateRecipient,  // 提供更新收件人資料的函數
+        updateAddress, // 提供更新地址的函數
         //handleShippingMethodChange,
       }}
     >

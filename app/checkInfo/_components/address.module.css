@@ -125,3 +125,21 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+
+/* 手機版*/
+@media (max-width: 768px) {
+  .city, .formFrame2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;  /* 讓 .formFrame2 在手機上寬度為100%，自動適應螢幕 */
+  }
+
+  .formFrame {
+    width: 100%;
+  }
+
+  .street {
+    width: 220px;
+  }
+}

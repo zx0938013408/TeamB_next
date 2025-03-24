@@ -5,18 +5,19 @@
     padding: 20px 40px;
     margin: 0 30px;
     background: #29755D;
-    color: #F7BF58;
+    color: #FFF;
     text-transform: uppercase;
     font-family: sans-serif;
     text-decoration: none;
     letter-spacing: 4px;
     transform-style: preserve-3d;
-    transition: ease-in-out 2s;
+    transition: ease-in-out 0.3s;
     border-radius: 15px;
   }
   
   .link:hover{
-    transform: rotateX(-360deg);
+    background-color: #29755D; /* 可以添加一些 hover 顏色變化 */
+    color: #F7BF58;
   }
   
   .link .button {
@@ -29,11 +30,9 @@
     text-align: center;
     font-size: 18px;
     font-weight: bold;
-    transform-style: preserve-3d;
-    transform: perspective(100px) translateZ(20px);
   }
   
-  .link:before {
+  /* .link:before {
     content: '';
     position: absolute;
     top: 4px;
@@ -41,28 +40,65 @@
     right: 6px;
     bottom: 4px;
     border: 2px solid #F7BF58;
-    transform-style: preserve-3d;
-    transform: perspective(500px) translateZ(15px);
     border-radius: 15px;
-  }
+  } */
   
-  .link:after {
+  /* .link:after {
     content: '';
     position: absolute;
     top: 2px;
     left: 2px;
     right: 2px;
     bottom: 2px;
-    border: 2px solid #F7BF58;
-    transform-style: preserve-3d;
-    transform: perspective(500px) translateZ(-15px);
     border-radius: 15px;
-  }
+  } */
+
+  /* 外框 (正常狀態) */
+/* .link:before
+ {
+    content: '';
+    position: absolute;
+    border: 2px solid #F7BF58;
+    border-radius: 15px;
+    transition: ease-in-out 0.3s;
+} */
+
+/* 外框 (第一層，較外) */
+.link:before {
+    top: 4px;
+    left: 6px;
+    right: 6px;
+    bottom: 4px;
+}
+
+/* 外框 (第二層，較內) */
+/* .link:after {
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+} */
+
+/* hover 時縮小外框範圍，讓按鈕更聚焦 */
+/* .link:hover:before {
+    top: 6px;
+    left: 8px;
+    right: 8px;
+    bottom: 6px;
+}
+
+.link:hover:after {
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+} */
   
   /* 按鈕2 */
   .link2 {
     width: 220px;
     position: relative;
+    cursor: pointer; /* 讓它仍然可點擊 */
     padding: 20px 40px;
     background: #F7BF58;
     color: #29755D;
@@ -70,15 +106,15 @@
     font-family: sans-serif;
     text-decoration: none;
     letter-spacing: 4px;
-    transform-style: preserve-3d;
+    /* transform-style: preserve-3d; */
     transition: ease-in-out 2s;
     border-radius: 15px;
   
   }
   
-  .link2:hover{
+  /* .link2:hover{
     transform: rotateX(360deg);
-  }
+  } */
   
   .link2 .btn {
     all: unset; /* 移除所有預設樣式 */
@@ -90,10 +126,10 @@
     text-align: center;
     font-size: 18px;
     font-weight: bold;
-    transform-style: preserve-3d;
-    transform: perspective(100px) translateZ(20px);
+    /* transform-style: preserve-3d;
+    transform: perspective(100px) translateZ(20px); */
   }
-  
+/*   
   .link2:before {
     content: '';
     position: absolute;
@@ -102,21 +138,21 @@
     right: 6px;
     bottom: 4px;
     border: 2px solid #29755D;
-    transform-style: preserve-3d;
-    transform: perspective(500px) translateZ(15px);
-    border-radius: 15px;
-  }
+    /* transform-style: preserve-3d;
+    transform: perspective(500px) translateZ(15px); */
+    /*border-radius: 15px;
+  } */
   
-  .link2:after {
+  /* .link2:after {
     content: '';
     position: absolute;
     top: 2px;
     left: 2px;
     right: 2px;
     bottom: 2px;
-    border: 2px solid #29755D;
-    transform-style: preserve-3d;
-    transform: perspective(500px) translateZ(-15px);
-    border-radius: 15px;
-  }
+    /* border: 2px solid #29755D; */
+    /* transform-style: preserve-3d;
+    transform: perspective(500px) translateZ(-15px); */
+    /*border-radius: 15px;
+  } */
   

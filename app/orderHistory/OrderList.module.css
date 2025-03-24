@@ -1,8 +1,12 @@
+.list * {
+  box-sizing: border-box;
+  
+}
+
 /* tab */
 .tabs {
   display: flex;
   justify-content: space-between;
-  
 }
 
 .tabs button {
@@ -57,6 +61,8 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  height: 500px;
+  overflow-y: scroll; /* 開啟滾動 */
 }
 
 .list .table {
@@ -69,7 +75,6 @@
 .orderWrapper {
   /* width: 100%; */
   margin-bottom: 20px; /* 設定每筆訂單之間的間距 */
-  
 }
 
 .item {
