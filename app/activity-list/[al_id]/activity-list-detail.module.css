@@ -384,29 +384,37 @@
 /* 燈箱內容 */
 .lightboxContent {
   position: relative;
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lightboxContent img {
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 600px;
+  max-height: 70vh;
   border-radius: 10px;
-  box-shadow: 0 0 20px #fff;
+  object-fit: contain;
 }
 
 /* 關閉按鈕 */
 .closeButton {
   position: absolute;
-  top: -10px;
-  right: -10px;
   background: white;
   color: black;
   border: none;
   border-radius: 50%;
   width: 32px;
   height: 32px;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   font-weight: bold;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

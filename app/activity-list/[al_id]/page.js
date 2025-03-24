@@ -72,12 +72,20 @@ export default function ActivityDetailPage() {
         {/* 左側圖片區 */}
         <div className={Styles.eventImages}>
   {/* 主圖：點擊可放大 */}
-  <figure className={Styles.mainImage} onClick={() => setShowLightbox(true)}>
+  <figure
+  className={Styles.mainImage}
+  onClick={() => {
+    setSelectedImage(
+      activity.avatar
+        ? `${AVATAR_PATH}${activity.avatar}`
+        : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+    );
+    setShowLightbox(true);
+  }}
+>
   <img
     src={
-      selectedImage
-        ? selectedImage
-        : activity.avatar
+      activity.avatar
         ? `${AVATAR_PATH}${activity.avatar}`
         : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
     }
@@ -90,7 +98,9 @@ export default function ActivityDetailPage() {
   {/* 縮圖 */}
   <div className={Styles.thumbnailContainer}>
   {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
-    <div key={i} className={Styles.thumbnail} onClick={() => setSelectedImage(`${AVATAR_PATH}${img}`)}>
+    <div key={i} className={Styles.thumbnail} onClick={() => {setSelectedImage(`${AVATAR_PATH}${img}`);
+     setShowLightbox(true); 
+    }}>
       <img
         src={
           img
@@ -219,14 +229,16 @@ export default function ActivityDetailPage() {
       {showLightbox && (
   <div className={Styles.lightboxOverlay} onClick={() => setShowLightbox(false)}>
     <div className={Styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
-      <img
-        src={
-          activity.avatar
-            ? `${AVATAR_PATH}${activity.avatar}`
-            : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
-        }
-        alt="放大圖"
-      />
+    <img
+  src={
+    selectedImage
+      ? selectedImage
+      : activity.avatar
+      ? `${AVATAR_PATH}${activity.avatar}`
+      : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
+  }
+  alt="放大圖"
+/>
       <button className={Styles.closeButton} onClick={() => setShowLightbox(false)}>
         &times;
       </button>
