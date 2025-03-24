@@ -45,7 +45,6 @@
   /* 右側區塊 (表單) */
   .rightSection {
     width: 50%; /* 右側區塊佔 40% 寬度 */
-    padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -74,7 +73,7 @@
   }
   
   .inputBox input {
-    width: 98%;
+    width: 300px;
     padding-top: 16px;
     padding-bottom: 16px;
     font-size: 14px;

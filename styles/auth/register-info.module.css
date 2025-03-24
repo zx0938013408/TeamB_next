@@ -1,5 +1,4 @@
 
-/* ✅ 右側區塊 (表單) */
 .container {
     display: flex;
     max-width: 1200px;
@@ -8,6 +7,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    
   }
 .form {
     width: 90%;
@@ -51,10 +51,22 @@
     border-radius: 6px;
     outline: none;
     margin-bottom: 30px;
+
+    
+}
+.inputBox.error {
+    border-color: red;
+  }
+
+.separator{
+    width: 50px;
+    height: 4px;
+    background: #1DB954;
+    margin: 15px 0;
 }
 
 .selectBox{
-    width: 100%;
+    width: 50%;
     padding-top: 14px;
     padding-bottom: 14px;
     font-size: 16px;
@@ -64,6 +76,16 @@
     margin-bottom: 30px;
 
 }
+.selectBox.error {
+    border-color: red;
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
 .inputBox:focus,
 .selectBox:focus {
     border-color: #0F3D3E;
@@ -89,6 +111,10 @@
     border-color: #0F3D3E;
 }
 
+.checkboxGroup.error{
+    border-color: red;
+}
+
 .checkboxItem {
     display: flex;
     align-items: center;
@@ -97,7 +123,7 @@
     
 }
 
-/* ✅ 送出按鈕 */
+
 .submitSection {
     text-align: center;
     margin-top: 20px;
@@ -123,8 +149,16 @@
     background: #146C94;
 }
 
+
+
 /* 讓頭像與姓名欄位水平排列 */
 .avatarNameContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;  /* 控制間距 */
+}
+
+.genderSportContainer{
     display: flex;
     align-items: center;
     gap: 20px;  /* 控制間距 */
@@ -169,3 +203,85 @@
     background-color: #173029;
 }
 
+
+.errors {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+  .row {
+    display: flex;
+    gap: 20px; /* 控制間距 */
+    flex-wrap: nowrap; /* 防止換行 */
+  }
+  
+  .row .inputBox {
+    width: 50%; /* 兩個欄位各佔50%寬度 */
+  }
+  
+  .singleRow {
+    width: 100%; /* 地址單獨佔滿一行 */
+    margin-top: 10px;
+    
+  }
+  
+  .singleRow .inputBox {
+    width: 100%; /* 地址輸入框佔滿整行 */
+
+  }
+
+  .addressContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.select {
+  width: 20%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+
+  
+}
+
+.input {
+  width: 60%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+ 
+ 
+  
+}
+.cityBox{
+    width: 20%;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    margin-bottom: 30px;
+    gap: 10px;
+    margin-right: 20px;
+    flex-direction: column;
+
+}
+.addressBox{
+    width: 50%;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    margin-bottom: 30px;
+}
+
+  

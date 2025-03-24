@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
+import {MB_LOGIN_POST} from "../config/auth.api"
 
 
 const AuthContext = createContext();
@@ -30,7 +31,7 @@ export function AuthContextProvider({ children }) {
   //登入時傳帳號密碼進來
   const login = async (email, password) => {
    
-    const r = await fetch('http://localhost:3001/login-jwt', {
+    const r = await fetch(MB_LOGIN_POST, {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: {
