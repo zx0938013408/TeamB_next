@@ -55,16 +55,6 @@ export function AuthContextProvider({ children }) {
     };
   };
 
-  // useEffect(() => {
-  //   const data = localStorage.getItem(storageKey);
-  //   if (data) {
-  //     try {
-  //       const authData = JSON.parse(data);
-  //       setAuth(authData);
-  //     } catch (ex) {}
-  //   }
-  // }, []);
-
   useEffect(() => {
     const data = localStorage.getItem(storageKey);
     if (data) {
