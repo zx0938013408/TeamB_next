@@ -15,6 +15,8 @@ export default function ActivityDetailPage() {
   const [showLightbox, setShowLightbox] = useState(false);
   // 點擊圖片放大
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageList, setImageList] = useState([]);
+const [currentIndex, setCurrentIndex] = useState(0);
 
 
 
@@ -22,32 +24,29 @@ export default function ActivityDetailPage() {
     if (!al_id) return;
 
     const apiUrl = `${AL_ITEM_GET}/${al_id}`;
-    console.log(`📢 正在請求 API: ${apiUrl}`); // 確保 fetch() 請求的 URL 是正確的
-
     fetch(apiUrl)
-      .then(async (res) => {
-        console.log(`✅ API 響應狀態: ${res.status}`);
-
-        // 嘗試讀取回應內容
-        const responseText = await res.text();
-        console.log("📄 API 回應內容:", responseText); // 這裡會顯示 JSON 或錯誤 HTML
-
-        try {
-          return JSON.parse(responseText);
-        } catch (error) {
-          throw new Error("❌ API 回應的不是 JSON，可能是錯誤頁面");
-        }
-      })
-      .then((data) => {
-        console.log("📦 API 回傳資料:", data);
-        if (data.success) {
-          setActivity(data.data);
-        } else {
-          console.error("❌ API 內部錯誤:", data.error);
-        }
-      })
-      .catch((error) => console.error("❌ fetch 錯誤:", error));
-  }, [al_id]);
+    .then(async (res) => {
+      const responseText = await res.text();
+      try {
+        return JSON.parse(responseText);
+      } catch (error) {
+        throw new Error("❌ API 回應的不是 JSON，可能是錯誤頁面");
+      }
+    })
+    .then((data) => {
+      if (data.success) {
+        setActivity(data.data);
+        const images = [
+          data.data.avatar,
+          data.data.avatar2,
+          data.data.avatar3,
+          data.data.avatar4,
+        ].filter(Boolean);
+        setImageList(images);
+      }
+    })
+    .catch((error) => console.error("❌ fetch 錯誤:", error));
+}, [al_id]);
 
   if (!activity) {
     return <p className={Styles.loading}>載入中...</p>;
@@ -75,13 +74,11 @@ export default function ActivityDetailPage() {
   <figure
   className={Styles.mainImage}
   onClick={() => {
-    setSelectedImage(
-      activity.avatar
-        ? `${AVATAR_PATH}${activity.avatar}`
-        : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
-    );
-    setShowLightbox(true);
-  }}
+  const index = imageList.findIndex((img) => img === activity.avatar);
+  setCurrentIndex(index >= 0 ? index : 0);
+  setSelectedImage(`${AVATAR_PATH}${activity.avatar}`);
+  setShowLightbox(true);
+}}
 >
   <img
     src={
@@ -98,9 +95,12 @@ export default function ActivityDetailPage() {
   {/* 縮圖 */}
   <div className={Styles.thumbnailContainer}>
   {[activity.avatar2, activity.avatar3, activity.avatar4].map((img, i) => (
-    <div key={i} className={Styles.thumbnail} onClick={() => {setSelectedImage(`${AVATAR_PATH}${img}`);
-     setShowLightbox(true); 
-    }}>
+    <div key={i} className={Styles.thumbnail} onClick={() => {
+  const index = imageList.findIndex((x) => x === img);
+  setCurrentIndex(index);
+  setSelectedImage(`${AVATAR_PATH}${img}`);
+  setShowLightbox(true);
+}}>
       <img
         src={
           img
@@ -229,16 +229,30 @@ export default function ActivityDetailPage() {
       {showLightbox && (
   <div className={Styles.lightboxOverlay} onClick={() => setShowLightbox(false)}>
     <div className={Styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
-    <img
-  src={
-    selectedImage
-      ? selectedImage
-      : activity.avatar
-      ? `${AVATAR_PATH}${activity.avatar}`
-      : `${AVATAR_PATH}/TeamB-logo-greenYellow.png`
-  }
-  alt="放大圖"
-/>
+    <button
+        className={Styles.prevBtn}
+        onClick={() => {
+          const newIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+          setCurrentIndex(newIndex);
+          setSelectedImage(`${AVATAR_PATH}${imageList[newIndex]}`);
+        }}
+      >
+      &#8592;
+      </button>
+
+      <img src={selectedImage} alt="放大圖" />
+
+      <button
+        className={Styles.nextBtn}
+        onClick={() => {
+          const newIndex = (currentIndex + 1) % imageList.length;
+          setCurrentIndex(newIndex);
+          setSelectedImage(`${AVATAR_PATH}${imageList[newIndex]}`);
+        }}
+      >
+        &#8594;
+      </button>
+
       <button className={Styles.closeButton} onClick={() => setShowLightbox(false)}>
         &times;
       </button>

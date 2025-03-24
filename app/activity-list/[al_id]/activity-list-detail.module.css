@@ -418,3 +418,30 @@
   justify-content: center;
   align-items: center;
 }
+
+/* 左右按鈕 */
+.prevBtn, .nextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 36px;
+  color: white;
+  background: rgba(0,0,0,0.3);
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  z-index: 10;
+  border-radius: 6px;
+}
+
+.prevBtn {
+  left: 10px;
+}
+
+.nextBtn {
+  right: 10px;
+}
+
+.prevBtn:hover, .nextBtn:hover {
+  background: rgba(255,255,255,0.2);
+}
