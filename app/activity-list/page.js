@@ -8,8 +8,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { AL_LIST } from "@/config/api-path";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
+import { useAuth } from "@/context/auth-context";
 
 export default function ActivityListPage() {
+  const { auth } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchRef = useRef();
@@ -97,7 +99,7 @@ export default function ActivityListPage() {
       }
     
       const formData = {
-        member_id: 35,
+        member_id: auth.id,
         activity_id: activityName?.al_id,
         num: selectedPeople,
         notes: notes.trim(),
