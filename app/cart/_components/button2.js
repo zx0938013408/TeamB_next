@@ -1,16 +1,18 @@
 'use client'
 import styles from './button.module.css'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
-export default function Button2({ text, href, onClick }) {
-  const router = useRouter()
+export default function Button2({ text, onClick ,href}) {
+  // const router = useRouter()
 
   const handleClick = (e) => {
-    // 執行傳進來的 onClick 函數
-    const shouldProceed = onClick ? onClick(e) : true
-
-    if (shouldProceed) {
-      router.push(href) // 正常跳轉
+    // 如果有傳入 onClick 函數，則執行它
+    if (onClick) {
+      onClick(e);
+    }
+    // 如果有傳入 href，則跳轉到該網址
+    if (href) {
+      window.location.href = href;  // 跳轉至指定的 URL
     }
   }
 

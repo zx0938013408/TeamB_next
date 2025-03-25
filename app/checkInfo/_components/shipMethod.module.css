@@ -135,9 +135,14 @@
 }
 
 
-/* 手機版調整為卡片式 */
+/* 手機版*/
 @media (max-width: 768px) {
-  .optionContainer {
+  .shipContainer2 {
+    display: flex;
     flex-direction: column;
+  }
+
+  .formContainer {
+    width: 100%;
   }
 }

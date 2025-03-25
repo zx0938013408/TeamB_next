@@ -1,38 +1,78 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import styles from "./shop.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { AB_LIST } from "@/config/shop-api-path";
-
 import Link from "next/link";
 import Carousel from "@/components/shop/carousel";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
 import FilterSidebar from "@/components/shop/FilterSideBar";
 
 export default function ShopPage() {
-  const [products, setProducts] = useState([]); // 存放商品資料
-  const [filters, setFilters] = useState({
-    category: "",
-    minPrice: "",
-    maxPrice: "",
-  });
+  // 篩選 URL參數（query）
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  // 🚀 根據篩選條件向 `/AB_LIST` 請求資料
-  useEffect(() => {
-    const fetchProducts = async () => {
-      let query = new URLSearchParams(filters).toString(); // 轉換成 URL 查詢字串
-      const res = await fetch(`/AB_LIST?${query}`);
-      const data = await res.json();
-      setProducts(data);
+  // 取得 URL 查詢參數
+  const getQueryParams = () => {
+    return {
+      sports: searchParams.get("sports")
+        ? searchParams.get("sports").split(",")
+        : [],
+      apparel: searchParams.get("apparel")
+        ? searchParams.get("apparel").split(",")
+        : [],
+      priceRange: {
+        min: searchParams.get("minPrice") || "",
+        max: searchParams.get("maxPrice") || "",
+      },
     };
+  };
 
-    fetchProducts();
-  }, [filters]); // 只要 filters 變更，就重新 fetch 資料
+  // 商品資料
+  const [products, setProducts] = useState([]);
+  const [filters, setFilters] = useState(getQueryParams());
+
+  // 更新 URL
+  const updateURL = (newFilters) => {
+    const params = new URLSearchParams();
+
+    if (newFilters.sports?.length)
+      params.set("sports", newFilters.sports.join(","));
+    if (newFilters.apparel?.length)
+      params.set("apparel", newFilters.apparel.join(","));
+    if (newFilters.priceRange.min)
+      params.set("minPrice", newFilters.priceRange.min);
+    if (newFilters.priceRange.max)
+      params.set("maxPrice", newFilters.priceRange.max);
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   // 取得商品資料
+  const fetchProducts = async () => {
+    const params = new URLSearchParams();
+    if (filters.sports.length) params.set("sports", filters.sports.join(","));
+    if (filters.apparel.length)
+      params.set("apparel", filters.apparel.join(","));
+    if (filters.priceRange.min) params.set("minPrice", filters.priceRange.min);
+    if (filters.priceRange.max) params.set("maxPrice", filters.priceRange.max);
+
+    const res = await fetch(`/api/products?${params.toString()}`);
+    const data = await res.json();
+    setProducts(data);
+  };
+
+  // 當篩選條件改變時重新請求 API
+  useEffect(() => {
+    fetchProducts();
+  }, [filters]);
+
+  // 卡片元件取得商品資料
   useEffect(() => {
     fetch(AB_LIST)
       .then((res) => res.json())
@@ -52,43 +92,50 @@ export default function ShopPage() {
       <div className={styles.body}>
         <div className={styles.container}>
           {/* 麵包屑 */}
-          <nav className={styles.breadcrumb}>
+          {/* <nav className={styles.breadcrumb}>
               <a href="/">首頁</a>
               <span className=""> / </span>
               <span className="active" aria-current="page">
                 商城
               </span>
-          </nav>
+          </nav> */}
+          {/* 輪播圖 */}
+          <div className={styles.imgContainer}>
+            {/* <img src="/photo/activity-volleyballCourt.jpg" style={{ width: 1024 }}/> */}
+          </div>
           {/* 主要區域 */}
           <div className={styles.Main}>
             {/* 篩選搜尋 sidebar */}
             <div className={styles.sideBar}>
-            {/* 搜尋 */}
+              {/* 搜尋 */}
               <div className={styles.search}>
-              <input
-                type="text"
-                placeholder="search"
-                onChange={(e) => handleSearch(e.target.value)}
-                className={styles.input}
+                <input
+                  type="text"
+                  placeholder="search"
+                  onChange={(e) => handleSearch(e.target.value)}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" && handleSearch(e.target.value)
+                  }
+                  className={styles.input}
+                />
+                <span
+                  className={`icon-Search ${styles.iconSearch}`}
+                  onClick={() =>
+                    handleSearch(
+                      document.querySelector(`.${styles.input}`).value
+                    )
+                  }
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+
+              <FilterSidebar
+                filters={filters}
+                onFilterChange={(newFilters) => {
+                  setFilters(newFilters);
+                  updateURL(newFilters);
+                }}
               />
-                <span className={`icon-Search ${styles.iconSearch}`} />
-              </div>
-              <div className="shop-container">
-                {/* 篩選列 */}
-                <div>
-                  <select
-                    id="people"
-                    name="people"
-                    onChange={(e) => handleSortChange(e.target.value)}
-                  >
-                    <option value="date">依照活動日期排序</option>
-                    <option value="location">依照地區排序</option>
-                    <option value="price">依照費用排序</option>
-                    <option value="people">依照報名人數排序</option>
-                  </select>
-                </div>
-                <FilterSidebar onChange={setFilters} />
-              </div>
             </div>
             <div className={styles.mainContent}>
               {/* 上衣 top */}

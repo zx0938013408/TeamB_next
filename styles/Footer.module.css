@@ -3,7 +3,7 @@
 .footerContainer {
   align-self: stretch;
   height: 600px;
-  padding: 100px 50px 50px 50px;
+  padding: 100px 50px 20px 50px;
   background: #528F7C;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 .line {
   flex: 1;
   height: 0;
-  border: 8px rgba(255, 255, 255, 0.50) solid;
+  border: 3px rgba(255, 255, 255, 0.50) solid;
 }
 
 .footerLogo {
@@ -33,7 +33,7 @@
 
 /* 主要連結區 */
 .footerLinks {
-  width: 100%;
+  width: 80%;
   padding: 0 100px;
   display: flex;
   justify-content: center;
@@ -42,7 +42,7 @@
 }
 
 .footerSection {
-  width: 250px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,7 +50,7 @@
 }
 
 .footerTitle {
-  font-size: 36px;
+  font-size: 26px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   letter-spacing: 7.6px;
@@ -60,7 +60,7 @@
 }
 
 .footerLink {
-  font-size: 26px;
+  font-size: 24px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   letter-spacing: 6px;
@@ -84,7 +84,7 @@
 }
 
 .copyright {
-  font-size: 25px;
+  font-size: 20px;
   font-family: "Noto Sans TC", sans-serif;
   font-weight: 400;
   color: white;

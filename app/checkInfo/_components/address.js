@@ -1,31 +1,70 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './address.module.css'
+import { CITY_LIST } from "@/config/cityArea-api-path"
+import { useCart } from '@/hooks/use-cart'
 
 export default function AddressForm() {
-  // const [city, setCity] = useState('')
-  // const [district, setDistrict] = useState('')
-  // const [address, setAddress] = useState('')
-  const [addressInfo, setAddressInfo] = useState({
-    city: '',
-    district: '',
-    address: '',
-  })
+  const { selectedCity, selectedArea, address, updateAddress } = useCart()
 
-  const handleChange = (field, value) => {
-    setAddressInfo((prev) => ({
-      ...prev,
-      [field]: value,
-    }))
+  const [cityData, setCityData] = useState([]) 
+  const [cityList, setCityList] = useState([]) 
+  const [areaList, setAreaList] = useState([]) 
+
+  // 取得縣市資料
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const r = await fetch(CITY_LIST)
+        const obj = await r.json()
+        if (obj.success) {
+          setCityData(obj.rows)
+          const cities = Array.from(
+            new Map(obj.rows.map((item) => [item.city_id, item.city_name]))
+          ).map(([id, name]) => ({ city_id: id, city_name: name }))
+          setCityList(cities)
+        }
+      } catch (error) {
+        console.warn("載入失敗：", error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // 當選擇縣市時，更新區域列表
+  useEffect(() => {
+    if (selectedCity) {
+      // 篩選出與選擇縣市相關的區域
+      const filteredAreas = cityData
+        .filter((item) => item.city_id === parseInt(selectedCity))
+        .map((item) => ({
+          area_id: item.area_id,
+          area_name: item.name,
+        }))
+      setAreaList(filteredAreas)
+      // 清空區域選擇
+      updateAddress({ city: selectedCity, area: "", address })
+    } else {
+      setAreaList([])  // 清空區域列表，當未選擇縣市時
+    }
+  }, [selectedCity, cityData, updateAddress])
+
+  const handleCityChange = (e) => {
+    const city = e.target.value
+    // 更新選擇的縣市
+    updateAddress({ city, area: "", address })
   }
 
-  const cities = ['台北', '台中', '高雄']
+  const handleAreaChange = (e) => {
+    const area = e.target.value
+    updateAddress({ city: selectedCity, area, address })
+  }
 
-  const districts = {
-    台北: ['大安區', '信義區', '中山區'],
-    台中: ['西屯區', '南屯區', '北區'],
-    高雄: ['鼓山區', '左營區', '苓雅區'],
+  const handleAddressChange = (e) => {
+    const newAddress = e.target.value
+    updateAddress({ city: selectedCity, area: selectedArea, address: newAddress })
   }
 
   return (
@@ -35,16 +74,13 @@ export default function AddressForm() {
         <div className={styles.name}>
           <select
             aria-labelledby="addressTitle"
-            value={addressInfo.city}
-            onChange={(e) => {
-              handleChange('city', e.target.value)
-              handleChange('district', '') // 選擇新城市時重置區域
-            }}
+            value={selectedCity}
+            onChange={handleCityChange}
           >
-            <option value="">請選擇城市</option>
-            {cities.map((c) => (
-              <option key={c} value={c}>
-                {c}
+            <option value="">請選擇縣市</option>
+            {cityList.map((city) => (
+              <option key={city.city_id} value={city.city_id}>
+                {city.city_name}
               </option>
             ))}
           </select>
@@ -53,35 +89,29 @@ export default function AddressForm() {
         <div className={styles.name}>
           <select
             aria-labelledby="addressTitle"
-            value={addressInfo.district}
-            onChange={(e) => handleChange('district', e.target.value)}
-            disabled={!addressInfo.city}
+            value={selectedArea}
+            onChange={handleAreaChange}
+            disabled={!selectedCity}  // 當沒有選擇縣市時禁用區域選項
           >
-            <option value="">請選擇市區</option>
-            {addressInfo.city &&
-              districts[addressInfo.city].map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
+            <option value="">請選擇區域</option>
+            {areaList.map((area) => (
+              <option key={area.area_id} value={area.area_id}>
+                {area.area_name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
 
       <div className={styles.street}>
-        {/* <label htmlFor="address">詳細地址</label> */}
         <input
           type="text"
           aria-labelledby="addressTitle"
-          value={addressInfo.address}
-          onChange={(e) => handleChange('address', e.target.value)}
+          value={address}
+          onChange={handleAddressChange}
           placeholder="請輸入詳細地址"
         />
       </div>
-
-      {/* <button>儲存</button> */}
     </div>
   )
 }
-
-

@@ -4,13 +4,14 @@ import { useState } from 'react'
 import validator from 'validator'
 import styles from './shipMethod.module.css'
 import styles2 from './address.module.css'
+import { useCart } from '@/hooks/use-cart'
 
 export default function RecipientForm() {
+  const { recipient, updateRecipient } = useCart()  // 從context中取得收件人資料和更新函數
+
   const initData = {
-    recipientName: '',
-    phone: '',
-    address: '',
-    acceptTerms: false,
+    recipientName: recipient.recipientName,
+    phone: recipient.phone,
   }
 
   const [data, setData] = useState(initData)
@@ -20,7 +21,12 @@ export default function RecipientForm() {
     if (e.target.name === 'acceptTerms') {
       return setData({ ...data, acceptTerms: e.target.checked })
     }
-    return setData({ ...data, [e.target.name]: e.target.value })
+
+    const updatedData = { ...data, [e.target.name]: e.target.value }
+    setData(updatedData)
+
+    // 更新 context 中的收件人資料
+    updateRecipient({ [e.target.name]: e.target.value })
   }
 
   const validateFields = (data, errors, fieldname = '') => {
@@ -33,14 +39,6 @@ export default function RecipientForm() {
 
     if (!validator.isMobilePhone(data.phone, 'zh-TW')) {
       newErrors.phone ||= '請輸入有效的手機號碼'
-    }
-
-    // if (validator.isEmpty(data.address, { ignore_whitespace: true })) {
-    //   newErrors.address ||= '地址為必填'
-    // }
-
-    if (!data.acceptTerms) {
-      newErrors.acceptTerms ||= '請同意收件條款'
     }
 
     return fieldname
@@ -89,7 +87,7 @@ export default function RecipientForm() {
             手機號碼
           </label>
             <input
-              type="text"
+              type="tel"
               id = "phone"
               name="phone"
              

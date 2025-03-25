@@ -5,7 +5,7 @@ import { useCart } from '@/hooks/use-cart'
 import styles from './shipMethod.module.css'
 
 export default function PayMethod() {
-  const { PayMethod, setPayMethod } = useCart()
+  const { selectedPayMethod, setSelectedPayMethod } = useCart()
   //  被選擇的選項
   const options = ['貨到付款', '信用卡/金融卡']
 
@@ -24,7 +24,7 @@ export default function PayMethod() {
                 htmlFor={`payMethod-${i}`}
                 className={styles.payMethod}
                 // 只有靜態選項才能用索引值當key
-                key={i}
+                key={v}
                 >
                 <input
                     id={`payMethod-${i}`}
@@ -32,10 +32,10 @@ export default function PayMethod() {
                     // 觸發事件時用於設定狀態
                     value={v}
                     // 用布林值決定是否有被選中
-                    checked={PayMethod === v}
+                    checked={selectedPayMethod === v}
                     // 使用者操作時 --> 更動到狀態
                     onChange={(e) => {
-                    setPayMethod(e.target.value)
+                    setSelectedPayMethod(e.target.value)
                     }}
                 />
                 {v}

@@ -1,8 +1,10 @@
 
 export const API_SERVER = `http://localhost:3001`;
 
-// 照片的路
-export const AVATAR_PATH = `${API_SERVER}/imgs`;
+
+// 頭貼的路
+export const AVATAR_PATH = `${API_SERVER}/imgs/`;
+
 
 // 取得通訊錄列表的資料 GET
 export const AL_LIST = `${API_SERVER}/activity-list/api`;
@@ -13,7 +15,8 @@ export const AL_ITEM_GET = `${API_SERVER}/activity-list/api`;
 
 
 // 通訊錄: 新增資料 POST
-export const AL_ADD_POST = `${API_SERVER}/activity-list/api`;
+// export const AL_ADD_POST = `${API_SERVER}/activity-list/api`;
+export const AL_CREATE_POST = `${API_SERVER}/activity-create/api`;
 
 // 通訊錄: 刪除項目 DELETE
 // `${API_SERVER}/activity-list/api/${ab_id}`

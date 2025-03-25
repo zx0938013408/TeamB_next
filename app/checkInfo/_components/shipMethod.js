@@ -58,7 +58,7 @@ export default function ShipMethod() {
       {/* 選項列表 */}
       <div className={styles.optionsContainer}>
         {options.map((v, i) => (
-          <div key={i} className={styles.optionContainer}>
+          <div key={v.label} className={styles.optionContainer}>
             <label htmlFor={v.label} className={styles.shipMethod}>
               <input
                 id={v.label}
