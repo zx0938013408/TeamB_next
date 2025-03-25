@@ -216,8 +216,8 @@ export default function ActivityCreatePage() {
                 setCityData={setCityData}
               />
               </span>
-              <span className={`${Styles.line} ${Styles.distance}`}>|</span>
-              <span >
+              <span>
+              <span className={`${Styles.line}`}>|</span>
               <AreaSelector
                 selectedCity={selectedCity}
                 selectedArea={selectedArea}
@@ -227,15 +227,7 @@ export default function ActivityCreatePage() {
               />
               </span>
               </div>
-              {/* <select 
-              name="area_id" 
-              className={Styles.createInput} 
-              onChange={handleInputChange}
-              >
-                <option value="1">東區</option>
-                <option value="2">南區</option>
-                <option value="3">永康區</option>
-              </select> */}
+              <CourtList selectedCity={selectedCity} selectedArea={selectedArea} />
               <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} />
               <label>活動時間</label>
               <input type="datetime-local" name="activity_time" className={Styles.createInput} onChange={handleInputChange} />
