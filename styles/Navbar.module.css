@@ -2,17 +2,16 @@
 /* 初始：收合，隱藏在上方 */
 .navbarBt {
   position: fixed;
-  top: 100px; /* 從 Header 下方開始 */
+  top: var(--header-height, 86px);
   left: 0;
   width: 100%;
   background: #528F7C;
-  z-index: 999;
+  z-index: 900;
   padding: 14px 50px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding-top: 120px;
   opacity: 0;
   transform: translateY(-20px);
   pointer-events: none; /* 🔒 防止點擊 */
@@ -82,6 +81,12 @@
 }
 
 /* 選單連結 */
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
 .navLink{
   font-size: 20px;
   font-family: Inter, sans-serif;
@@ -91,7 +96,6 @@
   text-decoration: none;
   transition: color 0.3s;
   text-align: center;
-  
 }
 .navbarBt .navLink {
   color: white !important;
@@ -102,4 +106,87 @@
 .navLink:hover {
   color: #BDE6D9;
   border-bottom: 1px white solid;
+}
+
+
+/* 手機版 RWD */
+@media screen and (max-width: 768px) {
+  .navbarBt {
+    top: var(--header-height, 143px);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .navContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .navSection {
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .navTitle {
+    font-size: 24px;
+    letter-spacing: 4px;
+    margin-bottom: 5px;
+  }
+
+  .navLink {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  .closeBtn {
+    font-size: 26px;
+    top: 10px;
+    right: 15px;
+    z-index: 1001;
+  }
+}
+/* 手風琴效果（手機版展開 navLink） */
+@media screen and (max-width: 768px) {
+  .linkGroup {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    
+  }
+
+  .show {
+    max-height: 500px; /* 根據內容多少可自行加大 */
+  }
+
+  .navTitle {
+    cursor: pointer;
+    /* padding: 5px 0; */
+    border-bottom: none;
+    width: 100%;
+    text-align: center;
+  }
+  .navTitle:hover {
+    font-size: 28px;         /* ✅ 比原本略大（原本是 26px） */
+    transition: font-size 0.2s ease;
+  }
+  
+  .navSection{
+    border-bottom:1px solid white;
+  }
+  .navSection:hover {
+    padding-bottom: 0.5rem;
+   scale: 1;
+
+  }
+  /* .navSection:active{
+    padding-bottom: 0.5rem;
+  } */
+  
 }

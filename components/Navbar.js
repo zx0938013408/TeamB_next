@@ -1,37 +1,86 @@
+import { useState } from "react";
 import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
 
+const sections = [
+  {
+    title: "活動列表",
+    links: [{ label: "活動列表", href: "/activity-list" }],
+  },
+  {
+    title: "商城",
+    links: [
+      { label: "上衣", href: "../../shop/top" },
+      { label: "褲裝", href: "../../shop/bottom" },
+      { label: "鞋類", href: "../../shop/shoes" },
+      { label: "運動裝備", href: "../../shop/accessory" },
+    ],
+  },
+  {
+    title: "關於TeamB",
+    links: [
+      { label: "品牌故事", href: "#" },
+      { label: "聯繫我們", href: "#" },
+      { label: "活動列表", href: "#" },
+    ],
+  },
+  {
+    title: "會員資訊",
+    links: [
+      { label: "我的活動", href: "#" },
+      { label: "訂單紀錄", href: "#" },
+      { label: "我的帳戶", href: "#" },
+    ],
+  },
+];
+
 const Navbar = ({ isOpen, setIsOpen }) => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleSection = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <nav className={`${styles.navbarBt} ${isOpen ? styles.active : styles.none}`}>
-      <div className={styles.navContainer}>
-        <div className={styles.navSection}>
-          <div className={styles.navTitle}>活動列表</div>
-          <Link href="/activity-list" className={styles.navLink}>活動列表</Link>
-        </div>
-        <div className={styles.navSection}>
-          <div className={styles.navTitle}>商城</div>
-          <Link href="../../shop/top" className={styles.navLink}>上衣</Link>
-          <Link href="../../shop/bottom" className={styles.navLink}>褲裝</Link>
-          <Link href="../../shop/shoes" className={styles.navLink}>鞋類</Link>
-          <Link href="../../shop/accessory" className={styles.navLink}>運動裝備</Link>
-        </div>
-        <div className={styles.navSection}>
-                <div className={styles.navTitle}>關於TeamB</div>
-                <Link href="#" className={styles.navLink}>品牌故事</Link>
-                <Link href="#" className={styles.navLink}>聯繫我們</Link>
-                <Link href="#" className={styles.navLink}>活動列表</Link>
+       <div className={styles.navContainer}>
+        {sections.map((section, index) => (
+          <div
+            className={styles.navSection}
+            key={index}
+            onMouseLeave={() => {
+              if (window.innerWidth <= 768) {
+                setOpenIndex(null);
+              }
+            }}
+            onTouchStart={(e) => {
+              if (window.innerWidth <= 768 && openIndex === index) {
+                const touchTarget = e.target;
+                const isInsideTitle = touchTarget.closest(`.${styles.navTitle}`);
+                if (!isInsideTitle) {
+                  setOpenIndex(null);
+                }
+              }
+            }}
+          >
+            <div
+              className={styles.navTitle}
+              onClick={() => toggleSection(index)}
+            >
+              {section.title}
             </div>
-            <div className={styles.navSection}>
-                <div className={styles.navTitle}>會員資訊</div>
-                <Link href="#" className={styles.navLink}>我的活動</Link>
-                <Link href="#" className={styles.navLink}>訂單紀錄</Link>
-                <Link href="#" className={styles.navLink}>我的帳戶</Link>
+            <div className={`${styles.linkGroup} ${openIndex === index ? styles.show : ""}`}>
+              {section.links.map((link, i) => (
+                <Link href={link.href} key={i} className={styles.navLink}>
+                  {link.label}
+                </Link>
+              ))}
             </div>
+          </div>
+        ))}
       </div>
-            
 
-      {/* 關閉 Navbar 按鈕 */}
+      {/* 關閉按鈕 */}
       <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
         <span className={`icon-Dropup ${styles.iconDropup}`}></span>
       </button>
