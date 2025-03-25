@@ -22,8 +22,14 @@ const Header = () => {
 
 
   const handleLogout = () => {
-    logout(); // 調用 logout 函數來清除 auth 和 localStorage
-    router.push('/auth/login'); // 登出後，導向登入頁
+    // 紀錄當前頁面 URL
+    localStorage.setItem('lastPageBeforeLogout', router.asPath);
+  
+    logout(); 
+    
+    // 顯示登出提示
+    alert('會員已登出');
+    
   };
 
 
@@ -92,47 +98,59 @@ const Header = () => {
           <div className={styles.actionsContainer}>
           {/* 搜尋、購物車、登入按鈕 */}
           <div className={styles.navbarActions}>
-            {/* 搜尋按鈕 */}
-            <div 
-              className={styles.searchToggle} 
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <span className={`icon-Search ${styles.iconSearch}`}></span>
-            </div>
+  {/* 搜尋按鈕 */}
+  <div 
+    className={styles.searchToggle} 
+    onClick={() => setIsSearchOpen(!isSearchOpen)}
+  >
+    <span className={`icon-Search ${styles.iconSearch}`}></span>
+  </div>
 
-            {/* 🔹 搜尋欄 (點擊放大鏡才顯示) */}
-            <div 
-              ref={searchRef}
-              className={`${styles.searchContainer} ${isSearchOpen ? styles.active : ""}`}
-            >
-              <input type="text" placeholder="搜尋關鍵字" className={styles.searchInput} />
-            </div>
+  {/* 🔹 搜尋欄 (點擊放大鏡才顯示) */}
+  <div 
+    ref={searchRef}
+    className={`${styles.searchContainer} ${isSearchOpen ? styles.active : ""}`}
+  >
+    <input type="text" placeholder="搜尋關鍵字" className={styles.searchInput} />
+  </div>
 
-            <Link href="#"><span className={`icon-Cart ${styles.iconCart}`}></span></Link>
-            <Link href="#"><span className={`icon-User ${styles.iconUser}`}></span></Link>
-            {auth.token ? (
-              <>
-                <button
-                  className={styles.quickActionBtn}
-                  onClick={handleLogout}
-                >
-                  登出
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  className={styles.quickActionBtn}
-                  onClick={() => window.location.href = "/auth/login"}
-                >
-                  登入
-                </button>
-              </>
-            )}
-            <Link href="/activity-create">
-            <button className={styles.quickActionBtn}>快速開團</button>
-            </Link>
-          </div>
+  <Link href="#"><span className={`icon-Cart ${styles.iconCart}`}></span></Link>
+
+  {/* 根據登入狀態切換 User 頁面連結 */}
+  {auth.token ? (
+    <>
+      <Link href="/auth/member">
+        <span className={`icon-User ${styles.iconUser}`}></span>
+      </Link>
+    </>
+  ) : (
+    <>
+ 
+      <span
+        className={`icon-User ${styles.iconUser} ${styles.disabled}`}
+
+      ></span>
+    </>
+  )}
+
+  {auth.token ? (
+    <button className={styles.quickActionBtn} onClick={handleLogout}>
+      登出
+    </button>
+  ) : (
+    <button
+      className={styles.quickActionBtn}
+      onClick={() => window.location.href = "/auth/login"}
+    >
+      登入
+    </button>
+  )}
+
+  <Link href="/activity-create">
+    <button className={styles.quickActionBtn}>快速開團</button>
+  </Link>
+</div>
+
 
           {/* Navbar 開關按鈕 */}
           <div className={styles.navbarToggle}>
