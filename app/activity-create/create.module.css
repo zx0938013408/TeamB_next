@@ -229,6 +229,22 @@
     font-weight: bold;
 }
 
+/* 縣市區域用的線 */
+.line{
+    color: #a0c4b0;
+    font-weight: bold;
+
+}
+
+.distance{
+    padding: 0
+}
+
+.createInputDistance{
+    display: flex;
+    justify-content: space-between;
+}
+
 .modalIcon{
     margin-right: 20px;
 }

@@ -13,10 +13,6 @@ import {AVATAR_PATH} from "../../../config/auth.api"
 const Member = () => {
   const { auth } = useAuth(); // 從上下文獲取 auth 資料
   const [user, setUser] = useState(null); // 記錄用戶資料
-
-
-
-  
   useEffect(() => {
     if (auth.id) {
       setUser(auth); // 如果用戶已登入，將 auth 資料設置到 user 狀態

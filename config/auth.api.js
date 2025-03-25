@@ -71,5 +71,15 @@ export const MB_LOGIN_POST =`${AUTH_GET}/login-jwt`;
 export const MB_EDIT_PUT =`${AUTH_GET}/user-edit`;
 
 
-// 處理密碼重設請求
-// export const MB_RESET_POST =`${API_SERVER}/reset-password`;
+
+//驗證身分 + 回傳 token
+export const MB_VERIFY_POST =`${AUTH_GET}/api/verify-user`;
+
+
+
+
+
+
+//忘記密碼後設定新密碼
+export const MB_RESET_POST =`${AUTH_GET}/api/reset-password`;
+
