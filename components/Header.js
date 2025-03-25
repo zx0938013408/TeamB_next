@@ -36,6 +36,10 @@ const Header = () => {
               <Image src={Logo} alt="TeamB Logo" priority />
             </Link>
           </div>
+
+          <div
+  className={`${styles.navbarActions} ${isSearchOpen ? styles.searching : ""}`}
+>
           <div className={styles.actionsContainer}>
           {/* 搜尋、購物車、登入按鈕 */}
           <div className={styles.navbarActions}>
@@ -72,6 +76,7 @@ const Header = () => {
               <span className="icon-Dropdown"></span>
             </button>
           </div>
+        </div>
         </div>
         </div>
       </header>
