@@ -10,7 +10,9 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
   console.log("最終圖片 URL:", imageUrl);
   const [isLiked, setIsLiked] = useState(false);
   const { auth } = useAuth();
+  console.log('愛心 debug:', activity.al_id, activity.is_favorite);
 
+  
   return (
     <div className={`${Styles.card} mx-auto`}>
       <div className={`${Styles.list} row`}>
