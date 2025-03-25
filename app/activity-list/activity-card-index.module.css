@@ -1,0 +1,182 @@
+.card {
+  width: 100%;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.container {
+  width: 60%;
+  /* background-color: #f4f4f4; */
+  margin: auto 100px;
+  /* padding:  */
+  /* margin-left: 100px; */
+  /* margin-right: 100px; */
+  /* display: flex; */
+}
+
+
+
+
+/* 單一列表 */
+.list {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  padding: 30px;
+  margin: 0 auto 10px auto; 
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #e4e4e4;
+  }
+}
+
+.img {
+  width: 200px;
+  height: 150px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+
+
+
+.information {
+  width: auto;
+}
+
+/* 單一活動標題 */
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.iconTitle {
+  color: #29755d;
+  font-size: 22px;
+}
+
+.titleIcons [class^="icon-"] {
+  font-size: 20px !important;
+  color: #29755d;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.titleText {
+  font-size: 20px;
+  font-family: Inter;
+  font-weight: bold;
+  color: #3f6d62;
+  margin: 0;
+}
+
+/* 活動資訊 */
+.info {
+  padding: 0;
+  color: #000;
+}
+
+/* 內容文字 */
+.info p {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Inter;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.info p .infoTitle {
+  font-weight: bold;
+}
+
+
+
+/* .groupButton {
+  position: relative;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  justify-content: flex-end;
+  gap: 10px;
+} */
+
+
+.buttonWrapper {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  text-align: right;
+}
+
+.joinButton {
+  width: 100px;
+  height: auto;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: #3f6d62;
+  border: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+
+
+  &:active {
+    background-color: #7aaa9b;
+    border: 2px solid #29755d;
+    color: #3f6d62;
+  }
+}
+
+.memberButton {
+  margin-top: 35px;
+  width: 100%;
+  position: relative;
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: 61px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 11px;
+  text-align: right;
+  font-size: 26px;
+  color: #3f6d62;
+  font-family: Inter;
+}
+
+.buttonDisabled {
+  background-color: gray;
+  color: #fff;
+  box-shadow: none;
+  border: none;
+
+  &:active {
+    background-color: gray;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+  }
+}
