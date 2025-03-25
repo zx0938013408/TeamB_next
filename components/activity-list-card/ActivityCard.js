@@ -3,11 +3,13 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import { useState } from "react";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
+import { useAuth } from "@/context/auth-context";
 
 export default function ActivityCard({ activity, onQuickSignUp }) {
   const imageUrl = `${AVATAR_PATH}${activity.avatar}`;
   console.log("最終圖片 URL:", imageUrl);
   const [isLiked, setIsLiked] = useState(false);
+  const { auth } = useAuth();
 
   return (
     <div className={`${Styles.card} mx-auto`}>
@@ -90,7 +92,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
   className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
   onClick={() => {
     if (activity.registered_people < activity.need_num) {
-      onQuickSignUp(activity); // 傳送活動資訊到上層
+      onQuickSignUp({ ...activity, member_id: auth.id }); // 傳送活動資訊到上層
     }
   }}
   disabled={activity.registered_people >= activity.need_num}
