@@ -277,4 +277,7 @@
 }
 
 
+.disabled {
+  pointer-events: none; /* 禁止點擊 */
 
+}

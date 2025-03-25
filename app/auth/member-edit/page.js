@@ -28,7 +28,7 @@ const MemberEdit = () => {
   const [cityId, setCityId] = useState(auth.city_id || "");
   const [areaId, setAreaId] = useState(auth.area_id || "");
   const [avatar, setAvatar] = useState(auth.avatar || "");
-  const [sport, setSport] = useState(auth.sport ||[] )
+  const [sport, setSport] = useState(auth.sport ||", " )
   const [selectedSports, setSelectedSports] = useState("");
   const router = useRouter(); // 用於導航
   const [preview, setPreview] = useState(""); // 🔹 存圖片預覽 URL
@@ -79,12 +79,31 @@ const MemberEdit = () => {
 
 
   const handleSportChange = (sportId) => {
-    setSelectedSports((prev) =>
-      prev.includes(sportId) ? prev.filter((id) => id !== sportId) : [...prev, sportId]
-    );
+    setSport((prev) => {
+      // 確保 prev 是字串
+      const currentSports = prev || "";
+  
+      // 檢查該運動是否已經選擇
+      if (currentSports.includes(sportId)) {
+        // 如果已經選擇過，移除該運動
+        return currentSports.split(",").filter((id) => id !== sportId).join(",");
+      } else {
+        // 否則，新增該運動
+        return currentSports ? `${currentSports},${sportId}` : sportId;
+      }
+    });
   };
-
-
+  
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // 顯示圖片預覽
+      setPreview(URL.createObjectURL(file)); // 為選中的檔案創建預覽 URL
+    
+      // 更新 avatar 狀態
+      setAvatar(file); // 直接設置為選中的檔案
+    }
+  };
 
 
   const handleSubmit = async (e) => {
@@ -141,19 +160,6 @@ const MemberEdit = () => {
 
 
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // 顯示圖片預覽
-      setPreview(URL.createObjectURL(file)); 
-  
-      // 更新 FormData，儲存檔案本身
-      setAvatar((prev) => ({
-        ...prev,
-        avatar: file, // 儲存檔案對象
-      }));
-    }
-  };
   // 取得用戶資料
   const getUserData = async () => {
     try {
@@ -276,26 +282,26 @@ const MemberEdit = () => {
               </select>
 
               {/* 喜愛運動選擇 */}
-              <div className={styles.checkboxGroup} onChange={(e) =>handleSportChange(e.target.value)}>
+              <div className={styles.checkboxGroup} >
               <label>喜愛運動：</label>
               <label>
                     <input
                       type="checkbox"
                       value="1"
                       checked={sport.includes("1")}
-                      onChange={(e) => handleSportChange(e.target.value)}
+                      onChange={(e) =>handleSportChange("1")} 
                     />
                 籃球
               </label>
               <label>
                 <input type="checkbox" value="2" checked={sport.includes("2")} 
-                  onChange={(e) => handleSportChange(e.target.value)} 
+                  onChange={(e) =>handleSportChange("2")} 
                   />
                 排球
               </label>
               <label>
                 <input type="checkbox" value="3" checked={sport.includes("3")} 
-                    onChange={(e) => handleSportChange(e.target.value)} 
+                    onChange={(e) =>handleSportChange("3")} 
                 />
                 羽球
               </label>
