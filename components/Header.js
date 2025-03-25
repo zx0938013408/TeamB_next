@@ -16,6 +16,7 @@ const Header = () => {
   const { auth, logout } = useAuth();  
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const searchRef = useRef(null);
   const router = useRouter();
 
@@ -24,6 +25,7 @@ const Header = () => {
     logout(); // 調用 logout 函數來清除 auth 和 localStorage
     router.push('/auth/login'); // 登出後，導向登入頁
   };
+
 
   // 🔹 點擊外部時關閉搜尋框
   useEffect(() => {
@@ -38,6 +40,34 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // 🔹 滾動時隱藏 Header
+  useEffect(() => {
+    let prevScroll = window.scrollY;
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const header = document.querySelector(`.${styles.navbarHd}`);
+
+      if (scrollY > 30) {
+        header.classList.add(styles.scrolled);
+      } else {
+        header.classList.remove(styles.scrolled);
+      }
+
+      if (scrollY > prevScroll && scrollY > 100) {
+        header.classList.add(styles.hideHeader);
+        setIsHidden(true);
+      } else {
+        header.classList.remove(styles.hideHeader);
+        setIsHidden(false);
+      }
+
+      prevScroll = scrollY;
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   
   return (
     <>
@@ -46,7 +76,9 @@ const Header = () => {
           {/* Logo */}
           <div className={styles.logoContainer}>
             <Link href="/">
-              <Image src={Logo} alt="TeamB Logo" priority />
+              <Image src={Logo} alt="TeamB Logo" priority width={160}
+                height={45}
+                />
             </Link>
           </div>
 
@@ -105,7 +137,8 @@ const Header = () => {
               onClick={() => setIsNavbarOpen((prev) => !prev)}
               aria-expanded={isNavbarOpen}
             >
-              <span className="icon-Dropdown"></span>
+              <span className={isNavbarOpen ? "icon-Dropup" : "icon-Dropdown"}></span>
+
             </button>
           </div>
         </div>

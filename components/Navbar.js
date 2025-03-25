@@ -81,9 +81,9 @@ const Navbar = ({ isOpen, setIsOpen }) => {
       </div>
 
       {/* 關閉按鈕 */}
-      <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
+      {/* <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
         <span className={`icon-Dropup ${styles.iconDropup}`}></span>
-      </button>
+      </button> */}
     </nav>
   );
 };
