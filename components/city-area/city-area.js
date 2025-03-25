@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { CITY_LIST } from "@/config/cityArea-api-path";
+import Styles from "@/styles/city-area/city-area.module.css"
 
 export default function CityAreaPage() {
   const [cityData, setCityData] = useState([]);
@@ -46,9 +47,10 @@ export default function CityAreaPage() {
 
   return (
     <>
-      <span>
+      <span className={Styles.distance}>
         <select
           value={selectedCity}
+          className={Styles.border}
           onChange={(e) => setSelectedCity(e.target.value)}
         >
           <option value="">請選擇縣市</option>
@@ -63,6 +65,7 @@ export default function CityAreaPage() {
       <span>
         <select
           value={selectedArea}
+          className={Styles.border}
           onChange={(e) => setSelectedArea(e.target.value)}
           disabled={!selectedCity}
         >
