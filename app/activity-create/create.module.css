@@ -237,12 +237,12 @@
 }
 
 .distance{
-    padding: 0
+    margin-right: 30%;
 }
 
 .createInputDistance{
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 .modalIcon{
