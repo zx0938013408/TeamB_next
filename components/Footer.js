@@ -10,7 +10,8 @@ const Footer = () => {
       {/* 中間分隔線 */}
       <div className={styles.footerDivider}>
         <div className={styles.line}></div>
-        <div className={styles.footerLogo}><Image src={Logo} alt="TeamB Logo" /></div>
+        <div className={styles.footerLogo}><Image src={Logo} alt="TeamB Logo" fill
+    style={{ objectFit: "contain" }}/></div>
         <div className={styles.line}></div>
       </div>
 

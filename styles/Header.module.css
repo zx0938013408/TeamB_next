@@ -1,8 +1,34 @@
+/* 滑鼠捲動效果 */
+/* 捲動後 header 降低透明度 */
+.scrolled {
+  height: 80px;
+  padding: 20px;
+  background: rgba(244, 244, 244, 0.85);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+/* 隱藏 header（向下滑時） */
+.hideHeader {
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+/* logo 縮小（可自訂） */
+.logoSmall {
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+.scrolled .navbarContent {
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  transform-origin: top center;
+}
 /* ************** header **************** */
 .navbarHd {
   width: 100%;
-  height: auto;
-  padding: 20px 50px;
+  height: 130px;
+  padding: 0px 50px;
   background: #F4F4F4;
   border-bottom: 3px solid #528F7C;
   display: flex;
@@ -12,6 +38,7 @@
   top: 0;
   left: 0;
   z-index: 1000;
+  transition: all 0.3s ease;
 }
 
 /* Navbar 內容 */
@@ -163,6 +190,10 @@
   font-size: 30px;
   cursor: pointer;
   color: #528F7C;
+}
+
+.toggleBtn span {
+  transition: transform 0.3s ease;
 }
 
 
