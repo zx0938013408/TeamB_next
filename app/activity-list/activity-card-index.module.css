@@ -2,6 +2,8 @@
   width: 100%;
   margin: 20px auto;
   padding: 10px;
+  justify-content: center;
+  position: relative;
 }
 
 .container {
@@ -14,23 +16,20 @@
   /* display: flex; */
 }
 
-
-
-
 /* 單一列表 */
 .list {
+ 
   width: 100%;
   max-width: 500px;
   height: auto;
-  padding: 30px;
-  margin: 0 auto 10px auto; 
+  padding: 30px 20px;
+  margin: 0 auto 0 auto;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   margin-bottom: 10px;
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  justify-content: space-between;
   transition: background-color 0.3s ease;
   &:hover {
     background-color: #e4e4e4;
@@ -41,6 +40,7 @@
   width: 200px;
   height: 150px;
   flex-shrink: 0;
+  /* 不要壓縮 */
   overflow: hidden;
   border-radius: 10px;
 }
@@ -52,12 +52,12 @@
   display: block;
 }
 
-
-
-
-
 .information {
   width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 0;
 }
 
 /* 單一活動標題 */
@@ -79,8 +79,6 @@
   display: flex;
   align-items: center;
 }
-
-
 
 .titleText {
   font-size: 20px;
@@ -109,24 +107,10 @@
   font-weight: bold;
 }
 
-
-
-/* .groupButton {
-  position: relative;
-  display: flex;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  justify-content: flex-end;
-  gap: 10px;
-} */
-
-
 .buttonWrapper {
-  margin-top: 15px;
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  text-align: right;
 }
 
 .joinButton {
