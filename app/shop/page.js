@@ -70,13 +70,15 @@ export default function ShopPage() {
       <div className={styles.body}>
         <div className={styles.container}>
           {/* 麵包屑 */}
-          {/* <nav className={styles.breadcrumb}>
-              <a href="/">首頁</a>
-              <span className=""> / </span>
-              <span className="active" aria-current="page">
-                商城
-              </span>
-          </nav> */}
+          <nav className={styles.breadcrumb} aria-label="breadcrumb">
+            <Link href="/" className={styles.link}>
+              首頁
+            </Link>
+            <span className={styles.separator}>/</span>
+            <span className={styles.active} aria-current="page">
+              商城
+            </span>
+          </nav>
           {/* 輪播圖 */}
           <div className={styles.imgContainer}>
             {/* <img src="/photo/activity-volleyballCourt.jpg" style={{ width: 1024 }}/> */}
