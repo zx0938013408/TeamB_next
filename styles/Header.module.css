@@ -1,12 +1,12 @@
 /* 滑鼠捲動效果 */
 /* 捲動後 header 降低透明度 */
 .scrolled {
-  height: 80px;
+  height: 150px;
   padding: 20px;
   background: rgba(244, 244, 244, 0.85);
   backdrop-filter: blur(4px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 /* 隱藏 header（向下滑時） */
 .hideHeader {

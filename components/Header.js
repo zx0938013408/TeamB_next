@@ -41,7 +41,7 @@ const Header = () => {
     };
   }, []);
 
-  // 🔹 滾動時隱藏 Header
+  // 🔹 滾動時隱藏 Header 並關閉 Navbar
   useEffect(() => {
     let prevScroll = window.scrollY;
     const handleScroll = () => {
@@ -62,16 +62,20 @@ const Header = () => {
         setIsHidden(false);
       }
 
+      // 🔹 滾動時即刻關閉 Navbar
+      setIsNavbarOpen(false);
+
       prevScroll = scrollY;
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
   return (
     <>
-      <header className={styles.navbarHd}>
+      <header className={
+        `${styles.navbarHd} ${isHidden ? styles.hideHeader : ""}`
+      }>
         <div className={styles.navbarContent}>
           {/* Logo */}
           <div className={styles.logoContainer}>
