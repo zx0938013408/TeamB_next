@@ -2,7 +2,7 @@
 /* 初始：收合，隱藏在上方 */
 .navbarBt {
   position: fixed;
-  top: var(--header-height, 86px);
+  top: var(--header-height, 130px);
   left: 0;
   width: 100%;
   background: #528F7C;
