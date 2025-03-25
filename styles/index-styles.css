@@ -479,20 +479,23 @@
 /* ************** 活動列表 **************** */
 /* 活動區塊 */
 .activity-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
   background: #F4F4F4;
   font-family: 'Inter', sans-serif;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  margin-bottom: 200px;
+  margin: 0 auto; 
 }
 
 /* 標題 */
 .activity-title {
+  padding-top: 200px;
   font-size: 60px;
   font-weight: 700;
   color: #528F7C;
@@ -502,14 +505,17 @@
 
 /* 內容框 */
 .activity-box {
-  width: 1200px;
-  padding: 70px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
   border: 5px solid #528F7C;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  box-sizing: border-box;
 }
+
 
 /* 活動項目 */
 .activity-item a{
