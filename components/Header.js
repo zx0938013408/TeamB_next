@@ -105,7 +105,8 @@ const Header = () => {
               onClick={() => setIsNavbarOpen((prev) => !prev)}
               aria-expanded={isNavbarOpen}
             >
-              <span className="icon-Dropdown"></span>
+              <span className={isNavbarOpen ? "icon-Dropup" : "icon-Dropdown"}></span>
+
             </button>
           </div>
         </div>
