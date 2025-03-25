@@ -20,11 +20,18 @@ const [currentIndex, setCurrentIndex] = useState(0);
 
 
 
-  useEffect(() => {
-    if (!al_id) return;
+useEffect(() => {
+  if (!al_id) return;
 
-    const apiUrl = `${AL_ITEM_GET}/${al_id}`;
-    fetch(apiUrl)
+  const apiUrl = `${AL_ITEM_GET}/${al_id}`;
+  const userData = localStorage.getItem("TEAM_B-auth");
+  const token = userData ? JSON.parse(userData).token : "";
+
+  fetch(apiUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
     .then(async (res) => {
       const responseText = await res.text();
       try {
@@ -47,6 +54,7 @@ const [currentIndex, setCurrentIndex] = useState(0);
     })
     .catch((error) => console.error("❌ fetch 錯誤:", error));
 }, [al_id]);
+
 
   if (!activity) {
     return <p className={Styles.loading}>載入中...</p>;
