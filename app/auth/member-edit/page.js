@@ -89,39 +89,55 @@ const MemberEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedUser = {
-      name,
-      gender,
-      phone,
-      address,
-      city_id: cityId,
-      area_id: areaId,
-      sport: sport, 
-      avatar,
-    };
-
+    
+    // 創建 FormData 物件
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("gender", gender);
+    formData.append("phone", phone);
+    formData.append("address", address);
+    formData.append("city_id", cityId);
+    formData.append("area_id", areaId);
+    formData.append("sport", sport);
+  
+    // 如果有選擇頭像，添加到 FormData 中
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+  
     try {
       const response = await fetch(`http://localhost:3001/auth/member/api/${auth.id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           'Authorization': `Bearer ${auth.token}`,
         },
-        body: JSON.stringify(updatedUser),
+        body: formData,  // 這裡使用 FormData 而非 JSON
       });
-
+  
       const data = await response.json();
       if (data.success) {
         alert("資料更新成功");
+        
+        // 更新 auth 上下文中的資料
+        auth.name = name;
+        auth.gender = gender;
+        auth.phone = phone;
+        auth.address = address;
+        auth.city_id = cityId;
+        auth.area_id = areaId;
+        auth.avatar = data.data.avatar;  // 確保更新頭像
+        auth.sport = sport;
+        
+        // 更新後顯示新的頭像
         router.push("/auth/member"); // 更新成功後，重定向到會員頁面
       } else {
         alert("更新失敗，請檢查資料");
       }
     } catch (error) {
-      console.error("Error updating user data:", error);
+      console.error("更新資料時發生錯誤:", error);
     }
   };
-
+  
 
 
 
