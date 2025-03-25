@@ -74,7 +74,7 @@ const Register = () => {
     <div className={styles.leftSection}>
       <h1>TeamB</h1>
       <div className={styles.separator}></div>
-      <p>Team進球場!Ball出火花。</p>
+      <p>Team進球場，Ball出火花！！！</p>
     </div>
       <div className={styles.rightSection}>
         <h2>註冊</h2>

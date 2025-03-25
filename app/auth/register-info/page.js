@@ -267,7 +267,7 @@ const RegisterInfo = () => {
     className={styles.inputBox}
     type="text"
     name="id_last4"
-    placeholder="身分證後4碼"
+    placeholder="身分證後四碼"
     required
     onChange={(e) => setId_card(e.target.value)}
   />
