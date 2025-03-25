@@ -2,7 +2,7 @@
 /* 初始：收合，隱藏在上方 */
 .navbarBt {
   position: fixed;
-  top: var(--header-height, 86px);
+  top: 130px;
   left: 0;
   width: 100%;
   background: #528F7C;
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 120px;
+  /* padding-top: 130px; */
   opacity: 0;
   transform: translateY(-20px);
   pointer-events: none; /* 🔒 防止點擊 */
@@ -112,7 +112,7 @@
 /* 手機版 RWD */
 @media screen and (max-width: 768px) {
   .navbarBt {
-    top: var(--header-height, 143px);
+    top: 130px;
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
