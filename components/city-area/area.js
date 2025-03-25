@@ -30,14 +30,20 @@ export default function AreaSelector({ selectedCity, selectedArea, setSelectedAr
           }}
         disabled={!selectedCity}
       >
-        <option value="">請選擇區域</option>
-        {areaList.map((area) => (
-          <option 
-          key={area.area_id} 
-          value={area.area_id}>
-            {area.area_name}
-          </option>
-        ))}
+      {
+        !selectedCity ? (
+          <option value="">請選擇區域</option>
+        ) : (
+          <>
+            <option value="">請選擇區域</option>
+            {areaList.map((area) => (
+              <option key={area.area_id} value={area.area_id}>
+                {area.area_name}
+              </option>
+            ))}
+          </>
+        )
+      }
       </select>
     </span>
   );

@@ -207,13 +207,17 @@ export default function ActivityCreatePage() {
               {/* <label>運動類別 ID（手動輸入測試用）</label>
               <input type="text" name="sport_type_id" className={Styles.createInput} onChange={handleInputChange} /> */}
               <label>活動地點</label>
-              <div className={Styles.createInput} >
+              {/* 引入縣市選擇功能 */}
+              <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
+              <span className={`${Styles.distance}`}>
               <CitySelector
                 selectedCity={selectedCity}
                 setSelectedCity={setSelectedCity}
                 setCityData={setCityData}
               />
-              <span>|</span>
+              </span>
+              <span className={`${Styles.line} ${Styles.distance}`}>|</span>
+              <span >
               <AreaSelector
                 selectedCity={selectedCity}
                 selectedArea={selectedArea}
@@ -221,6 +225,7 @@ export default function ActivityCreatePage() {
                 cityData={cityData}
                 handleInputChange={handleInputChange}
               />
+              </span>
               </div>
               {/* <select 
               name="area_id" 
