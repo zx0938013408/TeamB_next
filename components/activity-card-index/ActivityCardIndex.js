@@ -30,10 +30,14 @@ export default function ActivityCardIndex({ activity, onQuickSignUp }) {
         </span>
         <h2 className={Styles.titleText}>{activity.activity_name}</h2>
       </div>
+      
       <div className={Styles.info}>
-        <p><span className={Styles.infoTitle}>地  點：</span>{activity.court_name}</p>
+
+      <div className={Styles.infoContent}>
+      <p><span className={Styles.infoTitle}>地  點：</span>{activity.court_name}</p>
         <p><span className={Styles.infoTitle}>活動時間：</span>{activity.activity_time}</p>
         <p><span className={Styles.infoTitle}>費  用：</span>每人 {activity.payment} 元</p>
+      </div>
       </div>
       <div className={Styles.buttonWrapper}>
         <Link href={`/activity-list/${activity.al_id}`}>
