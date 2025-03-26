@@ -2,11 +2,12 @@ import React from "react";
 import "@/styles/index-styles.css";
 
 const ScrollSection = () => {
+  
   return (
     <section className="scroll-section">
       <div className="scroll-container">
         <div className="scroll-item" id="item1">
-          <h2>Play hard. Play together</h2>
+          <h2>Play hard, play together</h2>
           <p>透過籃球建立友誼，共同努力，享受比賽的激情！</p>
         </div>
         <div className="scroll-item" id="item2">
