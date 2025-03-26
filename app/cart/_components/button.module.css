@@ -1,158 +1,46 @@
 /* 按鈕1 */
-.link {
-    width: 220px;
-    position: relative;
-    padding: 20px 40px;
-    margin: 0 30px;
-    background: #29755D;
-    color: #FFF;
-    text-transform: uppercase;
-    font-family: sans-serif;
-    text-decoration: none;
-    letter-spacing: 4px;
-    transform-style: preserve-3d;
-    transition: ease-in-out 0.3s;
-    border-radius: 15px;
-  }
-  
-  .link:hover{
-    background-color: #29755D; /* 可以添加一些 hover 顏色變化 */
-    color: #F7BF58;
-  }
-  
-  .link .button {
-    all: unset; /* 移除所有預設樣式 */
-    cursor: pointer; /* 讓它仍然可點擊 */
-    display: flex; /* 使用 flexbox */
-    align-items: center; /* 垂直置中 */
-    justify-content: center; /* 水平置中 */
-    width: 100%; /* 確保按鈕佔滿容器 */
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  /* .link:before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 6px;
-    right: 6px;
-    bottom: 4px;
-    border: 2px solid #F7BF58;
-    border-radius: 15px;
-  } */
-  
-  /* .link:after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border-radius: 15px;
-  } */
-
-  /* 外框 (正常狀態) */
-/* .link:before
- {
-    content: '';
-    position: absolute;
-    border: 2px solid #F7BF58;
-    border-radius: 15px;
-    transition: ease-in-out 0.3s;
-} */
-
-/* 外框 (第一層，較外) */
-.link:before {
-    top: 4px;
-    left: 6px;
-    right: 6px;
-    bottom: 4px;
+.button {
+  padding: 10px 40px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  width: 220px;
+  letter-spacing: 4px;
+  color: #FFF;
+  border: 3px solid #29755d63;
+  background-color: #29755d;
+  border: 3px solid #bde6d9;
 }
 
-/* 外框 (第二層，較內) */
-/* .link:after {
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-} */
-
-/* hover 時縮小外框範圍，讓按鈕更聚焦 */
-/* .link:hover:before {
-    top: 6px;
-    left: 8px;
-    right: 8px;
-    bottom: 6px;
+.button:hover{
+  background: #bde6d9;
+  color: #29755d;
+  border: 3px solid #29755d;
 }
 
-.link:hover:after {
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    bottom: 4px;
-} */
   
-  /* 按鈕2 */
-  .link2 {
-    width: 220px;
-    position: relative;
-    cursor: pointer; /* 讓它仍然可點擊 */
-    padding: 20px 40px;
-    background: #F7BF58;
-    color: #29755D;
-    text-transform: uppercase;
-    font-family: sans-serif;
-    text-decoration: none;
-    letter-spacing: 4px;
-    /* transform-style: preserve-3d; */
-    transition: ease-in-out 2s;
-    border-radius: 15px;
-  
-  }
-  
-  /* .link2:hover{
-    transform: rotateX(360deg);
-  } */
-  
-  .link2 .btn {
-    all: unset; /* 移除所有預設樣式 */
-    cursor: pointer; /* 讓它仍然可點擊 */
-    display: flex; /* 使用 flexbox */
-    align-items: center; /* 垂直置中 */
-    justify-content: center; /* 水平置中 */
-    width: 100%; /* 確保按鈕佔滿容器 */
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    /* transform-style: preserve-3d;
-    transform: perspective(100px) translateZ(20px); */
-  }
-/*   
-  .link2:before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 6px;
-    right: 6px;
-    bottom: 4px;
-    border: 2px solid #29755D;
-    /* transform-style: preserve-3d;
-    transform: perspective(500px) translateZ(15px); */
-    /*border-radius: 15px;
-  } */
-  
-  /* .link2:after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    /* border: 2px solid #29755D; */
-    /* transform-style: preserve-3d;
-    transform: perspective(500px) translateZ(-15px); */
-    /*border-radius: 15px;
-  } */
+
+/* 按鈕2 */
+.btn {
+  padding: 10px 40px;
+font-size: 18px;
+font-weight: 700;
+border-radius: 10px;
+text-align: center;
+cursor: pointer;
+width: 220px;
+letter-spacing: 4px;
+background: #f7bf58;
+color: white;
+border: 3px solid #ffca8d;
+margin-left: 10px;
+}
+
+.btn:hover{
+  background: #f3b46a;
+color: #a26318;
+border: 3px solid #c87a1e;
+}
   

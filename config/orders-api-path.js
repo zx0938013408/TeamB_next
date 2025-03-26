@@ -2,7 +2,8 @@
 export const API_SERVER = `http://localhost:3001`; 
 // export const API_SERVER = `http://172.23.53.146:3001`; // 用於部署環境（如果有）
 
-
+// 頭貼的路
+export const AVATAR_PATH = `${API_SERVER}/imgs/`;
 
 // 取得所有訂單 GET
 export const ORDER_LIST = `${API_SERVER}/orders/api`; // 路徑中增加 /api
