@@ -11,12 +11,19 @@ import { AVATAR_PATH } from "../../../config/auth.api";
 import ActivityCard from "../../../components/activity-list-card/ActivityCard";  // 顯示活動的卡片
 import { MEMBER_ACTIVITIES } from "@/config/api-path"; // 已報名的 API 路徑
 import { MEMBER_CREATED_ACTIVITIES } from "@/config/api-path"; // 已開團的 API 路徑
+import { MEMBER_FAVORITES } from "@/config/api-path"; // 已收藏的 API 路徑
+
+const isExpired = (activityTime) => {
+  // 判斷活動時間是否已過
+  return moment(activityTime).isBefore(moment(), "day");  // 判斷是否早於今天
+};
 
 const Member = () => {
   const { auth } = useAuth(); // 獲取會員認證資料
   const [user, setUser] = useState(null); // 儲存用戶資料
   const [registeredActivities, setRegisteredActivities] = useState([]); // 儲存會員已報名的活動
   const [createdActivities, setCreatedActivities] = useState([]); // 儲存會員已開團的活動
+  const [favoriteActivities, setFavoriteActivities] = useState([]); // 儲存會員已收藏的活動
   const [activeTab, setActiveTab] = useState("registered"); // 用來控制顯示的活動類型，默認顯示已報名活動
 
   useEffect(() => {
@@ -24,10 +31,12 @@ const Member = () => {
       setUser(auth); // 設置用戶資料
       fetchRegisteredActivities(auth.id); // 獲取已報名的活動
       fetchCreatedActivities(auth.id); // 獲取已開團的活動
+      fetchFavoriteActivities(auth.id); // 獲取已收藏的活動
     }
   }, [auth]);
 
   const fetchRegisteredActivities = async (memberId) => {
+    // 與後端 API 通訊，獲取已報名的活動
     try {
       const storedAuth = localStorage.getItem("TEAM_B-auth");
       const auth = storedAuth ? JSON.parse(storedAuth) : {};  // 解析 JWT 資料
@@ -53,6 +62,7 @@ const Member = () => {
   };
 
   const fetchCreatedActivities = async (memberId) => {
+    // 與後端 API 通訊，獲取已開團的活動
     try {
       const storedAuth = localStorage.getItem("TEAM_B-auth");
       const auth = storedAuth ? JSON.parse(storedAuth) : {};  // 解析 JWT 資料
@@ -74,6 +84,32 @@ const Member = () => {
     } catch (error) {
       console.error("錯誤:", error);
       setCreatedActivities([]);  // 發生錯誤時設置空陣列
+    }
+  };
+
+  const fetchFavoriteActivities = async (memberId) => {
+    // 與後端 API 通訊，獲取已收藏的活動
+    try {
+      const storedAuth = localStorage.getItem("TEAM_B-auth");
+      const auth = storedAuth ? JSON.parse(storedAuth) : {};  // 解析 JWT 資料
+      const token = auth.token;  // 提取 token 部分
+
+      const response = await fetch(MEMBER_FAVORITES(memberId), {
+        headers: {
+          Authorization: `Bearer ${token}`,  // 使用 Bearer token 格式
+        },
+      });
+
+      const data = await response.json();
+      if (data.success && data.activities) {
+        setFavoriteActivities(data.activities);  // 設置已收藏的活動資料
+      } else {
+        setFavoriteActivities([]);  // 如果沒有活動資料或 API 返回錯誤，設置空陣列
+        console.warn("無法獲取已收藏的活動資料", data);
+      }
+    } catch (error) {
+      console.error("錯誤:", error);
+      setFavoriteActivities([]);  // 發生錯誤時設置空陣列
     }
   };
 
@@ -123,11 +159,11 @@ const Member = () => {
               >
                 已開團
               </span>
-              <span className={`${styles.tabItem}`}>
-                活動歷史
-              </span>
-              <span className={`${styles.tabItem}`}>
-                收藏的活動
+              <span
+                className={`${styles.tabItem} ${activeTab === "favorite" ? styles.active : ""}`}
+                onClick={() => setActiveTab("favorite")}
+              >
+                已收藏
               </span>
             </div>
           </div>
@@ -152,6 +188,16 @@ const Member = () => {
                 ))
               ) : (
                 <p>目前沒有已開團的活動。</p>
+              )
+            )}
+
+            {activeTab === "favorite" && (
+              favoriteActivities.length > 0 ? (
+                favoriteActivities.map((activity) => (
+                  <ActivityCard key={activity.al_id} activity={activity} />
+                ))
+              ) : (
+                <p>目前沒有已收藏的活動。</p>
               )
             )}
           </div>
