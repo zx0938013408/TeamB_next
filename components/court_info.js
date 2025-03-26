@@ -3,55 +3,90 @@ import { useEffect, useState } from "react";
 import Styles from "@/styles/city-area/city-area.module.css";
 import { COURT_LIST } from "@/config/court-api-path";
 
-export default function CourtList({ selectedCity, selectedArea }) {
+export default function CourtList({
+  selectedCity,
+  selectedArea,
+  selectedSport,
+  onSelectCourt,
+  selectedCourtId,
+}) {
   const [courtList, setCourtList] = useState([]);
   const [filteredCourts, setFilteredCourts] = useState([]);
 
-  // 取得所有場地資料
   useEffect(() => {
     const fetchData = async () => {
       try {
         const r = await fetch(COURT_LIST);
         const obj = await r.json();
         if (obj.success) {
-          setCourtList(obj.rows); // 儲存完整場地資料
+          setCourtList(obj.rows);
+          // console.log("✅ CourtList 資料載入成功，共：", obj.rows.length, "筆");
         }
       } catch (error) {
-        console.warn("載入場地失敗：", error);
+        console.warn("❌ 載入場地失敗：", error);
       }
     };
-
     fetchData();
   }, []);
 
-  // 當選擇的縣市 or 區域變動時重新篩選
+  // useEffect(() => {
+  //   console.log("📦 所有原始場地資料：", courtList);
+  // }, [courtList]);
+
   useEffect(() => {
-    if (selectedCity && selectedArea) {
+    // console.log("🔍 篩選條件：", {
+    //   selectedCity,
+    //   selectedArea,
+    //   selectedSport,
+    // });
+
+    if (
+      Number(selectedCity) &&
+      Number(selectedArea) &&
+      Number(selectedSport)
+    ) {
       const filtered = courtList.filter(
         (court) =>
-          parseInt(court.city_id) === parseInt(selectedCity) &&
-          parseInt(court.area_id) === parseInt(selectedArea)
+          Number(court.city_id) === Number(selectedCity) &&
+          Number(court.area_id) === Number(selectedArea) &&
+          Number(court.sport_type_id) === Number(selectedSport)
       );
-      setFilteredCourts(filtered);
+
+      const uniqueCourts = Array.from(
+        new Map(filtered.map((court) => [court.court_id, court])).values()
+      );
+
+      // console.log("✅ 篩選後場地筆數：", uniqueCourts.length);
+      setFilteredCourts(uniqueCourts);
     } else {
-      setFilteredCourts([]); // 尚未選完，不顯示
+      // console.log("⛔ 條件不完整，清空場地清單");
+      setFilteredCourts([]);
     }
-  }, [selectedCity, selectedArea, courtList]);
+  }, [selectedCity, selectedArea, selectedSport, courtList]);
 
   return (
-    <div className="mt-3">
+    <div>
       {filteredCourts.length > 0 ? (
-        <ul className={Styles.courtList}>
+        <select
+          className={Styles.borderWidth}
+          value={selectedCourtId || ""}
+          onChange={(e) => {
+            const courtId = Number(e.target.value);
+            if (!isNaN(courtId)) {
+              // console.log("🎯 選擇了場地 ID：", courtId);
+              onSelectCourt && onSelectCourt(courtId);
+            }
+          }}
+        >
+          <option value="">請選擇運動場地</option>
           {filteredCourts.map((court) => (
-            <li key={court.court_id} className={Styles.courtItem}>
-              <p><strong>{court.court_name}</strong>（{court.sport_name}）</p>
-              <p>{court.city_name} {court.area_name} - {court.address}</p>
-              <p>場地類型：{court.court_type}</p>
-            </li>
+            <option key={court.court_id} value={court.court_id}>
+              {court.court_name}（{court.sport_name}）
+            </option>
           ))}
-        </ul>
+        </select>
       ) : (
-        <p className="text-muted">請選擇縣市與區域以顯示場地。</p>
+        <p className={Styles.borderWidth}>請選擇縣市、區域與球類以顯示可用運動場地。</p>
       )}
     </div>
   );
