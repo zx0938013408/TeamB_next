@@ -19,17 +19,40 @@ const HomePage = () => {
   useEffect(() => {
     // 滾動輪播
     const container = document.querySelector(".scroll-container");
-    if (container) {
-      container.addEventListener("wheel", function (event) {
+  const item3 = document.getElementById("item3");
+
+  let isItem3Scrolled = false;
+  const threshold = 50;
+
+  if (container && item3) {
+    container.addEventListener(
+      "wheel",
+      function (event) {
         if (event.deltaY !== 0) {
           event.preventDefault();
-          container.scrollBy({
-            left: event.deltaY * 1.5,
-            behavior: "smooth"
-          });
+
+          const currentScroll = container.scrollLeft;
+          const item3Left = item3.offsetLeft;
+
+          if (!isItem3Scrolled && currentScroll >= item3Left - threshold) {
+            isItem3Scrolled = true;
+
+            // 等待 DOM 渲染完後取得 contact-section
+            setTimeout(() => {
+              const contactSection = document.getElementById("contact-section");
+              contactSection?.scrollIntoView({ behavior: "smooth" });
+            }, 500); // 你可調整延遲時間避免提前觸發
+          } else {
+            container.scrollBy({
+              left: event.deltaY * 1.5,
+              behavior: "smooth",
+            });
+          }
         }
-      }, { passive: false });
-    }
+      },
+      { passive: false }
+    );
+  }
 
     // 搜尋欄位
     const searchContainer = document.querySelector(".search-container");
@@ -174,6 +197,25 @@ const sportsEl = document.querySelector(".sports-section");
       <ActivityList />
       <ShopSection />
       <ScrollSection />
+      <section id="contact-section" className="contact-item">
+  <div className="contact-container">
+    <div className="contact-left">
+      <h2 className="contact-title">TeamB</h2>
+      <p className="contact-subtitle">聯繫我們</p>
+    </div>
+    <div className="contact-right">
+      <form className="contact-form">
+        <label htmlFor="name">姓名</label>
+        <input type="text" id="name" placeholder="請輸入姓名" />
+        <label htmlFor="email">電子郵件</label>
+        <input type="email" id="email" placeholder="請輸入電子郵件" />
+        <label htmlFor="message">意見回饋</label>
+        <textarea id="message" placeholder="字數須小於200"></textarea>
+        <button type="submit">送出</button>
+      </form>
+    </div>
+  </div>
+  </section>
       <Footer />
     </>
   );
