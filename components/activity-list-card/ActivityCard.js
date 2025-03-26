@@ -3,7 +3,13 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 
-export default function ActivityCard({ activity, isExpired }) {
+export default function ActivityCard({ activity }) {
+  // 取得當前日期
+  const currentDate = new Date();
+  const activityDate = new Date(activity.activity_time);
+
+  // 判斷活動是否過期
+  const isExpired = activityDate < currentDate;
 
   return (
     <div className={`${Styles.card} mx-auto ${isExpired ? Styles.expired : ''}`}>
@@ -81,15 +87,15 @@ export default function ActivityCard({ activity, isExpired }) {
           <div className={Styles.buttonWrapper}>
             <button
               type="button"
-              className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
+              className={`${Styles.joinButton} ${Styles.joinInformation} ${isExpired ? Styles.buttonDisabled : ''}`}
               onClick={() => {
-                if (activity.registered_people < activity.need_num) {
+                if (!isExpired && activity.registered_people < activity.need_num) {
                   // 傳送活動資訊到上層
                 }
               }}
-              disabled={activity.registered_people >= activity.need_num}
+              disabled={isExpired || activity.registered_people >= activity.need_num}
             >
-              {activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
+              {isExpired ? '已過期' : activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
             </button>
           </div>
         </div>
