@@ -8,16 +8,55 @@ import Header from "../../../components/Header";
 import moment from 'moment';
 import "@/public/TeamB_Icon/style.css";
 import {AVATAR_PATH} from "../../../config/auth.api"
+import ActivityCard from "../../../components/activity-list-card/ActivityCard"; // 使用已報名活動卡片
+import { MEMBER_ACTIVITIES } from "@/config/api-path";
 
 
 const Member = () => {
-  const { auth } = useAuth(); // 從上下文獲取 auth 資料
-  const [user, setUser] = useState(null); // 記錄用戶資料
+  const { auth } = useAuth(); // 獲取會員認證資料
+  const [user, setUser] = useState(null); // 儲存用戶資料
+  const [activities, setActivities] = useState([]); // 儲存會員已報名的活動
+
   useEffect(() => {
     if (auth.id) {
-      setUser(auth); // 如果用戶已登入，將 auth 資料設置到 user 狀態
+      setUser(auth); // 設置用戶資料
+      fetchRegisteredActivities(auth.id); // 獲取已報名的活動
     }
   }, [auth]);
+
+  const fetchRegisteredActivities = async (memberId) => {
+    try {
+      console.log("發送請求，會員 ID:", memberId);  // 確認會員 ID 是否傳遞
+      const storedAuth = localStorage.getItem("TEAM_B-auth");
+      const auth = storedAuth ? JSON.parse(storedAuth) : {};  // 解析 JWT 資料
+      const token = auth.token;  // 提取 token 部分
+      console.log("JWT 令牌:", token);  // 確認 JWT 是否正確獲取
+    
+      const response = await fetch(MEMBER_ACTIVITIES(memberId), {
+        headers: {
+          Authorization: `Bearer ${token}`,  // 使用 Bearer token 格式
+        },
+      });
+    
+      console.log("API 請求結果:", response);  // 確認請求結果是否有回應
+      const data = await response.json();
+      if (data.success && data.activities) {  // 檢查 activities 屬性
+        setActivities(data.activities);  // 正確設置 activities 資料
+      } else {
+        setActivities([]);  // 如果沒有活動資料或 API 返回錯誤，設置空陣列
+        console.warn("無法獲取活動資料", data);
+      }
+    } catch (error) {
+      console.error("錯誤:", error);
+      setActivities([]);  // 發生錯誤時設置空陣列
+    }
+  };
+  
+  
+  
+
+  if (!user) return <p>載入中...</p>;
+
   return (
     <>
          <Header />
@@ -72,10 +111,16 @@ const Member = () => {
 
         <hr />
 
-        {/* 內容顯示區 */}
+        {/* 顯示已報名的活動 */}
         <div className={styles.tabContent}>
-          <p>這裡顯示已報名的活動內容。</p>
-        </div>
+  {activities && activities.length > 0 ? (
+    activities.map((activity) => (
+      <ActivityCard key={activity.al_id} activity={activity} />
+    ))
+  ) : (
+    <p>目前沒有已報名的活動。</p>
+  )}
+</div>
       </div>
     </div>
 
