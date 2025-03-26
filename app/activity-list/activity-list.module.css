@@ -371,3 +371,22 @@
   .pageLink {
     color: #29755d;
   }
+
+  /* 活動卡片過期的樣式 */
+.expired {
+  background-color: #f0f0f0; /* 灰色背景 */
+  opacity: 0.6; /* 透明度降低 */
+  position: relative;
+}
+
+/* 顯示過期標籤 */
+.expiredTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 0, 0, 0.5); /* 半透明紅色背景 */
+  color: red;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+}

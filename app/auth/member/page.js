@@ -174,7 +174,7 @@ const Member = () => {
             {activeTab === "registered" && (
               registeredActivities.length > 0 ? (
                 registeredActivities.map((activity) => (
-                  <ActivityCard key={activity.al_id} activity={activity} />
+                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已報名的活動。</p>
@@ -184,7 +184,7 @@ const Member = () => {
             {activeTab === "created" && (
               createdActivities.length > 0 ? (
                 createdActivities.map((activity) => (
-                  <ActivityCard key={activity.al_id} activity={activity} />
+                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已開團的活動。</p>
@@ -194,7 +194,7 @@ const Member = () => {
             {activeTab === "favorite" && (
               favoriteActivities.length > 0 ? (
                 favoriteActivities.map((activity) => (
-                  <ActivityCard key={activity.al_id} activity={activity} />
+                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已收藏的活動。</p>

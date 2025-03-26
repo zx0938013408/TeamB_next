@@ -1,32 +1,24 @@
 import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
-import { useState } from "react";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
-import { useAuth } from "@/context/auth-context";
 
-export default function ActivityCard({ activity, onQuickSignUp }) {
-  const imageUrl = `${AVATAR_PATH}${activity.avatar}`;
-  console.log("最終圖片 URL:", imageUrl);
-  const [isLiked, setIsLiked] = useState(false);
-  const { auth } = useAuth();
-  console.log('愛心 debug:', activity.al_id, activity.is_favorite);
+export default function ActivityCard({ activity, isExpired }) {
 
-  
   return (
-    <div className={`${Styles.card} mx-auto`}>
+    <div className={`${Styles.card} mx-auto ${isExpired ? Styles.expired : ''}`}>
+      {isExpired && <span className={Styles.expiredTag}>已過期</span>}
       <div className={`${Styles.list} row`}>
-      <div className={`${Styles.img} col-4`}>
-      <div className={`${Styles.iconLikeStroke}`}>
-      <LikeHeart checked={activity.is_favorite} activityId={activity.al_id} />
-    
-  </div>
-  <img
-    src={activity.avatar ? `${AVATAR_PATH}${activity.avatar}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`}
-    alt=""
-    className={`${Styles.avatarImage}`}
-  />
-</div>
+        <div className={`${Styles.img} col-4`}>
+          <div className={`${Styles.iconLikeStroke}`}>
+            <LikeHeart checked={activity.is_favorite} activityId={activity.al_id} />
+          </div>
+          <img
+            src={activity.avatar ? `${AVATAR_PATH}${activity.avatar}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`}
+            alt=""
+            className={`${Styles.avatarImage}`}
+          />
+        </div>
         <div className={`${Styles.information} col-6`}>
           <div className={`${Styles.title} row`}>
             <div className={`${Styles.titleIcons} col-1`}>
@@ -68,42 +60,39 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             </p>
           </div>
         </div>
-        
+
         <div className={`col-2 d-flex flex-column align-items-end ${Styles.groupButton}`}>
-        {/* 報名情況 */}
-        <div className={`${Styles.registerInfo}`}> 
-        <button type="button" className={Styles.registerInfoBtn}>
-  <span className={Styles.number}>目前人數</span><br />
-  <span className={Styles.total}>{activity.registered_people}/{activity.need_num}人</span>
-</button>
-
+          <div className={`${Styles.registerInfo}`}>
+            <button type="button" className={Styles.registerInfoBtn}>
+              <span className={Styles.number}>目前人數</span><br />
+              <span className={Styles.total}>{activity.registered_people}/{activity.need_num}人</span>
+            </button>
           </div>
-  <div className={Styles.buttonWrapper}>
-    <Link
-      href="/activity-list/[al_id]"
-      as={`/activity-list/${activity.al_id}`}
-    >
-      <button type="button" className={Styles.joinButton}>
-        查看詳情
-      </button>
-    </Link>
-  </div>
-  <div className={Styles.buttonWrapper}>
-  <button
-  type="button"
-  className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
-  onClick={() => {
-    if (activity.registered_people < activity.need_num) {
-      onQuickSignUp({ ...activity, member_id: auth.id }); // 傳送活動資訊到上層
-    }
-  }}
-  disabled={activity.registered_people >= activity.need_num}
->
-  {activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
-</button>
-
-  </div>
-</div>
+          <div className={Styles.buttonWrapper}>
+            <Link
+              href="/activity-list/[al_id]"
+              as={`/activity-list/${activity.al_id}`}
+            >
+              <button type="button" className={Styles.joinButton}>
+                查看詳情
+              </button>
+            </Link>
+          </div>
+          <div className={Styles.buttonWrapper}>
+            <button
+              type="button"
+              className={`${Styles.joinButton} ${Styles.joinInformation} ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
+              onClick={() => {
+                if (activity.registered_people < activity.need_num) {
+                  // 傳送活動資訊到上層
+                }
+              }}
+              disabled={activity.registered_people >= activity.need_num}
+            >
+              {activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
