@@ -761,9 +761,24 @@
 
 
 /* 設定每個圖片區塊的背景 */
-#item1 { background-image: url('/public/photo/slogan_badminton.png') center/cover no-repeat; }
-#item2 { background: url('/public/photo/slogan_badminton.png') center/cover no-repeat; }
-#item3 { background: url('/public/photo/slogan_basketball.png') center/cover no-repeat; }
+#item1 {
+  background-image: url('/photo/slogan_volleyball.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#item2 {
+  background-image: url('/photo/slogan_badminton.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#item3 {
+  background-image: url('/photo/slogan_basketball.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 #item4 { background: #2D5A4D; }
 
 /* 第一個輪播頁 - 聯絡我們 */
