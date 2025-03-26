@@ -10,6 +10,7 @@ import "@/styles/globals.css";
 import { AL_CREATE_POST } from "@/config/api-path";
 import CitySelector from "@/components/city-area/city";
 import AreaSelector from "@/components/city-area/area";
+import CourtList from "@/components/court_info"
 
 
 export default function ActivityCreatePage() {
@@ -19,7 +20,7 @@ export default function ActivityCreatePage() {
   const [cityData, setCityData] = useState([]);
   const [hovered, setHovered] = useState(null);
   const [selected, setSelected] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedSport, setSelectedSport] = useState(null);
   const [images, setImages] = useState(Array(4).fill(null));
   const imageInputRef = useRef([]);
   const modalRef = useRef(null);
@@ -28,7 +29,7 @@ export default function ActivityCreatePage() {
     activity_name: "",
     sport_type_id: "",
     area_id: "",
-    court_id : 3,
+    court_id : "",
     activity_time: "",
     deadline: "",
     payment: "",
@@ -62,8 +63,8 @@ export default function ActivityCreatePage() {
     setFormData({
        ...formData,
         [name]: value ,
-        sport_type_id: selectedId,
-        founder_id: 23  // TODO: 待引入到會員當中
+        sport_type_id: selectedSport,
+        founder_id: 23,  // TODO: 待引入到會員當中
       });
       
   };
@@ -146,8 +147,10 @@ export default function ActivityCreatePage() {
             <a href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("basketball")
-              setSelectedId(1)
-              openModal()
+              setSelectedSport(1)
+              setTimeout(() => {
+                openModal(); // 等 selectedSport 確實更新後再打開 Modal
+              }, 0);
               }}>
               <div className={`${Styles.sportType} ${Styles.basketball}`}>
                 <div className={`icon-Basketball ${Styles.sportIcon}`}></div>
@@ -157,8 +160,10 @@ export default function ActivityCreatePage() {
             <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("volleyball")
-              setSelectedId(2)
-              openModal()
+              setSelectedSport(2)
+              setTimeout(() => {
+                openModal(); // 等 selectedSport 確實更新後再打開 Modal
+              }, 0);
             }}>
               <div className={`${Styles.sportType} ${Styles.volleyball}`}>
                 <div className={`icon-Volleyball ${Styles.sportIcon}`}></div>
@@ -168,8 +173,10 @@ export default function ActivityCreatePage() {
             <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("shuttlecock")
-              setSelectedId(3)
-              openModal()
+              setSelectedSport(3)
+              setTimeout(() => {
+                openModal(); // 等 selectedSport 確實更新後再打開 Modal
+              }, 0);
               }}>
               <div className={`${Styles.sportType} ${Styles.shuttlecock}`}>
                 <div className={`icon-Badminton ${Styles.sportIcon}`}></div>
@@ -201,7 +208,7 @@ export default function ActivityCreatePage() {
             </div>
             <div className={`modal-body ${Styles.modalWidth}`}>
               {/* <label>創建者</label>
-              <input type="text" name="founder_id" className={Styles.createInput} onChange={handleInputChange} value={selectedId} /> */}
+              <input type="text" name="founder_id" className={Styles.createInput} onChange={handleInputChange} value={selectedSport} /> */}
               <label>活動名稱</label>
               <input type="text" name="activity_name" className={Styles.createInput} onChange={handleInputChange} />
               {/* <label>運動類別 ID（手動輸入測試用）</label>
@@ -227,8 +234,18 @@ export default function ActivityCreatePage() {
               />
               </span>
               </div>
-              <CourtList selectedCity={selectedCity} selectedArea={selectedArea} />
-              <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} />
+              <div  className={Styles.createInput}>
+                <CourtList 
+                  selectedCity={selectedCity} 
+                  selectedArea={selectedArea} 
+                  selectedSport={selectedSport}
+                  selectedCourtId={formData.court_id}
+                  onSelectCourt={(courtId) =>
+                    setFormData((prev) => ({ ...prev, court_id: courtId }))
+                  }
+                />
+              </div>
+              {/* <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} /> */}
               <label>活動時間</label>
               <input type="datetime-local" name="activity_time" className={Styles.createInput} onChange={handleInputChange} />
               <label>報名截止期限</label>
