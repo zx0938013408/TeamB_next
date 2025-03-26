@@ -18,9 +18,32 @@
   flex-direction: row;
 }
 
-.breadcrumb{
+/* 麵包屑 */
+.breadcrumb {
   margin: 10px 0;
 }
+
+.link {
+  text-decoration: none;
+  color: #818785;
+  transition: color 0.3s ease-in-out;
+}
+
+.link:hover {
+  color: #528f7c;
+  font-weight: bold;
+}
+
+.separator {
+  margin: 0 5px;
+  color: #ccc;
+}
+
+.active {
+  font-weight: bold;
+  color: #000;
+}
+/* end麵包屑 */
 
 .sideBar{
   width: 16%;

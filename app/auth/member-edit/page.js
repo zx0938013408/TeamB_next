@@ -28,7 +28,7 @@ const MemberEdit = () => {
   const [cityId, setCityId] = useState(auth.city_id || "");
   const [areaId, setAreaId] = useState(auth.area_id || "");
   const [avatar, setAvatar] = useState(auth.avatar || "");
-  const [sport, setSport] = useState(auth.sport ||[] )
+  const [sport, setSport] = useState(auth.sport ||", " )
   const [selectedSports, setSelectedSports] = useState("");
   const router = useRouter(); // 用於導航
   const [preview, setPreview] = useState(""); // 🔹 存圖片預覽 URL
@@ -79,65 +79,87 @@ const MemberEdit = () => {
 
 
   const handleSportChange = (sportId) => {
-    setSelectedSports((prev) =>
-      prev.includes(sportId) ? prev.filter((id) => id !== sportId) : [...prev, sportId]
-    );
+    setSport((prev) => {
+      // 確保 prev 是字串
+      const currentSports = prev || "";
+  
+      // 檢查該運動是否已經選擇
+      if (currentSports.includes(sportId)) {
+        // 如果已經選擇過，移除該運動
+        return currentSports.split(",").filter((id) => id !== sportId).join(",");
+      } else {
+        // 否則，新增該運動
+        return currentSports ? `${currentSports},${sportId}` : sportId;
+      }
+    });
   };
-
-
+  
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // 顯示圖片預覽
+      setPreview(URL.createObjectURL(file)); // 為選中的檔案創建預覽 URL
+    
+      // 更新 avatar 狀態
+      setAvatar(file); // 直接設置為選中的檔案
+    }
+  };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedUser = {
-      name,
-      gender,
-      phone,
-      address,
-      city_id: cityId,
-      area_id: areaId,
-      sport: sport, 
-      avatar,
-    };
-
+    
+    // 創建 FormData 物件
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("gender", gender);
+    formData.append("phone", phone);
+    formData.append("address", address);
+    formData.append("city_id", cityId);
+    formData.append("area_id", areaId);
+    formData.append("sport", sport);
+  
+    // 如果有選擇頭像，添加到 FormData 中
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+  
     try {
       const response = await fetch(`http://localhost:3001/auth/member/api/${auth.id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           'Authorization': `Bearer ${auth.token}`,
         },
-        body: JSON.stringify(updatedUser),
+        body: formData,  // 這裡使用 FormData 而非 JSON
       });
-
+  
       const data = await response.json();
       if (data.success) {
         alert("資料更新成功");
+        
+        // 更新 auth 上下文中的資料
+        auth.name = name;
+        auth.gender = gender;
+        auth.phone = phone;
+        auth.address = address;
+        auth.city_id = cityId;
+        auth.area_id = areaId;
+        auth.avatar = data.data.avatar;  // 確保更新頭像
+        auth.sport = sport;
+        
+        // 更新後顯示新的頭像
         router.push("/auth/member"); // 更新成功後，重定向到會員頁面
       } else {
         alert("更新失敗，請檢查資料");
       }
     } catch (error) {
-      console.error("Error updating user data:", error);
+      console.error("更新資料時發生錯誤:", error);
     }
   };
-
-
-
-
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // 顯示圖片預覽
-      setPreview(URL.createObjectURL(file)); 
   
-      // 更新 FormData，儲存檔案本身
-      setAvatar((prev) => ({
-        ...prev,
-        avatar: file, // 儲存檔案對象
-      }));
-    }
-  };
+
+
+
   // 取得用戶資料
   const getUserData = async () => {
     try {
@@ -260,26 +282,26 @@ const MemberEdit = () => {
               </select>
 
               {/* 喜愛運動選擇 */}
-              <div className={styles.checkboxGroup} onChange={(e) =>handleSportChange(e.target.value)}>
+              <div className={styles.checkboxGroup} >
               <label>喜愛運動：</label>
               <label>
                     <input
                       type="checkbox"
                       value="1"
                       checked={sport.includes("1")}
-                      onChange={(e) => handleSportChange(e.target.value)}
+                      onChange={(e) =>handleSportChange("1")} 
                     />
                 籃球
               </label>
               <label>
                 <input type="checkbox" value="2" checked={sport.includes("2")} 
-                  onChange={(e) => handleSportChange(e.target.value)} 
+                  onChange={(e) =>handleSportChange("2")} 
                   />
                 排球
               </label>
               <label>
                 <input type="checkbox" value="3" checked={sport.includes("3")} 
-                    onChange={(e) => handleSportChange(e.target.value)} 
+                    onChange={(e) =>handleSportChange("3")} 
                 />
                 羽球
               </label>

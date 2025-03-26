@@ -2,7 +2,7 @@
 
 import React from "react";
 import "@/styles/index-styles.css";
-import ActivityCard from "./activity-list-card/ActivityCard";
+import ActivityCardIndex from "./activity-card-index/ActivityCardIndex";
 import { useRef, useState, useEffect } from "react";
 import { AL_LIST } from "@/config/api-path";
 import Link from "next/link";
@@ -34,13 +34,9 @@ const ActivityList = () => {
     <section className="activity-container">
       <h2 className="activity-title">活動訊息</h2>
       <div className="activity-box">
-        {/* <div className="activity-item"><a href="#">3/03 pm5:00 永康 羽潮 缺3人</a></div>
-        <div className="activity-item"><a href="#">3/03 pm5:00 永康 羽潮 缺3人</a></div>
-        <div className="activity-item"><a href="#">3/03 pm5:00 永康 羽潮 缺3人</a></div>
-        <div className="activity-item"><a href="#">3/03 pm5:00 永康 羽潮 缺3人</a></div> */}
         {listData.length > 0 ? (
-          listData.slice(0, 1).map((activity, i) => (
-            <ActivityCard
+          listData.slice(0, 6).map((activity, i) => (
+            <ActivityCardIndex
               key={i}
               activity={activity}
               onQuickSignUp={setActivityName}

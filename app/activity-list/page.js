@@ -77,16 +77,28 @@ export default function ActivityListPage() {
     // 新增報名資料至資料庫
     const fetchData = async () => {
       try {
-        const r = await fetch(`${AL_LIST}`);
+        const userData = localStorage.getItem("TEAM_B-auth");
+        const token = userData ? JSON.parse(userData).token : "";
+    
+        const r = await fetch(`${AL_LIST}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
         const obj = await r.json();
+    
         if (obj.success) {
           setOriginalData(obj.rows);  // 儲存完整活動資料
           setListData(obj.rows);      // 顯示在畫面上的活動資料
+        } else {
+          console.warn("API 回傳失敗", obj);
         }
       } catch (error) {
-        console.warn(error);
+        console.warn("fetchData 錯誤:", error);
       }
     };
+    
     
     // ✅ 報名送出後可以使用
     const handleRegister = async () => {

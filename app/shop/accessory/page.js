@@ -7,6 +7,8 @@ import "@/public/TeamB_Icon/style.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import InfiniteCard from "@/components/shop/infinite-card";
+import Search from "@/components/shop/Search";
+import Link from "next/link";
 
 export default function TopPage() {
   const [products, setProducts] = useState([]);
@@ -29,15 +31,37 @@ export default function TopPage() {
       <Header />
       <div className={styles.body}>
         <div className={styles.container}>
-          {/* 搜尋欄 */}
-          <div className={styles.search}>
-            <span className={`icon-Search ${styles.iconSearch}`} />
-          </div>
-          <div className={styles.itemsSection}>
-            <div className={styles.titleBg}>
-              <div className={styles.title}>運動裝備</div>
+          {/* 麵包屑 */}
+          <nav className={styles.breadcrumb} aria-label="breadcrumb">
+            <Link href="/" className={styles.link}>
+              首頁
+            </Link>
+            <span className={styles.separator}>/</span>
+
+            <Link href="/shop" className={styles.link}>
+              商城
+            </Link>
+            <span className={styles.separator}>/</span>
+
+            <span className={styles.active} aria-current="page">
+              運動裝備
+            </span>
+          </nav>
+          <div className={styles.Main}>
+            <div className={styles.sideBar}>
+              {/* 搜尋 */}
+              <Search />
+              {/* 左側篩選 */}
+              {/* TODO */}
             </div>
-            <InfiniteCard items={products} categoryId={4} />
+            <div className={styles.mainContent}>
+              <div className={styles.itemSection}>
+                <div className={styles.titleBg}>
+                  <div className={styles.title}>運動裝備</div>
+                </div>
+                <InfiniteCard items={products} categoryId={4} />
+              </div>
+            </div>
           </div>
         </div>
       </div>

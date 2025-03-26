@@ -5,51 +5,77 @@
 }
 
 .container {
-  width: 70%;
+  width: 80%;
   margin: auto;
   padding: 150px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
-.search {
-  width: 98%;
-  height: 70px;
-  border-bottom: 3px solid #528f7c;
+.Main {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: row;
 }
 
-.iconSearch {
-  display: flex;
-  align-items: center;
-  font-size: 30px;
+/* 麵包屑 */
+.breadcrumb {
+  margin: 10px 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #818785;
+  transition: color 0.3s ease-in-out;
+}
+
+.link:hover {
   color: #528f7c;
-  cursor: pointer;
+  font-weight: bold;
 }
 
+.separator {
+  margin: 0 5px;
+  color: #ccc;
+}
+
+.active {
+  font-weight: bold;
+  color: #000;
+}
+/* end麵包屑 */
+
+/* 左右側比例 */
+.sideBar {
+  width: 16%;
+  margin-right: 20px;
+}
+
+.mainContent {
+  width: 84%;
+}
+
+/* 右側主要區域 */
 .itemsSection {
   width: 100%;
-  padding-bottom: 100px;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-.titleBg{
+
+/* 標題背景 */
+.titleBg {
   width: 100%;
   margin-bottom: 50px;
-  margin-top: 50px;
   display: flex;
   justify-content: center;
   text-align: center;
-  background-color: #29755D;
+  background-color: #29755d;
   padding: 10px 0 10px 0;
   border-radius: 15px 15px 0 0;
 }
+
+/* 標題 */
 .title {
   color: #ffffff;
   font-size: 30px;
