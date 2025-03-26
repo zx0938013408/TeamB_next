@@ -20,7 +20,7 @@ export default function CourtList({
         const obj = await r.json();
         if (obj.success) {
           setCourtList(obj.rows);
-          console.log("✅ CourtList 資料載入成功，共：", obj.rows.length, "筆");
+          // console.log("✅ CourtList 資料載入成功，共：", obj.rows.length, "筆");
         }
       } catch (error) {
         console.warn("❌ 載入場地失敗：", error);
@@ -29,16 +29,16 @@ export default function CourtList({
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("📦 所有原始場地資料：", courtList);
-  }, [courtList]);
+  // useEffect(() => {
+  //   console.log("📦 所有原始場地資料：", courtList);
+  // }, [courtList]);
 
   useEffect(() => {
-    console.log("🔍 篩選條件：", {
-      selectedCity,
-      selectedArea,
-      selectedSport,
-    });
+    // console.log("🔍 篩選條件：", {
+    //   selectedCity,
+    //   selectedArea,
+    //   selectedSport,
+    // });
 
     if (
       Number(selectedCity) &&
@@ -56,10 +56,10 @@ export default function CourtList({
         new Map(filtered.map((court) => [court.court_id, court])).values()
       );
 
-      console.log("✅ 篩選後場地筆數：", uniqueCourts.length);
+      // console.log("✅ 篩選後場地筆數：", uniqueCourts.length);
       setFilteredCourts(uniqueCourts);
     } else {
-      console.log("⛔ 條件不完整，清空場地清單");
+      // console.log("⛔ 條件不完整，清空場地清單");
       setFilteredCourts([]);
     }
   }, [selectedCity, selectedArea, selectedSport, courtList]);
@@ -73,7 +73,7 @@ export default function CourtList({
           onChange={(e) => {
             const courtId = Number(e.target.value);
             if (!isNaN(courtId)) {
-              console.log("🎯 選擇了場地 ID：", courtId);
+              // console.log("🎯 選擇了場地 ID：", courtId);
               onSelectCourt && onSelectCourt(courtId);
             }
           }}
