@@ -243,6 +243,7 @@ export default function ActivityCreatePage() {
                   onSelectCourt={(courtId) =>
                     setFormData((prev) => ({ ...prev, court_id: courtId }))
                   }
+                  handleInputChange={handleInputChange}
                 />
               </div>
               {/* <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} /> */}
