@@ -5,17 +5,18 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Styles from "./create.module.css";
+import StylesCity from "@/styles/city-area/city-area.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
 import { AL_CREATE_POST } from "@/config/api-path";
-import CitySelector from "@/components/city-area/city";
+import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
 import CourtList from "@/components/court_info"
 
 
 export default function ActivityCreatePage() {
   const router = useRouter();
-  const [selectedCity, setSelectedCity] = useState("");
+  // const [selectedCity, setSelectedCity] = useState("14");
   const [selectedArea, setSelectedArea] = useState("");
   const [cityData, setCityData] = useState([]);
   const [hovered, setHovered] = useState(null);
@@ -58,6 +59,28 @@ export default function ActivityCreatePage() {
     }
   };
 
+  // 載入區域資料
+  useEffect(() => {
+    const fetchCityData = async () => {
+      try {
+        const res = await fetch(CITY_LIST); // 替換成你的 API 路徑
+        const data = await res.json();
+  
+        if (data.success) {
+          // ✅ 只保留台南市 (city_id === 14)
+          const filtered = data.rows.filter(item => Number(item.city_id) === 14);
+          setCityData(filtered);
+        }
+      } catch (err) {
+        console.error("❌ 載入城市資料失敗：", err);
+      }
+    };
+  
+    fetchCityData();
+  }, []);
+
+  const selectedCity = "14"; // 固定台南市
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -217,11 +240,9 @@ export default function ActivityCreatePage() {
               {/* 引入縣市選擇功能 */}
               <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
               <span className={`${Styles.distance}`}>
-              <CitySelector
-                selectedCity={selectedCity}
-                setSelectedCity={setSelectedCity}
-                setCityData={setCityData}
-              />
+              <select className={StylesCity.border} disabled>
+              <option value="14">台南市</option>
+            </select>
               </span>
               <span>
               <span className={`${Styles.line}`}>|</span>
