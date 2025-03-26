@@ -10,7 +10,7 @@ const AuthContext = createContext();
   3. auth: 登入後, 取得用戶的資料
   4. getAuthHeader(): 把 token 包在 headers 裡
 */
-
+AuthContext.displayName = "AuthContextXXXXXX"
 //初始狀態，沒有登入
 const emptyAuth = {
   id: 0,
@@ -21,11 +21,12 @@ const emptyAuth = {
 const storageKey = "TEAM_B-auth"; // localStorage 的 key
 
 export function AuthContextProvider({ children }) {
-  const [auth, setAuth] = useState({ ...emptyAuth }); 
+  const [auth, setAuth] = useState({ ...emptyAuth }); //預設狀態：沒有登入
 
+  //登出：移除資料
   const logout = () => {
-    localStorage.removeItem(storageKey);//移除資料
-    setAuth({ ...emptyAuth }); //沒有登入的狀態：登出
+    localStorage.removeItem(storageKey);
+    setAuth({ ...emptyAuth });
   };
 
   //登入時傳帳號密碼進來
@@ -43,9 +44,10 @@ export function AuthContextProvider({ children }) {
     if (result.success) {
 
       localStorage.setItem(storageKey, JSON.stringify(result.data));
-      setAuth(result.data);
+      // setAuth(pre => ({...pre, ...result.data}));
+      setAuth({...result.data});
+      return result.success;  
     }
-    return result.success;
   };
 
   const getAuthHeader = () => {
@@ -60,6 +62,8 @@ export function AuthContextProvider({ children }) {
     if (data) {
       try {
         const authData = JSON.parse(data);
+        console.log({"XXXX": authData});
+        
         if (authData.token) { // 確保 token 存在
           setAuth(authData);
         } else {

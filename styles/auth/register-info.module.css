@@ -1,12 +1,15 @@
 
 .container {
     display: flex;
-    max-width: 1200px;
+    max-width: 1300px;
     max-height: 700px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    transform: translateY(-80px); /* 向上移動容器 */
+
+    
     
   }
 .form {

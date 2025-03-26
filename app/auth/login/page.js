@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"; // 引入 useRouter
 
 const Login = () => {
 
-    const { login } = useAuth(); // 從上下文中取得 login 函數
+    const { login } = useAuth(); // 從上下文中取得 login 函數 
     const [email, setEmail] = useState(""); // 記錄輸入的電子郵件
     const [password, setPassword] = useState(""); // 記錄輸入的密碼
     const [error, setError] = useState(""); // 記錄錯誤訊息
