@@ -10,6 +10,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin-left: 70px;
+    transform: translateY(-50px); /* 向上移動 */
   }
   
   /* 左側區塊 (綠色背景) */

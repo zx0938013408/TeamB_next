@@ -174,7 +174,7 @@ const RegisterInfo = () => {
             {/* 頭像上傳區域 */}
             <div className={styles.avatarNameContainer}>
               <div className={styles.avatarContainer}>
-              <img src={preview || ""}  alt="頭像預覽" className={styles.avatarPreview} />
+              <img src={preview || "/photo/logo/TeamB-logo-greenYellow.png"}  alt="頭像預覽" className={styles.avatarPreview} />
                 <input id="fileInput" name="avatar" type="file" accept="image/*" className={styles.hiddenFileInput} onChange={handleAvatarChange} />
                 <button type="button" onClick={() => document.getElementById("fileInput").click()} className={styles.uploadButton}>
                   上傳頭像

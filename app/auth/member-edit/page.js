@@ -233,8 +233,8 @@ const MemberEdit = () => {
             <div className={styles.avatarContainer}>
               <div className={styles.avatar}>
               <img
-  src={preview || `${AVATAR_PATH}/${user?.avatar}`}
-  alt="User Avatar"
+  src={preview || `${AVATAR_PATH}/${user?.avatar}`|| "/photo/logo/TeamB-logo-greenYellow.png" }
+  alt=""
   className={styles.avatar}
 
 />

@@ -135,7 +135,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                 ></span>
 
-                {auth.token ? (
+                {auth.id != 0 ? (
                   <button
                     className={styles.quickActionBtn}
                     onClick={handleLogout}
