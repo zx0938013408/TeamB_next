@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useCart } from '@/hooks/use-cart'
+import { useAuth } from '@/context/auth-context'
 import styles from '@/app/cart/cart.module.css'
 import checkInfo from './checkInfo.module.css'
 import ShipMethod from './_components/shipMethod'
@@ -15,9 +16,11 @@ import Navbar from '@/components/Navbar'
 import { isDev } from '@/config'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {ORDER_ADD_POST, API_SERVER, AVATAR_PATH} from '@/config/orders-api-path'
 
 
 export default function CheckInfoPage() {
+  const { auth } = useAuth()
 
   // 從useCart解構所需的context的value屬性
   const {
@@ -27,18 +30,17 @@ export default function CheckInfoPage() {
     shippingCost,
     finalTotal,
     selectedPayMethod,
-    setShippingMethod,
     shippingMethod,
     recipient,
     selectedCity, 
     selectedArea, 
-    address 
+    address
   } = useCart()
 
 
   // 產生商品名稱字串（多個商品用逗號 `,` 分隔）
   const itemsString = selectedItems
-    .map((item) => `${item.name}x${item.count}`)
+    .map((item) => `${item.product_name}x${item.quantity}`)
     .join(',')
 
   // 檢查是否登入
@@ -74,7 +76,7 @@ export default function CheckInfoPage() {
 
       // 先連到node伺服器後端，取得綠界金流付款網址
       const res = await fetch(
-        `http://localhost:3001/ecpay-test-only?amount=${finalTotal}&items=${itemsString}`,
+        `${API_SERVER}/ecpay-test-only?amount=${finalTotal}&items=${itemsString}`,
         {
           method: 'GET',
           // 讓fetch能夠傳送cookie
@@ -109,36 +111,75 @@ export default function CheckInfoPage() {
       // 如果沒有選擇付款方式，顯示警告
       const errors = [];
 
+      const store711 = JSON.parse(localStorage.getItem("store711")) || {};
+     
       if (!selectedPayMethod) errors.push('請選擇付款方式');
-      if (!setShippingMethod) errors.push('請選擇運送方式');
+      if (!shippingMethod) errors.push('請選擇運送方式');
       if (!recipient.recipientName.trim()) errors.push('請填寫收件人姓名');
       if (!recipient.phone.trim()) errors.push('請填寫收件人手機號碼');
-      if (shippingMethod === '宅配' && (!selectedCity || !selectedArea || !address.trim())) {
+      if (shippingMethod === 1 && (!selectedCity || !selectedArea )) {
         errors.push('請填寫收件地址');
       }
-      if (shippingMethod === '超商取貨' && !store711.storename) errors.push('請選擇取貨門市');
+      if (shippingMethod === 2 && (! store711.storename || !store711.storeaddress)) errors.push('請選擇取貨門市');
     
       if (errors.length > 0) {
         alert(errors.join('\n'));
         return;
       }
 
-      // if (!selectedPayMethod
-      // ) {
-      //   alert('請選擇付款方式');
-      //   return;
-      // }
+      
+      // 組合資料
+      const orderData = {
+        member_id: auth.id,
+        total_amount: finalTotal,
+        order_status_id: 1,
+        shipping_method_id: shippingMethod,  
+        payment_method_id: selectedPayMethod,
+        order_items: selectedItems.map(item => ({
+          item_id: item.id, // 這裡要確保 item.id 是正確的
+          quantity: item.quantity
+        })),
+        recipient_name: recipient.recipientName,
+        recipient_phone: recipient.phone,
+        city_id: shippingMethod === 1 ? selectedCity : null, // 宅配 (1)
+        area_id: shippingMethod === 1 ? selectedArea : null, // 宅配 
+        detailed_address: shippingMethod === 1 ? address : "", // 宅配 
+        store_name: store711.storename || null,  // 超商 (2)
+        store_address: store711.storeaddress || null,  // 超商
+      };
+
+    try {
+      // 儲存訂單資料到資料庫
+      const response = await fetch(ORDER_ADD_POST, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      const resData = await response.json();
+      if (resData.success) {
+        alert('訂單已成功提交');
     
       if ( selectedPayMethod
-        === '信用卡/金融卡') {
+        === 2 ) {
         // 選擇信用卡付款，導向綠界
         handleEcpay();
       } else if ( selectedPayMethod
-        === '貨到付款') {
+        === 1 ) {
         // 選擇貨到付款，直接跳轉訂單完成頁面
         window.location.href = '/orderResult';
       }
-    };
+
+    } else {
+      alert('訂單提交失敗，請稍後再試');
+    }
+    } catch (error) {
+      console.error('提交訂單時發生錯誤:', error);
+      alert('提交訂單失敗');
+    }
+    }
 
   return (
     <>
@@ -242,6 +283,7 @@ export default function CheckInfoPage() {
         <div className={checkInfo.title}>
           <div className={checkInfo.titleName}>訂購資訊</div>
         </div>
+       
         <div className={checkInfo.method}>
           {/* 收件人資料 */}
           <div className={checkInfo.secTitle}>收件人資料</div>
@@ -253,7 +295,7 @@ export default function CheckInfoPage() {
           <div className={checkInfo.secTitle}>運送方式</div>
           <ShipMethod />
         </div>
-
+       
         {/* 訂單詳情 */}
         <div className={styles.telHead}>付款詳情</div>
         <table title="購物車">
@@ -270,15 +312,15 @@ export default function CheckInfoPage() {
 
           <tbody>
             {selectedItems.map((selectedItem) => {
-              const { id, picture, name, size, color, price, count } =
+              const { id, image, product_name, size, color, price, quantity } =
                 selectedItem
 
               return (
                 <tr className={checkInfo.item} key={id}>
                   <td>
-                    <img src={picture} alt={name} />
+                    <img src={image ? `${AVATAR_PATH}${image}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`} alt={product_name} />
                   </td>
-                  <td className={checkInfo.name}>{name}</td>
+                  <td className={checkInfo.name}>{product_name}</td>
                   <td className={styles.spec}>
                     <p>{size}</p>
                     <p>{color}</p>
@@ -289,13 +331,13 @@ export default function CheckInfoPage() {
                       <input
                         className={styles.input}
                         type="text"
-                        value={count}
+                        value={quantity}
                         readOnly
                       />
                     </div>
                   </td>
                   <td className={styles.subTotal}>
-                    NT${(count * price).toLocaleString()}
+                    NT${(quantity * price).toLocaleString()}
                   </td>
                 </tr>
               )

@@ -9,19 +9,19 @@ import { ToastContainer, toast } from 'react-toastify'
 const initialProducts = [
   {
     id: "1",
-    name: "ESSENTIALS 短版短袖上衣",
-    price: 981,
-    picture:
-      "/photo/p1.jpg",
+    product_name: "Pro Max Dri-FIT 運動短袖",
+    price: 890,
+    image:
+      "top (1).jpg",
     size: "L", 
     color: "白色" 
     
   },
   {
     id: "2",
-    name: "PUREBOOST 5 跑鞋",
+    product_name: "PUREBOOST 5 跑鞋",
     price: 4290,
-    picture:
+    image:
       "/photo/p2.jpg",
     size: "UK8", 
     color: "黑色",
@@ -29,9 +29,9 @@ const initialProducts = [
   },
   {
     id: "3",
-    name: "AEROREADY 運動長褲",
+    product_name: "AEROREADY 運動長褲",
     price: 1859,
-    picture:
+    image:
       "/photo/p3.jpg",
     size: "L", 
     color: "黑色"
@@ -58,12 +58,12 @@ export default function ProductPage() {
           {initialProducts.map((v) => {
             return (
               <li key={v.id}>
-                <img src={v.picture} alt={v.name} />{v.name} / NT${v.price}
+                <img src={v.image} alt={v.product_name} />{v.product_name} / NT${v.price}
                 <button
                   onClick={() => {
                     onAdd(v)
                     // 跳出成功通知訊息
-                    notify(v.name)
+                    notify(v.product_name)
                   }}
                 >
                   加入購物車

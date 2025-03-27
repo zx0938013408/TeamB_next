@@ -13,17 +13,21 @@ export default function ShipMethod() {
     useCart()
 
   //  被選擇的選項
+  // const options = [
+  //   { label: '宅配', shipping: 100 },
+  //   { label: '超商取貨(7-ELEVEN)', shipping: 60 },
+  // ]
   const options = [
-    { label: '宅配', shipping: 100 },
-    { label: '超商取貨(7-ELEVEN)', shipping: 60 },
+    { id: 1, label: '宅配', shipping: 100 },
+    { id: 2, label: '超商取貨(7-ELEVEN)', shipping: 60 },
   ]
 
   // 根據選擇的運送方式顯示不同的表單
   const renderForm = (ShipMethod) => {
     switch (ShipMethod) {
-      case '宅配':
+      case 1:
         return <ComponentsAddress />
-      case '超商取貨(7-ELEVEN)':
+      case 2:
         return <Store />
       default:
         return null
@@ -36,7 +40,7 @@ export default function ShipMethod() {
     const savedCost = localStorage.getItem('shippingCost')
 
     if (savedMethod) {
-      setShippingMethod(savedMethod)
+      setShippingMethod(Number(savedMethod))
     }
     if (savedCost) {
       setShippingCost(parseInt(savedCost, 10))
@@ -57,16 +61,16 @@ export default function ShipMethod() {
       <div className={styles.shipContainer2}>
       {/* 選項列表 */}
       <div className={styles.optionsContainer}>
-        {options.map((v, i) => (
+        {options.map((v) => (
           <div key={v.label} className={styles.optionContainer}>
-            <label htmlFor={v.label} className={styles.shipMethod}>
+            <label htmlFor={v.id} className={styles.shipMethod}>
               <input
-                id={v.label}
+                id={v.id}
                 type="radio"
-                value={v.label}
-                checked={shippingMethod === v.label}
+                value={v.id}
+                checked={shippingMethod === v.id}
                 onChange={() => {
-                  setShippingMethod(v.label)
+                  setShippingMethod(v.id)
                   setShippingCost(v.shipping)
                 }}
               />

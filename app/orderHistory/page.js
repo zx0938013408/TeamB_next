@@ -36,7 +36,7 @@ const OrderItem = ({ order }) => {
                   </td>
                 <td className={styles.name}>{product.product_name}</td>
                 <td className={styles.spec}><p>{product.size}</p><p>{product.color}</p></td>
-                <td className={styles.price}>NT${product.price.toLocaleString()}</td>
+                <td className={styles.price}>NT${(product.price ?? 0).toLocaleString()}</td>
                 <td className={styles.count}>
                   <div className={styles.quantityControls}>×{product.quantity}</div>
                 </td>
@@ -147,12 +147,13 @@ const OrderTable = () => {
           </button>
         ))}
       </div>
-
-      {orders.length > 0 ? (
-        orders.map(order => <OrderItem key={order.orderId} order={order} />)
-      ) : (
-        <div className={styles.noOrders}>尚未有訂單</div>
-      )}
+      <div className={styles.order}>
+        {orders.length > 0 ? (
+          orders.map(order => <OrderItem key={order.orderId} order={order} />)
+        ) : (
+          <div className={styles.noOrders}>尚未有訂單</div>
+        )}
+      </div>
     </div>
   )
 }
