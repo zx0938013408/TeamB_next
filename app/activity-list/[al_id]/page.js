@@ -149,7 +149,7 @@ useEffect(() => {
             <p>
               <strong>地&emsp;&emsp;點：</strong>
               {activity.court_name}{" "}
-              <a href="https://www.google.com/maps?authuser=0" target="_blank">
+              <a href={`https://www.google.com/maps/search/?api=1&query=台南市${activity.court_name}`} target="_blank">
                 <i className="fa-solid fa-location-dot"></i>
               </a>
             </p>
