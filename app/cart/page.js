@@ -1,6 +1,7 @@
 'use client'
 
 import { useCart } from '@/hooks/use-cart'
+import { useAuth } from '@/context/auth-context'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import styles from './cart.module.css'
@@ -11,9 +12,12 @@ import Button2 from './_components/button2'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import { AVATAR_PATH } from '@/config/orders-api-path'
 
 
 export default function CartPage() {
+  const { auth } = useAuth()
+  
   // 從useCart解構所需的context的value屬性
   const {
     onDecrease,
@@ -31,7 +35,7 @@ export default function CartPage() {
   // 處理數量增加或減少時對選取商品數量和狀態的影響
   const handleQuantityChange = (cartItem, operation) => {
     const nextCount =
-      operation === 'increase' ? cartItem.count + 1 : cartItem.count - 1
+      operation === 'increase' ? cartItem.quantity + 1 : cartItem.quantity - 1
 
     if (nextCount <= 0) {
       notifyAndRemove(cartItem.name, cartItem.id) // 若數量為 0 刪除商品
@@ -40,7 +44,7 @@ export default function CartPage() {
         // 當商品已選中時，更新選擇商品的數量
         setSelectedItems((prev) =>
           prev.map((item) =>
-            item.id === cartItem.id ? { ...item, count: nextCount } : item
+            item.id === cartItem.id ? { ...item, quantity: nextCount } : item
           )
         )
       }
@@ -204,7 +208,7 @@ export default function CartPage() {
               
               <tbody>
                 {cartItems.map((cartItem) => {
-                  const { id, picture, name, size,color, price, count } = cartItem
+                  const { id, image, product_name, size,color, price, quantity } = cartItem
 
                   const isChecked = selectedItems.some((item) => item.id === id) // 判斷該商品是否被選擇
 
@@ -218,10 +222,10 @@ export default function CartPage() {
                         />
                       </td>
                       <td>
-                        <img src={picture} alt={name} />
+                        <img src={image ? `${AVATAR_PATH}${image}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`} alt={product_name} />
                       </td>
 
-                      <td className={styles.name}>{name}</td>
+                      <td className={styles.name}>{product_name}</td>
                       <td className={styles.spec}>
                         <p>{size}</p>
                         <p>{color}</p>
@@ -243,7 +247,7 @@ export default function CartPage() {
                           <input
                             className={styles.input}
                             type="text"
-                            value={count}
+                            value={quantity}
                             readOnly
                           />
                           <button
@@ -258,13 +262,13 @@ export default function CartPage() {
                       </td>
 
                       <td className={styles.subTotal}>
-                        NT${(count * price).toLocaleString()}
+                        NT${(quantity * price).toLocaleString()}
                       </td>
 
                       <td>
                         <button
                           className={styles.remove}
-                          onClick={() => notifyAndRemove(name, id)}
+                          onClick={() => notifyAndRemove(product_name, id)}
                         >
                           <FaTrashAlt />
                         </button>

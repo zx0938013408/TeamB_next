@@ -7,8 +7,11 @@ import Button2 from '../cart/_components/button2'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import { useAuth } from '@/context/auth-context'
 
 export default function OrderResultPage() {
+  const { auth } = useAuth()
+
   return (
     <>
       <Header/>

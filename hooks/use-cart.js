@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, createContext, useContext, useEffect } from 'react'
+import { useState, createContext, useContext, useEffect,useMemo } from 'react'
 // 1. 建立與導出context
 // 傳入參數值是defaultValue(預設值)
 // 使用null值通常是為了定義類型(ts)或專門除錯用，也可以提供有意義的預設值
@@ -27,9 +27,13 @@ export function CartProvider({ children }) {
   // 運費
   const [shippingCost, setShippingCost] = useState(0)
 
-  // 記錄使用者選了哪一個值的狀態(沒選or選項其一)
+  // 付款方式
   const [selectedPayMethod, setSelectedPayMethod ] = useState('')
 
+  // 宅配地址
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedArea, setSelectedArea] = useState('');
+  const [address, setAddress] = useState('');
   
   // 新增收件人資訊的狀態
   const [recipient, setRecipient] = useState({
@@ -45,17 +49,8 @@ export function CartProvider({ children }) {
     }))
   }
 
-   // 地址資訊
-   const [selectedCity, setSelectedCity] = useState("")
-   const [selectedArea, setSelectedArea] = useState("")
-   const [address, setAddress] = useState('')
+  
  
-   // 更新地址的函數
-   const updateAddress = (newData) => {
-     setSelectedCity(newData.city)
-     setSelectedArea(newData.area)
-     setAddress(newData.address)
-   }
 
   // 記錄首次渲染是否完成的信號值
   const [didMount, setDidMount] = useState(false)
@@ -68,7 +63,7 @@ export function CartProvider({ children }) {
       // 在成員(物件)中比對id為cartItemId的成員
       if (v.id == cartItemId) {
         // 如果比對出id為cartItemId的成員，展開物件後遞增count屬性(+1)
-        return { ...v, count: v.count + 1 }
+        return { ...v, quantity: v.quantity + 1 }
       } else {
         // 否則直接返回物件
         return v
@@ -85,7 +80,7 @@ export function CartProvider({ children }) {
       // 在成員(物件)中比對id為cartItemId的成員
       if (v.id == cartItemId) {
         // 如果比對出id為cartItemId的成員，展開物件後遞減count屬性(-1)
-        return { ...v, count: v.count - 1 }
+        return { ...v, quantity: v.quantity - 1 }
       } else {
         // 否則直接返回物件
         return v
@@ -117,7 +112,7 @@ export function CartProvider({ children }) {
     } else {
       // 沒有在購物車裡 ===> 作新增
       // 少了一個count數量屬性(商品物件中沒數量，要購物車項目才有)
-      const newItem = { ...product, count: 1 }
+      const newItem = { ...product, quantity: 1 }
       // 加到購物車最前面
       const nextCartItems = [newItem, ...cartItems]
       setCartItems(nextCartItems)
@@ -125,8 +120,8 @@ export function CartProvider({ children }) {
   }
 
   // 計算總數量&金額 陣列的reduce方法(累加/歸納)
-  const totalQty = cartItems.reduce((acc, v) => acc + v.count, 0)
-  const totalAmount = cartItems.reduce((acc, v) => acc + v.count * v.price, 0)
+  const totalQty = cartItems.reduce((acc, v) => acc + v.quantity, 0)
+  const totalAmount = cartItems.reduce((acc, v) => acc + v.quantity * v.price, 0)
 
   // 切換單個商品的勾選狀態
   const onToggleChecked = (item) => {
@@ -134,7 +129,7 @@ export function CartProvider({ children }) {
       (prev) =>
         prev.some((selectedItem) => selectedItem.id === item.id)
           ? prev.filter((selectedItem) => selectedItem.id !== item.id) // 移除商品
-          : [...prev, { ...item, count: item.count }] // 加入商品物件並帶上數量
+          : [...prev, { ...item, quantity: item.quantity }] // 加入商品物件並帶上數量
     )
   }
 
@@ -142,22 +137,19 @@ export function CartProvider({ children }) {
   const onCheckedAll = (e) => {
     setSelectedItems(
       e.target.checked
-        ? cartItems.map((item) => ({ ...item, count: item.count }))
+        ? cartItems.map((item) => ({ ...item, quantity: item.quantity }))
         : []
     ) // 全選時將所有商品物件加入 selectedItems
   }
 
   // 計算總共選取的商品數量
   const selectedItemsCount = selectedItems.reduce(
-    (total, item) => total + item.count,
-    0
-  )
+    (total, item) => total + item.quantity, 0)
 
   // 計算選取商品的總金額
   const selectedItemsTotalAmount = selectedItems.reduce(
-    (total, item) => total + item.count * item.price,
-    0
-  )
+    (total, item) => total + item.quantity * item.price, 0)
+
 
   // 付費總金額: 商品總金額 + 運費總金額
   const finalTotal = selectedItemsTotalAmount + shippingCost
@@ -171,6 +163,10 @@ export function CartProvider({ children }) {
     const nextSelectedItems =
       JSON.parse(localStorage.getItem('selectedItems')) || []
     setSelectedItems(nextSelectedItems)
+    //
+    setShippingMethod(localStorage.getItem('shippingMethod') || '')
+    setShippingCost(parseFloat(localStorage.getItem('shippingCost')) || 0)
+    setSelectedPayMethod(localStorage.getItem('selectedPayMethod') || '')
 
     // 信號值設為true，代表首次渲染已經完成
     setDidMount(true)
@@ -184,12 +180,17 @@ export function CartProvider({ children }) {
       localStorage.setItem('cart', JSON.stringify(cartItems))
       // 當selectedItems有變動時，同步化到localStorage
       localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
-     
+      // 運送方式
+      localStorage.setItem('shippingMethod', shippingMethod)
+      localStorage.setItem('shippingCost', shippingCost.toString())
+      // 付款方式
+      localStorage.setItem('selectedPayMethod', selectedPayMethod)
     }
     // 下面會有eslint警告提醒，並不需要多加其它的變數在陣列中
     // eslint-disable-next-line
-  }, [cartItems, selectedItems])
-// ,  shippingMethod, shippingCost
+  }, [cartItems, selectedItems, shippingMethod, shippingCost, selectedPayMethod])
+
+  
 
   return (
     <CartContext.Provider
@@ -217,7 +218,12 @@ export function CartProvider({ children }) {
         finalTotal,
         recipient,  // 提供收件人資料
         updateRecipient,  // 提供更新收件人資料的函數
-        updateAddress, // 提供更新地址的函數
+        selectedCity, 
+        setSelectedCity,
+        selectedArea, 
+        setSelectedArea,
+        address,
+        setAddress,
         //handleShippingMethodChange,
       }}
     >
