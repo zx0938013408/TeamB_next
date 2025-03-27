@@ -347,6 +347,33 @@ export default function ActivityCreatePage() {
               <label>活動名稱</label>
               <input type="text" name="activity_name" ref={(el) => (inputRef.current[0] = el)} className={Styles.createInput} onChange={handleInputChange} />
 
+              <label>活動詳情</label>
+              <div className={Styles.createInput}>
+              <textarea name="introduction" className={Styles.createTextarea} ref={(el) => (inputRef.current[7] = el)} placeholder="請輸入活動相關資訊" onChange={handleInputChange}></textarea>
+              {/* 選擇照片 */}
+              <div className="row">
+                <div className={Styles.titleImg}>新增封面相片 (最多4張)</div>
+                <input 
+                type="file" 
+                accept="image/*"
+                style={{ display: "none" }} 
+                multiple
+                ref={imageInputRef}
+                onChange={handleImageUpload} />
+                {images.map((image, index) => (
+                  <button 
+                  key={index} 
+                  type="button" 
+                  className={`${Styles.uploadImg} col`} 
+                  onMouseEnter={() => setHovered(`photo${index + 1}`)} 
+                  onMouseLeave={() => setHovered(null)} onClick={() => imageInputRef.current && imageInputRef.current.click()}>
+                    {image ? <img src={image.preview} alt={`圖片 ${index + 1}`} className={Styles.imagePreview} /> : hovered === `photo${index + 1}` ? "請上傳圖片" : "+"}
+                  </button>
+                ))}
+              </div>
+              </div>
+
+
               <label>活動地點</label>
               {/* 後續可引入縣市選擇功能 */}
               <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
@@ -413,28 +440,7 @@ export default function ActivityCreatePage() {
               <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
               <label>費用(每人)</label>
               <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
-              <label>活動詳情</label>
-              <textarea name="introduction" className={Styles.createInput} ref={(el) => (inputRef.current[7] = el)} placeholder="本活動歡迎新手參加" onChange={handleInputChange}></textarea>
-              <div className="row">
-                <div className={Styles.titleImg}>新增封面相片 (最多4張)</div>
-                <input 
-                type="file" 
-                accept="image/*"
-                style={{ display: "none" }} 
-                multiple
-                ref={imageInputRef}
-                onChange={handleImageUpload} />
-                {images.map((image, index) => (
-                  <button 
-                  key={index} 
-                  type="button" 
-                  className={`${Styles.uploadImg} col`} 
-                  onMouseEnter={() => setHovered(`photo${index + 1}`)} 
-                  onMouseLeave={() => setHovered(null)} onClick={() => imageInputRef.current && imageInputRef.current.click()}>
-                    {image ? <img src={image.preview} alt={`圖片 ${index + 1}`} className={Styles.imagePreview} /> : hovered === `photo${index + 1}` ? "請上傳圖片" : "+"}
-                  </button>
-                ))}
-              </div>
+
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
               <button type="button" className={`btn btn-secondary closeModal ${Styles.cancelBtn}`} data-bs-dismiss="modal" onClick={resetForm}>
