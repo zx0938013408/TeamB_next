@@ -6,9 +6,9 @@ import styles from "../../../styles/auth/member-edit.module.css";
 import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import Header from "../../../components/Header";
 import "@/public/TeamB_Icon/style.css";
-import { useParams, useRouter } from "next/navigation";
-import {MB_CITY_GET ,MB_AREA_GET} from "../../../config/auth.api";
-import {MB_AVATAR_POST} from "../../../config/auth.api"
+import {  useRouter } from "next/navigation";
+import {MB_CITY_GET ,MB_AREA_GET,MB_EDIT_PUT} from "../../../config/auth.api";
+// import {MB_AVATAR_POST} from "../../../config/auth.api"
 import { AVATAR_PATH } from "@/config/auth.api";
 
 
@@ -16,12 +16,12 @@ import { AVATAR_PATH } from "@/config/auth.api";
 
 const MemberEdit = () => {
   
-  const { auth } = useAuth(); // 從上下文獲取 auth 資料
+  const { auth , updateUserData} = useAuth(); // 從上下文獲取 auth 資料
   console.log("auth:",auth);
   
   const [cities, setCities] = useState([]); 
   const [areas, setAreas] = useState([]); 
-  const [name, setName] = useState(auth.name || "");
+  const [name, setName] = useState( auth.name || "");
   const [gender, setGender] = useState(auth.gender || "");
   const [phone, setPhone] = useState(auth.phone || "");
   const [address, setAddress] = useState(auth.address || "");
@@ -29,16 +29,14 @@ const MemberEdit = () => {
   const [areaId, setAreaId] = useState(auth.area_id || "");
   const [avatar, setAvatar] = useState(auth.avatar || "");
   const [sport, setSport] = useState(auth.sport ||", " )
-  const [selectedSports, setSelectedSports] = useState("");
   const router = useRouter(); // 用於導航
   const [preview, setPreview] = useState(""); // 🔹 存圖片預覽 URL
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
   
     if (auth.id) {
       console.log("獲取到的用戶資料:", auth);
-      setUser(auth); // 如果用戶已登入，將 auth 資料設置到 user 狀態
+    (auth); 
     }
   }, [auth]);
 
@@ -109,51 +107,19 @@ const MemberEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // 創建 FormData 物件
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("gender", gender);
-    formData.append("phone", phone);
-    formData.append("address", address);
-    formData.append("city_id", cityId);
-    formData.append("area_id", areaId);
-    formData.append("sport", sport);
-  
-    // 如果有選擇頭像，添加到 FormData 中
-    if (avatar) {
-      formData.append("avatar", avatar);
-    }
-  
-    try {
-      const response = await fetch(`http://localhost:3001/auth/member/api/${auth.id}`, {
-        method: "PUT",
-        headers: {
-          'Authorization': `Bearer ${auth.token}`,
-        },
-        body: formData,  // 這裡使用 FormData 而非 JSON
-      });
-  
-      const data = await response.json();
-      if (data.success) {
-        alert("資料更新成功");
-        
-        // 更新 auth 上下文中的資料
-        auth.name = name;
-        auth.gender = gender;
-        auth.phone = phone;
-        auth.address = address;
-        auth.city_id = cityId;
-        auth.area_id = areaId;
-        auth.avatar = data.data.avatar;  // 確保更新頭像
-        auth.sport = sport;
-        
-        // 更新後顯示新的頭像
-        router.push("/auth/member"); // 更新成功後，重定向到會員頁面
-      } else {
-        alert("更新失敗，請檢查資料");
-      }
-    } catch (error) {
-      console.error("更新資料時發生錯誤:", error);
+    const result = await updateUserData({
+      ...auth,
+      name,
+      gender,
+      phone,
+      address,
+      city_id: cityId,
+      area_id: areaId,
+      avatar: avatar, 
+      sport,
+    });
+    if (result === true) {
+      router.push("/auth/member"); // 更新成功後，重定向到會員頁面
     }
   };
   
@@ -164,17 +130,18 @@ const MemberEdit = () => {
   const getUserData = async () => {
     try {
       console.log(auth.token); // 在發送請求前檢查 token
-      const response = await fetch(`http://localhost:3001/auth/members/api/${auth.id}`, {
+      const response = await fetch(MB_EDIT_PUT, {
         
         method: "GET",
         headers: {
           'Authorization': `Bearer ${auth.token}`,
         },
+        
       });
       
       const data = await response.json();
 
-      
+      console.log("new:",data)
       
       if (data.success) {
         let user = data.data[0];
@@ -233,8 +200,8 @@ const MemberEdit = () => {
             <div className={styles.avatarContainer}>
               <div className={styles.avatar}>
               <img
-  src={preview || `${AVATAR_PATH}/${user?.avatar}`|| "/photo/logo/TeamB-logo-greenYellow.png" }
-  alt=""
+  src={preview || `${AVATAR_PATH}/${auth?.avatar}`}
+  alt="User Avatar"
   className={styles.avatar}
 
 />

@@ -12,8 +12,6 @@ import ActivityCard from "../../../components/activity-list-card/ActivityCard"; 
 import { MEMBER_ACTIVITIES } from "@/config/api-path"; // 已報名的 API 路徑
 import { MEMBER_CREATED_ACTIVITIES } from "@/config/api-path"; // 已開團的 API 路徑
 import { MEMBER_FAVORITES } from "@/config/api-path"; // 已收藏的 API 路徑
-import ActivityCardRegistered from "@/components/activity-list-card/ActivityCardRegistered";
-import ActivityCardCreate from "@/components/activity-list-card/ActivityCardCreate";
 
 const isExpired = (activityTime) => {
   // 判斷活動時間是否已過
@@ -30,7 +28,6 @@ const Member = () => {
 
   useEffect(() => {
     if (auth.id) {
-      setUser(auth); // 設置用戶資料
       fetchRegisteredActivities(auth.id); // 獲取已報名的活動
       fetchCreatedActivities(auth.id); // 獲取已開團的活動
       fetchFavoriteActivities(auth.id); // 獲取已收藏的活動
@@ -43,7 +40,8 @@ const Member = () => {
       const storedAuth = localStorage.getItem("TEAM_B-auth");
       const auth = storedAuth ? JSON.parse(storedAuth) : {};  // 解析 JWT 資料
       const token = auth.token;  // 提取 token 部分
-
+      console.log("JWT 令牌:", token);  // 確認 JWT 是否正確獲取
+    
       const response = await fetch(MEMBER_ACTIVITIES(memberId), {
         headers: {
           Authorization: `Bearer ${token}`,  // 使用 Bearer token 格式
@@ -115,7 +113,7 @@ const Member = () => {
     }
   };
 
-  if (!user) return <p>載入中...</p>;
+  if (!auth) return <p>載入中...</p>;
 
   return (
     <>
@@ -130,21 +128,23 @@ const Member = () => {
           <Link href="#" className={styles.menuItem}>收藏商品</Link>
         </div>
 
-        {/* 右側內容 */}
-        <div className={styles.content}>
-          <div className={styles.profileHeader}>
-            {/* 會員的 Avatar */}
-            <img
-              src={user?.avatar ? `${AVATAR_PATH}/${user.avatar}` : `${AVATAR_PATH}/imgs.png`}
-              alt="User Avatar"
-              className={styles.avatar}
-            />
-            <div className={styles.userInfo}>
-              <h2>{user?.name || "未命名使用者"}</h2>
-              <p>生日：{user?.birthday_date ? moment(user.birthday_date).format('YYYY-MM-DD') : "未填寫"}</p>
-              <p>喜愛運動：{user?.sports || "未填寫"}</p>
-            </div>
+      {/* 右側內容 */}
+      <div className={styles.content}>
+        <div className={styles.profileHeader}>
+           {/* 會員的 Avatar */}
+           <img
+  src={auth?.avatar ? `${AVATAR_PATH}/${auth.avatar}` : `${AVATAR_PATH}/imgs.png`}
+  alt="User Avatar"
+  className={styles.avatar}
+
+/>
+          <div className={styles.userInfo}>
+          <h2>{auth?.name || "未命名使用者"}</h2>
+          <p>生日：{auth?.birthday_date ? moment(auth.birthday_date).format('YYYY-MM-DD') : "未填寫"}</p>
+
+            <p>喜愛運動：{auth?.sports || "未填寫"}</p>
           </div>
+        </div>
 
           {/* 分頁選單 */}
           <div className={styles.tabMenu}>
@@ -176,7 +176,7 @@ const Member = () => {
             {activeTab === "registered" && (
               registeredActivities.length > 0 ? (
                 registeredActivities.map((activity) => (
-                  <ActivityCardRegistered key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
+                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已報名的活動。</p>
@@ -186,7 +186,7 @@ const Member = () => {
             {activeTab === "created" && (
               createdActivities.length > 0 ? (
                 createdActivities.map((activity) => (
-                  <ActivityCardCreate key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
+                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已開團的活動。</p>

@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import {MB_LOGIN_POST} from "../config/auth.api"
+import {MB_LOGIN_POST,MB_EDIT_PUT} from "../config/auth.api"
 
 
 const AuthContext = createContext();
@@ -25,8 +25,10 @@ export function AuthContextProvider({ children }) {
 
   //登出：移除資料
   const logout = () => {
+    console.log("登出登出");
+    
     localStorage.removeItem(storageKey);
-    setAuth({ ...emptyAuth });
+    setAuth({...emptyAuth})
   };
 
   //登入時傳帳號密碼進來
@@ -41,13 +43,19 @@ export function AuthContextProvider({ children }) {
     });
 
     const result = await r.json();
+    console.log(result);
     if (result.success) {
 
       localStorage.setItem(storageKey, JSON.stringify(result.data));
+      
       // setAuth(pre => ({...pre, ...result.data}));
-      setAuth({...result.data});
+      const dataAfterLogin = { ...result.data };
+      // console.log({ dataAfterLogin })
+      setAuth(dataAfterLogin);
+      console.log("-------");
       return result.success;  
     }
+    
   };
 
   const getAuthHeader = () => {
@@ -57,6 +65,52 @@ export function AuthContextProvider({ children }) {
     };
   };
 
+
+  const updateUserData = async (updatedData) => {
+    try {
+      // const response = await fetch(MB_EDIT_PUT, {
+      //   method: 'PUT',
+      //   headers: getAuthHeader(), 
+      //   body: updatedData,
+      // });
+      // const result = await response.json();
+
+      const formData = new FormData();
+      formData.append("avatar", updatedData.avatar);
+      formData.append("name", updatedData.name);
+      formData.append("gender", updatedData.gender);
+      formData.append("phone", updatedData.phone);
+      formData.append("city_id", updatedData.city_id);
+      formData.append("area_id", updatedData.area_id);
+      formData.append("address", updatedData.address);
+      formData.append("sport", updatedData.sport);
+
+      const response = await fetch(MB_EDIT_PUT, {
+        method: "PUT",
+        headers: {
+          'Authorization': `Bearer ${auth.token}`,
+        },
+        body: formData,
+      });
+      const data = await response.json();
+      const updatedUser = data.user
+      setAuth(updatedUser);
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      return true;
+
+      // if (result.success) {
+  
+  
+        // console.log("用戶資料更新成功");
+      // } else {
+      //   console.log("更新失敗", result.message);
+      // }
+    } catch (error) {
+      console.error("更新用戶資料時出錯：", error);
+    }
+  };
+
+  
   useEffect(() => {
     const data = localStorage.getItem(storageKey);
     if (data) {
@@ -79,7 +133,7 @@ export function AuthContextProvider({ children }) {
 
   
   return (
-    <AuthContext.Provider value={{ auth, logout, login, getAuthHeader }}>
+    <AuthContext.Provider value={{ auth, logout, login, getAuthHeader, updateUserData }}>
       {children}
     </AuthContext.Provider>
   );

@@ -4,7 +4,7 @@
 import Footer from "@/components/Footer.js";
 // import "@/public/TeamB_Icon/style.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
-import { AuthContextProvider } from "../../context/auth-context.js";
+
 
 
 
@@ -12,7 +12,6 @@ import { AuthContextProvider } from "../../context/auth-context.js";
 
 export default function RootLayout({ children }) {
   return (
-    <AuthContextProvider>
     <html lang="en">
       <body>
 
@@ -23,6 +22,6 @@ export default function RootLayout({ children }) {
 
       </body>
     </html>
-    </AuthContextProvider>
+
   );
 }
