@@ -1,5 +1,6 @@
 .card {
   width: 100%;
+  max-width: 100%;
   margin: 20px auto;
   padding: 10px;
   justify-content: center;
@@ -162,3 +163,19 @@
     border: none;
   }
 }
+
+.list {
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+  margin: 0 auto 10px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: row; /* ⭐️ 預設為左右排 */
+  gap: 16px;
+  align-items: stretch;
+  transition: background-color 0.3s ease;
+}
+
