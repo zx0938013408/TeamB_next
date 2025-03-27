@@ -3,7 +3,7 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 
-export default function ActivityCard({ activity }) {
+export default function ActivityCard({ activity, onQuickSignUp }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
@@ -89,10 +89,14 @@ export default function ActivityCard({ activity }) {
               type="button"
               className={`${Styles.joinButton} ${Styles.joinInformation} ${isExpired ? Styles.buttonDisabled : ''}`}
               onClick={() => {
-                if (!isExpired && activity.registered_people < activity.need_num) {
-                  // 傳送活動資訊到上層
-                }
-              }}
+  if (!isExpired && activity.registered_people < activity.need_num) {
+    // 呼叫父元件傳來的快速報名功能
+    if (typeof onQuickSignUp === "function") {
+      onQuickSignUp(activity);
+    }
+  }
+}}
+
               disabled={isExpired || activity.registered_people >= activity.need_num}
             >
               {isExpired ? '已過期' : activity.registered_people >= activity.need_num ? '已額滿' : '快速報名'}
