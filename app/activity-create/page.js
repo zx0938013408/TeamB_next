@@ -12,9 +12,11 @@ import { AL_CREATE_POST } from "@/config/api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
 import CourtList from "@/components/court-info/court_info"
+import { useAuth } from "@/context/auth-context"; // 引入 useAuth
 
 
 export default function ActivityCreatePage() {
+    const { auth } = useAuth();
   const router = useRouter();
   // const [selectedCity, setSelectedCity] = useState("14");
   const [selectedArea, setSelectedArea] = useState("");
@@ -25,6 +27,7 @@ export default function ActivityCreatePage() {
   const [courtList, setCourtList] = useState([]); // 全部場地資料
   const [images, setImages] = useState(Array(4).fill(null));
   const imageInputRef = useRef([]);
+  const inputRef = useRef([]);
   const modalRef = useRef(null);
   const bsModal = useRef(null);
   const [formData, setFormData] = useState({
@@ -40,6 +43,37 @@ export default function ActivityCreatePage() {
     address: "",
   });
 
+  // 按取消 || X 會清空資料
+  const resetForm = () => {
+    setFormData({
+      activity_name: "",
+      sport_type_id: "",
+      area_id: "",
+      court_id: "",
+      activity_time: "",
+      deadline: "",
+      payment: "",
+      need_num: "",
+      introduction: "",
+      address: "",
+    });
+    setSelected("");
+    setSelectedSport(null);
+    setSelectedArea("");
+    setImages(Array(4).fill(null)); // ✅ 清空所有圖片 & 預覽
+
+      // 清空檔案 input 的內容（實體 DOM input）
+      inputRef.current.forEach((input) => {
+        if (input && input.type !== "file") {
+          input.value = "";
+        } else if (input && input.type === "file") {
+          input.value = null; // 清空檔案選擇
+        }
+      });
+
+  };
+
+  // 照片上傳功能
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
     let newImages = [...images];
@@ -111,12 +145,12 @@ export default function ActivityCreatePage() {
         activity_time: value,
         deadline: deadlineFormatted,
         sport_type_id: selectedSport,
-        founder_id: 23,
+        founder_id: auth.id,
       }));
       return;
     }
 
-     // ✅ 處理報名截止時間：限制不能超過活動時間前 3 小時
+     // 處理報名截止時間：限制不能超過活動時間前 3 小時
   if (name === "deadline") {
     const selected = new Date(value);
     const activity = new Date(formData.activity_time);
@@ -134,12 +168,12 @@ export default function ActivityCreatePage() {
         return;
       }
     }
-    // ✅ 正常情況更新 deadline
+    // 正常情況更新 deadline
     setFormData((prev) => ({
       ...prev,
       deadline: value,
       sport_type_id: selectedSport,
-      founder_id: 23,
+      founder_id: auth.id,
     }));
     return;
   }
@@ -150,7 +184,7 @@ export default function ActivityCreatePage() {
       ...prev,
       [name]: value,
       sport_type_id: selectedSport,
-      founder_id: 23,
+      founder_id: auth.id,
     }));
   };
 
@@ -162,7 +196,7 @@ export default function ActivityCreatePage() {
       return formatDateTimeLocal(now); // YYYY-MM-DDTHH:mm 格式
     };
 
-    // 設定最遲截止日
+    // 設定最遲截止日 (活動前3小時)
     const getDeadlineMaxTime = () => {
       if (!formData.activity_time) return undefined;
       const activityTime = new Date(formData.activity_time);
@@ -181,7 +215,7 @@ export default function ActivityCreatePage() {
     }
   }, []);
 
-    // ✅ 等 selectedSport 設定好後才開啟 Modal（關鍵！）
+    // 等 selectedSport 設定好後才開啟 Modal（關鍵！）
     useEffect(() => {
       if (selectedSport) {
         openModal();
@@ -197,13 +231,13 @@ export default function ActivityCreatePage() {
   };
   
 
+  // 活動送出功能
   const handleSubmit = async () => {
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     });
 
-    // ✨ 補上預設的 court_id 與 founder_id（實際可從 UI 或登入者取得）
     images.forEach((imgObj, i) => {
       if (imgObj && imgObj.file) {
         data.append(`avatar${i === 0 ? "" : i + 1}`, imgObj.file);
@@ -237,17 +271,6 @@ export default function ActivityCreatePage() {
       alert("發生錯誤，請稍後再試。");
     }
   };
-
-
-
-  // 取得活動時間的 3 小時前（格式：YYYY-MM-DDTHH:MM）
-  // const getDeadlineMaxTime = () => {
-  //   if (!formData.activity_time) return undefined;
-  //   const activityTime = new Date(formData.activity_time);
-  //   const deadlineTime = new Date(activityTime.getTime() - 3 * 60 * 60 * 1000); // 🕒 減 3 小時
-  //   return deadlineTime.toISOString().slice(0, 16);
-  // };
-
 
 
   return (
@@ -317,24 +340,22 @@ export default function ActivityCreatePage() {
                 {selected && <span className={`icon-${selected.charAt(0).toUpperCase() + selected.slice(1)} ${Styles.modalIcon}`}></span>}
                 建立{selected ? (selected === "basketball" ? "籃球" : selected === "volleyball" ? "排球" : "羽球") : ""}活動
               </h5>
-              <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={() => setSelected("")} />
+              <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={resetForm} />
             </div>
             <div className={`modal-body ${Styles.modalWidth}`}>
-              {/* <label>創建者</label>
-              <input type="text" name="founder_id" className={Styles.createInput} onChange={handleInputChange} value={selectedSport} /> */}
+
               <label>活動名稱</label>
-              <input type="text" name="activity_name" className={Styles.createInput} onChange={handleInputChange} />
-              {/* <label>運動類別 ID（手動輸入測試用）</label>
-              <input type="text" name="sport_type_id" className={Styles.createInput} onChange={handleInputChange} /> */}
+              <input type="text" name="activity_name" ref={(el) => (inputRef.current[0] = el)} className={Styles.createInput} onChange={handleInputChange} />
+
               <label>活動地點</label>
-              {/* 引入縣市選擇功能 */}
+              {/* 後續可引入縣市選擇功能 */}
               <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
               <span className={`${Styles.distance}`}>
               <select className={StylesCity.border} disabled>
               <option value="14">台南市</option>
             </select>
               </span>
-              <span>
+              <span ref={(el) => (inputRef.current[1] = el)} >
               <span className={`${Styles.line}`}>|</span>
               {selectedSport && (
                 <AreaSelector
@@ -349,7 +370,7 @@ export default function ActivityCreatePage() {
               )}
               </span>
               </div>
-              <div  className={Styles.createInput}>
+              <div  className={Styles.createInput} ref={(el) => (inputRef.current[2] = el)}  >
                 <CourtList 
                   selectedCity={selectedCity} 
                   selectedArea={selectedArea} 
@@ -373,8 +394,10 @@ export default function ActivityCreatePage() {
                 name="activity_time" 
                 className={Styles.createInput} 
                 min={getTomorrowDateTime()} 
+                ref={(el) => (inputRef.current[3] = el)}
                 onChange={handleInputChange} />
 
+              {/* 預設在活動日期前一天23:59, 最晚只能設定活動時間前3小時 */}
               <label>報名截止期限</label>
               <input 
                 type="datetime-local" 
@@ -384,13 +407,14 @@ export default function ActivityCreatePage() {
                 min={formatDateTimeLocal(new Date())}  
                 max={getDeadlineMaxTime()}
                 disabled={!formData.activity_time}  
+                ref={(el) => (inputRef.current[4] = el)}
                 onChange={handleInputChange} />
               <label>需求人數</label>
-              <input type="number" name="need_num" className={Styles.createInput} min="0" onChange={handleInputChange} />
+              <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
               <label>費用(每人)</label>
-              <input type="number" name="payment" className={Styles.createInput} min="0"  onChange={handleInputChange} />
+              <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
               <label>活動詳情</label>
-              <textarea name="introduction" className={Styles.createInput} placeholder="本活動歡迎新手參加" onChange={handleInputChange}></textarea>
+              <textarea name="introduction" className={Styles.createInput} ref={(el) => (inputRef.current[7] = el)} placeholder="本活動歡迎新手參加" onChange={handleInputChange}></textarea>
               <div className="row">
                 <div className={Styles.titleImg}>新增封面相片 (最多4張)</div>
                 <input 
@@ -413,7 +437,9 @@ export default function ActivityCreatePage() {
               </div>
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
-              <button type="button" className={`btn btn-secondary closeModal ${Styles.cancelBtn}`} data-bs-dismiss="modal" onClick={() => setSelected("")}>取消</button>
+              <button type="button" className={`btn btn-secondary closeModal ${Styles.cancelBtn}`} data-bs-dismiss="modal" onClick={resetForm}>
+                取消
+              </button>
               <button 
                 type="button" 
                 className={`${Styles.okBtn} btn`} 

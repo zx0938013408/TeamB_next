@@ -53,7 +53,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             <p>
               <span className={`${Styles.infoTitle}`}>地  點：</span>
               <span>{activity.court_name}</span>
-              <a href="https://www.google.com/maps" target="_blank">
+              <a href={`https://www.google.com/maps/search/?api=1&query=台南市${activity.court_name}`} target="_blank">
                 <i className="fa-solid fa-location-dot" />
               </a>
             </p>
