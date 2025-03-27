@@ -504,16 +504,15 @@
 /* 內容框 */
 .activity-box {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 桌機三欄 */
+  grid-template-columns: repeat(2, 1fr);  /* 桌機二欄 */
   gap: 24px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
   padding: 20px;
-  border: 5px solid #528f7c;
-  border-radius: 10px;
-
+  /* border: 5px solid #528f7c; */
+  /* border-radius: 10px; */
   box-sizing: border-box;
 }
 
@@ -553,18 +552,51 @@
 
 /* 查看更多活動 */
 .activity-footer {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
   text-align: center;
   margin-top: 20px;
   margin-bottom: 50px;
+
 }
 
-@media (max-width: 992px) {
-  .activity-box {
-    grid-template-columns: repeat(2, 1fr); /* 平板兩欄 */
+.scroll-hint {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  margin: 8px 0 20px;
+  display: none;
+}
+.activity-scroll-vertical {
+  max-height: 500px;          /* ✅ 區塊最大高度 */
+  overflow-y: auto;           /* ✅ 垂直出現滾動條 */
+  display: grid;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 8px;
+  margin-bottom: 20px;
+  grid-template-columns: repeat(2, 1fr); /* ✅ 桌機一列兩張 */
+}
+
+/* 美化滾動條（可選） */
+.activity-scroll-vertical::-webkit-scrollbar {
+  width: 6px;
+}
+
+.activity-scroll-vertical::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+
+@media (max-width: 1024px) {
+  .activity-scroll-vertical {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .activity-box {
     /*  grid-template-columns: 1fr;手機一欄 */
     display: flex;
@@ -1197,6 +1229,7 @@
   font-size: 30px;
   color: white;
 }
+
 
 
 
