@@ -12,6 +12,8 @@ import ActivityCard from "../../../components/activity-list-card/ActivityCard"; 
 import { MEMBER_ACTIVITIES } from "@/config/api-path"; // 已報名的 API 路徑
 import { MEMBER_CREATED_ACTIVITIES } from "@/config/api-path"; // 已開團的 API 路徑
 import { MEMBER_FAVORITES } from "@/config/api-path"; // 已收藏的 API 路徑
+import ActivityCardRegistered from "@/components/activity-list-card/ActivityCardRegistered";
+import ActivityCardCreate from "@/components/activity-list-card/ActivityCardCreate";
 
 const isExpired = (activityTime) => {
   // 判斷活動時間是否已過
@@ -174,7 +176,7 @@ const Member = () => {
             {activeTab === "registered" && (
               registeredActivities.length > 0 ? (
                 registeredActivities.map((activity) => (
-                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
+                  <ActivityCardRegistered key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已報名的活動。</p>
@@ -184,7 +186,7 @@ const Member = () => {
             {activeTab === "created" && (
               createdActivities.length > 0 ? (
                 createdActivities.map((activity) => (
-                  <ActivityCard key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
+                  <ActivityCardCreate key={activity.al_id} activity={activity} isExpired={isExpired(activity.activity_time)} />
                 ))
               ) : (
                 <p>目前沒有已開團的活動。</p>

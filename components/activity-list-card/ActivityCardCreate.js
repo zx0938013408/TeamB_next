@@ -3,7 +3,7 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 
-export default function ActivityCard({ activity, onQuickSignUp }) {
+export default function ActivityCardCreate({ activity, onQuickSignUp }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
@@ -69,10 +69,6 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
               <span className={`${Styles.infoTitle}`}>費  用：</span>每人 
               <span>{activity.payment}</span> 元
             </p>
-            <p>
-              <span className={`${Styles.infoTitle}`}>主  揪：</span>
-              <span>{activity.name}</span>
-            </p>
           </div>
         </div>
 
@@ -95,6 +91,13 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             >
               <button type="button" className={Styles.joinButton}>
                 查看詳情
+              </button>
+            </Link>
+          </div>
+          <div className={Styles.buttonWrapper}>
+            <Link href={`/activity-edit/${activity.al_id}`}>
+              <button type="button" className={Styles.joinButton}>
+                活動修改
               </button>
             </Link>
           </div>
