@@ -3,8 +3,8 @@
   width: 100%;
   height: 130px;
   padding: 50px;
-  background: #F4F4F4;
-  border-bottom: 3px solid #528F7C;
+  background: #f4f4f4;
+  border-bottom: 3px solid #528f7c;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,14 +46,14 @@
   align-items: center;
   overflow: hidden;
   transition: width 0.3s ease-in-out;
-  margin-right:-20px; /* 確保與購物車、登入 icon 間距相等 */
+  margin-right: -20px; /* 確保與購物車、登入 icon 間距相等 */
 }
 
 .search-container.active {
   width: 0;
-  height:70px;
+  height: 70px;
   border-radius: 8px;
-  border: 3px solid #29755D;
+  border: 3px solid #29755d;
   background: white;
   width: 200px;
   margin-right: 10px;
@@ -64,14 +64,13 @@
   border: none;
   outline: none;
   font-size: 20px;
-  color: #8F8F8F;
+  color: #8f8f8f;
   display: none; /* 預設隱藏 */
 }
 
 .search-container.active .search-input {
   display: block; /* 展開後顯示輸入框 */
 }
-
 
 /* 購物車、登入圖示 */
 .icon-Search,
@@ -82,7 +81,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #528F7C;
+  color: #528f7c;
   font-size: 24px;
 }
 
@@ -90,13 +89,13 @@
 .quick-action-btn {
   width: 269px;
   padding: 13px 40px;
-  background: #BDE6D9;
+  background: #bde6d9;
   box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
   border-radius: 10px;
   border: 3px solid rgba(41, 117, 93, 0.39);
   font-size: 30px;
   font-weight: 700;
-  color: #29755D;
+  color: #29755d;
   text-align: center;
   cursor: pointer;
 }
@@ -108,8 +107,8 @@
 .menu-toggle {
   width: 27px;
   height: 15px;
-  background: #7AAA9B;
-  border: 1px solid #7AAA9B;
+  background: #7aaa9b;
+  border: 1px solid #7aaa9b;
   transform: rotate(-3deg);
 }
 
@@ -127,7 +126,7 @@
   border: none;
   font-size: 30px;
   cursor: pointer;
-  color: #528F7C;
+  color: #528f7c;
 }
 
 /* Navbar 內的收起按鈕 */
@@ -154,7 +153,7 @@
   top: 130px; /* 確保在 header 下方 */
   left: 0;
   width: 100%;
-  background: #528F7C;
+  background: #528f7c;
   z-index: 999;
 }
 
@@ -168,7 +167,7 @@
 /* 導覽列容器 */
 .navbar-bt {
   width: 100%;
-  background: #528F7C;
+  background: #528f7c;
   padding: 14px 50px;
   display: flex;
   justify-content: center;
@@ -204,7 +203,7 @@
 }
 
 /* 選單連結 */
-.nav-link{
+.nav-link {
   font-size: 26px;
   font-family: Inter, sans-serif;
   font-weight: 700;
@@ -213,7 +212,6 @@
   text-decoration: none;
   transition: color 0.3s;
   text-align: center;
-  
 }
 .navbar-bt .nav-link {
   color: white !important;
@@ -222,7 +220,7 @@
 
 /* 滑鼠懸停效果 */
 .nav-link:hover {
-  color: #BDE6D9;
+  color: #bde6d9;
   border-bottom: 1px white solid;
 }
 
@@ -231,7 +229,7 @@
 .hero-container {
   width: 100%;
   height: 960px;
-  background: #29755D;
+  background: #29755d;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -243,7 +241,7 @@
   height: 632px;
   display: flex;
   position: relative;
-  border: 18px solid #DFDFDF;
+  border: 18px solid #dfdfdf;
 }
 
 /* 左側區域 */
@@ -282,7 +280,7 @@
   left: 50%;
   top: 0;
   transform: translateX(-50%);
-  border-left: 18px solid #DFDFDF;
+  border-left: 18px solid #dfdfdf;
 }
 
 /* 主要標題區域 */
@@ -294,7 +292,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-bottom: 9px solid #DFDFDF;
+  border-bottom: 9px solid #dfdfdf;
   padding: 40px 0;
 }
 
@@ -323,7 +321,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-top: 9px solid #DFDFDF;
+  border-top: 9px solid #dfdfdf;
   padding: 40px 0;
 }
 
@@ -351,7 +349,7 @@
   position: absolute;
   left: 75%;
   transform: translateX(-50%);
-  border-left: 18px solid #DFDFDF;
+  border-left: 18px solid #dfdfdf;
   top: -18px;
 }
 
@@ -360,7 +358,7 @@
 .sports-section {
   width: 100%;
   height: 100vh; /* 讓九宮格填滿整個畫面 */
-  background: #29755D;
+  background: #29755d;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -447,19 +445,19 @@
 /* 排球圖示 */
 .icon-Volleyball {
   font-size: 90px;
-  color:white
+  color: white;
 }
 
 /* 籃球圖示 */
 .icon-Basketball {
   font-size: 90px;
-  color:white
+  color: white;
 }
 
 /* 羽球圖示 */
 .icon-Badminton {
   font-size: 90px;
-  color:white
+  color: white;
 }
 
 /* 預設隱藏 "前往報團" */
@@ -484,13 +482,13 @@
   flex-direction: column;
   align-items: center;
   gap: 50px;
-  background: #F4F4F4;
-  font-family: 'Inter', sans-serif;
+  background: #f4f4f4;
+  font-family: "Inter", sans-serif;
   align-items: center;
   padding: 40px 20px;
   box-sizing: border-box;
   margin-bottom: 200px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 /* 標題 */
@@ -498,7 +496,7 @@
   padding-top: 200px;
   font-size: 60px;
   font-weight: 700;
-  color: #528F7C;
+  color: #528f7c;
   letter-spacing: 12px;
   text-align: center;
 }
@@ -511,17 +509,16 @@
   width: 100%;
   max-width: 1200px;
   padding: 20px;
-  border: 5px solid #528F7C;
+  border: 5px solid #528f7c;
   border-radius: 10px;
   box-sizing: border-box;
 }
 
-
 /* 活動項目 */
-.activity-item a{
+.activity-item a {
   font-size: 30px;
   font-weight: 700;
-  color: #6C7275;
+  color: #6c7275;
   letter-spacing: 6px;
   text-align: center;
   transition: color 0.3s ease-in-out;
@@ -531,7 +528,7 @@
 
 /* 預設高亮項目 */
 .activity-highlight {
-  color: #528F7C;
+  color: #528f7c;
 }
 
 /* 底線效果 */
@@ -541,14 +538,14 @@
   display: block;
   width: 100%;
   height: 2px;
-  background: #528F7C;
+  background: #528f7c;
   margin-top: 5px;
   transition: width 0.3s ease-in-out;
 }
 
 /* hover 時的變化 */
 .activity-item:hover {
-  color: #528F7C;
+  color: #528f7c;
 }
 
 /* 查看更多活動 */
@@ -565,13 +562,13 @@
   align-items: center;
   gap: 50px;
   padding: 0 100px;
-  background: #F4F4F4;
-  font-family: 'Inter', sans-serif;
+  background: #f4f4f4;
+  font-family: "Inter", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin:0;
+  margin: 0;
 }
 
 /* 標題區 */
@@ -617,7 +614,7 @@
 .shop-product-image {
   width: 100%;
   height: 404px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   border-radius: 5px;
 }
 
@@ -651,7 +648,7 @@
   font-size: 26px;
   font-weight: 700;
   letter-spacing: 6px;
-  color: #528F7C;
+  color: #528f7c;
   text-decoration: none;
   position: relative;
   display: inline-block;
@@ -664,7 +661,7 @@
   display: block;
   width: 100%;
   height: 2px;
-  background: #528F7C;
+  background: #528f7c;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -677,8 +674,8 @@
   display: block;
   width: 14px;
   height: 14px;
-  border-right: 2px solid #528F7C;
-  border-bottom: 2px solid #528F7C;
+  border-right: 2px solid #528f7c;
+  border-bottom: 2px solid #528f7c;
   transform: rotate(-45deg);
   position: absolute;
   bottom: -6px;
@@ -689,7 +686,7 @@
 
 /* Hover 效果 */
 .more-link:hover {
-  color: #2D5A4D;
+  color: #2d5a4d;
 }
 
 /* Hover 時底線變長 */
@@ -703,9 +700,8 @@
   right: -25px; /* 箭頭順著底線移動 */
 }
 
-
 /* ************** 滾動slogan & 聯絡我們 **************** */
-/* 確保整個區塊能夠正常滾動 */
+
 .scroll-section {
   width: 100vw;
   height: 100vh;
@@ -714,9 +710,7 @@
   position: relative;
   justify-content: center;
   align-items: center;
-
 }
-
 
 /* 滾動容器 */
 .scroll-container {
@@ -730,7 +724,6 @@
   scroll-padding: 0;
   scrollbar-width: none;
 }
-
 
 /* 隱藏滾動條 */
 .scroll-container::-webkit-scrollbar {
@@ -755,6 +748,7 @@
   font-weight: bold;
   position: relative;
 }
+
 #item1::before,
 #item2::before,
 #item3::before {
@@ -765,7 +759,7 @@
   z-index: 0;
 }
 /* 確保 h2 和 p 分行顯示 */
-.scroll-item h2, 
+.scroll-item h2,
 .scroll-item p {
   display: block; /* 確保它們是區塊元素 */
   text-align: center; /* 讓文字置中 */
@@ -774,8 +768,11 @@
   z-index: 1; /* 確保文字在遮罩上層 */
   position: relative;
 }
+
 /* 僅針對 item1~3 的標題與段落加陰影 */
-#item1 h2, #item2 h2, #item3 h2 {
+#item1 h2,
+#item2 h2,
+#item3 h2 {
   font-size: 72px;
   letter-spacing: 15px;
   font-weight: bold;
@@ -783,50 +780,52 @@
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
 
-#item1 p, #item2 p, #item3 p {
+#item1 p,
+#item2 p,
+#item3 p {
   font-size: 24px;
   letter-spacing: 8px;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-
 /* 設定每個圖片區塊的背景 */
 #item1 {
-  background-image: url('/photo/slogan_volleyball.png');
+  background-image: url("/photo/slogan_volleyball.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 #item2 {
-  background-image: url('/photo/slogan_badminton.png');
+  background-image: url("/photo/slogan_badminton.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 #item3 {
-  background-image: url('/photo/slogan_basketball.png');
+  background-image: url("/photo/slogan_basketball.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }
-#item4 { 
-  background: #2D5A4D;
+
+/* 聯絡我們 */
+
+#item4 {
+  background: #2d5a4d;
   width: 100vw;
   height: 100vh;
   margin: 100px 0px;
- }
+}
 
-/* 第一個輪播頁 - 聯絡我們 */
 .contact-item {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw; /* 確保全屏寬度 */
   height: 100vh; /* 確保全屏高度 */
-  background: #2D5A4D;
+  background: #2d5a4d;
   /* margin: 100px 0px; */
 }
-
 
 /* 主要容器 */
 .contact-container {
@@ -839,12 +838,11 @@
   background: transparent;
   border: 2px solid white;
   border-radius: 10px;
-  padding: 40px;
+  padding: 100px;
   gap: 40px;
 }
 
-
-/* 左側標題 */
+/* 左側標題區 */
 .contact-left {
   display: flex;
   flex-direction: column;
@@ -855,22 +853,24 @@
   min-width: 200px;
 }
 
-/* 修正標題格式 */
+/* TEAMB標題 */
 .contact-title {
-  font-size: 36px;
+  font-size: 42px;
   font-weight: 700;
+  letter-spacing: 3px;
   color: white;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* 副標題 */
 .contact-subtitle {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: bold;
   color: white;
   margin-top: 10px;
+  padding-left: 5px;
+  letter-spacing: 8px;
 }
-
 
 /* 右側表單 */
 .contact-right {
@@ -902,7 +902,7 @@
   max-width: 400px; /* 限制最大寬度，防止溢出 */
   padding: 10px;
   font-size: 18px;
-  color: #528F7C;
+  color: #528f7c;
   background: white;
   border: none;
   border-radius: 8px;
@@ -919,8 +919,8 @@
   padding: 12px;
   font-size: 20px;
   font-weight: 700;
-  color: #29755D;
-  background: #BDE6D9;
+  color: #29755d;
+  background: #bde6d9;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -929,13 +929,11 @@
   margin: 0 auto; /* 水平置中 */
 }
 
-
 /* 按鈕 Hover 效果 */
 .contact-form button:hover {
-  background: #A8D5C5;
+  background: #a8d5c5;
   font-size: 22px;
 }
-
 
 /* ************** footer **************** */
 /* 頁腳容器 */
@@ -943,7 +941,7 @@
   align-self: stretch;
   height: 600px;
   padding: 100px 50px 50px 50px;
-  background: #528F7C;
+  background: #528f7c;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -962,15 +960,15 @@
 .line {
   flex: 1;
   height: 0;
-  border: 8px rgba(255, 255, 255, 0.50) solid;
+  border: 8px rgba(255, 255, 255, 0.5) solid;
 }
 
 .footer-logo {
   width: 196px;
   height: 45px;
-  background: #BDE6D9;
+  background: #bde6d9;
   box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
-  border: 2px solid #528F7C;
+  border: 2px solid #528f7c;
 }
 
 /* 主要連結區 */
@@ -1013,7 +1011,7 @@
 }
 
 .footer-link:hover {
-  color: #BDE6D9;
+  color: #bde6d9;
 }
 
 /* 版權資訊 & 社群連結 */
@@ -1046,13 +1044,130 @@
   color: white;
 }
 
+/* RWD for scroll items */
+@media (max-width: 768px) {
+  /* 確保 h2 和 p 分行顯示 */
+  .scroll-item h2,
+  .scroll-item p {
+    display: block; /* 確保它們是區塊元素 */
+    text-align: center; /* 讓文字置中 */
+    width: 60%; /* 確保佔滿整個父容器 */
+    z-index: 1; /* 確保文字在遮罩上層 */
+    position: relative;
+  }
 
+  #item1 h2,
+  #item2 h2,
+  #item3 h2 {
+    font-size: 42px;
+    letter-spacing: 8px;
+    line-height: 50px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    text-align: start;
+  }
 
+  #item1 p,
+  #item2 p,
+  #item3 p {
+    font-size: 18px;
+    letter-spacing: 8px;
+    text-align: start;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    padding-right: 30px;
+  }
 
+  /* 聯絡我們 */
 
+#item4 {
+  background: #2d5a4d;
+  width: 100vw;
+  height: 100vh;
+  margin: 100px 0px;
+}
 
+.contact-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw; /* 確保全屏寬度 */
+  height: 100vh; /* 確保全屏高度 */
+  background: #2d5a4d;
+  /* margin: 100px 0px; */
+}
 
+/* 主要容器 */
+.contact-container {
+  padding: 50px 80px;
+}
 
+/* 左側標題移置上方 */
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  min-width: 300px;
+}
 
+.contact-title {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
 
+/* 副標題 */
+.contact-subtitle {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  padding-left: 5px;
+}
 
+/* 右側表單 */
+.contact-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 300px;
+}
+
+/* 表單標籤 */
+.contact-form label {
+  font-size: 18px;
+  width: 100%;
+}
+
+/* 修正輸入框 */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  max-width: 400px; /* 限制最大寬度，防止溢出 */
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 15px;
+  margin: 0 auto 25px auto;
+}
+
+.contact-form button {
+  max-width: 400px; /* 限制最大寬度，避免過大 */
+  padding: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 8px;
+  margin: 50px auto 0px auto; /* 水平置中 */
+}
+
+/* 按鈕 Hover 效果 */
+.contact-form button:hover {
+  font-size: 20px;
+}
+}
