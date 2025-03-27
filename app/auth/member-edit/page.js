@@ -28,7 +28,7 @@ const MemberEdit = () => {
   const [cityId, setCityId] = useState(auth.city_id || "");
   const [areaId, setAreaId] = useState(auth.area_id || "");
   const [avatar, setAvatar] = useState(auth.avatar || "");
-  const [sport, setSport] = useState(auth.sport ||", " )
+  const [sport, setSport] = useState(auth.sport ||"" )
   const router = useRouter(); // 用於導航
   const [preview, setPreview] = useState(""); // 🔹 存圖片預覽 URL
 
@@ -117,6 +117,7 @@ const MemberEdit = () => {
       area_id: areaId,
       avatar: avatar, 
       sport,
+      
     });
     if (result === true) {
       router.push("/auth/member"); // 更新成功後，重定向到會員頁面
@@ -126,47 +127,7 @@ const MemberEdit = () => {
 
 
 
-  // 取得用戶資料
-  const getUserData = async () => {
-    try {
-      console.log(auth.token); // 在發送請求前檢查 token
-      const response = await fetch(MB_EDIT_PUT, {
-        
-        method: "GET",
-        headers: {
-          'Authorization': `Bearer ${auth.token}`,
-        },
-        
-      });
-      
-      const data = await response.json();
 
-      console.log("new:",data)
-      
-      if (data.success) {
-        let user = data.data[0];
-        setAddress(user.address);
-        handleCityChange(user.city_id);
-        setAreaId(user.area_id);
-        setName(user.name);
-        setGender(user.gender);
-        setPhone(user.phone) ;
-        setAvatar(user.avatar);
-        setSport(user.sport_id)
-
-      } else {
-        console.log("Failed to fetch user data:", data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  // // 取得用戶資料時，可以在 component mount 時呼叫
-  useEffect(() => {
-    getUserData(); // 在組件載入時呼叫
-    
-  }, []);
 
   return (
     <>
@@ -232,6 +193,9 @@ const MemberEdit = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)} // 更新姓名
               />
+          
+
+
 
               {/* 性別選擇 */}
               <select 
