@@ -43,6 +43,10 @@ const Member = () => {
     if (bsModal.current) bsModal.current.show(); // 顯示 modal
   };
 
+  const closeModal = () => {
+    if (bsModal.current) bsModal.current.hide();  // 關閉 modal
+  };
+
   const handleRegister = async () => {
     setLoading(true);
 
@@ -72,6 +76,7 @@ const Member = () => {
         setNotes("");
         setSelectedPeople(1);
         closeModal();
+        fetchRegisteredActivities(auth.id);// 重新獲取已報名的活動資料
       }
     } catch (error) {
       console.error("報名失敗", error);
@@ -112,8 +117,12 @@ const Member = () => {
       });
 
       const data = await response.json();
+      console.log('API 回應的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setRegisteredActivities(data.activities); // 設置已報名的活動資料
+        setRegisteredActivities((prevActivities) => {
+          // 確保只更新資料並觸發渲染
+          return [...data.activities];
+        });
       } else {
         setRegisteredActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取活動資料", data);
