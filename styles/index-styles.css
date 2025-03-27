@@ -504,13 +504,16 @@
 /* 內容框 */
 .activity-box {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);  /* 桌機三欄 */
   gap: 24px;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
   padding: 20px;
   border: 5px solid #528f7c;
   border-radius: 10px;
+
   box-sizing: border-box;
 }
 
@@ -553,6 +556,28 @@
   text-align: center;
   margin-top: 20px;
   margin-bottom: 50px;
+}
+
+@media (max-width: 992px) {
+  .activity-box {
+    grid-template-columns: repeat(2, 1fr); /* 平板兩欄 */
+  }
+}
+
+@media (max-width: 600px) {
+  .activity-box {
+    /*  grid-template-columns: 1fr;手機一欄 */
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+  }
+  .activity-box > .card {
+    flex: 0 0 auto;
+    width: 85%;
+    scroll-snap-align: start;
+  }
 }
 /* ************** 購物商城 **************** */
 /* 商城區塊 */
@@ -935,115 +960,6 @@
   font-size: 22px;
 }
 
-/* ************** footer **************** */
-/* 頁腳容器 */
-.footer-container {
-  align-self: stretch;
-  height: 600px;
-  padding: 100px 50px 50px 50px;
-  background: #528f7c;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* 中間分隔線 */
-.footer-divider {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 122px;
-}
-
-.line {
-  flex: 1;
-  height: 0;
-  border: 8px rgba(255, 255, 255, 0.5) solid;
-}
-
-.footer-logo {
-  width: 196px;
-  height: 45px;
-  background: #bde6d9;
-  box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
-  border: 2px solid #528f7c;
-}
-
-/* 主要連結區 */
-.footer-links {
-  width: 100%;
-  padding: 0 100px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 50px;
-}
-
-.footer-section {
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
-.footer-title {
-  font-size: 36px;
-  font-family: Inter, sans-serif;
-  font-weight: 700;
-  letter-spacing: 7.6px;
-  color: white;
-  text-align: center;
-  border-bottom: 1px white solid;
-}
-
-.footer-link {
-  font-size: 26px;
-  font-family: Inter, sans-serif;
-  font-weight: 700;
-  letter-spacing: 6px;
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s;
-  text-align: center;
-}
-
-.footer-link:hover {
-  color: #bde6d9;
-}
-
-/* 版權資訊 & 社群連結 */
-.footer-bottom {
-  width: 100%;
-  padding: 0 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.copyright {
-  font-size: 25px;
-  font-family: "Noto Sans TC", sans-serif;
-  font-weight: 400;
-  color: white;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-}
-
-.icon-Fb,
-.icon-Ig,
-.icon-Mail {
-  font-size: 30px;
-  color: white;
-}
-
 /* RWD for scroll items */
 @media (max-width: 768px) {
   /* 確保 h2 和 p 分行顯示 */
@@ -1171,3 +1087,118 @@
   font-size: 20px;
 }
 }
+
+/* ************** footer **************** */
+/* 頁腳容器 */
+.footer-container {
+  align-self: stretch;
+  height: 600px;
+  padding: 100px 50px 50px 50px;
+  background: #528f7c;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+}
+
+/* 中間分隔線 */
+.footer-divider {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 122px;
+}
+
+.line {
+  flex: 1;
+  height: 0;
+  border: 8px rgba(255, 255, 255, 0.5) solid;
+}
+
+.footer-logo {
+  width: 196px;
+  height: 45px;
+  background: #bde6d9;
+  box-shadow: -2px -2px 10px rgba(41, 117, 93, 0.46) inset;
+  border: 2px solid #528f7c;
+}
+
+/* 主要連結區 */
+.footer-links {
+  width: 100%;
+  padding: 0 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.footer-section {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-title {
+  font-size: 36px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 7.6px;
+  color: white;
+  text-align: center;
+  border-bottom: 1px white solid;
+}
+
+.footer-link {
+  font-size: 26px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+.footer-link:hover {
+  color: #bde6d9;
+}
+
+/* 版權資訊 & 社群連結 */
+.footer-bottom {
+  width: 100%;
+  padding: 0 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copyright {
+  font-size: 25px;
+  font-family: "Noto Sans TC", sans-serif;
+  font-weight: 400;
+  color: white;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.icon-Fb,
+.icon-Ig,
+.icon-Mail {
+  font-size: 30px;
+  color: white;
+}
+
+
+
+
+
