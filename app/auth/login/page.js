@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../../styles/auth/login.module.css";
 import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation"; // 引入 useRouter
 
 const Login = () => {
 
-    const { login } = useAuth(); // 從上下文中取得 login 函數 
+    const { login, logout } = useAuth(); // 從上下文中取得 login 函數 
     const [email, setEmail] = useState(""); // 記錄輸入的電子郵件
     const [password, setPassword] = useState(""); // 記錄輸入的密碼
     const [error, setError] = useState(""); // 記錄錯誤訊息
@@ -56,7 +56,11 @@ const Login = () => {
         setEmailError("帳號錯誤");  // 這裡會顯示 email 錯誤訊息
         setPasswordError("密碼錯誤"); // 密碼錯誤訊息
       }
-  };
+    };
+
+    useEffect(()=>{
+      logout();
+    }, []);
   
   return (
     <div className={styles.container}>

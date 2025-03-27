@@ -14,12 +14,10 @@ import { MEMBER_ACTIVITIES } from "@/config/api-path";
 
 const Member = () => {
   const { auth } = useAuth(); // 獲取會員認證資料
-  const [user, setUser] = useState(null); // 儲存用戶資料
   const [activities, setActivities] = useState([]); // 儲存會員已報名的活動
 
   useEffect(() => {
     if (auth.id) {
-      setUser(auth); // 設置用戶資料
       fetchRegisteredActivities(auth.id); // 獲取已報名的活動
     }
   }, [auth]);
@@ -30,7 +28,7 @@ const Member = () => {
       const storedAuth = localStorage.getItem("TEAM_B-auth");
       const auth = storedAuth ? JSON.parse(storedAuth) : {};  // 解析 JWT 資料
       const token = auth.token;  // 提取 token 部分
-      console.log("JWT 令牌:", token);  // 確認 JWT 是否正確獲取
+      console.log("JWT :", token);  // 確認 JWT 是否正確獲取
     
       const response = await fetch(MEMBER_ACTIVITIES(memberId), {
         headers: {
@@ -55,7 +53,7 @@ const Member = () => {
   
   
 
-  if (!user) return <p>載入中...</p>;
+  if (!auth) return <p>載入中...</p>;
 
   return (
     <>
@@ -78,16 +76,16 @@ const Member = () => {
         <div className={styles.profileHeader}>
            {/* 會員的 Avatar */}
            <img
-  src={user?.avatar ? `${AVATAR_PATH}/${user.avatar}` : `${AVATAR_PATH}/imgs.png`}
+  src={auth?.avatar ? `${AVATAR_PATH}/${auth.avatar}` : `${AVATAR_PATH}/imgs.png`}
   alt="User Avatar"
   className={styles.avatar}
 
 />
           <div className={styles.userInfo}>
-          <h2>{user?.name || "未命名使用者"}</h2>
-          <p>生日：{user?.birthday_date ? moment(user.birthday_date).format('YYYY-MM-DD') : "未填寫"}</p>
+          <h2>{auth?.name || "未命名使用者"}</h2>
+          <p>生日：{auth?.birthday_date ? moment(auth.birthday_date).format('YYYY-MM-DD') : "未填寫"}</p>
 
-            <p>喜愛運動：{user?.sports || "未填寫"}</p>
+            <p>喜愛運動：{auth?.sports || "未填寫"}</p>
           </div>
         </div>
 
