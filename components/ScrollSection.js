@@ -18,7 +18,7 @@ const ScrollSection = () => {
           <h2>Where passion meets the court</h2>
           <p>TeamB 提供最佳運動場地，讓你盡情發揮！</p>
         </div>
-        <div className="scroll-item contact-item" id="item4">
+        {/* <div className="scroll-item contact-item" id="item4">
           <div className="contact-container">
             <div className="contact-left">
               <h2 className="contact-title">TeamB</h2>
@@ -36,7 +36,7 @@ const ScrollSection = () => {
               </form>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

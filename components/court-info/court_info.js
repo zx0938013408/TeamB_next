@@ -72,9 +72,9 @@ export default function CourtList({
           value={selectedCourtId || ""}
           onChange={(e) => {
             const courtId = Number(e.target.value);
+            const court = filteredCourts.find((c) => c.court_id === courtId); // 找到該筆 court 物件
             if (!isNaN(courtId)) {
-              // console.log("🎯 選擇了場地 ID：", courtId);
-              onSelectCourt && onSelectCourt(courtId);
+              onSelectCourt && onSelectCourt(courtId, court); // 傳出 ID + 詳細資料
             }
           }}
         >
@@ -86,7 +86,7 @@ export default function CourtList({
           ))}
         </select>
       ) : (
-        <p className={Styles.borderWidth}>請選擇縣市、區域與球類以顯示可用運動場地。</p>
+        <p className={Styles.borderWidth}>此運動類型在台南目前沒有可用區域</p>
       )}
     </div>
   );

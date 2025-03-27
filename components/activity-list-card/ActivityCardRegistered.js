@@ -3,7 +3,7 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 
-export default function ActivityCard({ activity, onQuickSignUp }) {
+export default function ActivityCardRegistered({ activity, onQuickSignUp }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
@@ -123,7 +123,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
                 ? "已過期"
                 : activity.registered_people >= activity.need_num
                 ? "已額滿"
-                : "快速報名"}
+                : "報名修改"}
             </button>
           </div>
         </div>
