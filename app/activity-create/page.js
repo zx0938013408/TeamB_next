@@ -12,9 +12,11 @@ import { AL_CREATE_POST } from "@/config/api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
 import CourtList from "@/components/court-info/court_info"
+import { useAuth } from "@/context/auth-context"; // 引入 useAuth
 
 
 export default function ActivityCreatePage() {
+    const { auth } = useAuth();
   const router = useRouter();
   // const [selectedCity, setSelectedCity] = useState("14");
   const [selectedArea, setSelectedArea] = useState("");
@@ -40,6 +42,7 @@ export default function ActivityCreatePage() {
     address: "",
   });
 
+  // 照片上傳功能
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
     let newImages = [...images];
@@ -111,12 +114,12 @@ export default function ActivityCreatePage() {
         activity_time: value,
         deadline: deadlineFormatted,
         sport_type_id: selectedSport,
-        founder_id: 23,
+        founder_id: auth.id,
       }));
       return;
     }
 
-     // ✅ 處理報名截止時間：限制不能超過活動時間前 3 小時
+     // 處理報名截止時間：限制不能超過活動時間前 3 小時
   if (name === "deadline") {
     const selected = new Date(value);
     const activity = new Date(formData.activity_time);
@@ -134,12 +137,12 @@ export default function ActivityCreatePage() {
         return;
       }
     }
-    // ✅ 正常情況更新 deadline
+    // 正常情況更新 deadline
     setFormData((prev) => ({
       ...prev,
       deadline: value,
       sport_type_id: selectedSport,
-      founder_id: 23,
+      founder_id: auth.id,
     }));
     return;
   }
@@ -150,7 +153,7 @@ export default function ActivityCreatePage() {
       ...prev,
       [name]: value,
       sport_type_id: selectedSport,
-      founder_id: 23,
+      founder_id: auth.id,
     }));
   };
 
@@ -162,7 +165,7 @@ export default function ActivityCreatePage() {
       return formatDateTimeLocal(now); // YYYY-MM-DDTHH:mm 格式
     };
 
-    // 設定最遲截止日
+    // 設定最遲截止日 (活動前3小時)
     const getDeadlineMaxTime = () => {
       if (!formData.activity_time) return undefined;
       const activityTime = new Date(formData.activity_time);
@@ -181,7 +184,7 @@ export default function ActivityCreatePage() {
     }
   }, []);
 
-    // ✅ 等 selectedSport 設定好後才開啟 Modal（關鍵！）
+    // 等 selectedSport 設定好後才開啟 Modal（關鍵！）
     useEffect(() => {
       if (selectedSport) {
         openModal();
@@ -197,13 +200,13 @@ export default function ActivityCreatePage() {
   };
   
 
+  // 活動送出功能
   const handleSubmit = async () => {
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     });
 
-    // ✨ 補上預設的 court_id 與 founder_id（實際可從 UI 或登入者取得）
     images.forEach((imgObj, i) => {
       if (imgObj && imgObj.file) {
         data.append(`avatar${i === 0 ? "" : i + 1}`, imgObj.file);
@@ -237,17 +240,6 @@ export default function ActivityCreatePage() {
       alert("發生錯誤，請稍後再試。");
     }
   };
-
-
-
-  // 取得活動時間的 3 小時前（格式：YYYY-MM-DDTHH:MM）
-  // const getDeadlineMaxTime = () => {
-  //   if (!formData.activity_time) return undefined;
-  //   const activityTime = new Date(formData.activity_time);
-  //   const deadlineTime = new Date(activityTime.getTime() - 3 * 60 * 60 * 1000); // 🕒 減 3 小時
-  //   return deadlineTime.toISOString().slice(0, 16);
-  // };
-
 
 
   return (
@@ -320,14 +312,12 @@ export default function ActivityCreatePage() {
               <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={() => setSelected("")} />
             </div>
             <div className={`modal-body ${Styles.modalWidth}`}>
-              {/* <label>創建者</label>
-              <input type="text" name="founder_id" className={Styles.createInput} onChange={handleInputChange} value={selectedSport} /> */}
+
               <label>活動名稱</label>
               <input type="text" name="activity_name" className={Styles.createInput} onChange={handleInputChange} />
-              {/* <label>運動類別 ID（手動輸入測試用）</label>
-              <input type="text" name="sport_type_id" className={Styles.createInput} onChange={handleInputChange} /> */}
+
               <label>活動地點</label>
-              {/* 引入縣市選擇功能 */}
+              {/* 後續可引入縣市選擇功能 */}
               <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
               <span className={`${Styles.distance}`}>
               <select className={StylesCity.border} disabled>
@@ -375,6 +365,7 @@ export default function ActivityCreatePage() {
                 min={getTomorrowDateTime()} 
                 onChange={handleInputChange} />
 
+              {/* 預設在活動日期前一天23:59, 最晚只能設定活動時間前3小時 */}
               <label>報名截止期限</label>
               <input 
                 type="datetime-local" 
