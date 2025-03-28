@@ -2,6 +2,8 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
+import ActivityEditModal from "@/components/activity-edit-modal/ActivityEditModal";
+import { useState } from "react";
 
 export default function ActivityCardCreate({ activity, onQuickSignUp }) {
   // 取得當前日期
@@ -10,6 +12,21 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
 
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSave = (updatedActivity) => {
+    console.log("Updated Activity: ", updatedActivity);
+    setShowModal(false);
+  };
 
   return (
     <div
@@ -95,11 +112,9 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
             </Link>
           </div>
           <div className={Styles.buttonWrapper}>
-            <Link href={`/activity-edit/${activity.al_id}`}>
-              <button type="button" className={Styles.joinButton}>
+              <button type="button" className={Styles.joinButton} onClick={handleOpenModal}>
                 活動修改
               </button>
-            </Link>
           </div>
           <div className={Styles.buttonWrapper}>
             <button
@@ -131,6 +146,13 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
           </div>
         </div>
       </div>
+      {/* 顯示 Modal */}
+      <ActivityEditModal
+        showModal={showModal}
+        activity={activity}
+        onClose={handleCloseModal}
+        onSave={handleSave}
+      />
     </div>
   );
 }
