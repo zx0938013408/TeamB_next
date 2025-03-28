@@ -23,7 +23,7 @@ export default function ShopPage() {
     category: "",
     sports: [],
     apparel: [],
-    priceRange: { min: "", max: "" },
+    priceRange: { min: "0", max: "5000" },
   });
   const [categories, setCategories] = useState([]);
   const [pdTypes, setPdTypes] = useState([]);
@@ -87,11 +87,6 @@ export default function ShopPage() {
           queryParams.append("category", filters.category);
         }
 
-        // if (filters.priceRange.min)
-        //   queryParams.append("minPrice", filters.priceRange.min);
-        // if (filters.priceRange.max)
-        //   queryParams.append("maxPrice", filters.priceRange.max);
-
         const url = `${AB_LIST}?${queryParams.toString()}`;
         console.log("🔍 請求 API:", url);
 
@@ -119,6 +114,8 @@ export default function ShopPage() {
       fetchCategories(); // 🔄 只在第一次載入時取得分類
     }
   }, [keyword, filters]); // ✅ 監聽 filters，當篩選條件變動時，重新請求
+
+  console.log("滑桿 value：", filters.priceRange);
 
   return (
     <>
