@@ -3,6 +3,8 @@ import styles from "../../../styles/auth/register.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {MB_EMAIL_POST} from "../../../config/auth.api"
+import "font-awesome/css/font-awesome.min.css";
+
 
 const Register = () => {
   const router = useRouter();
@@ -10,6 +12,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(""); // 用來存 email 錯誤訊息
   const [passwordError, setPasswordError] = useState(""); // 用來存 password 錯誤訊息
+  const [showPassword, setShowPassword] = useState(false); // 控制密碼顯示與隱藏
+
 
   // 驗證 email 格式
   const validateEmail = (email) => {
@@ -96,16 +100,28 @@ const Register = () => {
 
           <div className={styles.inputBox}>
             <label htmlFor="password">密碼</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className={styles.input}
-              placeholder="請輸入密碼"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {/* 顯示密碼錯誤訊息 */}
+            <div className={styles.passwordContainer}>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                className={styles.input}
+                placeholder="請輸入密碼"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className={styles.eyeIcon}
+              >
+                {showPassword ? (
+                  <i class="fa-regular fa-eye"></i>
+                ) : (
+                  <i class="fa-regular fa-eye-slash"></i>  
+                )}
+              </button>
+            </div>
             {passwordError && <p className={styles.error}>{passwordError}</p>}
           </div>
 
