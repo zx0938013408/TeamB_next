@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "../../../styles/auth/login.module.css";
 import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation"; // 引入 useRouter
+import "font-awesome/css/font-awesome.min.css";
 
 const Login = () => {
 
@@ -12,6 +13,8 @@ const Login = () => {
     const [error, setError] = useState(""); // 記錄錯誤訊息
     const [emailError, setEmailError] = useState(""); // 記錄 email 欄位錯誤
     const [passwordError, setPasswordError] = useState(""); // 記錄 password 欄位錯誤
+    const [showPassword, setShowPassword] = useState(false); // 控制密碼顯示與隱藏
+
     const router = useRouter(); // 用於導航
 
     const validateEmail = (email) => {
@@ -85,16 +88,27 @@ const Login = () => {
           {/* 密碼輸入框 */}
           <div className={styles.inputBox}>
             <label htmlFor="password">密碼</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="請輸入密碼"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)} // 更新 password 狀態
-
-            />
-            {passwordError && <p className={styles.error}>{passwordError}</p>} 
+            <div className={styles.passwordContainer}>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="請輸入密碼"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className={styles.eyeIcon}
+              >
+                {showPassword ? (
+                  <i class="fa-regular fa-eye"></i>
+                ) : (
+                  <i class="fa-regular fa-eye-slash"></i>                )}
+              </button>
+            </div>
+            {passwordError && <p className={styles.error}>{passwordError}</p>}
           </div>
 
           {/* 送出按鈕 */}

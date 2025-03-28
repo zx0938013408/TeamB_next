@@ -240,7 +240,7 @@ const Member = () => {
                   : "未填寫"}
               </p>
 
-              <p>喜愛運動：{auth?.sports || "未填寫"}</p>
+              <p>喜愛運動：{auth?.sportText || "未填寫"}</p>
             </div>
           </div>
 
@@ -283,6 +283,7 @@ const Member = () => {
                   <ActivityCardRegistered
                     key={activity.al_id}
                     activity={activity}
+                    onQuickSignUp={openModal}
                     isExpired={isExpired(activity.activity_time)}
                   />
                 ))

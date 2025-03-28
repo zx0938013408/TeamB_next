@@ -61,15 +61,54 @@ export function AuthContextProvider({ children }) {
     };
   };
 
+  // const updateUserData = async (updatedData) => {
+  //   try {
+      
+  //     const formData = new FormData();
+  //     formData.append("avatar", updatedData.avatar);
+  //     formData.append("name", updatedData.name);
+  //     formData.append("gender", updatedData.gender);
+  //     formData.append("phone", updatedData.phone);
+  //     formData.append("city_id", updatedData.city_id);
+  //     formData.append("area_id", updatedData.area_id);
+  //     formData.append("address", updatedData.address);
+  //     formData.append("sport", updatedData.sport);
+
+  //     const response = await fetch(MB_EDIT_PUT, {
+  //       method: "PUT",
+  //       headers: {
+  //         Authorization: `Bearer ${auth.token}`,
+  //       },
+  //       body: formData,
+  //     });
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       console.log("用戶資料更新成功");
+
+  //       const updatedUser = data.user;
+        
+  //       let localAuth = JSON.parse(localStorage.getItem(storageKey));
+  //       localAuth.phone = data.user.phone;
+  //       localAuth.avatar = data.user.avatar;
+  //       localAuth.gender = data.user.gender;
+  //       localAuth.name = data.user.name;
+  //       localAuth.city = data.user.city;
+  //       localAuth.address = data.user.address;
+  //       localAuth.sports = data.user.sport;
+  //       setAuth(localAuth);
+  //       localStorage.setItem(storageKey, JSON.stringify(localAuth));
+  //       return true;
+  //     } else {
+  //       console.log("更新失敗", data.message);
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error("更新用戶資料時出錯：", error);
+  //   }
+  // };
+
   const updateUserData = async (updatedData) => {
     try {
-      // const response = await fetch(MB_EDIT_PUT, {
-      //   method: 'PUT',
-      //   headers: getAuthHeader(),
-      //   body: updatedData,
-      // });
-      // const result = await response.json();
-
       const formData = new FormData();
       formData.append("avatar", updatedData.avatar);
       formData.append("name", updatedData.name);
@@ -79,7 +118,7 @@ export function AuthContextProvider({ children }) {
       formData.append("area_id", updatedData.area_id);
       formData.append("address", updatedData.address);
       formData.append("sport", updatedData.sport);
-
+  
       const response = await fetch(MB_EDIT_PUT, {
         method: "PUT",
         headers: {
@@ -87,22 +126,23 @@ export function AuthContextProvider({ children }) {
         },
         body: formData,
       });
+  
       const data = await response.json();
+  
       if (data.success) {
         console.log("用戶資料更新成功");
-
-        const updatedUser = data.user;
-        
-        let localAuth = JSON.parse(localStorage.getItem(storageKey));
-        localAuth.phone = data.user.phone;
-        localAuth.avatar = data.user.avatar;
-        localAuth.gender = data.user.gender;
-        localAuth.name = data.user.name;
-        localAuth.city = data.user.city;
-        localAuth.address = data.user.address;
-        localAuth.sports = data.user.sport;
-        setAuth(localAuth);
-        localStorage.setItem(storageKey, JSON.stringify(localAuth));
+  
+        // 從 localStorage 取出原本的 auth
+        let localAuth = JSON.parse(localStorage.getItem(storageKey)) || {};
+  
+        // 合併回傳的 user 更新內容
+        const updatedAuth = {
+          ...localAuth,
+          ...data.user, // 👈 後端已包含 avatar, name, phone, sportText 等欄位
+        };
+  
+        setAuth(updatedAuth); // ✅ 更新 context 狀態
+        localStorage.setItem(storageKey, JSON.stringify(updatedAuth)); // ✅ 同步儲存
         return true;
       } else {
         console.log("更新失敗", data.message);
@@ -110,9 +150,10 @@ export function AuthContextProvider({ children }) {
       }
     } catch (error) {
       console.error("更新用戶資料時出錯：", error);
+      return false;
     }
   };
-
+  
   useEffect(() => {
     const data = localStorage.getItem(storageKey);
     if (data) {

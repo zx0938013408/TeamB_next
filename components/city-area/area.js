@@ -14,7 +14,6 @@ export default function AreaSelector({ selectedCity, selectedArea, setSelectedAr
           area_name: item.name,
         }));
       setAreaList(filteredAreas);
-      setSelectedArea(""); // 切換縣市時清空區域選擇
     }
   }, [selectedCity, cityData, setSelectedArea]);
 

@@ -8,11 +8,14 @@ import { AL_ITEM_GET } from "@/config/api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
 import { AVATAR_PATH } from "@/config/api-path";
+import { useAuth } from "@/context/auth-context";
+
 
 export default function ActivityDetailPage() {
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
   const [showLightbox, setShowLightbox] = useState(false);
+  const { auth } = useAuth(); // 獲取會員認證資料
   // 點擊圖片放大
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageList, setImageList] = useState([]);
@@ -169,19 +172,19 @@ useEffect(() => {
             <p>
               <strong>主&emsp;&emsp;辦：</strong> {activity.name}
             </p>
-          </div>
 
           {/* 報名情況 */}
-          <div className={`${Styles.registerInfo} row`}>
-            <h3 className="col">報名情況：
+            <p className="col">報名情況：
             <span>
-              {activity.registered_people < activity.need_num 
-              ? `已報名 ${activity.registered_people} 人 / 我們想要 ${activity.need_num} 人` 
-              : "人數已額滿"}
+            {activity.registered_people >= activity.need_num
+            ? "人數已額滿"
+            : Number(activity.registered_people) === 0
+            ? "快來報名搶頭香"
+            : `已報名 ${activity.registered_people} 人 / 需求人數 ${activity.need_num} 人`}
             </span>
-            </h3>
-
+            </p>
           </div>
+
 
           {/* 人數選擇 */}
           <div className={Styles.selectGroup}>
@@ -206,15 +209,32 @@ useEffect(() => {
               </span>
             </button>
             <button
-  className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ''}`}
-  disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
->
-  {activity.registered_people >= activity.need_num
-  ? '已額滿'
-  : new Date(activity.deadline) < new Date()
-  ? '報名時間已截止'
-  : '我要報名'}
-</button>          </div>
+              className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ''}`}
+              disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
+              onClick={() => {
+                // 檢查是否登入
+                if (!auth?.id) {
+                  alert("請先登入");
+                  window.location.href = "/auth/login"; // 或用 router.push
+                  return;
+                }
+              
+                // 如果可以報名，則開啟 modal
+                // if (
+                //   activity.registered_people < activity.need_num &&
+                //   new Date(activity.deadline) > new Date()
+                // ) {
+                //   onQuickSignUp(activity); // ⬅️ 呼叫開 modal 的函式（你已經有）
+                // }
+              }}
+            >
+              {activity.registered_people >= activity.need_num
+              ? '已額滿'
+              : new Date(activity.deadline) < new Date()
+              ? '報名時間已截止'
+              : '我要報名'}
+            </button>          
+            </div>
         </div>
       </div>
 
