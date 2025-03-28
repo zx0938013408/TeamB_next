@@ -4,6 +4,7 @@ import styles from "../../../styles/auth/register-info.module.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import {MB_CITY_GET ,MB_REGISTER_GET,MB_AREA_GET} from "../../../config/auth.api";
+
    
 
 const RegisterInfo = () => {
@@ -215,15 +216,22 @@ const RegisterInfo = () => {
               </label>
             </div>
             </div>
-          
-<div className={styles.row}>
+            <div className={styles.row}>
   <input
     className={styles.inputBox}
-    type="date"
+    type="text"
     name="birthday_date"
-    placeholder="生日"
+    placeholder="生日：年/月/日"
     required
+    value={birthday_date}
     onChange={(e) => setBirthday_date(e.target.value)}
+    onFocus={(e) => e.target.type = 'date'} // 聚焦時變為日期選擇器
+    onBlur={(e) => { // 失去焦點後恢復為文本類型
+      if (!e.target.value) {
+        e.target.type = 'text';
+      }
+    }}
+    max={new Date().toISOString().split("T")[0]}  // 防止選擇未來的日期
   />
   <input
     className={styles.inputBox}

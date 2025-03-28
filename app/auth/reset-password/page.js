@@ -4,13 +4,15 @@ import styles from "../../../styles/auth/reset-password.module.css"
 import axios from "axios"
 import { useRouter, useSearchParams } from "next/navigation"
 import {MB_RESET_POST} from "../../../config/auth.api"
-
+import "font-awesome/css/font-awesome.min.css";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
   const [successMsg, setSuccessMsg] = useState("")
+  const [showNewPassword, setShowNewPassword] = useState(false) // 控制新密碼顯示/隱藏
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false) // 控制確認密碼顯示/隱藏
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -65,26 +67,52 @@ const ResetPassword = () => {
         <form id="reset-password-form" onSubmit={handleSubmit}>
           <div className={styles.inputBox}>
             <label htmlFor="new-password">密碼</label>
-            <input
-              type="password"
-              id="new-password"
-              placeholder="新密碼"
-              required
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
+            <div className={styles.passwordContainer}>
+              <input
+                type={showNewPassword ? "text" : "password"}
+                id="new-password"
+                placeholder="新密碼"
+                required
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className={styles.eyeIcon}
+              >
+                {showNewPassword ? (
+                  <i className="fa-regular fa-eye"></i>
+                ) : (
+                  <i className="fa-regular fa-eye-slash"></i>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className={styles.inputBox}>
             <label htmlFor="confirm-password">密碼</label>
-            <input
-              type="password"
-              id="confirm-password"
-              placeholder="再次輸入新密碼"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+            <div className={styles.passwordContainer}>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirm-password"
+                placeholder="再次輸入新密碼"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className={styles.eyeIcon}
+              >
+                {showConfirmPassword ? (
+                  <i className="fa-regular fa-eye"></i>
+                ) : (
+                  <i className="fa-regular fa-eye-slash"></i>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* 錯誤或成功訊息 */}

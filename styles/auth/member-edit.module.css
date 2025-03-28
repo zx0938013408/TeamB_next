@@ -228,3 +228,50 @@
 }
   
   
+
+.dotLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  gap: 8px;
+}
+
+.dotLoading span {
+  width: 12px;
+  height: 12px;
+  background: #2b5c52;
+  border-radius: 50%;
+  animation: jump 0.6s infinite ease-in-out;
+}
+
+.dotLoading span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.dotLoading span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+
+.confirmSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  /* 這樣會使錯誤訊息與按鈕垂直對齊 */
+}
+
+.subBtn {
+  display: flex;
+  align-items: center;
+  margin-left: auto;  /* 強制將按鈕推到右邊 */
+}
+
+.errorMessage {
+  color: red;
+  margin-top: 15px;
+  margin-right: 20px; /* 讓錯誤訊息與按鈕有一點距離 */
+}

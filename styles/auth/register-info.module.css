@@ -306,3 +306,21 @@
   color: red;
   text-align: left;
 }
+
+.inputWrapper {
+  position: relative;
+}
+
+.placeholder {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none; /* 讓文字不會干擾到用戶操作 */
+}
+
+.inputBox:valid + .placeholder, 
+.inputBox:focus + .placeholder {
+  display: none;
+}
