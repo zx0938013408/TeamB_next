@@ -357,12 +357,12 @@
 /* 運動選擇區塊 */
 .sports-section {
   width: 100vw;
-  height: 100%; /* 讓九宮格填滿整個畫面 */
+  height: 100vh; /* 讓九宮格填滿整個畫面 */
   background: #29755d;
   display: flex;
   justify-content: center;
   align-items: center;
-padding-bottom: 300px;
+padding-bottom: 100px;
 }
 
 /* Bootstrap 容器，確保滿版 */
@@ -1366,6 +1366,20 @@ display: none;
   color: white;
 }
 
+
+
+/* 動畫區 */
+@keyframes shake-icon {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(8deg); }
+  50% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake {
+  animation: shake-icon 0.6s ease-in-out;
+}
 
 
 
