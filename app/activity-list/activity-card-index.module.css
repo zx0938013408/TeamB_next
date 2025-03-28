@@ -41,7 +41,7 @@
   /* 不要壓縮 */
   overflow: hidden;
   border-radius: 10px;
-  background-color: #3f6d62;
+  /* background-color: #3f6d62; */
 }
 
 .avatarImage {
