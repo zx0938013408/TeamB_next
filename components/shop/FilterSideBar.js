@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
 
 export default function FilterSideBar({
   categories = [],
@@ -13,7 +15,7 @@ export default function FilterSideBar({
   onClear,
 }) {
   // ✅ 解構 filters
-  const { priceRange } = filters;
+  const [priceRange, setPriceRange] = useState([1000, 3000]);
   return (
     <div
       style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}
@@ -55,29 +57,25 @@ export default function FilterSideBar({
       </div>
 
       <h3>價格區間</h3>
-      <div style={{ display: "flex", gap: "0.5rem" }}>
-        <input
-          type="number"
-          placeholder="最低價"
-          value={priceRange.min}
-          onChange={(e) =>
+      <div style={{ marginBottom: "1rem" }}>
+      {/* <Range
+          min={0}
+          max={5000}
+          step={100}
+          value={[filters.priceRange.min, filters.priceRange.max]}
+          onChange={(value) => {
+            const [min, max] =value
+            console.log("Range 是：", Range);
             setFilters((prev) => ({
               ...prev,
-              priceRange: { ...prev.priceRange, min: e.target.value },
-            }))
-          }
-        />
-        <input
-          type="number"
-          placeholder="最高價"
-          value={priceRange.max}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              priceRange: { ...prev.priceRange, max: e.target.value },
-            }))
-          }
-        />
+              priceRange: { min, max },
+            }));
+          }}
+        /> */}
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "14px", marginTop: "0.5rem" }}>
+          <span>最低：${priceRange.min}</span>
+          <span>最高：${priceRange.max}</span>
+        </div>
       </div>
 
       <div style={{ marginTop: "1.5rem" }}>
