@@ -107,8 +107,9 @@ export default function ProductDetailPage() {
     // 這裡把選擇的尺寸和數量傳遞給 onAdd
     onAdd({
       id: product.id,
-      name: product.product_name,
+      product_name: product.product_name,
       price: product.price,
+      color:product.color,
       size: selectedSize,
       quantity: selectedQuantity,
       image: product.image,

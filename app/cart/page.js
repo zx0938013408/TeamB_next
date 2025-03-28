@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useCart } from '@/hooks/use-cart'
 import { useAuth } from '@/context/auth-context'
 import Swal from 'sweetalert2'
@@ -12,13 +13,17 @@ import Button2 from './_components/button2'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
-import { AVATAR_PATH } from '@/config/orders-api-path'
+import { AVATAR_PATH, AB_LIST } from '@/config/shop-api-path'
 import Carousel from '@/components/shop/carousel'
+import Link from 'next/link'
+import shopStyles from '@/app/shop/[pd_id]/product-detail.module.css'
+import "@/public/TeamB_Icon/style.css"
 
 
 export default function CartPage() {
   const { auth } = useAuth()
-  
+  const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
+
   // 從useCart解構所需的context的value屬性
   const {
     onDecrease,
@@ -110,6 +115,39 @@ export default function CartPage() {
       window.location.href = '/checkInfo'
     }
   }
+
+    // 取得隨機推薦商品資料
+    useEffect(() => {
+      const fetchRecommendedItems = async () => {
+        try {
+          const apiUrl = `${AB_LIST}`;
+          console.log("正在請求推薦商品:", apiUrl);
+  
+          const res = await fetch(apiUrl);
+          console.log("API 響應狀態:", res.status); // 檢查狀態碼
+  
+          if (!res.ok) {
+            throw new Error(`API 請求失敗，狀態碼: ${res.status}`);
+          }
+  
+          const data = await res.json();
+          console.log("API 回應資料:", data); // 檢查返回資料
+  
+          if (data.success && data.rows) {
+            const randomItems = [...data.rows]
+              .sort(() => Math.random() - 0.5) // 隨機排序
+              .slice(0, 8); // 取前 8 個
+            setRecommendedItems(randomItems); // 📌 設定推薦商品
+          } else {
+            console.error("❌ 無法獲取推薦商品", data.error);
+          }
+        } catch (error) {
+          console.error("❌ fetch 錯誤:", error);
+        }
+      };
+  
+      fetchRecommendedItems();
+    }, []); // 🚀 只在頁面載入時執行一次
 
   return (
     <>
@@ -308,7 +346,26 @@ export default function CartPage() {
             </div>
           </>
         )}
-        
+          {/* 大家還看了 */}
+          <div className={shopStyles.itemsSection}>
+                <div className={shopStyles.titleBg}>
+                  <div className={shopStyles.title}>大家還看了</div>
+                </div>
+                {recommendedItems.length > 0 ? (
+                  <Carousel items={recommendedItems} categoryId={null} />
+                ) : (
+                  <p className={shopStyles.loading}>推薦商品載入中...</p>
+                )}
+
+                <div className={shopStyles.more}>
+                  <Link href="/shop" style={{ textDecoration: "none" }}>
+                    <div className={shopStyles.textBox}>
+                      <div className={shopStyles.text}>查看更多</div>
+                      <span className={`icon-Right ${shopStyles.iconRight}`} />
+                    </div>
+                  </Link>
+                </div>
+              </div>
       </div>
       <Footer/>
     </>
