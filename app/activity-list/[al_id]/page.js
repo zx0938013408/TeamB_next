@@ -173,14 +173,14 @@ useEffect(() => {
 
           {/* 報名情況 */}
           <div className={`${Styles.registerInfo} row`}>
-            <h3 className="col">報名情況：</h3>
-            <button
-              type="button"
-              className={`${Styles.registerInfoBtn} col`}
-              //onClick={toggleRegisterStatus}
-            >
-              額滿 : {activity.registered_people}/{activity.need_num} 人
-            </button>
+            <h3 className="col">報名情況：
+            <span>
+              {activity.registered_people < activity.need_num 
+              ? `已報名 ${activity.registered_people} 人 / 我們想要 ${activity.need_num} 人` 
+              : "人數已額滿"}
+            </span>
+            </h3>
+
           </div>
 
           {/* 人數選擇 */}
@@ -206,10 +206,14 @@ useEffect(() => {
               </span>
             </button>
             <button
-  className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num ? Styles.buttonDisabled : ''}`}
-  disabled={activity.registered_people >= activity.need_num}
+  className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ''}`}
+  disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
 >
-  {activity.registered_people >= activity.need_num ? '已額滿' : '我要報名'}
+  {activity.registered_people >= activity.need_num
+  ? '已額滿'
+  : new Date(activity.deadline) < new Date()
+  ? '報名時間已截止'
+  : '我要報名'}
 </button>          </div>
         </div>
       </div>
