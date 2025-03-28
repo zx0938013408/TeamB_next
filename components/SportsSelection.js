@@ -16,16 +16,16 @@ const SportsSelection = () => {
       <div className="container-fluid sports-container">
         <div className="row g-0 row-1">
           <div className="col-4 grid-item hover-text">
-          <p className="sports-text">欸欸欸！開團啦～</p></div>
+          <p className="sport-text">揪一波打起來</p></div>
           
         {/* 標題 */}
-          <div className="col-4 grid-item title-box">
-            <h2 className="sports-title">ㄟ咦!打球啦</h2>
-            <p className="sports-subtitle ">選擇球類</p>
+          <div className="col-4 grid-item title-box hover-text">
+            <p className=" sport-text">打球啦</p>
+            <h2 className="sports-title ">選擇球類</h2>
           </div>
 
           <div className="col-4 grid-item hover-text">
-          <p className="sports-text">揪一波打起來</p></div>
+          <p className="sport-text">ㄟ咦！<br/>開團啦</p></div>
         </div>
 
           {/* 選擇球類區域 */}
@@ -55,11 +55,11 @@ const SportsSelection = () => {
 
         <div className="row g-0 row-3">
           <div className="col-4 grid-item hover-text">
-          <p className="sports-text">三分線等你！</p></div>
+          <p className="sport-text">都不揪</p></div>
           <div className="col-4 grid-item hover-text">
-          <p className="sports-text">發球啦！</p></div>
+          <p className="sport-text">發球啦！</p></div>
           <div className="col-4 grid-item hover-text">
-          <p className="sports-text">+1 +1</p></div>
+          <p className="sport-text">play +1</p></div>
         </div>
       </div>
     </section>
