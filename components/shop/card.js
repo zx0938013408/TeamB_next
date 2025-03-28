@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import styles from "../../styles/shop/card.module.css";
-import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 
 // 參數item、愛心跟購物車是否出現
@@ -17,13 +16,6 @@ function Card({ item, showLike = true, showCart = true }) {
           <div className={styles.productTitle}>{item.product_name}</div>
           <div className={styles.priceContainer}>
             <div className={styles.price}>NT$ {item.price}</div>
-            <div className={styles.cardIcons}>
-              {showLike && <LikeHeart />} {/* 控制是否顯示愛心 */}
-              {showCart && (
-                <span className={`icon-Cart ${styles.iconCart}`} />
-              )}{" "}
-              {/* 控制是否顯示購物車 */}
-            </div>
           </div>
         </div>
       </div>
