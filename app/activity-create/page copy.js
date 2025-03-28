@@ -347,10 +347,74 @@ export default function ActivityCreatePage() {
               <label>活動名稱</label>
               <input type="text" name="activity_name" ref={(el) => (inputRef.current[0] = el)} className={Styles.createInput} onChange={handleInputChange} />
 
+              <label>活動地點</label>
+              {/* 後續可引入縣市選擇功能 */}
+              <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
+              <span className={`${Styles.distance}`}>
+              <select className={StylesCity.border} disabled>
+              <option value="14">台南市</option>
+            </select>
+              </span>
+              <span ref={(el) => (inputRef.current[1] = el)} >
+              <span className={`${Styles.line}`}>|</span>
+              {selectedSport && (
+                <AreaSelector
+                  selectedCity={selectedCity}
+                  selectedArea={selectedArea}
+                  setSelectedArea={setSelectedArea}
+                  cityData={cityData}
+                  selectedSport={selectedSport} // ✅ 傳入目前球種
+                  courtList={courtList}         // ✅ 傳入場地清單
+                  handleInputChange={handleInputChange}
+                />
+              )}
+              </span>
+              </div>
+              <div  className={Styles.createInput} ref={(el) => (inputRef.current[2] = el)}  >
+                <CourtList 
+                  selectedCity={selectedCity} 
+                  selectedArea={selectedArea} 
+                  selectedSport={selectedSport}
+                  selectedCourtId={formData.court_id}
+                  onSelectCourt={(courtId, courtData) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      court_id: courtId,
+                      address: courtData?.address || "", // 這樣就能一併存地址
+                    }));
+                  }}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+              {/* <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} /> */}
+              
+              <label>活動時間</label>
+              <input 
+                type="datetime-local" 
+                name="activity_time" 
+                className={Styles.createInput} 
+                min={getTomorrowDateTime()} 
+                ref={(el) => (inputRef.current[3] = el)}
+                onChange={handleInputChange} />
+
+              {/* 預設在活動日期前一天23:59, 最晚只能設定活動時間前3小時 */}
+              <label>報名截止期限</label>
+              <input 
+                type="datetime-local" 
+                name="deadline" 
+                className={Styles.createInput} 
+                value={formData.deadline || ""}  
+                min={formatDateTimeLocal(new Date())}  
+                max={getDeadlineMaxTime()}
+                disabled={!formData.activity_time}  
+                ref={(el) => (inputRef.current[4] = el)}
+                onChange={handleInputChange} />
+              <label>需求人數</label>
+              <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
+              <label>費用(每人)</label>
+              <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
               <label>活動詳情</label>
-              <div className={Styles.createInput}>
-              <textarea name="introduction" className={Styles.createTextarea} ref={(el) => (inputRef.current[7] = el)} placeholder="請輸入活動相關資訊" onChange={handleInputChange}></textarea>
-              {/* 選擇照片 */}
+              <textarea name="introduction" className={Styles.createInput} ref={(el) => (inputRef.current[7] = el)} placeholder="本活動歡迎新手參加" onChange={handleInputChange}></textarea>
               <div className="row">
                 <div className={Styles.titleImg}>新增封面相片 (最多4張)</div>
                 <input 
@@ -371,92 +435,6 @@ export default function ActivityCreatePage() {
                   </button>
                 ))}
               </div>
-              </div>
-
-
-              <label>活動地點</label>
-              {/* 後續可引入縣市選擇功能 */}
-              <div className={`row ${Styles.areaCourt}`}>
-              <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
-              <span className={`${Styles.distance}`}>
-              <select className={StylesCity.border} disabled>
-              <option value="14">台南市</option>
-            </select>
-              </span>
-              <span ref={(el) => (inputRef.current[1] = el)} className={`${Styles.distance}`}>
-              <span className={`${Styles.line}`}>|</span>
-              {selectedSport && (
-                <AreaSelector
-                  selectedCity={selectedCity}
-                  selectedArea={selectedArea}
-                  setSelectedArea={setSelectedArea}
-                  cityData={cityData}
-                  selectedSport={selectedSport} // ✅ 傳入目前球種
-                  courtList={courtList}         // ✅ 傳入場地清單
-                  handleInputChange={handleInputChange}
-                />
-              )}
-              </span>
-              <span ref={(el) => (inputRef.current[2] = el)} className={Styles.court} >
-              <span className={`${Styles.line}`}>|</span>
-                <CourtList 
-                  selectedCity={selectedCity} 
-                  selectedArea={selectedArea} 
-                  selectedSport={selectedSport}
-                  selectedCourtId={formData.court_id}
-                  onSelectCourt={(courtId, courtData) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      court_id: courtId,
-                      address: courtData?.address || "", // 這樣就能一併存地址
-                    }));
-                  }}
-                  handleInputChange={handleInputChange}
-                />
-              </span>
-              </div>
-
-              </div>
-              {/* <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} /> */}
-              <div className={`row`}>
-              <span className={`col`}>
-              <label>活動時間</label>
-              <input 
-                type="datetime-local" 
-                name="activity_time" 
-                className={Styles.createInput} 
-                min={getTomorrowDateTime()} 
-                ref={(el) => (inputRef.current[3] = el)}
-                onChange={handleInputChange} />
-
-              {/* 預設在活動日期前一天23:59, 最晚只能設定活動時間前3小時 */}
-              </span>
-              <span  className={`col`}>
-              <label>報名截止期限</label>
-              <input 
-                type="datetime-local" 
-                name="deadline" 
-                className={Styles.createInput} 
-                value={formData.deadline || ""}  
-                min={formatDateTimeLocal(new Date())}  
-                max={getDeadlineMaxTime()}
-                disabled={!formData.activity_time}  
-                ref={(el) => (inputRef.current[4] = el)}
-                onChange={handleInputChange} />
-              </span>
-              </div>
-
-              <div className={`row`}>
-              <span className={`col`}>
-              <label>需求人數</label>
-              <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
-              </span>
-              <span className={`col`}>
-              <label>費用(每人)</label>
-              <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
-              </span>
-              </div>
-
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>
               <button type="button" className={`btn btn-secondary closeModal ${Styles.cancelBtn}`} data-bs-dismiss="modal" onClick={resetForm}>
