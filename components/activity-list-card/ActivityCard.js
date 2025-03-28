@@ -89,14 +89,14 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             </button>
           </div>
           <div className={Styles.buttonWrapper}>
-            <Link
-              href="/activity-list/[al_id]"
-              as={`/activity-list/${activity.al_id}`}
+            <a
+              href={`/activity-list/${activity.al_id}`}
+              
             >
               <button type="button" className={Styles.joinButton}>
                 查看詳情
               </button>
-            </Link>
+            </a>
           </div>
           <div className={Styles.buttonWrapper}>
             <button

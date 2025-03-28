@@ -40,9 +40,9 @@ export default function ActivityCardIndex({ activity, onQuickSignUp }) {
       </div>
       </div>
       <div className={Styles.buttonWrapper}>
-        <Link href={`/activity-list/${activity.al_id}`}>
+        <a href={`/activity-list/${activity.al_id}`}>
           <button type="button" className={Styles.joinButton}>查看詳情</button>
-        </Link>
+        </a>
       </div>
     </div>
   </div>

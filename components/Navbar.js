@@ -71,9 +71,9 @@ const Navbar = ({ isOpen, setIsOpen }) => {
             </div>
             <div className={`${styles.linkGroup} ${openIndex === index ? styles.show : ""}`}>
               {section.links.map((link, i) => (
-                <Link href={link.href} key={i} className={styles.navLink}>
+                <a href={link.href} key={i} className={styles.navLink}>
                   {link.label}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
