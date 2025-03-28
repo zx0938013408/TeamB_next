@@ -376,13 +376,14 @@ export default function ActivityCreatePage() {
 
               <label>活動地點</label>
               {/* 後續可引入縣市選擇功能 */}
+              <div className={`row ${Styles.areaCourt}`}>
               <div className={`${Styles.createInput} ${Styles.createInputDistance}`} >
               <span className={`${Styles.distance}`}>
               <select className={StylesCity.border} disabled>
               <option value="14">台南市</option>
             </select>
               </span>
-              <span ref={(el) => (inputRef.current[1] = el)} >
+              <span ref={(el) => (inputRef.current[1] = el)} className={`${Styles.distance}`}>
               <span className={`${Styles.line}`}>|</span>
               {selectedSport && (
                 <AreaSelector
@@ -396,8 +397,8 @@ export default function ActivityCreatePage() {
                 />
               )}
               </span>
-              </div>
-              <div  className={Styles.createInput} ref={(el) => (inputRef.current[2] = el)}  >
+              <span ref={(el) => (inputRef.current[2] = el)} className={Styles.court} >
+              <span className={`${Styles.line}`}>|</span>
                 <CourtList 
                   selectedCity={selectedCity} 
                   selectedArea={selectedArea} 
@@ -412,9 +413,13 @@ export default function ActivityCreatePage() {
                   }}
                   handleInputChange={handleInputChange}
                 />
+              </span>
+              </div>
+
               </div>
               {/* <input type="text" name="court_id" className={Styles.createInput} placeholder="球館 / 地點" onChange={handleInputChange} /> */}
-              
+              <div className={`row`}>
+              <span className={`col`}>
               <label>活動時間</label>
               <input 
                 type="datetime-local" 
@@ -425,6 +430,8 @@ export default function ActivityCreatePage() {
                 onChange={handleInputChange} />
 
               {/* 預設在活動日期前一天23:59, 最晚只能設定活動時間前3小時 */}
+              </span>
+              <span  className={`col`}>
               <label>報名截止期限</label>
               <input 
                 type="datetime-local" 
@@ -436,10 +443,19 @@ export default function ActivityCreatePage() {
                 disabled={!formData.activity_time}  
                 ref={(el) => (inputRef.current[4] = el)}
                 onChange={handleInputChange} />
+              </span>
+              </div>
+
+              <div className={`row`}>
+              <span className={`col`}>
               <label>需求人數</label>
               <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
+              </span>
+              <span className={`col`}>
               <label>費用(每人)</label>
               <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
+              </span>
+              </div>
 
             </div>
             <div className={`modal-footer ${Styles.modalWidth}`}>

@@ -65,7 +65,7 @@ export default function CourtList({
   }, [selectedCity, selectedArea, selectedSport, courtList]);
 
   return (
-    <div>
+    <span>
       {filteredCourts.length > 0 ? (
         <select
           className={Styles.borderWidth}
@@ -88,6 +88,6 @@ export default function CourtList({
       ) : (
         <p className={Styles.borderWidth}>此運動類型在台南目前沒有可用區域</p>
       )}
-    </div>
+    </span>
   );
 }

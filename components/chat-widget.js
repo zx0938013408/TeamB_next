@@ -56,7 +56,7 @@ export default function ChatWidget() {
         onClick={() => setOpen(!open)}
         className={Styles.circleIcons}
       >
-        AI
+        QA
       </div>
 
       {/* 展開的聊天視窗 */}

@@ -1,7 +1,7 @@
 .circleIcons {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    right: 5%;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -18,8 +18,8 @@
 
 .chatWindow{
     position: fixed;
-    bottom: 90px;
-    right: 20px;
+    bottom: 2%;
+    right: 9%;
     width: 320px;
     height: 420px;
     background: #fff;
