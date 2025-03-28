@@ -283,6 +283,7 @@ const Member = () => {
                   <ActivityCardRegistered
                     key={activity.al_id}
                     activity={activity}
+                    onQuickSignUp={openModal}
                     isExpired={isExpired(activity.activity_time)}
                   />
                 ))
