@@ -420,9 +420,9 @@ display: none;
 }
 
 /* 滑鼠懸停時背景變透明 */
-.grid-item:hover {
+/* .grid-item:hover {
   background: rgba(255, 255, 255, 0.3);
-}
+} */
 
 /* 滑鼠懸停時顯示 "前往報團" */
 .grid-item:hover .sports-text {
@@ -1370,11 +1370,11 @@ display: none;
 
 /* 動畫區 */
 @keyframes shake-icon {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(8deg); }
-  50% { transform: rotate(-8deg); }
-  75% { transform: rotate(8deg); }
-  100% { transform: rotate(0deg); }
+  0% { transform:scale(1) rotate(0deg); }
+  25% { transform:scale(1.1) rotate(8deg); }
+  50% { transform:scale(1.1) rotate(-8deg); }
+  75% { transform:scale(1.1) rotate(8deg); }
+  100% { transform:scale(1.1) rotate(0deg); }
 }
 
 .shake {
