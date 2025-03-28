@@ -474,7 +474,19 @@
   position: absolute;
   bottom: 10px;
 }
-
+.hover-text .sports-text {
+  font-size: 18px;
+  opacity: 0;
+}
+.hover-text:hover .sports-text {
+  opacity: 1;
+  position: absolute;
+  top: 50%;              /* 垂直置中 */
+  left: 50%;  
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
 
 
 
