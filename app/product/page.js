@@ -19,22 +19,22 @@ const initialProducts = [
   },
   {
     id: "2",
-    product_name: "PUREBOOST 5 跑鞋",
-    price: 4290,
+    product_name: "Elite 長袖壓縮衣",
+    price: 920,
     image:
-      "/photo/p2.jpg",
-    size: "UK8", 
-    color: "黑色",
+      "/top (2).jpg",
+    size: "L", 
+    color: "白色",
     
   },
   {
     id: "3",
-    product_name: "AEROREADY 運動長褲",
-    price: 1859,
+    product_name: "Essential 運動背心",
+    price: 750,
     image:
-      "/photo/p3.jpg",
-    size: "L", 
-    color: "黑色"
+      "/top (3).jpg",
+    size: "M", 
+    color: "灰色"
    
   },
 ]

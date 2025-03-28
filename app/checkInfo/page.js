@@ -16,7 +16,7 @@ import Navbar from '@/components/Navbar'
 import { isDev } from '@/config'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {ORDER_ADD_POST, API_SERVER, AVATAR_PATH} from '@/config/orders-api-path'
+import {ORDER_ADD_POST, ORDER_LIST, API_SERVER, AVATAR_PATH} from '@/config/orders-api-path'
 
 
 export default function CheckInfoPage() {
@@ -34,17 +34,12 @@ export default function CheckInfoPage() {
     recipient,
     selectedCity, 
     selectedArea, 
-    address
+    address,
+    clearAll
   } = useCart()
 
 
-  // 產生商品名稱字串（多個商品用逗號 `,` 分隔）
-  const itemsString = selectedItems
-    .map((item) => `${item.product_name}x${item.quantity}`)
-    .join(',')
 
-  // 檢查是否登入
-    // const { isAuth } = useAuth()
     // 建立ref，用來放置form表單
     const payFormDiv = useRef(null)
     // 建立ref，用來放置金額
@@ -73,6 +68,22 @@ export default function CheckInfoPage() {
     }
   
     const handleEcpay = async () => {
+      // 先檢查是否有選擇商品
+      if (selectedItems.length === 0) {
+        toast.error('請選擇商品！');
+        return;
+      }
+
+       // 確保總金額有效
+      if (finalTotal <= 0) {
+        toast.error('金額無效');
+        return;
+      }
+
+      // 產生商品名稱字串（多個商品用逗號 `,` 分隔）
+      const itemsString = selectedItems
+        .map((item) => `${item.product_name}x${item.quantity}`)
+        .join(',')
 
       // 先連到node伺服器後端，取得綠界金流付款網址
       const res = await fetch(
@@ -117,17 +128,32 @@ export default function CheckInfoPage() {
       if (!shippingMethod) errors.push('請選擇運送方式');
       if (!recipient.recipientName.trim()) errors.push('請填寫收件人姓名');
       if (!recipient.phone.trim()) errors.push('請填寫收件人手機號碼');
-      if (shippingMethod === 1 && (!selectedCity || !selectedArea )) {
+      if (Number(shippingMethod) === 1 && (!selectedCity || !selectedArea )) {
         errors.push('請填寫收件地址');
       }
-      if (shippingMethod === 2 && (! store711.storename || !store711.storeaddress)) errors.push('請選擇取貨門市');
+      if (Number(shippingMethod) === 2 && (! store711.storename || !store711.storeaddress)) errors.push('請選擇取貨門市');
     
       if (errors.length > 0) {
         alert(errors.join('\n'));
         return;
       }
 
+      if ( selectedPayMethod
+        === 2 ) {
+        // 選擇信用卡付款，導向綠界
+        handleEcpay();
+        await handleOrderSubmission();
+      } else if ( selectedPayMethod
+        === 1 ) {
+        // 選擇貨到付款，直接跳轉訂單完成頁面
+        await handleOrderSubmission();
+        window.location.href = '/orderResult';
+      }
+    }  
       
+    const handleOrderSubmission = async () => {
+      const store711 = JSON.parse(localStorage.getItem("store711")) || {};
+
       // 組合資料
       const orderData = {
         member_id: auth.id,
@@ -148,39 +174,33 @@ export default function CheckInfoPage() {
         store_address: store711.storeaddress || null,  // 超商
       };
 
-    try {
-      // 儲存訂單資料到資料庫
-      const response = await fetch(ORDER_ADD_POST, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      });
+      try {
+        // 儲存訂單資料到資料庫
+        const response = await fetch(ORDER_ADD_POST, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderData),
+        });
 
-      const resData = await response.json();
-      if (resData.success) {
-        alert('訂單已成功提交');
-    
-      if ( selectedPayMethod
-        === 2 ) {
-        // 選擇信用卡付款，導向綠界
-        handleEcpay();
-      } else if ( selectedPayMethod
-        === 1 ) {
-        // 選擇貨到付款，直接跳轉訂單完成頁面
-        window.location.href = '/orderResult';
+
+        const resData = await response.json();
+        if (resData.success) {
+          alert('訂單已成功提交');
+
+
+        // 訂單提交成功後，清空購物車與訂購資訊
+        clearAll();
+      } else {
+        alert('訂單提交失敗，請稍後再試');
       }
-
-    } else {
-      alert('訂單提交失敗，請稍後再試');
+      } catch (error) {
+        console.error('提交訂單時發生錯誤:', error);
+        alert('提交訂單失敗');
+      }
     }
-    } catch (error) {
-      console.error('提交訂單時發生錯誤:', error);
-      alert('提交訂單失敗');
-    }
-    }
-
+    
   return (
     <>
       <Header/>

@@ -13,6 +13,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import { AVATAR_PATH } from '@/config/orders-api-path'
+import Carousel from '@/components/shop/carousel'
 
 
 export default function CartPage() {
@@ -307,6 +308,7 @@ export default function CartPage() {
             </div>
           </>
         )}
+        
       </div>
       <Footer/>
     </>
