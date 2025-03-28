@@ -65,7 +65,7 @@ const OrderItem = ({ order }) => {
 
 const OrderTable = () => {
   const { auth } = useAuth()
-  const [selectedTab, setSelectedTab] = useState(4) // 預設顯示「已完成」
+  const [selectedTab, setSelectedTab] = useState(1) // 預設顯示「待出貨」
   const [orders, setOrders] = useState([])
 
   const tabs = [
@@ -89,6 +89,7 @@ const OrderTable = () => {
           totalAmount: item.total_amount,
           status: item.status,
           order_status_id: item.order_status_id,
+          created_at: item.created_at, // 記錄訂單成立日期
           products: [],
         }
       }
@@ -104,7 +105,10 @@ const OrderTable = () => {
       })
     })
 
-    return Object.values(grouped)
+      // 這裡對 grouped 進行排序，根據訂單成立日期排序
+      const sortedOrders = Object.values(grouped).sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+
+      return sortedOrders
   }
 
   useEffect(() => {
@@ -135,7 +139,8 @@ const OrderTable = () => {
   }, [auth?.id, selectedTab])
 
   return (
-    <div className={styles.list}>
+  <>
+    <div className={styles.tabContainer}> 
       <div className={styles.tabs}>
         {tabs.map(tab => (
           <button
@@ -147,6 +152,8 @@ const OrderTable = () => {
           </button>
         ))}
       </div>
+    </div>
+    <div className={styles.list}>
       <div className={styles.order}>
         {orders.length > 0 ? (
           orders.map(order => <OrderItem key={order.orderId} order={order} />)
@@ -155,6 +162,7 @@ const OrderTable = () => {
         )}
       </div>
     </div>
+  </>
   )
 }
 

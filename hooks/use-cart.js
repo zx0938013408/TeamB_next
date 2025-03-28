@@ -23,7 +23,7 @@ export function CartProvider({ children }) {
   const [selectedItems, setSelectedItems] = useState([])
 
   // 運送方式
-  const [shippingMethod, setShippingMethod] = useState("")
+  const [shippingMethod, setShippingMethod] = useState('')
   // 運費
   const [shippingCost, setShippingCost] = useState(0)
 
@@ -190,7 +190,24 @@ export function CartProvider({ children }) {
     // eslint-disable-next-line
   }, [cartItems, selectedItems, shippingMethod, shippingCost, selectedPayMethod])
 
-  
+  // 清空所有購物車與訂購資訊
+  const clearAll = () => {
+    setCartItems([]);
+    setSelectedItems([]);
+    setShippingMethod(null);
+    setShippingCost(0);
+    setSelectedPayMethod(null);
+    setSelectedCity(null);
+    setSelectedArea(null);
+    setAddress('');
+    setRecipient({ recipientName: '', phone: '' });
+
+    localStorage.removeItem('cart');
+    localStorage.removeItem('selectedItems');
+    localStorage.removeItem('shippingMethod');
+    localStorage.removeItem('shippingCost');
+    localStorage.removeItem('selectedPayMethod');
+  };
 
   return (
     <CartContext.Provider
@@ -224,7 +241,7 @@ export function CartProvider({ children }) {
         setSelectedArea,
         address,
         setAddress,
-        //handleShippingMethodChange,
+        clearAll // 新增清空所有資訊的函數
       }}
     >
       {children}
