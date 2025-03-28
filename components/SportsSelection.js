@@ -18,7 +18,7 @@ const SportsSelection = () => {
           <div className="col-4 grid-item"></div>
           <div className="col-4 grid-item title-box">
             <h2 className="sports-title">ㄟ咦!打球啦</h2>
-            <p className="sports-subtitle">請選擇一種球類</p>
+            <p className="sports-subtitle">選擇球類</p>
           </div>
           <div className="col-4 grid-item"></div>
         </div>
