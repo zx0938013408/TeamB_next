@@ -2,11 +2,14 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
+import { useAuth } from "@/context/auth-context";
 
 export default function ActivityCard({ activity, onQuickSignUp }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
+  const { auth } = useAuth(); // 獲取會員認證資料
+
 
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
@@ -102,10 +105,14 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             <button
               type="button"
               className={`${Styles.joinButton} ${Styles.joinInformation} ${
-                isExpired ? Styles.buttonDisabled : ""
+                isExpired || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ""
               }`}
               onClick={() => {
-                if (
+                if (!auth?.id) {
+                  alert("請先登入");
+                  window.location.href = "/auth/login"; // 或用 router.push
+                  return;
+                } else if (
                   !isExpired &&
                   activity.registered_people < activity.need_num
                 ) {
@@ -116,12 +123,14 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
                 }
               }}
               disabled={
-                isExpired || activity.registered_people >= activity.need_num
+                isExpired || activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()
               }
             >
               {isExpired
                 ? "已過期"
-                : activity.registered_people >= activity.need_num
+                : new Date(activity.deadline) < new Date()
+                ? "報名截止"
+                :activity.registered_people >= activity.need_num
                 ? "已額滿"
                 : "快速報名"}
             </button>

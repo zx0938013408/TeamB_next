@@ -9,6 +9,7 @@ import StylesCity from "@/styles/city-area/city-area.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
 import { AL_CREATE_POST } from "@/config/api-path";
+import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
 import CourtList from "@/components/court-info/court_info"
@@ -253,6 +254,28 @@ export default function ActivityCreatePage() {
       if (result.success) {
         const al_id = result.result.insertId;
         alert("活動建立成功！");
+
+        // ✅ 新增：自動報名自己 1 人
+        try {
+        const resRegister = await fetch(ACTIVITY_ADD_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            member_id: auth.id,
+            activity_id: al_id,
+            num: 1,
+            notes: "我是團主",
+          }),
+        });
+
+          const registerResult = await resRegister.json();
+          if (!registerResult.success) {
+            console.warn("自動報名失敗：", registerResult);
+          }
+        } catch (regErr) {
+          console.error("自動報名時發生錯誤：", regErr);
+        }
+
         // 先關閉 Modal
         closeModal();
         setSelected("")

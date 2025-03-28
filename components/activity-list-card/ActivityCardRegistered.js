@@ -2,14 +2,38 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
+import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path"
+import { useAuth } from "@/context/auth-context";
 
-export default function ActivityCardRegistered({ activity, onQuickSignUp }) {
+
+export default function ActivityCardRegistered({ activity, registeredId, onQuickSignUp }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
+  const { auth } = useAuth(); // 獲取會員認證資料
+  
 
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
+
+  // 更新報名資料
+  const updateRegistered = async () => {
+    const res = await fetch(ACTIVITY_ITEM_PUT, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        member_id: auth.id,
+        activity_id: activity.al_id,       // ✅ 改成使用傳入的報名資料 ID
+        num: 2,
+        notes: "已改為2人，加備註",
+      }),
+    });
+  
+    const data = await res.json();
+    console.log(data);
+  };
 
   return (
     <div
