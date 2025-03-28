@@ -129,6 +129,7 @@ export default function ActivityListPage() {
         if (data.success) {
           setNotes("");
           setSelectedPeople(1);
+          alert("活動報名成功");
           closeModal();
           await fetchData(); // 正確呼叫更新列表
         }
