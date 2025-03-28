@@ -228,7 +228,7 @@
 /* 主視覺區塊 */
 .hero-container {
   width: 100%;
-  height: 960px;
+  height: 100vh;
   background: #29755d;
   display: flex;
   justify-content: center;
@@ -356,12 +356,13 @@
 /* ************** 球類選單 **************** */
 /* 運動選擇區塊 */
 .sports-section {
-  width: 100%;
+  width: 100vw;
   height: 100vh; /* 讓九宮格填滿整個畫面 */
   background: #29755d;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* margin: 200px 0; */
 }
 
 /* Bootstrap 容器，確保滿版 */
@@ -393,7 +394,7 @@
 
 /* 標題字體 */
 .sports-title {
-  font-size: 60px;
+  font-size: 54px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   letter-spacing: 12px;
@@ -473,6 +474,11 @@
   position: absolute;
   bottom: 10px;
 }
+
+
+
+
+
 
 /* ************** 活動列表 **************** */
 /* 活動區塊 */
@@ -593,13 +599,72 @@
 }
 
 
-/* @media (max-width: 1024px) {
-  .activity-scroll-vertical {
-    grid-template-columns: 1fr;
-  }
-} */
+
+
+
+
 
 @media (max-width: 768px) {
+
+/********   球類選項   *******/
+.sports-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #29755d;
+}
+.sports-container {
+  width: 100%;
+  height: auto; /* ✅ 這行最關鍵 */
+}
+
+/* 九宮格 */
+.row {
+  display: flex;
+  width: 100%;
+  height: auto;/* 每個 row 占畫面的 1/3 */
+}
+/* 九官格白線 */
+.col-4 {
+  border: 2.5px solid white; /* 邊框 */
+  height: 300px;
+}
+/* 標題字體 */
+  .title-box {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+.sports-title {
+  margin: 20px 0;
+  font-size: 20px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 10px;
+  color: white;
+}
+.sports-subtitle {
+  font-size: 32px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: white;
+}
+.sports-text{
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+
+
+
+
+
+
+
+
+/********   活動列表   ********/
   .activity-footer {
     grid-column: auto; /* ✅ 移除跨兩欄，回歸單欄 */
     justify-content: center;
