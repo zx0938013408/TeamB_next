@@ -477,7 +477,8 @@
 /* ************** 活動列表 **************** */
 /* 活動區塊 */
 .activity-container {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -569,13 +570,15 @@
   display: none;
 }
 .activity-scroll-vertical {
-  max-height: 500px;          /* ✅ 區塊最大高度 */
+  width: 60%;
+  max-height: 70vh;          /* ✅ 區塊最大高度 */
   overflow-y: auto;           /* ✅ 垂直出現滾動條 */
   display: grid;
   flex-direction: column;
   gap: 16px;
   padding-right: 8px;
   margin-bottom: 20px;
+  margin: auto 150px;
   grid-template-columns: repeat(2, 1fr); /* ✅ 桌機一列兩張 */
 }
 
@@ -590,26 +593,40 @@
 }
 
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   .activity-scroll-vertical {
     grid-template-columns: 1fr;
   }
-}
+} */
 
 @media (max-width: 768px) {
-  .activity-box {
-    /*  grid-template-columns: 1fr;手機一欄 */
+  .activity-footer {
+    grid-column: auto; /* ✅ 移除跨兩欄，回歸單欄 */
+    justify-content: center;
     display: flex;
-    overflow-x: auto;
-    gap: 16px;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 10px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+    width: 100%;
   }
+  
+  .activity-scroll-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: none;
+    overflow-y: auto;
+    gap: 12px;
+    max-height: 70vh;
+    padding: 20px auto;
+  }
+
   .activity-box > .card {
     flex: 0 0 auto;
     width: 85%;
     scroll-snap-align: start;
   }
+
+  
 }
 /* ************** 購物商城 **************** */
 /* 商城區塊 */
