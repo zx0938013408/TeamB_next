@@ -63,8 +63,6 @@ function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
                 <div className={styles.priceContainer}>
                   <div className={styles.price}>NT$ {item.price}</div>
                   <div className={styles.cardIcons}>
-                    <LikeHeart />
-                    <span className={`icon-Cart ${styles.iconCart}`} />
                   </div>
                 </div>
               </div>
