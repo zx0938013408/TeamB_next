@@ -117,7 +117,7 @@ const Member = () => {
       });
 
       const data = await response.json();
-      console.log('API 回應的資料:', data);  // 檢查資料是否正確
+      console.log('API 回應MEMBER_ACTIVITIES的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
         setRegisteredActivities((prevActivities) => {
           // 確保只更新資料並觸發渲染
@@ -281,9 +281,10 @@ const Member = () => {
               (registeredActivities.length > 0 ? (
                 registeredActivities.map((activity) => (
                   <ActivityCardRegistered
-                    key={activity.al_id}
+                    key={activity.registered_id}
                     activity={activity}
                     onQuickSignUp={openModal}
+                    onRefresh={() => fetchRegisteredActivities(auth.id)}
                     onLikeToggle={() => {
                       fetchRegisteredActivities(auth.id);
                       fetchCreatedActivities(auth.id);
