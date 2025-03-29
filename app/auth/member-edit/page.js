@@ -43,6 +43,10 @@ const MemberEdit = () => {
       setAreaId(auth.area_id || "");
       setAvatar(auth.avatar || "");
       setSport((auth.sport || "").replace(/\s/g, ""));
+  
+      if (auth.city_id) {
+        handleCityChange(auth.city_id);
+      }
     }
   }, [auth]);
 

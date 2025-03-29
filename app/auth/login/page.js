@@ -5,6 +5,7 @@ import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation"; // 引入 useRouter
 import "font-awesome/css/font-awesome.min.css";
 
+
 const Login = () => {
 
     const { login } = useAuth(); // 從上下文中取得 login 函數 
