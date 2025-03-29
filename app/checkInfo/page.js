@@ -164,6 +164,7 @@ export default function CheckInfoPage() {
         order_items: selectedItems.map(item => ({
           item_id: item.id, // 這裡要確保 item.id 是正確的
           quantity: item.quantity
+          
         })),
         recipient_name: recipient.recipientName,
         recipient_phone: recipient.phone,
