@@ -9,7 +9,7 @@ import Link from "next/link";
 function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
   const [visibleData, setVisibleData] = useState([]); // 當前顯示的資料
   const [page, setPage] = useState(1);
-  const itemsPerPage = 5; // 每次載入 5 筆
+  const itemsPerPage = 10; // 每次載入 5 筆
   const observer = useRef(null);
   const filteredItems = categoryId
     ? items.filter((item) => item.category_id === categoryId)
@@ -63,8 +63,7 @@ function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
                 <div className={styles.priceContainer}>
                   <div className={styles.price}>NT$ {item.price}</div>
                   <div className={styles.cardIcons}>
-                    <LikeHeart />
-                    <span className={`icon-Cart ${styles.iconCart}`} />
+                    
                   </div>
                 </div>
               </div>
