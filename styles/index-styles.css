@@ -362,20 +362,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin: 200px 0; */
+padding-bottom: 100px;
 }
 
 /* Bootstrap 容器，確保滿版 */
 .sports-container {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
 }
 
 /* 九宮格 */
 .row {
   display: flex;
   width: 100%;
-  height: 33.33vh; /* 每個 row 占畫面的 1/3 */
+  height: calc((100vh - 80px) / 3); 
 }
 
 /* 確保所有 col-4 成為九宮格 */
@@ -394,20 +395,23 @@
 
 /* 標題字體 */
 .sports-title {
-  font-size: 54px;
+  font-size: 32px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   letter-spacing: 12px;
   color: white;
 }
+.title-box:hover .sports-title {
+display: none;
+}
 
-.sports-subtitle {
+/* .sports-subtitle {
   font-size: 30px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   letter-spacing: 6px;
   color: white;
-}
+} */
 
 /* 球類選擇 */
 .grid-item {
@@ -416,9 +420,9 @@
 }
 
 /* 滑鼠懸停時背景變透明 */
-.grid-item:hover {
+/* .grid-item:hover {
   background: rgba(255, 255, 255, 0.3);
-}
+} */
 
 /* 滑鼠懸停時顯示 "前往報團" */
 .grid-item:hover .sports-text {
@@ -427,7 +431,7 @@
 
 /* 滑鼠懸停時圖示放大 */
 .grid-item:hover .sports-icon {
-  transform: scale(1.2);
+  transform: scale(1.1);
   opacity: 1;
 }
 
@@ -438,34 +442,46 @@
 
 /* 球類圖標 */
 .sports-icon {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 /* 排球圖示 */
 .icon-Volleyball {
-  font-size: 90px;
+  font-size: 72px;
   color: white;
 }
 
 /* 籃球圖示 */
 .icon-Basketball {
-  font-size: 90px;
+  font-size: 72px;
   color: white;
 }
 
 /* 羽球圖示 */
 .icon-Badminton {
-  font-size: 90px;
+  font-size: 72px;
   color: white;
 }
 
+/* 預設隱藏 "互動字" */
+.sport-text {
+  font-size: 30px;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+  letter-spacing: 6px;
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: absolute;
+}
 /* 預設隱藏 "前往報團" */
 .sports-text {
   font-size: 30px;
   font-family: Inter, sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 6px;
   color: white;
   text-align: center;
@@ -474,7 +490,19 @@
   position: absolute;
   bottom: 10px;
 }
-
+.hover-text .sport-text {
+  font-size: 18px;
+  opacity: 0;
+}
+.hover-text:hover .sport-text {
+  opacity: 1;
+  position: absolute;
+  top: 50%;              /* 垂直置中 */
+  left: 50%;  
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
 
 
 
@@ -608,52 +636,78 @@
 
 /********   球類選項   *******/
 .sports-section {
+  height: auto;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background: #29755d;
+  box-sizing: border-box;
+  padding: 100px 0 100px 0; 
 }
 .sports-container {
   width: 100%;
-  height: auto; /* ✅ 這行最關鍵 */
+  height: auto; 
 }
 
 /* 九宮格 */
 .row {
   display: flex;
   width: 100%;
-  height: auto;/* 每個 row 占畫面的 1/3 */
+  height: auto;
 }
 /* 九官格白線 */
 .col-4 {
   border: 2.5px solid white; /* 邊框 */
-  height: 300px;
+  height: 200px;
 }
 /* 標題字體 */
   .title-box {
     display: flex;
-    flex-direction: column-reverse;
+    /* flex-direction: column-reverse; */
     align-items: center;
   }
 .sports-title {
-  margin: 20px 0;
+  margin: 5px 0;
   font-size: 20px;
-  font-family: Inter, sans-serif;
-  font-weight: 700;
-  letter-spacing: 10px;
-  color: white;
-}
-.sports-subtitle {
-  font-size: 32px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   letter-spacing: 6px;
   color: white;
 }
+
 .sports-text{
-  font-size: 22px;
-  margin-bottom: 30px;
+  font-size: 18px;
+  margin-top: 10px;
+}
+.sport-text{
+  font-size: 16px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-align: center;
+}
+.sports-icon {
+  width: 52px;
+  height: 52px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* 排球圖示 */
+.icon-Volleyball {
+  font-size: 42px;
+  color: white;
+}
+
+/* 籃球圖示 */
+.icon-Basketball {
+  font-size: 42px;
+  color: white;
+}
+
+/* 羽球圖示 */
+.icon-Badminton {
+  font-size: 42px;
+  color: white;
 }
 
 
@@ -1312,6 +1366,20 @@
   color: white;
 }
 
+
+
+/* 動畫區 */
+@keyframes shake-icon {
+  0% { transform:scale(1) rotate(0deg); }
+  25% { transform:scale(1.1) rotate(8deg); }
+  50% { transform:scale(1.1) rotate(-8deg); }
+  75% { transform:scale(1.1) rotate(8deg); }
+  100% { transform:scale(1.1) rotate(0deg); }
+}
+
+.shake {
+  animation: shake-icon 0.6s ease-in-out;
+}
 
 
 

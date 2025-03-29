@@ -56,6 +56,7 @@ export default function ActivityListPage() {
     }
   };
   
+  // Modal
   useEffect(() => {
     if (typeof window !== "undefined") {
       const bootstrap = require("bootstrap");

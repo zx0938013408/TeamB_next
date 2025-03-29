@@ -1,18 +1,15 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
 import { useAuth } from "@/context/auth-context";
 import Styles from "@/app/activity-create/create.module.css"; // 您可以為這個 modal 加上自己的樣式
 import CourtList from "../court-info/court_info";
 import AreaSelector from "../city-area/area";
 import StylesCity from "@/styles/city-area/city-area.module.css";
-import { AL_CREATE_POST } from "@/config/api-path";
 import { AVATAR_PATH } from "@/config/api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 
 const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
   const { auth } = useAuth();
-  //const router = useRouter();
   const [selectedArea, setSelectedArea] = useState("");
   const [cityData, setCityData] = useState([]);
   const [hovered, setHovered] = useState(null);
@@ -22,8 +19,6 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
   const [images, setImages] = useState(Array(4).fill(null));
   const imageInputRef = useRef([]);
   const inputRef = useRef([]);
-  const modalRef = useRef(null);
-  const bsModal = useRef(null);
   const selectedCity = "14"; // 固定台南市
   const [formData, setFormData] = useState({
     activity_name: activity?.activity_name || "",
@@ -33,7 +28,6 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
     payment: activity?.payment || "",
     need_num: activity?.need_num || "",
     introduction: activity?.introduction || "",
-    avatar: activity?.avatar || "",
     area_id: activity?.area_id || "",
     court_id: activity?.court_id || "",
     avatar: activity?.avatar || "",
@@ -43,7 +37,6 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
     sport_type_id: activity?.sport_type_id || selectedSport,
     founder_id: auth.id,
   });
-  console.log(formData.court_id);
 
   // 按取消 || X 會清空資料
   const resetForm = () => {
@@ -163,15 +156,14 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
         sport_type_id: activity.sport_type_id || selectedSport,
         founder_id: auth.id,
       });
-  
       // 圖示與選項初始化
       if (activity.sport_name === "籃球") setSelected("basketball");
       else if (activity.sport_name === "排球") setSelected("volleyball");
       else if (activity.sport_name === "羽球") setSelected("shuttlecock");
-  
+
       setSelectedSport(activity.sport_type_id || null);
       setSelectedArea(activity.area_id || "");
-  
+
       // 設定圖片預覽
       const avatars = [
         activity?.avatar,
@@ -190,7 +182,6 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
       setImages(newImages);
     }
   }, [showModal, activity]);
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -201,11 +192,13 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
   };
 
   const handleSubmit = () => {
+    formData.al_id = activity.al_id;
     const updatedFormData = { ...formData };
 
     images.forEach((img, idx) => {
       if (img && img.file) {
         updatedFormData[`avatar${idx === 0 ? "" : idx + 1}`] = img.file;
+      } else if (img && typeof img.url === "string") {
       }
     });
 
@@ -272,9 +265,8 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
                   ref={(el) => (inputRef.current[7] = el)}
                   placeholder="請輸入活動相關資訊"
                   onChange={handleInputChange}
-                >
-                  {formData.introduction}
-                </textarea>
+                  value={formData.introduction}
+                ></textarea>
                 {/* 選擇照片 */}
                 <div className="row">
                   <div className={Styles.titleImg}>新增封面相片 (最多4張)</div>
@@ -379,6 +371,7 @@ const ActivityEditModal = ({ showModal, activity, onClose, onSave }) => {
                     min={getTomorrowDateTime()}
                     ref={(el) => (inputRef.current[3] = el)}
                     onChange={handleInputChange}
+                    disabled
                   />
 
                   {/* 預設在活動日期前一天23:59, 最晚只能設定活動時間前3小時 */}
