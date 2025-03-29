@@ -33,6 +33,10 @@ export const MEMBER_CREATED_ACTIVITIES = (memberId) => `${API_SERVER}/members/${
 // 取得某會員的已報名活動列表
 export const MEMBER_FAVORITES = (memberId) => `${API_SERVER}/members/${memberId}/favorites`;
 
+// 會員修改活動詳情
+export const MEMBER_UPDATE_ACTIVITY = (alId) => `${API_SERVER}/members/${alId}`;
+
+
 // JWT 登入
 export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
 

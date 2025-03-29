@@ -4,6 +4,7 @@ import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 import ActivityEditModal from "@/components/activity-edit-modal/ActivityEditModal";
 import { useState } from "react";
+import { API_SERVER } from "@/config/api-path";
 
 export default function ActivityCardCreate({ activity, onQuickSignUp }) {
   // 取得當前日期
@@ -23,9 +24,33 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
     setShowModal(false);
   };
 
-  const handleSave = (updatedActivity) => {
-    console.log("Updated Activity: ", updatedActivity);
-    setShowModal(false);
+  const handleSave = async (formData) => {
+    console.log("📬 收到要送出的表單資料：", formData);
+
+    const fd = new FormData();
+    for (let key in formData) {
+      fd.append(key, formData[key]);
+    }
+
+    try {
+      const response = await fetch(`${API_SERVER}/members/${formData.al_id}`, {
+        method: "PUT",
+        body: fd,
+      });
+
+      const result = await response.json();
+      console.log("✅ 後端回傳：", result);
+
+      if (result.success) {
+        alert("修改成功！");
+      } else {
+        alert("修改失敗：" + result.error);
+      }
+    } catch (err) {
+      console.error("❌ 修改活動失敗", err);
+    } finally {
+      setShowModal(false);
+    }
   };
 
   return (
@@ -112,9 +137,13 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
             </Link>
           </div>
           <div className={Styles.buttonWrapper}>
-              <button type="button" className={Styles.joinButton} onClick={handleOpenModal}>
-                活動修改
-              </button>
+            <button
+              type="button"
+              className={Styles.joinButton}
+              onClick={handleOpenModal}
+            >
+              活動修改
+            </button>
           </div>
           <div className={Styles.buttonWrapper}>
             <button
