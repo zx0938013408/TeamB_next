@@ -19,16 +19,18 @@ export default function ProductDetailPage() {
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const params = useParams();
   const pd_id = params.pd_id;
-  const {onAdd} = useCart()
+  const [liked, setLiked] = useState(false); // 控制愛心狀態
+  const [loading, setLoading] = useState(true); // 防止閃爍
+  const { onAdd } = useCart();
 
   // 引用 select 元素
   const sizeRef = useRef(null);
   const quantityRef = useRef(null);
 
   // toast
-  const notify = (name)=>{
-    toast.success(`${name} 成功加入購物車!`)
-  }
+  const notify = (name) => {
+    toast.success(`${name} 成功加入購物車!`);
+  };
 
   // 取得個別動態路由的資料
   useEffect(() => {
@@ -57,6 +59,67 @@ export default function ProductDetailPage() {
       })
       .catch((error) => console.error("❌ fetch 錯誤:", error));
   }, [pd_id]); // 依賴 pd_id
+
+  // 取得收藏資料
+  useEffect(() => {
+    if (!product || !product.pd_id) return; // 🧠 等 product 載入再執行
+    const fetchInitialLike = async () => {
+      const userData = localStorage.getItem("TEAM_B-auth");
+      const parsedUser = JSON.parse(userData);
+      const token = parsedUser?.token;
+
+      if (!token) return;
+      
+      try {
+        const res = await fetch(`/api/pd_likes/check?pdId=${product.pd_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          setLiked(data.liked);
+        }
+      } catch (err) {
+        console.error("取得收藏狀態失敗", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialLike();
+  }, [product]);
+
+  // ✅ 點擊愛心 → 切換收藏狀態
+  const handleToggleLike = async () => {
+    const userData = localStorage.getItem("TEAM_B-auth");
+    const parsedUser = JSON.parse(userData);
+    const token = parsedUser?.token;
+
+    if (!token) {
+      alert("請先登入！");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/favorite", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pdId: product.pd_id }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setLiked(data.liked); // ✅ 更新前端狀態
+      }
+    } catch (err) {
+      console.error("切換收藏失敗", err);
+    }
+  };
 
   // 取得隨機推薦商品資料
   useEffect(() => {
@@ -109,7 +172,7 @@ export default function ProductDetailPage() {
       id: product.id,
       product_name: product.product_name,
       price: product.price,
-      color:product.color,
+      color: product.color,
       size: selectedSize,
       quantity: selectedQuantity,
       image: product.image,
@@ -158,7 +221,11 @@ export default function ProductDetailPage() {
                         <div className={styles.category}>
                           {product.categories_name}
                         </div>
-                        <LikeHeart />
+                        <LikeHeart
+                          checked={liked} // ✅ 把結果傳給共用元件
+                          activityId={product.id} //借用參數叫 activityId
+                          onClick={handleToggleLike}  // 按下愛心時執行
+                        />
                       </div>
                       <div className={styles.productName}>
                         {product.product_name} {product.color}
@@ -192,13 +259,18 @@ export default function ProductDetailPage() {
                       </div>
                     </div>
                     <div className={styles.buttons}>
-                      <button className={styles.btnPrimary} onClick={handleAddToCart}>加入購物車</button>
+                      <button
+                        className={styles.btnPrimary}
+                        onClick={handleAddToCart}
+                      >
+                        加入購物車
+                      </button>
                       <button className={styles.btnSecondary}>立即購買</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <ToastContainer/>
+              <ToastContainer />
 
               {/* 商品詳情 */}
               <div className={styles.bContainer}>
