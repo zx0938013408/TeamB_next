@@ -5,7 +5,7 @@
 }
 
 .container {
-  width: 80%;
+  width: 70vw;
   margin: auto;
   padding: 150px 100px 100px 100px;
   display: flex;
@@ -46,13 +46,8 @@
 }
 /* end麵包屑 */
 
-.sideBar{
-  width: 16%;
-  margin-right: 20px;
-}
-
 .mainContent{
-  width: 84%;
+  width: 100%;
 }
 
 .aContainer {

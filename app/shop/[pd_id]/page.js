@@ -124,20 +124,6 @@ export default function ProductDetailPage() {
         <div className={styles.container}>
           {/* 主要區域 */}
           <div className={styles.Main}>
-            {/* 篩選搜尋 sidebar */}
-            <div className={styles.sideBar}>
-              {/* 搜尋 */}
-              <Search />
-
-              {/* <FilterSidebar
-                filters={filters}
-                onFilterChange={(newFilters) => {
-                  setFilters(newFilters);
-                  updateURL(newFilters);
-                }}
-              /> */}
-            </div>
-
             <div className={styles.mainContent}>
               {/* 商品詳情展示區 */}
               <div className={styles.aContainer}>
