@@ -1,71 +1,56 @@
-"use client";
-import React, { useState } from 'react';
-import styles from "../../../styles/auth/reset-password.module.css";
-import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
-import { MB_RESET_POST } from "../../../config/auth.api";
-import "font-awesome/css/font-awesome.min.css";
-import Swal from "sweetalert2"; // 引入 SweetAlert2
+"use client"
+import React, { useState } from 'react'
+import styles from "../../../styles/auth/reset-password.module.css"
+import axios from "axios"
+import { useRouter, useSearchParams } from "next/navigation"
+import {MB_RESET_POST} from "../../../config/auth.api"
 
 const ResetPassword = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const [showNewPassword, setShowNewPassword] = useState(false); // 控制新密碼顯示/隱藏
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // 控制確認密碼顯示/隱藏
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [errorMsg, setErrorMsg] = useState("")
+  const [successMsg, setSuccessMsg] = useState("")
+  const [showNewPassword, setShowNewPassword] = useState(false) // 控制新密碼顯示/隱藏
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false) // 控制確認密碼顯示/隱藏
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrorMsg("");
+    e.preventDefault()
+    setErrorMsg("")
+    setSuccessMsg("")
 
     if (!newPassword || !confirmPassword) {
-      setErrorMsg("請填寫所有欄位");
-      return;
+      setErrorMsg("請填寫所有欄位")
+      return
     }
 
     if (newPassword.length < 6) {
-      setErrorMsg("新密碼至少需 6 字");
-      return;
+      setErrorMsg("新密碼至少需 6 字")
+      return
     }
 
     if (newPassword !== confirmPassword) {
-      setErrorMsg("兩次輸入密碼不一致");
-      return;
+      setErrorMsg("兩次輸入密碼不一致")
+      return
     }
 
     try {
       const res = await axios.post(MB_RESET_POST, {
         token,
         newPassword,
-      });
+      })
 
-      // 成功時顯示 SweetAlert2 提示框
-      Swal.fire({
-        icon: "success",
-        title: "密碼重設成功！",
-        text: "您已經成功重設密碼，將導回登入頁",
-        confirmButtonText: "確定",
-        confirmButtonColor: "#4CAF50", // 修改按鈕顏色
-      });
-
+      setSuccessMsg(res.data.message || "密碼重設成功，將導回登入頁")
       setTimeout(() => {
-        router.push("/auth/login");
-      }, 1500);
+        router.push("/auth/login")
+      }, 1500)
     } catch (err) {
-      // 失敗時顯示 SweetAlert2 提示框
-      Swal.fire({
-        icon: "error",
-        title: "錯誤",
-        text: err.response?.data?.message || "重設失敗，請稍後再試",
-        confirmButtonText: "確定",
-        confirmButtonColor: "#FF4136", // 修改錯誤按鈕顏色
-      });
+      setErrorMsg(err.response?.data?.message || "重設失敗，請稍後再試")
     }
-  };
+  }
 
   return (
     <div className={styles.container}>
@@ -129,8 +114,9 @@ const ResetPassword = () => {
             </div>
           </div>
 
-          {/* 錯誤訊息 */}
+          {/* 錯誤或成功訊息 */}
           {errorMsg && <p style={{ color: "red", marginTop: "10px" }}>{errorMsg}</p>}
+          {successMsg && <p style={{ color: "green", marginTop: "10px" }}>{successMsg}</p>}
 
           <div className={styles.resetActions}>
             <button type="submit" className={styles.submitButton}>
@@ -140,7 +126,7 @@ const ResetPassword = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ResetPassword;
+export default ResetPassword

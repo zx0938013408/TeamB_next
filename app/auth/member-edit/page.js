@@ -168,10 +168,10 @@ const MemberEdit = () => {
           <Link href="/auth/member-account" className={styles.menuItem}>
             帳號管理
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/orderHistory" className={styles.menuItem}>
             我的訂單
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
         </div>
