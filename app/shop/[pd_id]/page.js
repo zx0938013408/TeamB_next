@@ -107,8 +107,9 @@ export default function ProductDetailPage() {
     // 這裡把選擇的尺寸和數量傳遞給 onAdd
     onAdd({
       id: product.id,
-      name: product.product_name,
+      product_name: product.product_name,
       price: product.price,
+      color:product.color,
       size: selectedSize,
       quantity: selectedQuantity,
       image: product.image,
@@ -123,20 +124,6 @@ export default function ProductDetailPage() {
         <div className={styles.container}>
           {/* 主要區域 */}
           <div className={styles.Main}>
-            {/* 篩選搜尋 sidebar */}
-            <div className={styles.sideBar}>
-              {/* 搜尋 */}
-              <Search />
-
-              {/* <FilterSidebar
-                filters={filters}
-                onFilterChange={(newFilters) => {
-                  setFilters(newFilters);
-                  updateURL(newFilters);
-                }}
-              /> */}
-            </div>
-
             <div className={styles.mainContent}>
               {/* 商品詳情展示區 */}
               <div className={styles.aContainer}>
