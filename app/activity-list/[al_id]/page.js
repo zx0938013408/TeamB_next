@@ -10,6 +10,7 @@ import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
 import { AVATAR_PATH } from "@/config/api-path";
 import { useAuth } from "@/context/auth-context";
+import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
 export default function ActivityDetailPage() {
@@ -86,7 +87,13 @@ export default function ActivityDetailPage() {
       setLoading(true);
     
       if (!activity || !activity.al_id) {
-        alert("請選擇活動");
+        // 顯示 SweetAlert2 提示框
+        Swal.fire({
+          icon: "warning",
+          text: "請選擇活動",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
         setLoading(false);
         return;
       }
@@ -110,7 +117,13 @@ export default function ActivityDetailPage() {
         if (data.success) {
           setNotes("");
           setSelectedPeople(1);
-          alert("活動報名成功");
+          // 顯示 SweetAlert2 提示框
+          Swal.fire({
+            icon: "success",
+            text: "活動報名成功",  // 顯示後端回傳的訊息
+            confirmButtonText: "確定",
+            confirmButtonColor: "#29755D", // 修改按鈕顏色
+          });
           closeModal();
           await fetchActivityDetail(); // 正確呼叫更新列表
         }
@@ -312,7 +325,13 @@ useEffect(() => {
               disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
               onClick={() => {
                 if (!auth?.id) {
-                  alert("請先登入");
+                  // 顯示 SweetAlert2 提示框
+                  Swal.fire({
+                    icon: "error",
+                    text: "請先登入",  // 顯示後端回傳的訊息
+                    confirmButtonText: "確定",
+                    confirmButtonColor: "#29755D", // 修改按鈕顏色
+                  });
                   window.location.href = "/auth/login";
                   return;
                 }
@@ -411,18 +430,18 @@ useEffect(() => {
       </div>
       <div className="modal-body">
         <div className={`${Styles.title} row`}>
-          <div className="titleIcons col-1">
+          <div className={`${Styles.title} col-1`}>
           {activity?.sport_name === "籃球" ? (
               <span
-                className={`icon-Basketball ${Styles.iconTitle}`}
+                className={`icon-Basketball ${Styles.titleIcon}`}
               ></span>
             ) : activity?.sport_name === "排球" ? (
               <span
-                className={`icon-Volleyball ${Styles.iconTitle}`}
+                className={`icon-Volleyball ${Styles.titleIcon}`}
               ></span>
             ) : activity?.sport_name === "羽球" ? (
               <span
-                className={`icon-Badminton ${Styles.iconTitle}`}
+                className={`icon-Badminton ${Styles.titleIcon}`}
               ></span>
             ) : null}
           </div>
