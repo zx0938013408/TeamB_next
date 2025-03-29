@@ -8,6 +8,8 @@ import Image from "next/image";
 import Logo from "../public/src/assets/iconLogo.png";
 import { useAuth } from "../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";  // 引入 react-toastify
+import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 
 const Header = () => {
   const { auth, logout } = useAuth();
@@ -24,7 +26,11 @@ const Header = () => {
     logout();
 
     // 顯示登出提示
-    alert("會員已登出");
+    toast("會員已登出",{
+      position:"top-center" , // 設定通知顯示位置
+      autoClose:2000   ,   
+      hideProgressBar:true ,// 隱藏進度
+    });
   };
 
   // 🔹 點擊外部時關閉搜尋框

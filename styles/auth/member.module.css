@@ -44,9 +44,6 @@
 }
 
 
-
-
-
 /* ✅ 頭像區塊 */
 .profileHeader {
     display: flex;
@@ -58,7 +55,14 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
 }
+
+
 
 .userInfo h2 {
     margin: 0;
@@ -107,3 +111,29 @@
 .hidden {
     display: none;
 }
+
+/* ✅ 更新喜愛運動樣式 */
+.sportTextContainer {
+    display: flex;
+    gap: 8px; /* 增加項目之間的間距 */
+    flex-wrap: wrap; /* 當項目過多時換行 */
+  }
+  
+  .sportText {
+    background-color: #ffcb7d; /* 設定背景顏色 */
+    color: white; /* 文字顏色 */
+    padding: 8px 16px;
+    border-radius: 15px; /* 圓角 */
+    font-size: 14px; /* 字體大小 */
+    font-weight: bold; /* 文字加粗 */
+    display: inline-block; /* 行內元素 */
+  }
+  
+  .sportText.other {
+    background-color: #64a8a3; /* 如果有其他運動，可以設不同顏色 */
+  }
+  
+  .userInfo h2 {
+    margin-bottom: 10px;
+    color: #25423b;
+  }
