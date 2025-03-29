@@ -390,3 +390,8 @@
   padding: 5px;
   border-radius: 5px;
 }
+
+.deleteButton {
+  background-color: #dc3545; /* Bootstrap 紅色 */
+  color: white;
+}
