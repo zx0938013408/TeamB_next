@@ -5,6 +5,7 @@ import { AVATAR_PATH } from "@/config/api-path";
 import ActivityEditModal from "@/components/activity-edit-modal/ActivityEditModal";
 import { useState, useEffect } from "react";
 import { API_SERVER } from "@/config/api-path";
+import { MEMBER_DELETE_ACTIVITY } from "@/config/api-path";
 
 
 export default function ActivityCardCreate({ activity, onQuickSignUp }) {
@@ -59,6 +60,33 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
       console.error("❌ 修改活動失敗", err);
     } finally {
       setShowModal(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    const reason = prompt("請輸入取消此活動的原因：");
+  
+    if (!reason) return alert("必須填寫取消原因");
+  
+    try {
+      const response = await fetch(`${API_SERVER}/members/${activityData.al_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cancel_reason: reason }),
+      });
+  
+      const result = await response.json();
+      if (result.success) {
+        alert("活動已取消，已通知報名者。");
+        window.location.reload();
+      } else {
+        alert("取消失敗：" + result.error);
+      }
+    } catch (err) {
+      console.error("❌ 刪除活動失敗", err);
+      alert("發生錯誤，請稍後再試");
     }
   };
 
@@ -182,6 +210,16 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
                 : "快速報名"}
             </button>
           </div>
+          <div className={Styles.buttonWrapper}>
+  <button
+    type="button"
+    className={`${Styles.joinButton} ${Styles.deleteButton}`}
+    onClick={handleDelete}
+  >
+    刪除活動
+  </button>
+</div>
+
         </div>
       </div>
       {/* 顯示 Modal */}

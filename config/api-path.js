@@ -36,6 +36,10 @@ export const MEMBER_FAVORITES = (memberId) => `${API_SERVER}/members/${memberId}
 // 會員修改活動詳情
 export const MEMBER_UPDATE_ACTIVITY = (alId) => `${API_SERVER}/members/${alId}`;
 
+// 會員刪除活動
+export const MEMBER_DELETE_ACTIVITY = (alId) => `${API_SERVER}/members/${alId}`;
+
+
 
 // JWT 登入
 export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
