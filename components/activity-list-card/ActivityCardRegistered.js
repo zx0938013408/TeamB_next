@@ -2,19 +2,24 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
-import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path"
+import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path";
 import { useAuth } from "@/context/auth-context";
 
-
-export default function ActivityCardRegistered({ activity, registeredId, onQuickSignUp }) {
+export default function ActivityCardRegistered({
+  activity,
+  registeredId,
+  onQuickSignUp,
+  onLikeToggle,
+}) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
   const { auth } = useAuth(); // 獲取會員認證資料
-  
 
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
+
+  console.log("API 拿到資料:",activity);
 
   // 更新報名資料
   const updateRegistered = async () => {
@@ -25,12 +30,12 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
       },
       body: JSON.stringify({
         member_id: auth.id,
-        activity_id: activity.al_id,       // ✅ 改成使用傳入的報名資料 ID
+        activity_id: activity.al_id, // ✅ 改成使用傳入的報名資料 ID
         num: 2,
         notes: "已改為2人，加備註",
       }),
     });
-  
+
     const data = await res.json();
     console.log(data);
   };
@@ -46,6 +51,7 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
             <LikeHeart
               checked={activity.is_favorite}
               activityId={activity.al_id}
+              onClick={onLikeToggle}
             />
           </div>
           <img

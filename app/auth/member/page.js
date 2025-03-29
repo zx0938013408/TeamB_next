@@ -284,6 +284,11 @@ const Member = () => {
                     key={activity.al_id}
                     activity={activity}
                     onQuickSignUp={openModal}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
                     isExpired={isExpired(activity.activity_time)}
                   />
                 ))
@@ -297,6 +302,11 @@ const Member = () => {
                   <ActivityCardCreate
                     key={activity.al_id}
                     activity={activity}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
                     isExpired={isExpired(activity.activity_time)}
                     onQuickSignUp={openModal}
                   />
@@ -311,6 +321,11 @@ const Member = () => {
                   <ActivityCard
                     key={activity.al_id}
                     activity={activity}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
                     isExpired={isExpired(activity.activity_time)}
                     onQuickSignUp={openModal}
                   />
