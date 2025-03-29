@@ -7,14 +7,12 @@ import { useState, useEffect } from "react";
 import { API_SERVER } from "@/config/api-path";
 import { MEMBER_DELETE_ACTIVITY } from "@/config/api-path";
 
-
-export default function ActivityCardCreate({ activity, onQuickSignUp }) {
+export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeToggle }) {
   const [activityData, setActivityData] = useState(activity);
 
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activityData.activity_time);
-
 
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
@@ -34,22 +32,24 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
     for (let key in formData) {
       fd.append(key, formData[key]);
     }
-  
+
     try {
       const response = await fetch(`${API_SERVER}/members/${formData.al_id}`, {
         method: "PUT",
         body: fd,
       });
-  
+
       const result = await response.json();
-  
+
       if (result.success) {
         alert("修改成功！");
-  
+
         // 🔁 重新取得該活動資料並更新畫面
-        const newRes = await fetch(`${API_SERVER}/members/activity/${formData.al_id}`);
+        const newRes = await fetch(
+          `${API_SERVER}/members/activity/${formData.al_id}`
+        );
         const newData = await newRes.json();
-  
+
         if (newData.success) {
           setActivityData(newData.data);
         }
@@ -65,18 +65,21 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
 
   const handleDelete = async () => {
     const reason = prompt("請輸入取消此活動的原因：");
-  
+
     if (!reason) return alert("必須填寫取消原因");
-  
+
     try {
-      const response = await fetch(`${API_SERVER}/members/${activityData.al_id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ cancel_reason: reason }),
-      });
-  
+      const response = await fetch(
+        `${API_SERVER}/members/${activityData.al_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cancel_reason: reason }),
+        }
+      );
+
       const result = await response.json();
       if (result.success) {
         alert("活動已取消，已通知報名者。");
@@ -101,6 +104,7 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
             <LikeHeart
               checked={activityData.is_favorite}
               activityId={activityData.al_id}
+              onClick={onLikeToggle}
             />
           </div>
           <img
@@ -200,7 +204,8 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
                 }
               }}
               disabled={
-                isExpired || activityData.registered_people >= activityData.need_num
+                isExpired ||
+                activityData.registered_people >= activityData.need_num
               }
             >
               {isExpired
@@ -211,15 +216,14 @@ export default function ActivityCardCreate({ activity, onQuickSignUp }) {
             </button>
           </div>
           <div className={Styles.buttonWrapper}>
-  <button
-    type="button"
-    className={`${Styles.joinButton} ${Styles.deleteButton}`}
-    onClick={handleDelete}
-  >
-    刪除活動
-  </button>
-</div>
-
+            <button
+              type="button"
+              className={`${Styles.joinButton} ${Styles.deleteButton}`}
+              onClick={handleDelete}
+            >
+              刪除活動
+            </button>
+          </div>
         </div>
       </div>
       {/* 顯示 Modal */}

@@ -3,18 +3,21 @@ import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
-import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path"
+import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path";
 import { useAuth } from "@/context/auth-context";
 import ActivityRegisteredEditModal from "@/components/activity-registered-edit-modal/activity-registered-edit-modal"
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
-
-export default function ActivityCardRegistered({ activity, registeredId, onQuickSignUp }) {
+export default function ActivityCardRegistered({
+  activity,
+  registeredId,
+  onQuickSignUp,
+  onLikeToggle,
+}) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
   const { auth } = useAuth(); // 獲取會員認證資料
-  
 
   const [showModal, setShowModal] = useState(false);
   const [selectedRegistration, setSelectedRegistration] = useState(null);
@@ -69,24 +72,7 @@ const openEditModal = async () => {
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
 
-  // 更新報名資料
-  // const updateRegistered = async () => {
-  //   const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id), {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       registered_id: activity.registered_id,
-  //       member_id: auth.id,
-  //       num: 2,
-  //       notes: "已改為2人，加備註",
-  //     }),
-  //   });
-  
-  //   const data = await res.json();
-  //   console.log(data);
-  // };
+  console.log("API 拿到資料:",activity);
 
   return (
     <div
@@ -99,6 +85,7 @@ const openEditModal = async () => {
             <LikeHeart
               checked={activity.is_favorite}
               activityId={activity.al_id}
+              onClick={onLikeToggle}
             />
           </div>
           <img
