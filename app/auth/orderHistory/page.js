@@ -34,8 +34,8 @@ const OrderHistory = () => {
           <Link href="/auth/member" className={styles.menuItem}>會員中心</Link>
           <Link href="/auth/member-edit" className={styles.menuItem}>編輯個人檔案</Link>
           <Link href="/auth/member-account" className={styles.menuItem}>帳號管理</Link>
-          <Link href="#" className={styles.menuItem}>我的訂單</Link>
-          <Link href="#" className={styles.menuItem}>收藏商品</Link>
+          <Link href="/auth/orderHistory" className={styles.menuItem}>我的訂單</Link>
+          <Link href="/auth/member-likes" className={styles.menuItem}>收藏商品</Link>
         </div>
 
         {/* 右側內容 */}

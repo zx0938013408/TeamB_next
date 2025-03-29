@@ -4,7 +4,6 @@ import styles from "../../../styles/auth/reset-password.module.css"
 import axios from "axios"
 import { useRouter, useSearchParams } from "next/navigation"
 import {MB_RESET_POST} from "../../../config/auth.api"
-import "font-awesome/css/font-awesome.min.css";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("")

@@ -12,6 +12,7 @@ import {
   MB_OLD_PASSWORD_POST,
 } from "../../../config/auth.api";
 import "font-awesome/css/font-awesome.min.css";
+import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 const MemberAccount = () => {
   const { auth, getAuthHeader } = useAuth(); // 從 AuthContext 中獲取 auth 和 getAuthHeader 函數
@@ -28,24 +29,24 @@ const MemberAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+  
     if (!oldPassword || !newPassword || !confirmPassword) {
       setError("每個欄位都是必填");
       return;
     }
-
+  
     // 驗證新密碼和確認密碼是否一致
     if (newPassword !== confirmPassword) {
       setError("新密碼和確認密碼不一致");
       return;
     }
-
+  
     // 檢查新密碼長度
     if (newPassword.length < 6) {
       setError("新密碼至少需要 6 個字符");
       return;
     }
-
+  
     try {
       // 先驗證舊密碼是否正確
       const headers = getAuthHeader(); // 使用 getAuthHeader 獲取 token
@@ -54,26 +55,38 @@ const MemberAccount = () => {
         { oldPassword },
         { headers }
       );
-
+  
       console.log("Password Check Response:", passwordCheckResponse.data); // 確認後端是否正確回傳
-
+  
       if (!passwordCheckResponse.data.success) {
         setError("舊密碼不正確");
         return; // 結束，避免繼續處理
       }
-
+  
       // 如果舊密碼正確，則繼續更改密碼
       const response = await axios.post(
         MB_PASSWORD_POST,
         { oldPassword, newPassword, confirmPassword },
         { headers }
       );
-
-      alert(response.data.message); // 顯示後端傳來的成功訊息
+  
+      // 從後端獲取回應訊息
+      const responseMessage = response.data.message || "密碼更改成功，請重新登入";
+  
+      // 顯示 SweetAlert2 成功提示框
+      Swal.fire({
+        icon: "success",
+        title: "修改成功！",
+        text: responseMessage,  // 顯示後端回傳的訊息
+        confirmButtonText: "確定",
+        confirmButtonColor: "#4CAF50", // 修改按鈕顏色
+      });
+  
       router.push("/auth/login");
+  
     } catch (error) {
       console.error("更改密碼時出錯:", error);
-
+  
       // 嘗試讀取後端錯誤訊息
       if (
         error.response &&
@@ -81,11 +94,28 @@ const MemberAccount = () => {
         error.response.data.message
       ) {
         setError(error.response.data.message);
+        Swal.fire({
+          icon: "error",
+          title: "錯誤",
+          text: error.response.data.message,
+          confirmButtonText: "確定",
+          confirmButtonColor: "#FF4136",  // 可以自訂錯誤的按鈕顏色
+        });
       } else {
         setError("伺服器錯誤，請稍後再試");
+        Swal.fire({
+          icon: "error",
+          title: "伺服器錯誤",
+          text: "請稍後再試",
+          confirmButtonText: "確定",
+          confirmButtonColor: "#FF4136",  // 可以自訂錯誤的按鈕顏色
+        });
       }
     }
   };
+  
+  
+  
 
   return (
     <>
@@ -102,10 +132,10 @@ const MemberAccount = () => {
           <Link href="/auth/member-account" className={styles.menuItem}>
             帳號管理
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/orderHistory" className={styles.menuItem}>
             我的訂單
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
         </div>
