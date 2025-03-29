@@ -284,6 +284,7 @@ const Member = () => {
                     key={activity.registered_id}
                     activity={activity}
                     onQuickSignUp={openModal}
+                    onRefresh={() => fetchRegisteredActivities(auth.id)}
                     onLikeToggle={() => {
                       fetchRegisteredActivities(auth.id);
                       fetchCreatedActivities(auth.id);

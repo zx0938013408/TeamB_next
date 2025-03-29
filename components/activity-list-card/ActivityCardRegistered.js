@@ -13,6 +13,7 @@ export default function ActivityCardRegistered({
   registeredId,
   onQuickSignUp,
   onLikeToggle,
+  onRefresh,
 }) {
   // 取得當前日期
   const currentDate = new Date();
@@ -39,26 +40,26 @@ export default function ActivityCardRegistered({
   
       const data = await res.json();
       if (data.success) {
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
           title: "資料已更新成功",
           confirmButtonText: "確定",
-          confirmButtonColor: "#4CAF50",
+          confirmButtonColor: "#29755D",
         });
-        // setShowModal(false);
-        // 如果有需要可重新 fetch 資料
+        onRefresh();
+
       } else {
-        Swal.fire({ icon: "error", title: "更新失敗", text: data.error });
+        await Swal.fire({ icon: "error", title: "更新失敗", text: data.error });
       }
     } catch (error) {
       console.error("更新報名失敗", error);
-      Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+      await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
     }
   };
 
 const openEditModal = async () => {
   try {
-    const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id)); // 🔥 `activity.id` 是 registered.id
+    const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id));
     const data = await res.json();
     if (data.success) {
       setSelectedRegistration(data.data);
