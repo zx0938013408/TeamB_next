@@ -22,7 +22,7 @@ export const ACTIVITY_DELETE = `${API_SERVER}/registered/api`;
 
 // 修改報名 PUT
 // `${API_SERVER}/address-book/api/${ab_id}`
-export const ACTIVITY_ITEM_PUT = `${API_SERVER}/registered/api`;
+export const ACTIVITY_ITEM_PUT = (id) => `${API_SERVER}/registered/api/${id}`;
 
 
 

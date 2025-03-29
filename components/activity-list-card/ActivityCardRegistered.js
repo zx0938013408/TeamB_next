@@ -1,9 +1,12 @@
+import React, { useState } from "react";
 import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path"
 import { useAuth } from "@/context/auth-context";
+import ActivityRegisteredEditModal from "@/components/activity-registered-edit-modal/activity-registered-edit-modal"
+import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
 export default function ActivityCardRegistered({ activity, registeredId, onQuickSignUp }) {
@@ -13,27 +16,77 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
   const { auth } = useAuth(); // 獲取會員認證資料
   
 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRegistration, setSelectedRegistration] = useState(null);
+
+  const handleModalSave = async ({ num, notes }) => {
+    try {
+      const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          registered_id: activity.registered_id,
+          member_id: auth.id,
+          num,
+          notes,
+        }),
+      });
+  
+      const data = await res.json();
+      if (data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "資料已更新成功",
+          confirmButtonText: "確定",
+          confirmButtonColor: "#4CAF50",
+        });
+        // setShowModal(false);
+        // 如果有需要可重新 fetch 資料
+      } else {
+        Swal.fire({ icon: "error", title: "更新失敗", text: data.error });
+      }
+    } catch (error) {
+      console.error("更新報名失敗", error);
+      Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+    }
+  };
+
+const openEditModal = async () => {
+  try {
+    const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id)); // 🔥 `activity.id` 是 registered.id
+    const data = await res.json();
+    if (data.success) {
+      setSelectedRegistration(data.data);
+      setShowModal(true);
+    }
+  } catch (error) {
+    console.error("取得報名資料失敗", error);
+  }
+};
+
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
 
   // 更新報名資料
-  const updateRegistered = async () => {
-    const res = await fetch(ACTIVITY_ITEM_PUT, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        member_id: auth.id,
-        activity_id: activity.al_id,       // ✅ 改成使用傳入的報名資料 ID
-        num: 2,
-        notes: "已改為2人，加備註",
-      }),
-    });
+  // const updateRegistered = async () => {
+  //   const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id), {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       registered_id: activity.registered_id,
+  //       member_id: auth.id,
+  //       num: 2,
+  //       notes: "已改為2人，加備註",
+  //     }),
+  //   });
   
-    const data = await res.json();
-    console.log(data);
-  };
+  //   const data = await res.json();
+  //   console.log(data);
+  // };
 
   return (
     <div
@@ -128,17 +181,7 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
               className={`${Styles.joinButton} ${Styles.joinInformation} ${
                 isExpired ? Styles.buttonDisabled : ""
               }`}
-              onClick={() => {
-                if (
-                  !isExpired &&
-                  activity.registered_people < activity.need_num
-                ) {
-                  // 呼叫父元件傳來的快速報名功能
-                  if (typeof onQuickSignUp === "function") {
-                    onQuickSignUp(activity);
-                  }
-                }
-              }}
+              onClick={openEditModal}
               disabled={
                 isExpired || activity.registered_people >= activity.need_num
               }
@@ -152,6 +195,14 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
           </div>
         </div>
       </div>
+
+      {/* 顯示 Modal */}
+      <ActivityRegisteredEditModal
+        activity={activity}
+        registration={selectedRegistration}
+        onSave={handleModalSave}
+      />
     </div>
+
   );
 }
