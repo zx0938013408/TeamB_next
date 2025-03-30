@@ -109,6 +109,11 @@ const RegisterInfo = () => {
         return;
       }
 
+      if (selectedSports.length === 0) {
+        setError("請選擇至少一項運動");
+        return;
+      }
+
       if (Object.keys(errors).length > 0) {
         setError(errors); // 更新錯誤訊息
         return; // 阻止表單提交
@@ -265,8 +270,12 @@ const RegisterInfo = () => {
                 placeholder="請輸入詳細地址"
               />
             </div>
+            <div className={styles.validationInfo}>
+    <p>請提供您國小學校名稱，並填寫身分證後四碼以便後續驗證。</p>
+  </div>
 
             <div className={styles.row}>
+            
               <input
                 className={styles.inputBox}
                 type="text"
