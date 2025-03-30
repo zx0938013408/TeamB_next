@@ -317,5 +317,6 @@
 .okBtn{
     background-color: #29755D !important;
     color: #fff !important;
+    border: none !important; 
     border-radius: 10px !important;
 }

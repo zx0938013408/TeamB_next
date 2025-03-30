@@ -152,7 +152,7 @@ const Member = () => {
       });
 
       const data = await response.json();
-      console.log('API 回應的資料:', data);  // 檢查資料是否正確
+      console.log('API 回應團主的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
         setCreatedActivities((prevActivities) => {
           // 確保只更新資料並觸發渲染

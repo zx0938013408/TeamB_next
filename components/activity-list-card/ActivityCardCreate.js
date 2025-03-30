@@ -3,6 +3,7 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 import ActivityEditModal from "@/components/activity-edit-modal/ActivityEditModal";
+import RegisteredListModal from "@/components/activity-registered-num-modal/activity-registered-num-modal"
 import { useState, useEffect } from "react";
 import { API_SERVER } from "@/config/api-path";
 import { MEMBER_DELETE_ACTIVITY } from "@/config/api-path";
@@ -11,6 +12,9 @@ import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeToggle }) {
   const [activityData, setActivityData] = useState(activity);
+
+  // 查看報名情形
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   // 取得當前日期
   const currentDate = new Date();
@@ -185,10 +189,14 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
           className={`col-2 d-flex flex-column align-items-end ${Styles.groupButton}`}
         >
           <div className={`${Styles.registerInfo}`}>
-            <button type="button" className={Styles.registerInfoBtn}>
+            <button 
+              type="button" 
+              className={Styles.joinButton}
+              onClick={() => setShowRegisterModal(true)}
+            >
               <span className={Styles.number}>目前人數</span>
               <br />
-              <span className={Styles.total}>
+              <span>
                 {activityData.registered_people}/{activityData.need_num}人
               </span>
             </button>
@@ -258,6 +266,12 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
         activity={activity}
         onClose={handleCloseModal}
         onSave={handleSave}
+      />
+
+      <RegisteredListModal
+        show={showRegisterModal}
+        onHide={() => setShowRegisterModal(false)}
+        activityId={activityData.al_id}
       />
     </div>
   );
