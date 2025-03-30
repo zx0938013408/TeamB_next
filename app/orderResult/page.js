@@ -11,6 +11,7 @@ import { useAuth } from '@/context/auth-context'
 import { useSearchParams } from 'next/navigation'
 import { isDev } from '@/config'
 import { useCart } from '@/hooks/use-cart'
+import "@/public/TeamB_Icon/style.css"
 import {ORDER_ADD_POST} from '@/config/orders-api-path'
 
 

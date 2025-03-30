@@ -13,6 +13,7 @@ import Button2 from '../cart/_components/button2'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import "@/public/TeamB_Icon/style.css"
 import { isDev } from '@/config'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -158,7 +159,8 @@ export default function CheckInfoPage() {
       return;
     }
 
-  
+
+
     // 依付款方式跳轉頁面
     if ( selectedPayMethod
       === 2 ) {
@@ -169,7 +171,7 @@ export default function CheckInfoPage() {
       === 1 ) {
       // 選擇貨到付款，直接跳轉訂單完成頁面
       await handleOrderSubmission();
-      window.location.href = '/orderResult';
+      window.location.href = '/orderResult'; // 跳轉到訂單結果頁
     }
   }  
     
@@ -199,6 +201,7 @@ export default function CheckInfoPage() {
     };
 
     try {
+      
       // 儲存訂單資料到資料庫
       const response = await fetch(ORDER_ADD_POST, {
         method: 'POST',
@@ -211,28 +214,22 @@ export default function CheckInfoPage() {
 
       const resData = await response.json();
       if (resData.success) {
+        // 訂單成功提交，清空購物車與訂購資訊，並跳轉到訂單結果頁
+        clearAll(); // 清空購物車與訂購資訊
+       
+      } else {
+        // 訂單提交失敗，顯示失敗的 alert
         MySwal.fire({
-          title: '訂單提交成功',
-          text: '您的訂單已成功提交！',
-          icon: 'success',
+          title: '訂單提交失敗',
+          text: '請稍後再試，或聯繫客服。',
+          icon: 'error',
           confirmButtonColor: '#F7BF58',
           confirmButtonText: 'OK',
-        }).then(() => {
-
-      // 訂單提交成功後，清空購物車與訂購資訊
-      clearAll();
-      })
-    } else {
-      MySwal.fire({
-        title: '訂單提交失敗',
-        text: '請稍後再試，或聯繫客服。',
-        icon: 'error',
-        confirmButtonColor: '#F7BF58',
-        confirmButtonText: 'OK',
-      });
-    }
+        });
+      }
     } catch (error) {
       console.error('提交訂單時發生錯誤:', error);
+      // 若發生錯誤，顯示錯誤的 alert
       MySwal.fire({
         title: '提交訂單失敗',
         text: '發生錯誤，請檢查您的網絡連線或稍後再試。',
@@ -241,7 +238,8 @@ export default function CheckInfoPage() {
         confirmButtonText: 'OK',
       });
     }
-  }
+  };
+  
     
   return (
     <>
