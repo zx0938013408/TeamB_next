@@ -31,4 +31,4 @@ export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
 
 // Toggle like
 // `${API_SERVER}/address-book/toggle-like/${ab_id}`
-export const TOGGLE_LIKE = `${API_SERVER}/products/toggle-like`;
+export const TOGGLE_LIKE = `${API_SERVER}/products/api/pd_likes`;
