@@ -1,104 +1,93 @@
+"use client";
 import { useState, useEffect } from "react";
+import styles from "../styles/auth/NotificatioonBell.module.css";
+import { useAuth } from "../context/auth-context";
 
-export default function NotificationBell({ memberId }) {
-  const [messages, setMessages] = useState([]);
-  const [showInbox, setShowInbox] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
+function NotificationBell({ token }) {
+  const [notifications, setNotifications] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(true); // 控制通知顯示狀態
+  const { auth } = useAuth(); // 假設 useAuth hook 也提供了用戶資料
 
-  const fetchMessages = async () => {
-    const res = await fetch(`http://localhost:3001/messages/${memberId}`);
-    const data = await res.json();
-    if (data.success) {
-      setMessages(data.messages);
-      setUnreadCount(data.messages.filter((m) => !m.is_read).length);
+  // 監聽 token 改變，並根據登入狀態抓取通知
+  useEffect(() => {
+    if (!token) {
+      console.log("No token provided");
+      return;
+    }
+
+    // 根據 token 來抓取通知
+    fetch(`http://localhost:3001/auth/notifications/${auth.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // 正確傳遞 JWT Token
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setNotifications(data.notifications);
+        } else {
+          console.log(data.message); // 處理錯誤訊息
+        }
+      })
+      .catch((err) => console.error("Error fetching notifications:", err));
+
+    // 檢查 localStorage 中的狀態，重新登入後恢復通知的顯示
+    const notificationVisibility = localStorage.getItem("notificationVisibility");
+    if (notificationVisibility === "hidden") {
+      setIsNotificationVisible(false);
+    } else {
+      setIsNotificationVisible(true); // 重新登入後顯示通知
+    }
+  }, [token, auth.id]);
+
+  // 點擊通知鈴鐺時，顯示或隱藏通知數量
+  const handleNotificationClick = () => {
+    setIsOpen(!isOpen);
+
+    // 點擊後的通知隱藏狀態保存到 localStorage
+    if (isNotificationVisible) {
+      localStorage.setItem("notificationVisibility", "hidden");
+      setIsNotificationVisible(false);
     }
   };
 
-  useEffect(() => {
-    if (memberId) fetchMessages();
-
-    // 自動刷新每60秒
-    const interval = setInterval(() => {
-      if (memberId) fetchMessages();
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [memberId]);
-
-  const markAsRead = async (id) => {
-    await fetch(`http://localhost:3001/messages/read/${id}`, { method: "PUT" });
-    fetchMessages();
-  };
-
-  const deleteMessage = async (id) => {
-    await fetch(`http://localhost:3001/messages/${id}`, { method: "DELETE" });
-    fetchMessages();
-  };
-
   return (
-    <div style={{ position: "relative" }}>
-      <button
-        onClick={() => setShowInbox((prev) => !prev)}
-        style={{ position: "relative", background: "none", border: "none", fontSize: "24px" }}
-      >
-        🔔
-        {unreadCount > 0 && (
-          <span
-            style={{
-              position: "absolute",
-              top: "-5px",
-              right: "-5px",
-              background: "red",
-              color: "white",
-              borderRadius: "50%",
-              padding: "2px 6px",
-              fontSize: "12px",
-            }}
-          >
-            {unreadCount}
-          </span>
+    <div className={styles.notificationBell}>
+      <button onClick={handleNotificationClick}>
+        🔔 
+        {isNotificationVisible && notifications.length > 0 && (
+          <span className={styles.notificationCount}>{notifications.length}</span>
         )}
       </button>
 
-      {showInbox && (
-        <div
-          style={{
-            position: "absolute",
-            top: "110%",
-            right: 0,
-            width: "350px",
-            maxHeight: "400px",
-            overflowY: "auto",
-            background: "white",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            zIndex: 9999,
-            padding: "10px",
-          }}
-        >
-          <h4>通知訊息</h4>
-          {messages.length === 0 && <p>目前沒有訊息</p>}
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              style={{
-                borderBottom: "1px solid #ddd",
-                marginBottom: "8px",
-                paddingBottom: "5px",
-              }}
-            >
-              <strong>{msg.title}</strong>
-              <p>{msg.content}</p>
-              <small>{new Date(msg.created_at).toLocaleString()}</small>
-              <br />
-              {!msg.is_read && (
-                <button onClick={() => markAsRead(msg.id)}>標記為已讀</button>
-              )}
-              <button onClick={() => deleteMessage(msg.id)}>刪除</button>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* 下拉式選單 */}
+      <div className={`${styles.notificationDropdown} ${isOpen ? styles.open : ""}`}>
+        {notifications.length === 0 ? (
+          <p>目前沒有新通知</p>
+        ) : (
+          <>
+            <div className={styles.notificationSectionTitle}>通知</div>
+            <div className={styles.notificationSeparator}></div> {/* 下劃線 */}
+            {notifications.map((n) => (
+              <div key={n.al_id} className={styles.notificationItem}>
+                <a href={`/activity-list/${n.al_id}`} className={styles.notificationLink}>
+                  <div className={styles.notificationContent}>
+                    <div className={styles.notificationTitle}>
+                      {n.activity_name}
+                    </div>
+                    <div className={styles.notificationTime}>
+                      {new Date(n.activity_time).toLocaleString()}
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }
+
+export default NotificationBell;

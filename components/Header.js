@@ -10,7 +10,7 @@ import { useAuth } from "../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
-import NotificationBell from "./NotificationBell";
+import NotificationBell from "../components/NotificationBell";
 import { useCart } from "@/hooks/use-cart";
 
 const Header = () => {
@@ -22,17 +22,22 @@ const Header = () => {
   const router = useRouter();
   const { totalQty } = useCart(); // 取得購物車的總數量
 
+  // 登出處理
   const handleLogout = () => {
     // 紀錄當前頁面 URL
     localStorage.setItem("lastPageBeforeLogout", router.asPath);
 
+    // 清除通知顯示狀態
+    localStorage.removeItem("notificationVisibility");
+
+    // 執行登出
     logout();
 
     // 顯示登出提示
     toast("會員已登出",{
-      position:"top-center" , // 設定通知顯示位置
-      autoClose:2000   ,   
-      hideProgressBar:true ,// 隱藏進度
+      position: "top-center",
+      autoClose: 2000,   
+      hideProgressBar: true,
     });
   };
 
@@ -157,7 +162,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                 ></span>
 
-                {auth.id != 0 ? (
+                {auth.id !== 0 ? (
                   <button
                     className={styles.quickActionBtn}
                     onClick={handleLogout}
@@ -177,8 +182,9 @@ const Header = () => {
                   <button className={styles.quickActionBtn}>快速開團</button>
                 </Link>
 
-                {auth.id !== 0 && <NotificationBell memberId={auth.id} />}
-                </div>
+                {/* 鈴鐺通知 */}
+                <NotificationBell token={auth.token} />
+              </div>
 
               {/* Navbar 開關按鈕 */}
               <div className={styles.navbarToggle}>
