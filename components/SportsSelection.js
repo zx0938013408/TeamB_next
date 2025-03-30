@@ -1,12 +1,34 @@
+"use client";
+
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import "@/styles/index-styles.css";
 
-const SportsSelection = () => {
+
+const SportsSelection = React.forwardRef((_, ref) => {
+  const router = useRouter();
   const [selectedSport, setSelectedSport] = useState(null);
   const iconRefs = useRef([]);
 
   const handleSportClick = (sport) => {
     setSelectedSport(sport);
+
+    // 🧠 對照顯示用中文文字
+    const sportMap = {
+      basketball: "籃球",
+      volleyball: "排球",
+      badminton: "羽球",
+    };
+
+    const keyword = sportMap[sport] || "";
+    // ✅ 清理可能干擾跳轉樣式的 DOM 狀態（例如 modal 開啟時的 body 狀態）
+    if (typeof window !== "undefined") {
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "auto";
+    }
+
+    // ✅ 跳轉到活動列表並附帶搜尋關鍵字
+    router.push(`/activity-list?search=${encodeURIComponent(keyword)}`);
   };
 
   const getSportClass = (sport) => {
@@ -28,7 +50,7 @@ const SportsSelection = () => {
     
 
   return (
-    <section className="sports-section">
+    <section ref={ref} className="sports-section">
       <div className="container-fluid sports-container">
 
         <div className="row g-0 row-1">
@@ -50,7 +72,7 @@ const SportsSelection = () => {
         <div className="row g-0 row-2" id="sports-middle">
           
           <div 
-            className={`col-4 grid-item basketball ${getSportClass('basketball')}`}
+            className={`col-4 grid-item basketball sportSelect ${getSportClass('basketball')}`}
             onClick={() => handleSportClick('basketball')}
           >
             <div className="sports-icon icon-Basketball" ref={el => (iconRefs.current[0] = el)}></div>
@@ -58,14 +80,14 @@ const SportsSelection = () => {
           </div>
 
           <div 
-            className={`col-4 grid-item volleyball ${getSportClass('volleyball')}`}
+            className={`col-4 grid-item volleyball sportSelect ${getSportClass('volleyball')}`}
             onClick={() => handleSportClick('volleyball')}
           >
             <div className="sports-icon icon-Volleyball" ref={el => (iconRefs.current[1] = el)}></div>
             <p className="sports-text">前往報團</p>
           </div>
           <div 
-            className={`col-4 grid-item badminton ${getSportClass('badminton')}`}
+            className={`col-4 grid-item badminton sportSelect ${getSportClass('badminton')}`}
             onClick={() => handleSportClick('badminton')}
           >
             <div className="sports-icon icon-Badminton" ref={el => (iconRefs.current[2] = el)}></div>
@@ -88,7 +110,7 @@ const SportsSelection = () => {
     </section>
    
   );
-};
+});
 
 export default SportsSelection;
 {/*揪一波打起來ㄟ咦！<br/>開團啦 發球啦！都不揪 play +1*/}
