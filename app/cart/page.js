@@ -346,26 +346,28 @@ export default function CartPage() {
             </div>
           </>
         )}
-          {/* 大家還看了 */}
+        {/* 大家還看了 */}
+        <div className={styles.shopSection}>
           <div className={shopStyles.itemsSection}>
-                <div className={shopStyles.titleBg}>
-                  <div className={shopStyles.title}>大家還看了</div>
-                </div>
-                {recommendedItems.length > 0 ? (
-                  <Carousel items={recommendedItems} categoryId={null} />
-                ) : (
-                  <p className={shopStyles.loading}>推薦商品載入中...</p>
-                )}
+            <div className={shopStyles.titleBg}>
+              <div className={shopStyles.title}>大家還看了</div>
+            </div>
+            {recommendedItems.length > 0 ? (
+              <Carousel items={recommendedItems} categoryId={null} />
+            ) : (
+              <p className={shopStyles.loading}>推薦商品載入中...</p>
+            )}
 
-                <div className={shopStyles.more}>
-                  <Link href="/shop" style={{ textDecoration: "none" }}>
-                    <div className={shopStyles.textBox}>
-                      <div className={shopStyles.text}>查看更多</div>
-                      <span className={`icon-Right ${shopStyles.iconRight}`} />
-                    </div>
-                  </Link>
+            <div className={shopStyles.more}>
+              <Link href="/shop" style={{ textDecoration: "none" }}>
+                <div className={shopStyles.textBox}>
+                  <div className={shopStyles.text}>查看更多</div>
+                  <span className={`icon-Right ${shopStyles.iconRight}`} />
                 </div>
-              </div>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
       <Footer/>
     </>

@@ -17,10 +17,13 @@ import { isDev } from '@/config'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {ORDER_ADD_POST, ORDER_LIST, API_SERVER, AVATAR_PATH} from '@/config/orders-api-path'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 export default function CheckInfoPage() {
   const { auth } = useAuth()
+  const MySwal = withReactContent(Swal) // 將 SweetAlert2 包裝為 React 版本
 
   // 從useCart解構所需的context的value屬性
   const {
@@ -40,167 +43,205 @@ export default function CheckInfoPage() {
 
 
 
-    // 建立ref，用來放置form表單
-    const payFormDiv = useRef(null)
-    // 建立ref，用來放置金額
-    // const amountRef = useRef(null)
-    // 建立ref，用來放置商品名稱
-    // const itemsRef = useRef(null)
+  // 建立ref，用來放置form表單
+  const payFormDiv = useRef(null)
+  // 建立ref，用來放置金額
+  // const amountRef = useRef(null)
+  // 建立ref，用來放置商品名稱
+  // const itemsRef = useRef(null)
+  
+
+
+  // 建立form表單
+  const createEcpayForm = (params, action) => {
+    const form = document.createElement('form')
+    form.method = 'POST'
+    form.action = action
+    for (const key in params) {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = key
+      input.value = params[key]
+      form.appendChild(input)
+    }
+    // 回傳form表單的物件參照
+    return payFormDiv.current.appendChild(form)
+    // 以下是直接送出表單的方式
+    // form.submit()
+  }
+
+  // 綠界金流
+  const handleEcpay = async () => {
+    // 先檢查是否有選擇商品
+    if (selectedItems.length === 0) {
+      toast.error('請選擇商品！');
+      return;
+    }
+
+      // 確保總金額有效
+    if (finalTotal <= 0) {
+      toast.error('金額無效');
+      return;
+    }
+
+    // 產生商品名稱字串（多個商品用逗號 `,` 分隔）
+    const itemsString = selectedItems
+      .map((item) => `${item.product_name}x${item.quantity}`)
+      .join(',')
+
+    // 先連到node伺服器後端，取得綠界金流付款網址
+    const res = await fetch(
+      `${API_SERVER}/ecpay-test-only?amount=${finalTotal}&items=${itemsString}`,
+      {
+        method: 'GET',
+        // 讓fetch能夠傳送cookie
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }
+    )
+
+    const resData = await res.json()
+
+    if (isDev) console.log(resData)
+
+    if (resData.status === 'success') {
+      // 建立表單，回傳的是表單的物件參照
+      const payForm = createEcpayForm(resData.data.params, resData.data.action)
+
+      if (isDev) console.log(payForm)
+
+      if (window.confirm('確認要導向至ECPay(綠界金流)進行付款?')) {
+        //送出表單
+        payForm.submit()
+      }
+    } else {
+      toast.error('付款失敗')
+    }
+
    
+  }
 
+  // 結帳按鈕觸發
+  const handleCheckout = async () => {
+    // 如果資料填寫不完整，顯示警告
+    const errors = [];
 
-    // 建立form表單
-    const createEcpayForm = (params, action) => {
-      const form = document.createElement('form')
-      form.method = 'POST'
-      form.action = action
-      for (const key in params) {
-        const input = document.createElement('input')
-        input.type = 'hidden'
-        input.name = key
-        input.value = params[key]
-        form.appendChild(input)
-      }
-      // 回傳form表單的物件參照
-      return payFormDiv.current.appendChild(form)
-      // 以下是直接送出表單的方式
-      // form.submit()
-    }
-  
-    const handleEcpay = async () => {
-      // 先檢查是否有選擇商品
-      if (selectedItems.length === 0) {
-        toast.error('請選擇商品！');
-        return;
-      }
-
-       // 確保總金額有效
-      if (finalTotal <= 0) {
-        toast.error('金額無效');
-        return;
-      }
-
-      // 產生商品名稱字串（多個商品用逗號 `,` 分隔）
-      const itemsString = selectedItems
-        .map((item) => `${item.product_name}x${item.quantity}`)
-        .join(',')
-
-      // 先連到node伺服器後端，取得綠界金流付款網址
-      const res = await fetch(
-        `${API_SERVER}/ecpay-test-only?amount=${finalTotal}&items=${itemsString}`,
-        {
-          method: 'GET',
-          // 讓fetch能夠傳送cookie
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        }
-      )
-  
-      const resData = await res.json()
-  
-      if (isDev) console.log(resData)
-  
-      if (resData.status === 'success') {
-        // 建立表單，回傳的是表單的物件參照
-        const payForm = createEcpayForm(resData.data.params, resData.data.action)
-  
-        if (isDev) console.log(payForm)
-  
-        if (window.confirm('確認要導向至ECPay(綠界金流)進行付款?')) {
-          //送出表單
-          payForm.submit()
-        }
-      } else {
-        toast.error('付款失敗')
-      }
-    }
-
-    const handleCheckout = async () => {
-      // 如果沒有選擇付款方式，顯示警告
-      const errors = [];
-
-      const store711 = JSON.parse(localStorage.getItem("store711")) || {};
-     
-      if (!selectedPayMethod) errors.push('請選擇付款方式');
-      if (!shippingMethod) errors.push('請選擇運送方式');
-      if (!recipient.recipientName.trim()) errors.push('請填寫收件人姓名');
-      if (!recipient.phone.trim()) errors.push('請填寫收件人手機號碼');
-      if (Number(shippingMethod) === 1 && (!selectedCity || !selectedArea )) {
-        errors.push('請填寫收件地址');
-      }
-      if (Number(shippingMethod) === 2 && (! store711.storename || !store711.storeaddress)) errors.push('請選擇取貨門市');
+    const store711 = JSON.parse(localStorage.getItem("store711")) || {};
     
-      if (errors.length > 0) {
-        alert(errors.join('\n'));
-        return;
-      }
-
-      if ( selectedPayMethod
-        === 2 ) {
-        // 選擇信用卡付款，導向綠界
-        handleEcpay();
-        await handleOrderSubmission();
-      } else if ( selectedPayMethod
-        === 1 ) {
-        // 選擇貨到付款，直接跳轉訂單完成頁面
-        await handleOrderSubmission();
-        window.location.href = '/orderResult';
-      }
-    }  
-      
-    const handleOrderSubmission = async () => {
-      const store711 = JSON.parse(localStorage.getItem("store711")) || {};
-
-      // 組合資料
-      const orderData = {
-        member_id: auth.id,
-        total_amount: finalTotal,
-        order_status_id: 1,
-        shipping_method_id: shippingMethod,  
-        payment_method_id: selectedPayMethod,
-        order_items: selectedItems.map(item => ({
-          item_id: item.id, // 這裡要確保 item.id 是正確的
-          quantity: item.quantity
-          
-        })),
-        recipient_name: recipient.recipientName,
-        recipient_phone: recipient.phone,
-        city_id: shippingMethod === 1 ? selectedCity : null, // 宅配 (1)
-        area_id: shippingMethod === 1 ? selectedArea : null, // 宅配 
-        detailed_address: shippingMethod === 1 ? address : "", // 宅配 
-        store_name: store711.storename || null,  // 超商 (2)
-        store_address: store711.storeaddress || null,  // 超商
-      };
-
-      try {
-        // 儲存訂單資料到資料庫
-        const response = await fetch(ORDER_ADD_POST, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(orderData),
-        });
-
-
-        const resData = await response.json();
-        if (resData.success) {
-          alert('訂單已成功提交');
-
-
-        // 訂單提交成功後，清空購物車與訂購資訊
-        clearAll();
-      } else {
-        alert('訂單提交失敗，請稍後再試');
-      }
-      } catch (error) {
-        console.error('提交訂單時發生錯誤:', error);
-        alert('提交訂單失敗');
-      }
+    if (!selectedPayMethod) errors.push('請選擇付款方式');
+    if (!shippingMethod) errors.push('請選擇運送方式');
+    if (!recipient.recipientName.trim()) errors.push('請填寫收件人姓名');
+    if (!recipient.phone.trim()) errors.push('請填寫收件人手機號碼');
+    if (Number(shippingMethod) === 1 && (!selectedCity || !selectedArea )) {
+      errors.push('請填寫收件地址');
     }
+    if (Number(shippingMethod) === 2 && (! store711.storename || !store711.storeaddress)) errors.push('請選擇取貨門市');
+  
+    // SweetAlert2 警告
+    if (errors.length > 0) {
+      MySwal.fire({
+        title: '訂購資訊不完整',
+        html: errors.map(error => `<p>${error}</p>`).join(''), // 以 HTML 格式顯示錯誤
+        icon: 'warning',
+        confirmButtonColor: '#F7BF58',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-popup',
+          title: 'custom-title',
+          content: 'custom-content',
+          confirmButton: 'custom-confirm-button',
+        },
+      });
+      return;
+    }
+
+  
+    // 依付款方式跳轉頁面
+    if ( selectedPayMethod
+      === 2 ) {
+      // 選擇信用卡付款，導向綠界
+      handleEcpay();
+      await handleOrderSubmission();
+    } else if ( selectedPayMethod
+      === 1 ) {
+      // 選擇貨到付款，直接跳轉訂單完成頁面
+      await handleOrderSubmission();
+      window.location.href = '/orderResult';
+    }
+  }  
+    
+  // 訂單送出
+  const handleOrderSubmission = async () => {
+    const store711 = JSON.parse(localStorage.getItem("store711")) || {};
+
+    // 組合資料
+    const orderData = {
+      member_id: auth.id,
+      total_amount: finalTotal,
+      order_status_id: 1,
+      shipping_method_id: shippingMethod,  
+      payment_method_id: selectedPayMethod,
+      order_items: selectedItems.map(item => ({
+        item_id: item.id, // 這裡要確保 item.id 是正確的
+        quantity: item.quantity
+        
+      })),
+      recipient_name: recipient.recipientName,
+      recipient_phone: recipient.phone,
+      city_id: shippingMethod === 1 ? selectedCity : null, // 宅配 (1)
+      area_id: shippingMethod === 1 ? selectedArea : null, // 宅配 
+      detailed_address: shippingMethod === 1 ? address : "", // 宅配 
+      store_name: store711.storename || null,  // 超商 (2)
+      store_address: store711.storeaddress || null,  // 超商
+    };
+
+    try {
+      // 儲存訂單資料到資料庫
+      const response = await fetch(ORDER_ADD_POST, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+
+      const resData = await response.json();
+      if (resData.success) {
+        MySwal.fire({
+          title: '訂單提交成功',
+          text: '您的訂單已成功提交！',
+          icon: 'success',
+          confirmButtonColor: '#F7BF58',
+          confirmButtonText: 'OK',
+        }).then(() => {
+
+      // 訂單提交成功後，清空購物車與訂購資訊
+      clearAll();
+      })
+    } else {
+      MySwal.fire({
+        title: '訂單提交失敗',
+        text: '請稍後再試，或聯繫客服。',
+        icon: 'error',
+        confirmButtonColor: '#F7BF58',
+        confirmButtonText: 'OK',
+      });
+    }
+    } catch (error) {
+      console.error('提交訂單時發生錯誤:', error);
+      MySwal.fire({
+        title: '提交訂單失敗',
+        text: '發生錯誤，請檢查您的網絡連線或稍後再試。',
+        icon: 'error',
+        confirmButtonColor: '#F7BF58',
+        confirmButtonText: 'OK',
+      });
+    }
+  }
     
   return (
     <>
@@ -305,7 +346,7 @@ export default function CheckInfoPage() {
           <div className={checkInfo.titleName}>訂購資訊</div>
         </div>
        
-        <div className={checkInfo.method}>
+        <div className={checkInfo.info}>
           {/* 收件人資料 */}
           <div className={checkInfo.secTitle}>收件人資料</div>
           <Recipient />

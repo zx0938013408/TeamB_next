@@ -13,10 +13,6 @@ export default function ShipMethod() {
     useCart()
 
   //  被選擇的選項
-  // const options = [
-  //   { label: '宅配', shipping: 100 },
-  //   { label: '超商取貨(7-ELEVEN)', shipping: 60 },
-  // ]
   const options = [
     { id: 1, label: '宅配', shipping: 100 },
     { id: 2, label: '超商取貨(7-ELEVEN)', shipping: 60 },

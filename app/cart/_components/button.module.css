@@ -24,7 +24,7 @@
 
 /* 按鈕2 */
 .btn {
-  padding: 10px 40px;
+padding: 10px 40px;
 font-size: 18px;
 font-weight: 700;
 border-radius: 10px;
@@ -43,4 +43,12 @@ margin-left: 10px;
 color: #a26318;
 border: 3px solid #c87a1e;
 }
-  
+
+/* 手機版調整為卡片式 */
+@media (max-width: 768px) {
+  /* 按鈕2 */
+  .btn {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+}
