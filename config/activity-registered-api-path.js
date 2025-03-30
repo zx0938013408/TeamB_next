@@ -18,11 +18,12 @@ export const ACTIVITY_ADD_POST = `${API_SERVER}/registered/api`;
 
 // 刪除報名 DELETE
 // `${API_SERVER}/address-book/api/${ab_id}`
-export const ACTIVITY_DELETE = `${API_SERVER}/registered/api`;
+//export const ACTIVITY_DELETE = `${API_SERVER}/registered/api`;
+export const ACTIVITY_REGISTRATION_DELETE = (id) => `${API_SERVER}/registered/${id}`;
 
 // 修改報名 PUT
 // `${API_SERVER}/address-book/api/${ab_id}`
-export const ACTIVITY_ITEM_PUT = `${API_SERVER}/registered/api`;
+export const ACTIVITY_ITEM_PUT = (id) => `${API_SERVER}/registered/api/${id}`;
 
 
 

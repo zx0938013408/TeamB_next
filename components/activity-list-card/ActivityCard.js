@@ -4,12 +4,11 @@ import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 import { useAuth } from "@/context/auth-context";
 
-export default function ActivityCard({ activity, onQuickSignUp }) {
+export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
   const { auth } = useAuth(); // 獲取會員認證資料
-
 
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
@@ -25,6 +24,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             <LikeHeart
               checked={activity.is_favorite}
               activityId={activity.al_id}
+              onClick={onLikeToggle}
             />
           </div>
           <img
@@ -56,7 +56,10 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             <p>
               <span className={`${Styles.infoTitle}`}>地  點：</span>
               <span>{activity.court_name}</span>
-              <a href={`https://www.google.com/maps/search/?api=1&query=台南市${activity.court_name}`} target="_blank">
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=台南市${activity.court_name}`}
+                target="_blank"
+              >
                 <i className="fa-solid fa-location-dot" />
               </a>
             </p>
@@ -92,10 +95,7 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             </button>
           </div>
           <div className={Styles.buttonWrapper}>
-            <a
-              href={`/activity-list/${activity.al_id}`}
-              
-            >
+            <a href={`/activity-list/${activity.al_id}`}>
               <button type="button" className={Styles.joinButton}>
                 查看詳情
               </button>
@@ -105,7 +105,9 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
             <button
               type="button"
               className={`${Styles.joinButton} ${Styles.joinInformation} ${
-                isExpired || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ""
+                isExpired || new Date(activity.deadline) < new Date()
+                  ? Styles.buttonDisabled
+                  : ""
               }`}
               onClick={() => {
                 if (!auth?.id) {
@@ -123,14 +125,16 @@ export default function ActivityCard({ activity, onQuickSignUp }) {
                 }
               }}
               disabled={
-                isExpired || activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()
+                isExpired ||
+                activity.registered_people >= activity.need_num ||
+                new Date(activity.deadline) < new Date()
               }
             >
               {isExpired
                 ? "已過期"
                 : new Date(activity.deadline) < new Date()
                 ? "報名截止"
-                :activity.registered_people >= activity.need_num
+                : activity.registered_people >= activity.need_num
                 ? "已額滿"
                 : "快速報名"}
             </button>

@@ -4,7 +4,9 @@ import styles from "../../../styles/auth/reset-password.module.css"
 import axios from "axios"
 import { useRouter, useSearchParams } from "next/navigation"
 import {MB_RESET_POST} from "../../../config/auth.api"
-import "font-awesome/css/font-awesome.min.css";
+import Swal from "sweetalert2"; // 引入 sweetalert2
+
+
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("")
@@ -44,14 +46,27 @@ const ResetPassword = () => {
         newPassword,
       })
 
-      setSuccessMsg(res.data.message || "密碼重設成功，將導回登入頁")
-      setTimeout(() => {
-        router.push("/auth/login")
-      }, 1500)
-    } catch (err) {
-      setErrorMsg(err.response?.data?.message || "重設失敗，請稍後再試")
+      Swal.fire({
+        icon: "success",
+        title: "修改成功！",
+        text: "密碼重設成功，將導回登入頁",
+        confirmButtonText: "確定",
+        confirmButtonColor: "#4CAF50", // 修改按鈕顏色
+      });
+
+      router.push("/auth/login");
+
+    } catch (error) {
+      // 註冊失敗顯示錯誤提示
+      Swal.fire({
+        icon: "error",
+        title: "修改失敗",
+        text: "請稍後再試",
+        confirmButtonText: "確定",
+      });
+      console.error("註冊失敗，錯誤訊息:", error);
     }
-  }
+  };
 
   return (
     <div className={styles.container}>

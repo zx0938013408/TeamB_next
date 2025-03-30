@@ -4,6 +4,10 @@ import styles from "../../../styles/auth/login.module.css";
 import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation"; // 引入 useRouter
 import "font-awesome/css/font-awesome.min.css";
+import { toast } from "react-toastify";  // 引入 react-toastify
+import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
+
+
 
 const Login = () => {
 
@@ -50,12 +54,18 @@ const Login = () => {
   
       if (success) {
         // 顯示登入成功的提示
-        alert("登入成功！");
+        toast.success("登入成功！",{
+          
+            position:"top-center" , // 設定通知顯示位置
+            autoClose:2000   ,   
+            hideProgressBar:true ,// 隱藏進度
+
+
+        });
   
         // 導向會員頁面
         router.push("/auth/member");
       } else {
-        // 如果登入失敗，顯示帳號或密碼錯誤的訊息
         setEmailError("帳號錯誤");  // 這裡會顯示 email 錯誤訊息
         setPasswordError("密碼錯誤"); // 密碼錯誤訊息
       }

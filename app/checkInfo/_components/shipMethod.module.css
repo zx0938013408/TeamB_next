@@ -130,6 +130,7 @@
 
 /* 渲染表單 */
 .formContainer {
+  max-height: 700px;
   min-height: 250px; /* 設定一個足夠容納表單的最小高度 */
   transition: all 0.3s ease-in-out;
 }
@@ -144,5 +145,6 @@
 
   .formContainer {
     width: 100%;
+    
   }
 }

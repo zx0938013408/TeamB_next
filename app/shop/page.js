@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FilterSideBar from "@/components/shop/FilterSideBar";
 import Search from "@/components/shop/Search";
+import InfiniteCard from "@/components/shop/infinite-card";
 
 export default function ShopPage() {
   // 篩選 URL參數（query）
@@ -147,10 +148,12 @@ export default function ShopPage() {
               <FilterSideBar
                 categories={categories}
                 pdTypes={pdTypes}
+                themes={["櫻花主題", "春季限定", "聯名系列"]}
                 filters={filters}
                 setFilters={setFilters}
                 selectedCategory={filters.category}
                 selectedPdTypes={filters.apparel}
+                selectedThemes={filters.themes}
                 onCategorySelect={(category) => {
                   setFilters((prev) => ({ ...prev, category }));
                 }}
@@ -159,6 +162,12 @@ export default function ShopPage() {
                     ? [...filters.apparel, type]
                     : filters.apparel.filter((t) => t !== type);
                   setFilters((prev) => ({ ...prev, apparel: updated }));
+                }}
+                onThemeToggle={(theme, checked) => {
+                  const next = checked
+                    ? [...(filters.themes || []), theme]
+                    : filters.themes.filter((t) => t !== theme);
+                  setFilters((f) => ({ ...f, themes: next }));
                 }}
                 onClear={() =>
                   setFilters({
@@ -200,7 +209,7 @@ export default function ShopPage() {
 
             <div className={styles.mainContent}>
               {/* 上衣 top */}
-              <div className={styles.itemsSection}>
+              {/* <div className={styles.itemsSection}>
                 <div className={styles.titleBg}>
                   <div className={styles.title}>上衣</div>
                 </div>
@@ -215,9 +224,9 @@ export default function ShopPage() {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* 褲類 bottom */}
-              <div className={styles.itemsSection}>
+              {/* <div className={styles.itemsSection}>
                 <div className={styles.titleBg}>
                   <div className={styles.title}>褲類</div>
                 </div>
@@ -235,9 +244,9 @@ export default function ShopPage() {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* 褲類 shoes */}
-              <div className={styles.itemsSection}>
+              {/* <div className={styles.itemsSection}>
                 <div className={styles.titleBg}>
                   <div className={styles.title}>鞋類</div>
                 </div>
@@ -255,9 +264,9 @@ export default function ShopPage() {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* 運動配件 accessory */}
-              <div className={styles.itemsSection}>
+              {/* <div className={styles.itemsSection}>
                 <div className={styles.titleBg}>
                   <div className={styles.title}>運動配件</div>
                 </div>
@@ -275,7 +284,8 @@ export default function ShopPage() {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
+              <InfiniteCard items={products} categoryId={null} />
             </div>
           </div>
         </div>

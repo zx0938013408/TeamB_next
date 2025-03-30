@@ -9,6 +9,8 @@ import { AL_LIST } from "@/config/api-path";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 import { useAuth } from "@/context/auth-context";
+import Swal from "sweetalert2"; // 引入 SweetAlert2
+
 
 export default function ActivityListPage() {
   const { auth } = useAuth();
@@ -56,6 +58,7 @@ export default function ActivityListPage() {
     }
   };
   
+  // Modal
   useEffect(() => {
     if (typeof window !== "undefined") {
       const bootstrap = require("bootstrap");
@@ -105,7 +108,13 @@ export default function ActivityListPage() {
       setLoading(true);
     
       if (!activityName || !activityName.al_id) {
-        alert("請選擇活動");
+        // 顯示 SweetAlert2 提示框
+        Swal.fire({
+          icon: "warning",
+          text: "請選擇活動",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
         setLoading(false);
         return;
       }
@@ -129,7 +138,13 @@ export default function ActivityListPage() {
         if (data.success) {
           setNotes("");
           setSelectedPeople(1);
-          alert("活動報名成功");
+          // 顯示 SweetAlert2 提示框
+          Swal.fire({
+            icon: "success",
+            text: "活動報名成功",  // 顯示後端回傳的訊息
+            confirmButtonText: "確定",
+            confirmButtonColor: "#29755D", // 修改按鈕顏色
+          });
           closeModal();
           await fetchData(); // 正確呼叫更新列表
         }
@@ -288,7 +303,7 @@ export default function ActivityListPage() {
             </div>
             <div className="modal-body">
               <div className={`${Styles.title} row`}>
-                <div className="titleIcons col-1">
+                <div className={`${Styles.titleIcons} col-1`}>
                 {activityName?.sport_name === "籃球" ? (
                     <span
                       className={`icon-Basketball ${Styles.iconTitle}`}

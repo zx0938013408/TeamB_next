@@ -1,39 +1,113 @@
+import React, { useState } from "react";
 import Link from "next/link";
 import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
-import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path"
+import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path";
 import { useAuth } from "@/context/auth-context";
+import ActivityRegisteredEditModal from "@/components/activity-registered-edit-modal/activity-registered-edit-modal"
+import Swal from "sweetalert2"; // 引入 SweetAlert2
+import { ACTIVITY_REGISTRATION_DELETE } from "@/config/activity-registered-api-path";
 
-
-export default function ActivityCardRegistered({ activity, registeredId, onQuickSignUp }) {
+export default function ActivityCardRegistered({
+  activity,
+  registeredId,
+  onQuickSignUp,
+  onLikeToggle,
+  onRefresh,
+}) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
   const { auth } = useAuth(); // 獲取會員認證資料
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRegistration, setSelectedRegistration] = useState(null);
+
+  const handleModalSave = async ({ num, notes }) => {
+    try {
+      const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          registered_id: activity.registered_id,
+          member_id: auth.id,
+          num,
+          notes,
+        }),
+      });
   
+      const data = await res.json();
+      if (data.success) {
+        await Swal.fire({
+          icon: "success",
+          title: "資料已更新成功",
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D",
+        });
+        onRefresh();
 
-  // 判斷活動是否過期
-  const isExpired = activityDate < currentDate;
+      } else {
+        await Swal.fire({ icon: "error", title: "更新失敗", text: data.error });
+      }
+    } catch (error) {
+      console.error("更新報名失敗", error);
+      await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+    }
+  };
 
-  // 更新報名資料
-  const updateRegistered = async () => {
-    const res = await fetch(ACTIVITY_ITEM_PUT, {
-      method: "PUT",
+const openEditModal = async () => {
+  try {
+    const res = await fetch(ACTIVITY_ITEM_PUT(activity.registered_id));
+    const data = await res.json();
+    if (data.success) {
+      setSelectedRegistration(data.data);
+      setShowModal(true);
+    }
+  } catch (error) {
+    console.error("取得報名資料失敗", error);
+  }
+};
+
+//取消報名按鈕功能
+const handleCancel = async () => {
+  const reason = prompt("請輸入取消報名的原因：");
+  if (!reason) return alert("請填寫取消原因");
+
+  try {
+    const res = await fetch(ACTIVITY_REGISTRATION_DELETE(activity.registered_id), {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        member_id: auth.id,
-        activity_id: activity.al_id,       // ✅ 改成使用傳入的報名資料 ID
-        num: 2,
-        notes: "已改為2人，加備註",
-      }),
+      body: JSON.stringify({ cancel_reason: reason }),
     });
-  
+
     const data = await res.json();
-    console.log(data);
-  };
+
+    if (data.success) {
+      await Swal.fire({
+        icon: "success",
+        title: "已取消報名",
+        confirmButtonText: "確定",
+        confirmButtonColor: "#29755D",
+      });
+
+      if (typeof onRefresh === "function") onRefresh();
+    } else {
+      await Swal.fire({ icon: "error", title: "取消失敗", text: data.error });
+    }
+  } catch (error) {
+    console.error("取消報名錯誤", error);
+    await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+  }
+};
+  // 判斷活動是否過期
+  const isExpired = activityDate < currentDate;
+
+  console.log("API 拿到資料:",activity);
 
   return (
     <div
@@ -46,6 +120,7 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
             <LikeHeart
               checked={activity.is_favorite}
               activityId={activity.al_id}
+              onClick={onLikeToggle}
             />
           </div>
           <img
@@ -128,17 +203,7 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
               className={`${Styles.joinButton} ${Styles.joinInformation} ${
                 isExpired ? Styles.buttonDisabled : ""
               }`}
-              onClick={() => {
-                if (
-                  !isExpired &&
-                  activity.registered_people < activity.need_num
-                ) {
-                  // 呼叫父元件傳來的快速報名功能
-                  if (typeof onQuickSignUp === "function") {
-                    onQuickSignUp(activity);
-                  }
-                }
-              }}
+              onClick={openEditModal}
               disabled={
                 isExpired || activity.registered_people >= activity.need_num
               }
@@ -150,8 +215,26 @@ export default function ActivityCardRegistered({ activity, registeredId, onQuick
                 : "報名修改"}
             </button>
           </div>
+          <div className={Styles.buttonWrapper}>
+  <button
+    type="button"
+    className={`${Styles.joinButton} ${Styles.deleteButton}`}
+    onClick={handleCancel}
+  >
+    取消報名
+  </button>
+</div>
+
         </div>
       </div>
+
+      {/* 顯示 Modal */}
+      <ActivityRegisteredEditModal
+        activity={activity}
+        registration={selectedRegistration}
+        onSave={handleModalSave}
+      />
     </div>
+
   );
 }

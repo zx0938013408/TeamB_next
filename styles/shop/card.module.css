@@ -39,9 +39,14 @@
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  -webkit-box-orient: vertical;
-  min-height: 3em; /* 設定最小高度，確保短標題也有足夠高度 */
   color: black;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;           /* 限制最多兩行 */
+  -webkit-box-orient: vertical;    /* 垂直方向排列 */
+  overflow: hidden;                /* 隱藏超出範圍的文字 */
+  text-overflow: ellipsis;         /* 使用省略號表示被截斷的文字 */
+  min-height: 3em;                 /* 確保短標題看起來對齊 */
 }
 
 .priceContainer {

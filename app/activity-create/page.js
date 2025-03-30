@@ -14,6 +14,7 @@ import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
 import CourtList from "@/components/court-info/court_info"
 import { useAuth } from "@/context/auth-context"; // 引入 useAuth
+import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
 export default function ActivityCreatePage() {
@@ -161,7 +162,15 @@ export default function ActivityCreatePage() {
       const maxDeadline = new Date(activity.getTime() - 3 * 60 * 60 * 1000); // 活動時間 -3hr
 
       if (selected > maxDeadline) {
-        alert("⚠️ 截止時間不可晚於活動時間的3小時前，已自動調整！");
+
+        // 顯示 SweetAlert2 提示框
+        Swal.fire({
+          icon: "warning",
+          text: "截止時間不可晚於活動時間的3小時前，已自動調整！",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
+
         setFormData((prev) => ({
           ...prev,
           deadline: formatDateTimeLocal(maxDeadline),
@@ -253,7 +262,13 @@ export default function ActivityCreatePage() {
       const result = await response.json();
       if (result.success) {
         const al_id = result.result.insertId;
-        alert("活動建立成功！");
+        // 顯示 SweetAlert2 提示框
+        Swal.fire({
+          icon: "success",
+          text: "活動建立成功！",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
 
         // ✅ 新增：自動報名自己 1 人
         try {
@@ -286,12 +301,24 @@ export default function ActivityCreatePage() {
         }, 400); // Bootstrap Modal 動畫大約 300ms
 
       } else {
-        alert("建立失敗：" + (result.error?.issues?.[0]?.message || "未知錯誤"));
-      console.error();
+        // 顯示 SweetAlert2 提示框
+        Swal.fire({
+          icon: "error",
+          text: "建立失敗：" + (result.error?.issues?.[0]?.message || "未知錯誤"),  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
+        console.error();
       }
     } catch (err) {
       console.error("發生錯誤:", err);
-      alert("發生錯誤，請稍後再試。");
+      // 顯示 SweetAlert2 提示框
+      Swal.fire({
+        icon: "error",
+        text: "發生錯誤，請稍後再試。",  // 顯示後端回傳的訊息
+        confirmButtonText: "確定",
+        confirmButtonColor: "#29755D", // 修改按鈕顏色
+      });
     }
   };
 

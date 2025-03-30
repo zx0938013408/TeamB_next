@@ -1,0 +1,4 @@
+.toastContainer{
+    top: 20% !important; /* 調整位置，這裡設置為頁面高度的 2/3 */
+    right: 10px !important; /* 設置距離右邊的間距 */
+}

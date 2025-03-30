@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { MB_CITY_GET,MB_AREA_GET} from "../../../config/auth.api";
 // import {MB_AVATAR_POST} from "../../../config/auth.api"
 import { AVATAR_PATH } from "@/config/auth.api";
+import { toast } from "react-toastify";  // 引入 react-toastify
+import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 
 const MemberEdit = () => {
   const { auth, updateUserData } = useAuth(); // 從上下文獲取 auth 資料
@@ -43,6 +45,10 @@ const MemberEdit = () => {
       setAreaId(auth.area_id || "");
       setAvatar(auth.avatar || "");
       setSport((auth.sport || "").replace(/\s/g, ""));
+  
+      if (auth.city_id) {
+        handleCityChange(auth.city_id);
+      }
     }
   }, [auth]);
 
@@ -135,7 +141,7 @@ const MemberEdit = () => {
       sport,
     });
     if (result === true) {
-      alert("會員資料更新成功");
+       toast.success("會員資料更新成功！");
       router.push("/auth/member"); // 更新成功後，重定向到會員頁面
     }
   };
@@ -162,10 +168,10 @@ const MemberEdit = () => {
           <Link href="/auth/member-account" className={styles.menuItem}>
             帳號管理
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/orderHistory" className={styles.menuItem}>
             我的訂單
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
         </div>

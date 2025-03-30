@@ -445,3 +445,111 @@
 .prevBtn:hover, .nextBtn:hover {
   background: rgba(255,255,255,0.2);
 }
+
+
+
+  /* Modal */
+  .bgc {
+    background-color: #F4F4F4;
+  }
+
+  .register {
+    border-radius: 10px;
+    background-color: #3f6d62;
+    border: none;
+    box-sizing: border-box;
+    /* font-size: 30px; */
+    font-weight: bold;
+    color: #fff;
+    height: 40px;
+    /* margin-bottom: 15px; */
+
+
+    &:active {
+      background-color: #7aaa9b;
+      border: 2px solid #29755d;
+      color: #3f6d62;
+    }
+  }
+
+  .cancel {
+    border-radius: 10px;
+    background-color: gray;
+    border: 2px solid gray;
+    box-sizing: border-box;
+    /* font-size: 30px; */
+    font-weight: bold;
+    color: #fff;
+    height: 40px;
+
+    &:active {
+      background-color: black;
+      border: 2px solid black;
+      color: #fff;
+    }
+  }
+
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  /* 人數選擇 */
+  .selectGroup {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    margin-right: 3%;
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 300px;
+    background-color: #fff;
+  }
+
+  .selectGroup label {
+    flex: 1;
+    color: #3f6d62;
+    font-weight: bold;
+  }
+
+  .selectGroup .peopleLabel {
+    width: 60px;
+  }
+
+  .selectGroup select {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+    width: 300px;
+  }
+
+  .group1 {
+    width: 450px;
+  }
+
+  .selectGroup .people {
+    width: 290px;
+  }
+
+  .inputPrice {
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 450px;
+    text-align: center;
+    margin-bottom: 17px;
+    background-color: #fff;
+
+  }
+
+  .textareaInput {
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 450px;
+    height: 180px;
+  }

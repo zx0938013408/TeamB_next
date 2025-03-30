@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "@/public/TeamB_Icon/style.css";
 import Styles from "./activity-list-detail.module.css";
 import { AL_ITEM_GET } from "@/config/api-path";
+import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
 import { AVATAR_PATH } from "@/config/api-path";
 import { useAuth } from "@/context/auth-context";
+import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
 export default function ActivityDetailPage() {
@@ -19,11 +21,126 @@ export default function ActivityDetailPage() {
   // 點擊圖片放大
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageList, setImageList] = useState([]);
-const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [selectedPeople, setSelectedPeople] = useState(1);
+  const [notes, setNotes] = useState("");
+  const modalRef = useRef(null);
+  const bsModal = useRef(null);
+  const [originalData, setOriginalData] = useState([]);
+  const [listData, setListData] = useState([]);
 
 
+  // Modal
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const timer = setTimeout(() => {
+        if (modalRef.current) {
+          bsModal.current = new bootstrap.Modal(modalRef.current);
+          console.log("✅ Modal 初始化成功");
+        } else {
+          console.warn("modalRef 還是 null");
+        }
+      }, 100); // 給它一點時間讓 DOM render 完
+  
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
-useEffect(() => {
+    const openModal = () => {
+      if (bsModal.current) bsModal.current.show();
+    };
+    
+    const closeModal = () => {
+      if (bsModal.current) bsModal.current.hide();
+    };
+
+
+    // 新增報名資料至資料庫
+    const fetchData = async () => {
+      try {
+        const userData = localStorage.getItem("TEAM_B-auth");
+        const token = userData ? JSON.parse(userData).token : "";
+    
+        const r = await fetch(`${AL_ITEM_GET}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
+        const obj = await r.json();
+    
+        if (obj.success) {
+          setOriginalData(obj.rows);  // 儲存完整活動資料
+          setListData(obj.rows);      // 顯示在畫面上的活動資料
+        } else {
+          console.warn("API 回傳失敗", obj);
+        }
+      } catch (error) {
+        console.warn("fetchData 錯誤:", error);
+      }
+    };
+    
+    
+    // ✅ 報名送出後可以使用
+    const handleRegister = async () => {
+      setLoading(true);
+    
+      if (!activity || !activity.al_id) {
+        // 顯示 SweetAlert2 提示框
+        Swal.fire({
+          icon: "warning",
+          text: "請選擇活動",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
+        setLoading(false);
+        return;
+      }
+    
+      const formData = {
+        member_id: auth.id,
+        activity_id: activity?.al_id,
+        num: selectedPeople,
+        notes: notes.trim(),
+      };
+    
+      try {
+        const response = await fetch(ACTIVITY_ADD_POST, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+    
+        const data = await response.json();
+    
+        if (data.success) {
+          setNotes("");
+          setSelectedPeople(1);
+          // 顯示 SweetAlert2 提示框
+          Swal.fire({
+            icon: "success",
+            text: "活動報名成功",  // 顯示後端回傳的訊息
+            confirmButtonText: "確定",
+            confirmButtonColor: "#29755D", // 修改按鈕顏色
+          });
+          closeModal();
+          await fetchActivityDetail(); // 正確呼叫更新列表
+        }
+      } catch (error) {
+        console.error("報名失敗", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+        // 初次載入資料
+        useEffect(() => {
+          fetchData();
+        }, []);
+      console.log("data:", listData);  // end Modal 報名
+
+const fetchActivityDetail = async () => {
   if (!al_id) return;
 
   const apiUrl = `${AL_ITEM_GET}/${al_id}`;
@@ -56,6 +173,10 @@ useEffect(() => {
       }
     })
     .catch((error) => console.error("❌ fetch 錯誤:", error));
+}
+
+useEffect(() => {
+  fetchActivityDetail();
 }, [al_id]);
 
 
@@ -186,16 +307,7 @@ useEffect(() => {
           </div>
 
 
-          {/* 人數選擇 */}
-          <div className={Styles.selectGroup}>
-            <label htmlFor="people">人數</label>
-            <select id="people" name="people">
-              <option value="1">1 人</option>
-              <option value="2">2 人</option>
-              <option value="3">3 人</option>
-              <option value="4">4 人</option>
-            </select>
-          </div>
+
 
           {/* 收藏與報名按鈕 */}
           <div className={`${Styles.eventActions} row`}>
@@ -212,20 +324,18 @@ useEffect(() => {
               className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ''}`}
               disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
               onClick={() => {
-                // 檢查是否登入
                 if (!auth?.id) {
-                  alert("請先登入");
-                  window.location.href = "/auth/login"; // 或用 router.push
+                  // 顯示 SweetAlert2 提示框
+                  Swal.fire({
+                    icon: "error",
+                    text: "請先登入",  // 顯示後端回傳的訊息
+                    confirmButtonText: "確定",
+                    confirmButtonColor: "#29755D", // 修改按鈕顏色
+                  });
+                  window.location.href = "/auth/login";
                   return;
                 }
-              
-                // 如果可以報名，則開啟 modal
-                // if (
-                //   activity.registered_people < activity.need_num &&
-                //   new Date(activity.deadline) > new Date()
-                // ) {
-                //   onQuickSignUp(activity); // ⬅️ 呼叫開 modal 的函式（你已經有）
-                // }
+                openModal();
               }}
             >
               {activity.registered_people >= activity.need_num
@@ -291,6 +401,117 @@ useEffect(() => {
     </div>
   </div>
 )}
+
+
+
+{/* Modal */}
+<div
+  className="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabIndex={-1}
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+  ref={modalRef}
+>
+  <div className="modal-dialog">
+    <div className="modal-content bgc">
+      <div className="modal-header">
+        <h5 className={Styles.titleText} id="staticBackdropLabel">
+          報名資訊
+        </h5>
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        />
+      </div>
+      <div className="modal-body">
+        <div className={`${Styles.title} row`}>
+          <div className={`${Styles.title} col-1`}>
+          {activity?.sport_name === "籃球" ? (
+              <span
+                className={`icon-Basketball ${Styles.titleIcon}`}
+              ></span>
+            ) : activity?.sport_name === "排球" ? (
+              <span
+                className={`icon-Volleyball ${Styles.titleIcon}`}
+              ></span>
+            ) : activity?.sport_name === "羽球" ? (
+              <span
+                className={`icon-Badminton ${Styles.titleIcon}`}
+              ></span>
+            ) : null}
+          </div>
+          <h2 className={`${Styles.titleText} col`}>
+            {activity?.activity_name}
+          </h2>
+          {/* 人數選擇 */}
+          <div className={Styles.inputGroup}>
+            <div className={`${Styles.selectGroup} ${Styles.group1}`}>
+              <label htmlFor="people" className={`${Styles.peopleLabel}`}>
+                人數
+              </label>
+              <select
+                id="people"
+                name="people"
+                className={`${Styles.people}`}
+                value={selectedPeople} // ✅ 讓 `<select>` 綁定 `useState`
+                onChange={(e) =>
+                  setSelectedPeople(Number(e.target.value))
+                } // ✅ 更新 `selectedPeople`
+              >
+                <option value={1}>1 人</option>
+                <option value={2}>2 人</option>
+                <option value={3}>3 人</option>
+                <option value={4}>4 人</option>
+              </select>
+            </div>
+            <input
+              className={`${Styles.inputPrice}`}
+              type="text"
+              name=""
+              id=""
+              value={`報名費用: 總計 ${
+                activity?.payment
+                  ? activity?.payment * selectedPeople
+                  : 0
+              } 元`}
+              disabled
+            />
+            <textarea
+              className={`${Styles.textareaInput}`}
+              name=""
+              id=""
+              placeholder="備註:ex 3男2女 (填)"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={Styles.cancel}
+                data-bs-dismiss="modal"
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                className={Styles.register}
+                onClick={handleRegister}
+                disabled={loading}
+              >
+                {loading ? "報名中..." : "確定報名"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
     </>
   );

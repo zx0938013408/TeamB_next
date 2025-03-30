@@ -138,6 +138,26 @@
   background: rgba(82, 143, 124, 0.2);
 }
 
+/* 購物車數量呈現 */
+.iconCartArea {
+  position: relative;
+}
+
+.iconCartNum{
+  display: flex;
+  width: 20px;
+  height: 20px;
+  background-color: #29755D;
+  justify-content: center;
+  align-items: center;
+  color:#FFF;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px; /* 微調，讓數字更接近右上角 */
+  right: -5px; /* 微調，讓數字更接近右上角 */
+  font-size: 12px; /* 設定字體大小 */
+}
+
 /* 搜尋開啟時，只顯示快速開團按鈕 */
 .searching .iconCart,
 .searching .iconUser {

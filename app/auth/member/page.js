@@ -117,7 +117,7 @@ const Member = () => {
       });
 
       const data = await response.json();
-      console.log('API 回應的資料:', data);  // 檢查資料是否正確
+      console.log('API 回應MEMBER_ACTIVITIES的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
         setRegisteredActivities((prevActivities) => {
           // 確保只更新資料並觸發渲染
@@ -210,10 +210,10 @@ const Member = () => {
           <Link href="/auth/member-account" className={styles.menuItem}>
             帳號管理
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/orderHistory" className={styles.menuItem}>
             我的訂單
           </Link>
-          <Link href="#" className={styles.menuItem}>
+          <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
         </div>
@@ -281,9 +281,15 @@ const Member = () => {
               (registeredActivities.length > 0 ? (
                 registeredActivities.map((activity) => (
                   <ActivityCardRegistered
-                    key={activity.al_id}
+                    key={activity.registered_id}
                     activity={activity}
                     onQuickSignUp={openModal}
+                    onRefresh={() => fetchRegisteredActivities(auth.id)}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
                     isExpired={isExpired(activity.activity_time)}
                   />
                 ))
@@ -297,6 +303,11 @@ const Member = () => {
                   <ActivityCardCreate
                     key={activity.al_id}
                     activity={activity}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
                     isExpired={isExpired(activity.activity_time)}
                     onQuickSignUp={openModal}
                   />
@@ -311,6 +322,11 @@ const Member = () => {
                   <ActivityCard
                     key={activity.al_id}
                     activity={activity}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
                     isExpired={isExpired(activity.activity_time)}
                     onQuickSignUp={openModal}
                   />
