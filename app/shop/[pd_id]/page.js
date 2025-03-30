@@ -62,7 +62,7 @@ export default function ProductDetailPage() {
 
   // 取得收藏資料
   useEffect(() => {
-    if (!product || !product.pd_id) return; // 🧠 等 product 載入再執行
+    if (!product || !product.id) return; // 🧠 等 product 載入再執行
     const fetchInitialLike = async () => {
       const userData = localStorage.getItem("TEAM_B-auth");
       const parsedUser = JSON.parse(userData);
@@ -71,7 +71,7 @@ export default function ProductDetailPage() {
       if (!token) return;
 
       try {
-        const res = await fetch(`/api/pd_likes/check?pdId=${product.pd_id}`, {
+        const res = await fetch(`${AB_ITEM_GET}/pd_likes/check/${product.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -223,7 +223,7 @@ export default function ProductDetailPage() {
                         </div>
                         <ProductLikeButton
                           productId={product.id}
-                          isLiked={liked}
+                          checked={liked}
                         />
                       </div>
                       <div className={styles.productName}>
