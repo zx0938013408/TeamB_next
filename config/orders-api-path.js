@@ -17,8 +17,8 @@ export const ORDER_ADD_POST = `${API_SERVER}/orders/api`; // 路徑中增加 /ap
 // 刪除訂單 DELETE
 export const ORDER_DELETE = `${API_SERVER}/orders/api`;
 
-// 修改訂單 PUT
-export const ORDER_ITEM_PUT = `${API_SERVER}/orders/api`;
+// 取消訂單 PUT
+export const ORDER_ITEM_PUT = `${API_SERVER}/orders/api/cancel`;
 
 // JWT 登入
 export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;

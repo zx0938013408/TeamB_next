@@ -39,6 +39,9 @@ export const MEMBER_UPDATE_ACTIVITY = (alId) => `${API_SERVER}/members/${alId}`;
 // 會員刪除活動
 export const MEMBER_DELETE_ACTIVITY = (alId) => `${API_SERVER}/members/${alId}`;
 
+// 活動留言板
+export const MESSAGE_BOARD_GET = (activityId) => `${API_SERVER}/api/messages/activity-board/${activityId}`;
+export const MESSAGE_BOARD_POST = `${API_SERVER}/api/messages/activity-board`;
 
 
 // JWT 登入
