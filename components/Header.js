@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Header.module.css";
 import Navbar from "./Navbar"; // 引入 Navbar 組件
 import Link from "next/link";
@@ -10,34 +9,26 @@ import { useAuth } from "../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
-import NotificationBell from "../components/NotificationBell";
-import { useCart } from "@/hooks/use-cart";
 
-const Header = React.forwardRef((_, ref) => {
+const Header = () => {
   const { auth, logout } = useAuth();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const searchRef = useRef(null);
   const router = useRouter();
-  const { totalQty } = useCart(); // 取得購物車的總數量
 
-  // 登出處理
   const handleLogout = () => {
     // 紀錄當前頁面 URL
     localStorage.setItem("lastPageBeforeLogout", router.asPath);
 
-    // 清除通知顯示狀態
-    localStorage.removeItem("notificationVisibility");
-
-    // 執行登出
     logout();
 
     // 顯示登出提示
     toast("會員已登出",{
-      position: "top-center",
-      autoClose: 2000,   
-      hideProgressBar: true,
+      position:"top-center" , // 設定通知顯示位置
+      autoClose:2000   ,   
+      hideProgressBar:true ,// 隱藏進度
     });
   };
 
@@ -88,8 +79,7 @@ const Header = React.forwardRef((_, ref) => {
   return (
     <>
       <header
-        ref={ref}
-        className={`${styles.navbarHd} ${isHidden ? styles.hideHeader : ""} navbar-hd `}
+        className={`${styles.navbarHd} ${isHidden ? styles.hideHeader : ""}`}
       >
         <div className={styles.navbarContent}>
           {/* Logo */}
@@ -135,22 +125,9 @@ const Header = React.forwardRef((_, ref) => {
                   />
                 </div>
 
-                <div className={styles.iconCartArea}>
-                  <span 
-                    className={`icon-Cart ${styles.iconCart}`}
-                    onClick={() => {
-                      if (auth.token) {
-                        router.push("/cart");
-                      } else {
-                        router.push("/auth/login");
-                      }
-                    }}
-                    style={{ cursor: "pointer" }}
-                  ></span>
-                  {/* 只有在已登入時才顯示數量，否則顯示空 */}
-                  {auth.token && <span className={styles.iconCartNum}>{totalQty}</span>}
-                </div>
-                
+                <Link href="#">
+                  <span className={`icon-Cart ${styles.iconCart}`}></span>
+                </Link>
                 <span
                   className={`icon-User ${styles.iconUser}`}
                   onClick={() => {
@@ -163,7 +140,7 @@ const Header = React.forwardRef((_, ref) => {
                   style={{ cursor: "pointer" }}
                 ></span>
 
-                {auth.id !== 0 ? (
+                {auth.id != 0 ? (
                   <button
                     className={styles.quickActionBtn}
                     onClick={handleLogout}
@@ -179,12 +156,9 @@ const Header = React.forwardRef((_, ref) => {
                   </button>
                 )}
 
-                <a href="/activity-create">
+                <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
-                </a>
-
-                {/* 鈴鐺通知 */}
-                <NotificationBell token={auth.token} />
+                </Link>
               </div>
 
               {/* Navbar 開關按鈕 */}
@@ -208,6 +182,6 @@ const Header = React.forwardRef((_, ref) => {
       <Navbar isOpen={isNavbarOpen} setIsOpen={setIsNavbarOpen} />
     </>
   );
-});
+};
 
 export default Header;
