@@ -1,6 +1,7 @@
 /* ************** footer **************** */
 /* 頁腳容器 */
 .footerContainer {
+  width: 100vw;
   align-self: stretch;
   height: auto;
   padding: 50px 50px 20px 50px;
