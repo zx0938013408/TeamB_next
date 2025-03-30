@@ -388,12 +388,17 @@ useEffect(() => {
                 if (!auth?.id) {
                   // 顯示 SweetAlert2 提示框
                   Swal.fire({
-                    icon: "error",
+                    icon: "warning",
                     text: "請先登入",  // 顯示後端回傳的訊息
                     confirmButtonText: "確定",
                     confirmButtonColor: "#29755D", // 修改按鈕顏色
+                    timer: 1300, // 顯示 1.3 秒後自動關閉
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didClose: () => {
+                      window.location.href = "/auth/login"; // 或用 router.push
+                    }
                   });
-                  window.location.href = "/auth/login";
                   return;
                 }
                 openModal();

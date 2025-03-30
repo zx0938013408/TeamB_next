@@ -357,7 +357,27 @@ export default function ActivityCreatePage() {
           >
             <Image src="/photo/logo/TeamB-logo-whiteYellow.png" alt="TeamB Logo" width={20} height={20} /> 回上一頁
           </button>
-          <div className={`${Styles.sport} row`}>
+          <div 
+            className={`${Styles.sport} row`}
+            onClick={()=>{
+              if (!auth?.id) {
+                // 顯示 SweetAlert2 提示框
+                Swal.fire({
+                  icon: "warning",
+                  text: "請先登入",  // 顯示後端回傳的訊息
+                  confirmButtonText: "確定",
+                  confirmButtonColor: "#29755D", // 修改按鈕顏色
+                  timer: 1300, // 顯示 1.3 秒後自動關閉
+                  showConfirmButton: false,
+                  allowOutsideClick: false,
+                  didClose: () => {
+                    window.location.href = "/auth/login"; // 或用 router.push
+                  }
+                });
+                return;
+              }
+            }}
+          >
             <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("basketball")
