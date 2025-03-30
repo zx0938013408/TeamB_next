@@ -3,7 +3,6 @@ import Styles from "@/styles/like-heart.module.css";
 import { TOGGLE_LIKE } from "@/config/shop-api-path";
 
 export default function ProductLikeButton({ checked = false, productId, onClick }) {
-debugger
 
   const [isLiked, setIsLiked] = useState(checked);
 
@@ -28,9 +27,6 @@ debugger
     };
 
     try {
-
-        debugger
-
       // 發送請求更新最愛狀態
       const res = await fetch(TOGGLE_LIKE, {
         method: "POST",
