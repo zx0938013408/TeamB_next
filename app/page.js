@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -16,6 +16,11 @@ import "@/public/TeamB_Icon/style.css";
 gsap.registerPlugin(MotionPathPlugin);
 
 const HomePage = () => {
+  const headerRef = useRef(null);
+  const sportsRef = useRef(null);
+  const heroRef = useRef(null);
+
+
   useEffect(() => {
     // slogan區塊與聯繫我們動畫設定
     const container = document.querySelector(".scroll-container");
@@ -58,26 +63,26 @@ const HomePage = () => {
 
     
     // GSAP 動畫
-    let tl = gsap.timeline();
     gsap.registerPlugin(MotionPathPlugin);
-    const headerEl = document.querySelector(".navbar-hd");
-const sportsEl = document.querySelector(".sports-section");
+    // ✅ 使用 useRef 控制動畫目標
+    const headerEl = headerRef.current;
+    const sportsEl = sportsRef.current;
+    const heroSection = heroRef.current;
 
-    // 隱藏 Header 和 球類選單
-    gsap.set([".navbar-hd"], { opacity: 0, y: "-100%", position: "absolute", display: "flex" });
-    gsap.set([".sports-section"], { opacity: 0, display: "none" });
-    // 隱藏文字初始狀態
+    if (!headerEl || !sportsEl || !heroSection) return;
+
+    // 動畫前置設定
+    gsap.set(headerEl, { opacity: 0, y: "-100%", position: "absolute", display: "flex" });
+    gsap.set(sportsEl, { opacity: 0, display: "none" });
     gsap.set([".hero-logo", ".hero-title", ".hero-subtitle", ".hero-highlight", ".hero-scroll"], { opacity: 0 });
 
-    // 設定 section 為地板背景（原始綠色）
-    let heroSection = document.querySelector(".hero-container");
-    if (heroSection) {
-      heroSection.style.background = "linear-gradient(to top, #29755D 0%, #528F7C 100%)"; // 原始綠色背景
-      heroSection.style.position = "relative";
-      heroSection.style.overflow = "hidden";
-    }
+    // ✅ Hero 背景樣式
+    heroSection.style.background = "linear-gradient(to top, #29755D 0%, #528F7C 100%)";
+    heroSection.style.position = "relative";
+    heroSection.style.overflow = "hidden";
 
     // 初始 Hero 進場動畫
+    const tl = gsap.timeline();
     tl.from(".hero-container", { duration: 1, opacity: 0 })
         .from(".hero-content", { duration: 1.2, opacity: 0, scale: 0.95, ease: "power2.out" })
         .from(".hero-divider", { duration: 1, scaleY: 0, transformOrigin: "center", ease: "power2.out" }, "-=0.5")
@@ -166,10 +171,10 @@ const sportsEl = document.querySelector(".sports-section");
 
   return (
     <>
-      <Header />
+      <Header ref={headerRef} />
       <Navbar />
-      <HeroSection />
-      <SportsSelection />
+      <HeroSection ref={heroRef} />
+      <SportsSelection ref={sportsRef} />
       <ActivityList />
       <ShopSection />
       <ScrollSection />

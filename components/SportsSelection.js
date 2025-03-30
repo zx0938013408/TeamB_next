@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import "@/styles/index-styles.css";
 
 
-const SportsSelection = () => {
+const SportsSelection = React.forwardRef((_, ref) => {
   const router = useRouter();
   const [selectedSport, setSelectedSport] = useState(null);
   const iconRefs = useRef([]);
@@ -50,7 +50,7 @@ const SportsSelection = () => {
     
 
   return (
-    <section className="sports-section">
+    <section ref={ref} className="sports-section">
       <div className="container-fluid sports-container">
 
         <div className="row g-0 row-1">
@@ -110,7 +110,7 @@ const SportsSelection = () => {
     </section>
    
   );
-};
+});
 
 export default SportsSelection;
 {/*揪一波打起來ㄟ咦！<br/>開團啦 發球啦！都不揪 play +1*/}
