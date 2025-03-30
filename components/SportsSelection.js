@@ -1,12 +1,34 @@
+"use client";
+
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import "@/styles/index-styles.css";
 
+
 const SportsSelection = () => {
+  const router = useRouter();
   const [selectedSport, setSelectedSport] = useState(null);
   const iconRefs = useRef([]);
 
   const handleSportClick = (sport) => {
     setSelectedSport(sport);
+
+    // 🧠 對照顯示用中文文字
+    const sportMap = {
+      basketball: "籃球",
+      volleyball: "排球",
+      badminton: "羽球",
+    };
+
+    const keyword = sportMap[sport] || "";
+    // ✅ 清理可能干擾跳轉樣式的 DOM 狀態（例如 modal 開啟時的 body 狀態）
+    if (typeof window !== "undefined") {
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "auto";
+    }
+
+    // ✅ 跳轉到活動列表並附帶搜尋關鍵字
+    router.push(`/activity-list?search=${encodeURIComponent(keyword)}`);
   };
 
   const getSportClass = (sport) => {

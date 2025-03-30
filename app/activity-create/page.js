@@ -217,11 +217,21 @@ export default function ActivityCreatePage() {
 
   // 打開Modal
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && modalRef.current) {
       const bootstrap = require("bootstrap");
-      if (modalRef.current) {
-        bsModal.current = new bootstrap.Modal(modalRef.current);
-      }
+      const modalInstance = new bootstrap.Modal(modalRef.current);
+      bsModal.current = modalInstance;
+  
+      // ✅ 加入 event listener 等 Modal 完全開啟後觸發 resize
+      const handleShown = () => {
+        window.dispatchEvent(new Event("resize"));
+      };
+      modalRef.current.addEventListener("shown.bs.modal", handleShown);
+  
+      // ✅ 清除事件監聽（避免記憶體外洩）
+      return () => {
+        modalRef.current?.removeEventListener("shown.bs.modal", handleShown);
+      };
     }
   }, []);
 
@@ -497,11 +507,11 @@ export default function ActivityCreatePage() {
               </div>
 
               <div className={`row`}>
-              <span className={`col`}>
+              <span className={`col-6`}>
               <label>需求人數</label>
               <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
               </span>
-              <span className={`col`}>
+              <span className={`col-6`}>
               <label>費用(每人)</label>
               <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
               </span>

@@ -15,6 +15,8 @@ import Swal from "sweetalert2"; // 引入 SweetAlert2
 export default function ActivityListPage() {
   const { auth } = useAuth();
   const searchParams = useSearchParams();
+  const keywordFromURL = searchParams.get('search');
+  const [searchInput, setSearchInput] = useState('')
   const router = useRouter();
   const searchRef = useRef();
   // const { auth, getAuthHeader } = useAuth();
@@ -41,6 +43,7 @@ export default function ActivityListPage() {
 
   // 當使用者輸入時即時搜尋
   const handleSearch = (query) => {
+    setSearchInput(query);
     setSearchQuery(query);
   
     if (query.trim() === "") {
@@ -57,6 +60,21 @@ export default function ActivityListPage() {
       setListData(filtered);
     }
   };
+
+  // 首頁點選會自動帶入
+  useEffect(() => {
+    if (keywordFromURL) {
+      setSearchInput(keywordFromURL); // 填入輸入框
+    }
+  }, [keywordFromURL]);
+  
+  // Step 2: 等 originalData 有資料再搜尋
+  useEffect(() => {
+    if (keywordFromURL && originalData.length > 0) {
+      handleSearch(keywordFromURL);
+    }
+  }, [originalData]);
+
   
   // Modal
   useEffect(() => {
@@ -202,12 +220,20 @@ export default function ActivityListPage() {
             </span>
           </ol>
           <div className={`${Styles.selectGroup}`}>
+  <form
+    onSubmit={(e) => {
+      e.preventDefault();
+      handleSearch(searchInput);
+    }}
+  >
   <input
     type="text"
     placeholder="搜尋活動名稱、地點、主揪…"
     className={Styles.searchInput}
+    value={searchInput}
     onChange={(e) => handleSearch(e.target.value)}
   />
+  </form>
 </div>
 
           {/* 篩選列 */}
