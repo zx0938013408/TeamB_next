@@ -18,8 +18,10 @@
   font-size: 20px;
 }
 
-.method {
+/* 訂購資訊欄位 */
+.info {
   width: 100%;
+  max-height: 1200px;
   display: flex;
   flex-direction: column;
   border: 2px solid #29755D;
@@ -92,4 +94,11 @@
   display: table-cell;
   /* width: 15%; */
   flex: 1;
+}
+
+@media (max-width: 768px) {
+  .info {
+    padding: 30px 20px;
+    min-height: 990px;
+  }
 }
