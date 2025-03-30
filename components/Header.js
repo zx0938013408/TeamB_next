@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Header.module.css";
 import Navbar from "./Navbar"; // 引入 Navbar 組件
 import Link from "next/link";
@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import NotificationBell from "../components/NotificationBell";
 import { useCart } from "@/hooks/use-cart";
 
-const Header = () => {
+const Header = React.forwardRef((_, ref) => {
   const { auth, logout } = useAuth();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -88,7 +88,8 @@ const Header = () => {
   return (
     <>
       <header
-        className={`${styles.navbarHd} ${isHidden ? styles.hideHeader : ""}`}
+        ref={ref}
+        className={`${styles.navbarHd} ${isHidden ? styles.hideHeader : ""} navbar-hd `}
       >
         <div className={styles.navbarContent}>
           {/* Logo */}
@@ -178,9 +179,9 @@ const Header = () => {
                   </button>
                 )}
 
-                <Link href="/activity-create">
+                <a href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
-                </Link>
+                </a>
 
                 {/* 鈴鐺通知 */}
                 <NotificationBell token={auth.token} />
@@ -207,6 +208,6 @@ const Header = () => {
       <Navbar isOpen={isNavbarOpen} setIsOpen={setIsNavbarOpen} />
     </>
   );
-};
+});
 
 export default Header;

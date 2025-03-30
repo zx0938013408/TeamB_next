@@ -447,6 +447,10 @@
   opacity: 1;
 }
 
+.sportSelect{
+  cursor: pointer;  /* hover 進去會變手指 */
+}
+
 /* 讓未懸停的圖示變淡 */
 .sports-container:hover .grid-item:not(:hover) .sports-icon {
   opacity: 0.5;

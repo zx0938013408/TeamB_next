@@ -9,7 +9,7 @@ import Carousel from "../../../components/shop/carousel";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import LikeHeart from "@/components/like-hearts";
+import ProductLikeButton from "@/components/shop/ProductLikeButton";
 import Search from "@/components/shop/Search";
 import { useCart } from "@/hooks/use-cart";
 import { ToastContainer, toast } from "react-toastify";
@@ -69,7 +69,7 @@ export default function ProductDetailPage() {
       const token = parsedUser?.token;
 
       if (!token) return;
-      
+
       try {
         const res = await fetch(`/api/pd_likes/check?pdId=${product.pd_id}`, {
           headers: {
@@ -221,10 +221,9 @@ export default function ProductDetailPage() {
                         <div className={styles.category}>
                           {product.categories_name}
                         </div>
-                        <LikeHeart
-                          checked={liked} // ✅ 把結果傳給共用元件
-                          activityId={product.id} //借用參數叫 activityId
-                          onClick={handleToggleLike}  // 按下愛心時執行
+                        <ProductLikeButton
+                          productId={product.id}
+                          isLiked={liked}
                         />
                       </div>
                       <div className={styles.productName}>
