@@ -22,14 +22,17 @@ html, body {
   flex: 1; /* 讓內容區塊自動填滿空間 */
 }
 
-.footerContainer {
-  width: 100%;
+/* .footerContainer {
+  width: 100vw;
   height: 100px;
   background: #528F7C;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
+} */
+section{
+  width: 100%;
 }
 }
 
