@@ -7,6 +7,7 @@ import { ACTIVITY_ITEM_PUT } from "@/config/activity-registered-api-path";
 import { useAuth } from "@/context/auth-context";
 import ActivityRegisteredEditModal from "@/components/activity-registered-edit-modal/activity-registered-edit-modal"
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import { ACTIVITY_REGISTRATION_DELETE } from "@/config/activity-registered-api-path";
 
 export default function ActivityCardRegistered({
   activity,
@@ -70,6 +71,39 @@ const openEditModal = async () => {
   }
 };
 
+//取消報名按鈕功能
+const handleCancel = async () => {
+  const reason = prompt("請輸入取消報名的原因：");
+  if (!reason) return alert("請填寫取消原因");
+
+  try {
+    const res = await fetch(ACTIVITY_REGISTRATION_DELETE(activity.registered_id), {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cancel_reason: reason }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      await Swal.fire({
+        icon: "success",
+        title: "已取消報名",
+        confirmButtonText: "確定",
+        confirmButtonColor: "#29755D",
+      });
+
+      if (typeof onRefresh === "function") onRefresh();
+    } else {
+      await Swal.fire({ icon: "error", title: "取消失敗", text: data.error });
+    }
+  } catch (error) {
+    console.error("取消報名錯誤", error);
+    await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+  }
+};
   // 判斷活動是否過期
   const isExpired = activityDate < currentDate;
 
@@ -181,6 +215,16 @@ const openEditModal = async () => {
                 : "報名修改"}
             </button>
           </div>
+          <div className={Styles.buttonWrapper}>
+  <button
+    type="button"
+    className={`${Styles.joinButton} ${Styles.deleteButton}`}
+    onClick={handleCancel}
+  >
+    取消報名
+  </button>
+</div>
+
         </div>
       </div>
 
