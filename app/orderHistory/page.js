@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/auth-context'
 import styles from './OrderList.module.css'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-import { ORDER_LIST, AVATAR_PATH, API_SERVER } from '@/config/orders-api-path'
+import { ORDER_LIST, AVATAR_PATH, ORDER_ITEM_PUT } from '@/config/orders-api-path'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { ImCross } from "react-icons/im";
 
-const OrderItem = ({ order }) => {
+const OrderItem = ({ order, handleCancelOrder }) => {
   const [expanded, setExpanded] = useState(false)
   const [infoExpanded, setInfoExpanded] = useState(false);  // 控制收件人等資訊的顯示
   const imageUrl = `${AVATAR_PATH}${order.products.image}`;
@@ -29,40 +32,24 @@ const OrderItem = ({ order }) => {
     }).replace(/\//g, "年").replace(" ", "日 ");
   };
 
-  // 取消訂單
-  const handleCancelOrder = async (orderId) => {
-    try {
-      const response = await fetch(`/api/cancel/${orderId}`, {
-        method: "PUT", // 使用 PUT 方法來取消訂單
-        headers: { "Content-Type": "application/json" },
-      });
   
-      const result = await response.json();
-  
-      if (result.success) {
-        alert("訂單已成功取消");
-  
-        // 更新 UI
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.id === orderId ? { ...order, order_status_id: 5, status: "已取消" } : order
-          )
-        );
-      } else {
-        alert(result.error || "取消訂單失敗");
-      }
-    } catch (error) {
-      console.error("取消訂單時發生錯誤:", error);
-      alert("取消訂單時發生錯誤，請稍後再試");
-    }
-  };
-
   return (
     <div className={styles.orderContainer}>
       <div className={styles.title}>
         <div className={styles.titleName}>
-          <div>訂單編號:</div>&nbsp;&nbsp;
-          <div className={styles.idName}>{order.MerchantTradeNo}</div>
+          <div className={styles.titleNum}>
+            <div>訂單編號:</div>&nbsp;&nbsp;
+            <div className={styles.idName}>{order.MerchantTradeNo}</div>
+          </div>
+           {/* 顯示取消訂單按鈕 */}
+           {order.status === "待出貨" && (
+          <div className={styles.cancelButtonContainer}>
+            <ImCross className={styles.cancelIcon}/>
+            <button className={styles.cancelButton} onClick={() => handleCancelOrder(order.orderId)}>
+              取消訂單
+            </button>
+          </div>
+          )}
         </div>
       </div>
 
@@ -107,6 +94,7 @@ const OrderItem = ({ order }) => {
             {infoExpanded ? '收回訂單資訊' : '檢視訂單資訊'}
             {infoExpanded ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
           </button>
+         
         </div>
         {infoExpanded && (
           <div className={styles.detailFrame}>
@@ -152,14 +140,7 @@ const OrderItem = ({ order }) => {
       <div className={styles.total}>
         總金額: <p className={styles.amount}>NT${order.totalAmount.toLocaleString()}</p>
       </div>
-         {/* 顯示取消訂單按鈕 */}
-      {order.status === "待出貨" && (
-        <div className={styles.cancelButtonContainer}>
-          <button className={styles.cancelButton} onClick={() => handleCancelOrder(order.MerchantTradeNo)}>
-            取消訂單
-          </button>
-        </div>
-      )}
+        
     </div>
   )
 }
@@ -171,6 +152,7 @@ const OrderTable = () => {
   const [timeFilter, setTimeFilter] = useState('') // 日期篩選
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+  const MySwal = withReactContent(Swal) // 將 SweetAlert2 包裝為 React 版本
 
   // 設定訂單狀態分類
   const tabs = [
@@ -285,6 +267,60 @@ const OrderTable = () => {
     }
   }, [auth?.id, selectedTab, startDate, endDate])
 
+  // 取消訂單
+  const handleCancelOrder = async (orderId) => {
+    // 顯示確認取消訂單的 SweetAlert 訊息
+    const result = await MySwal.fire({
+      title: '您確定要取消這筆訂單嗎？',
+      text: '這個動作將無法復原!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      confirmButtonColor: '#F7BF58',
+      cancelButtonColor: '#29755D',
+      reverseButtons: true,
+    });
+
+    if (!result.isConfirmed) {
+      // 使用者取消操作
+      return;
+    }
+
+
+    try {
+      const response = await fetch(`${ORDER_ITEM_PUT}/${orderId}`, {
+        method: "PUT", // 使用 PUT 方法來取消訂單
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP 錯誤：${response.status}`);
+      }
+
+      const result = await response.json();
+  
+      if (result.success) {
+        MySwal.fire({
+          title: '已成功取消訂單!',
+          icon: 'success',
+          confirmButtonColor: '#F7BF58',
+        });
+        // 取消後將畫面切換到「已取消」標籤
+        setSelectedTab(5); // 將 selectedTab 設為 5 來顯示「已取消」的訂單
+        
+      } else {
+        MySwal.fire(
+          '取消訂單失敗',
+          result.error || '請稍後再試',
+          'error'
+        );
+      }
+    } catch (error) {
+      console.error("取消訂單時發生錯誤:", error);
+      alert(`取消訂單時發生錯誤: ${error.message}`);
+    }
+  };
 
 
   return (
@@ -329,7 +365,7 @@ const OrderTable = () => {
     <div className={styles.list}>
       <div className={styles.order}>
         {orders.length > 0 ? (
-          orders.map(order => <OrderItem key={order.orderId} order={order} />)
+          orders.map(order => <OrderItem key={order.orderId} order={order}  handleCancelOrder={handleCancelOrder} />)
         ) : (
           <div className={styles.noOrders}>尚未有訂單</div>
         )}
