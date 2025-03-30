@@ -51,7 +51,12 @@ const Member = () => {
     setLoading(true);
 
     if (!activityName || !activityName.al_id) {
-      alert("請選擇活動");
+        Swal.fire({
+          icon: "warning",
+          text: "請選擇活動",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
       setLoading(false);
       return;
     }

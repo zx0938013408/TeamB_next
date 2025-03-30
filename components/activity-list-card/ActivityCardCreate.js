@@ -6,6 +6,8 @@ import ActivityEditModal from "@/components/activity-edit-modal/ActivityEditModa
 import { useState, useEffect } from "react";
 import { API_SERVER } from "@/config/api-path";
 import { MEMBER_DELETE_ACTIVITY } from "@/config/api-path";
+import Swal from "sweetalert2"; // 引入 SweetAlert2
+
 
 export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeToggle }) {
   const [activityData, setActivityData] = useState(activity);
@@ -42,7 +44,12 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
       const result = await response.json();
 
       if (result.success) {
-        alert("修改成功！");
+        Swal.fire({
+          icon: "success",
+          text: "修改成功！",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
 
         // 🔁 重新取得該活動資料並更新畫面
         const newRes = await fetch(
@@ -64,9 +71,23 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
   };
 
   const handleDelete = async () => {
-    const reason = prompt("請輸入取消此活動的原因：");
-
-    if (!reason) return alert("必須填寫取消原因");
+    const { value: reason } = await Swal.fire({
+      title: "請輸入取消此活動的原因",
+      input: "text",
+      inputPlaceholder: "請填寫原因...",
+      showCancelButton: true,
+      confirmButtonText: "送出",
+      cancelButtonText: "取消",
+      confirmButtonColor: "#29755D",
+      inputValidator: (value) => {
+        if (!value) {
+          return "必須填寫取消原因";
+        }
+        return null;
+      },
+    });
+  
+    if (!reason) return; // 使用者按取消
 
     try {
       const response = await fetch(
@@ -82,7 +103,12 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
 
       const result = await response.json();
       if (result.success) {
-        alert("活動已取消，已通知報名者。");
+        Swal.fire({
+          icon: "success",
+          text: "活動已取消，已通知報名者。",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
         window.location.reload();
       } else {
         alert("取消失敗：" + result.error);
