@@ -72,7 +72,7 @@ const SportsSelection = React.forwardRef((_, ref) => {
         <div className="row g-0 row-2" id="sports-middle">
           
           <div 
-            className={`col-4 grid-item basketball ${getSportClass('basketball')}`}
+            className={`col-4 grid-item basketball sportSelect ${getSportClass('basketball')}`}
             onClick={() => handleSportClick('basketball')}
           >
             <div className="sports-icon icon-Basketball" ref={el => (iconRefs.current[0] = el)}></div>
@@ -80,14 +80,14 @@ const SportsSelection = React.forwardRef((_, ref) => {
           </div>
 
           <div 
-            className={`col-4 grid-item volleyball ${getSportClass('volleyball')}`}
+            className={`col-4 grid-item volleyball sportSelect ${getSportClass('volleyball')}`}
             onClick={() => handleSportClick('volleyball')}
           >
             <div className="sports-icon icon-Volleyball" ref={el => (iconRefs.current[1] = el)}></div>
             <p className="sports-text">前往報團</p>
           </div>
           <div 
-            className={`col-4 grid-item badminton ${getSportClass('badminton')}`}
+            className={`col-4 grid-item badminton sportSelect ${getSportClass('badminton')}`}
             onClick={() => handleSportClick('badminton')}
           >
             <div className="sports-icon icon-Badminton" ref={el => (iconRefs.current[2] = el)}></div>
