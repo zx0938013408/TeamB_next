@@ -345,11 +345,20 @@ export default function ActivityCreatePage() {
           {/* 羽球圖片 */}
           <div className={selected === "shuttlecock" || hovered === "shuttlecock" ? Styles.shuttlecockPhotoHover : Styles.shuttlecockPhoto}></div>
           <h1 className={Styles.title}>請選擇要開團的球局類別</h1>
-          <button className={Styles.goBack} onClick={() => router.back()}>
+          <button 
+            className={Styles.goBack} 
+            onClick={() => {
+              if (window.history.length > 2) {
+                router.back();
+              } else {
+                router.push("/"); // 或任何你希望導去的 fallback 頁面
+              }
+            }}
+          >
             <Image src="/photo/logo/TeamB-logo-whiteYellow.png" alt="TeamB Logo" width={20} height={20} /> 回上一頁
           </button>
           <div className={`${Styles.sport} row`}>
-            <a href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
+            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("basketball")
               setSelectedSport(1)
@@ -358,8 +367,8 @@ export default function ActivityCreatePage() {
                 <div className={`icon-Basketball ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>籃球</h3>
               </div>
-            </a>
-            <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
+            </div>
+            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("volleyball")
               setSelectedSport(2)
@@ -368,8 +377,8 @@ export default function ActivityCreatePage() {
                 <div className={`icon-Volleyball ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>排球</h3>
               </div>
-            </Link>
-            <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
+            </div>
+            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("shuttlecock")
               setSelectedSport(3)
@@ -378,7 +387,7 @@ export default function ActivityCreatePage() {
                 <div className={`icon-Badminton ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>羽球</h3>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
