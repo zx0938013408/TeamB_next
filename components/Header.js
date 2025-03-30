@@ -174,9 +174,9 @@ const Header = React.forwardRef((_, ref) => {
                   </button>
                 )}
 
-                <Link href="/activity-create">
+                <a href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
-                </Link>
+                </a>
 
                 {auth.id !== 0 && <NotificationBell memberId={auth.id} />}
                 </div>
