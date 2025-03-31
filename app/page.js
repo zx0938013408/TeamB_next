@@ -12,6 +12,8 @@ import Footer from "@/components/Footer";
 import gsap from "gsap";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
 import "@/public/TeamB_Icon/style.css";
+import FloatingBallEffect from "@/components/FloatingBallEffect";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -198,6 +200,8 @@ const HomePage = () => {
         </div>
       </section>
       <Footer />
+      <FloatingBallEffect />
+<ScrollToTopButton />
     </>
   );
 };
