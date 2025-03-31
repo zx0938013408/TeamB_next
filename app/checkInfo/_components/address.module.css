@@ -35,7 +35,6 @@
   display: flex;
   align-items: flex-start;
   flex-shrink: 0;
-  /* width: 500px; */
   position: relative;
   gap: 10px;
 }
@@ -106,8 +105,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  /* align-items: flex-start; */
-  /* justify-content: flex-start; */
   flex-shrink: 0;
   width: 450px;
   position: relative;
@@ -140,6 +137,27 @@
   }
 
   .street {
-    width: 220px;
+    width: 235px;
+  }
+
+  .formFrame2 label {
+    font-size: 16px;
+  }
+
+  .formFrame select {
+    width: 150px;
+  }
+
+  .formFrame input,
+  .formFrame select {
+    padding: 0px 0px 0px 12px;
+  }
+
+  .formFrame2 {
+    gap: 14px
+  }
+
+  .formFrame2 .name {
+    gap: 10px;
   }
 }

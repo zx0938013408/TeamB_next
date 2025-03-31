@@ -174,7 +174,6 @@
 /* 購物車清單 */
 .list {
   width: 70vw;
-  /* width: 1000px; */
   margin: 0px auto ;
   margin-top: 130px;
   margin-bottom: 100px;
@@ -505,8 +504,13 @@
 }
 
 
+
 /* 手機、平版 */
 @media (max-width: 768px) {
+  .step {
+    font-size: 14px;
+  }
+
   .list {
     width: 85vw;
     margin: auto;
@@ -660,12 +664,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px;
+    padding: 5px;
   }
 
   .total div {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
+    margin-bottom: 5px;
   }
 
   /* 按鈕容器 */
@@ -675,4 +680,6 @@
   align-items: center;
   margin: 60px 0px;
 }
+
+
 }
