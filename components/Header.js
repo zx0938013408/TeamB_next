@@ -19,6 +19,7 @@ const Header = () => {
   const [isHidden, setIsHidden] = useState(false);
   const searchRef = useRef(null);
   const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     // 紀錄當前頁面 URL
