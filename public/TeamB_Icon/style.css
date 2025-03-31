@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?jeie0k');
-  src:  url('fonts/icomoon.eot?jeie0k#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?jeie0k') format('truetype'),
-    url('fonts/icomoon.woff?jeie0k') format('woff'),
-    url('fonts/icomoon.svg?jeie0k#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?v3nvt9');
+  src:  url('fonts/icomoon.eot?v3nvt9#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?v3nvt9') format('truetype'),
+    url('fonts/icomoon.woff?v3nvt9') format('woff'),
+    url('fonts/icomoon.svg?v3nvt9#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,13 +25,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-Bell:before {
+  content: "\e915";
+}
 .icon-Location-Fill:before {
   content: "\e909";
 }
 .icon-Heart-Fill:before {
   content: "\e914";
 }
-.icon-Exclude-11:before {
+.icon-Location:before {
   content: "\e913";
 }
 .icon-Volleyball:before {
