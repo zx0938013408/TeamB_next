@@ -11,6 +11,7 @@ import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import NotificationBell from "./NotificationBell";
 import { AVATAR_PATH } from "../config/auth.api";
+import { useCart } from "@/hooks/use-cart"
 
 const Header = () => {
   const { auth, logout } = useAuth();
@@ -20,6 +21,7 @@ const Header = () => {
   const searchRef = useRef(null);
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { totalQty } = useCart();
 
   const handleLogout = () => {
     // 紀錄當前頁面 URL
@@ -128,9 +130,22 @@ const Header = () => {
                   />
                 </div>
 
-                <Link href="#">
-                  <span className={`icon-Cart ${styles.iconCart}`}></span>
-                </Link>
+                <div className={styles.iconCartArea}>
+                  <span 
+                    className={`icon-Cart ${styles.iconCart}`}
+                    onClick={() => {
+                      if (auth.token) {
+                        router.push("/cart");
+                      } else {
+                        router.push("/auth/login");
+                      }
+                    }}
+                    style={{ cursor: "pointer" }}
+                  ></span>
+                  {/* 只有在已登入時才顯示數量，否則顯示空 */}
+                  {auth.token &&  totalQty > 0 && <span className={styles.iconCartNum}>{totalQty}</span>}
+                </div>
+
                 {auth.id != 0 ? (
   <div className={styles.avatarWrapper}>
     <img
