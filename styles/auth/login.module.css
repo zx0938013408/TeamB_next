@@ -1,153 +1,197 @@
 /* 整體容器，使用 flex 讓內容居中 */
 .container {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    width: 90%; /* 讓容器寬度占滿整個螢幕 */
-    height: 600px; /* 高度占滿整個視窗 */
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin-left: 70px;
-    transform: translateY(-80px); /* 向上移動 */
-  }
-  
-  /* 左側區塊 (綠色背景) */
-  .leftSection {
-    width: 50%; 
-    height: 400vh;
-    background: #0F3D3E;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 50px;
-    text-align: left;
-  }
-  
-  .leftSection h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-  }
-  
-  .separator {
-    width: 50px;
-    height: 4px;
-    background: #1DB954;
-    margin: 15px 0;
-  }
-  
-  /* 右側區塊 (表單) */
-  .rightSection {
-    width: 50%; /* 右側區塊佔 40% 寬度 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; /* 讓表單元素居中 */
-  }
-  
-  /* 表單標題 */
-  .rightSection h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 25px;
-    color: #0F3D3E;
-  }
-  
-  /* 輸入框區域 */
-  .inputBox {
-    margin-bottom: 30px;
-  }
-  
-  .inputBox label {
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .inputBox input {
-    width: 300px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-  }
-  
-  .inputBox input:focus {
-    border-color: #0F3D3E;
-  }
-  
-  /* 登入按鈕 */
-  .submitSection {
-    width: 100%;
-    margin-top: 60px;
-    text-align: center;
-  }
-  
-  .loginBtn {
-    width: 100%;
-    padding: 16px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background: #0F3D3E;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .loginBtn:hover {
-    background: #146C94;
-  }
-  
-  /* 底部連結 */
-  .links {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .links a {
-    color: #0F3D3E;
-    font-weight: bold;
-    text-decoration: none;
-    margin-left: 5px;
-  }
-  
-  .links a:hover {
-    text-decoration: underline;
-  }
-  
-  .error {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-  
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  width: 90%; /* 讓容器寬度占滿整個螢幕 */
+  height: 600px; /* 高度占滿整個視窗 */
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-left: 70px;
+  transform: translateY(-80px); /* 向上移動 */
+}
 
-  .passwordContainer {
-    position: relative;
+/* 左側區塊 (綠色背景) */
+.leftSection {
+  width: 50%; 
+  height: 400vh;
+  background: #0F3D3E;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px;
+  text-align: left;
+}
+
+.leftSection h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.separator {
+  width: 50px;
+  height: 4px;
+  background: #1DB954;
+  margin: 15px 0;
+}
+
+/* 右側區塊 (表單) */
+.rightSection {
+  width: 50%; /* 右側區塊佔 40% 寬度 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* 讓表單元素居中 */
+}
+
+/* 表單標題 */
+.rightSection h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #0F3D3E;
+}
+
+/* 輸入框區域 */
+.inputBox {
+  margin-bottom: 30px;
+}
+
+.inputBox label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.inputBox input {
+  width: 300px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.inputBox input:focus {
+  border-color: #0F3D3E;
+}
+
+/* 登入按鈕 */
+.submitSection {
+  width: 100%;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.loginBtn {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background: #0F3D3E;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.loginBtn:hover {
+  background: #146C94;
+}
+
+/* 底部連結 */
+.links {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.links a {
+  color: #0F3D3E;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.passwordContainer {
+  position: relative;
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* RWD: 像是小螢幕的設計 */
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    margin-left: 0;
+    transform: translateY(0);
+    flex-direction: column;
+    padding: 20px;
   }
-  
-  .eyeIcon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+
+  .leftSection {
+    width: 100%;
+    height: auto;
+    padding: 30px;
   }
+
+  .rightSection {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .inputBox input {
+    width: 100%;
+  }
+
+  .submitSection {
+    margin-top: 30px;
+  }
+}
+
+/* RWD: 更小螢幕的設計 */
+@media (max-width: 480px) {
+  .leftSection {
+    padding: 20px;
+  }
+
+  .inputBox input {
+    width: 100%;
+  }
+
+  .loginBtn {
+    font-size: 16px;
+    padding: 14px;
+  }
+}

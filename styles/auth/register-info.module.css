@@ -65,7 +65,6 @@
   border-color: red; /* 錯誤狀態紅色邊框 */
 }
 
-
 .inputBox:focus + .placeholder, 
 .inputBox:valid + .placeholder {
   display: none; /* 當焦點或有值時隱藏 */
@@ -331,4 +330,57 @@
   color: #666;
   margin-bottom: 5px;
   font-weight: bold;
+}
+
+/* RWD: 設置響應式設計 */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    margin-left: 0;
+    transform: translateY(0);
+    padding: 20px;
+  }
+
+  .leftSection {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .rightSection {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .inputBox {
+    width: 100%;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .leftSection {
+    padding: 15px;
+  }
+
+  .rightSection {
+    padding: 15px;
+  }
+
+  .inputBox {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
 }
