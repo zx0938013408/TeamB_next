@@ -13,8 +13,9 @@ import { AVATAR_PATH } from "@/config/auth.api";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 
+
 const MemberEdit = () => {
-  const { auth, updateUserData } = useAuth(); // 從上下文獲取 auth 資料
+  const { auth, updateUserData ,logout} = useAuth(); // 從上下文獲取 auth 資料
   console.log("auth:", auth);
 
   const [cities, setCities] = useState([]);
@@ -174,6 +175,20 @@ const MemberEdit = () => {
           <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
+          <button
+    className={styles.menuItemBtn}
+    onClick={() => {
+      logout();
+      toast("會員已登出", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      router.push("/"); // 登出後導回首頁或登入頁
+    }}
+  >
+    登出
+  </button>
         </div>
 
         {/* 主內容 */}

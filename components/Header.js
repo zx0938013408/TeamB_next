@@ -6,18 +6,23 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../public/src/assets/iconLogo.png";
 import { useAuth } from "../context/auth-context"; // 引入 useAuth
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import NotificationBell from "./NotificationBell";
+import { AVATAR_PATH } from "../config/auth.api";
+import { useCart } from "@/hooks/use-cart"
 
 const Header = () => {
+  const pathname = usePathname();
   const { auth, logout } = useAuth();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const searchRef = useRef(null);
   const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { totalQty } = useCart();
 
   const handleLogout = () => {
     // 紀錄當前頁面 URL
@@ -31,6 +36,11 @@ const Header = () => {
       autoClose:2000   ,   
       hideProgressBar:true ,// 隱藏進度
     });
+
+    if (pathname && pathname.startsWith("/auth/member")) {
+      router.push("/");
+    }
+
   };
 
   // 🔹 點擊外部時關閉搜尋框
@@ -126,36 +136,53 @@ const Header = () => {
                   />
                 </div>
 
-                <Link href="#">
-                  <span className={`icon-Cart ${styles.iconCart}`}></span>
-                </Link>
-                <span
-                  className={`icon-User ${styles.iconUser}`}
-                  onClick={() => {
-                    if (auth.token) {
-                      router.push("/auth/member");
-                    } else {
-                      router.push("/auth/login");
-                    }
-                  }}
-                  style={{ cursor: "pointer" }}
-                ></span>
+                <div className={styles.iconCartArea}>
+                  <span 
+                    className={`icon-Cart ${styles.iconCart}`}
+                    onClick={() => {
+                      if (auth.token) {
+                        router.push("/cart");
+                      } else {
+                        router.push("/auth/login");
+                      }
+                    }}
+                    style={{ cursor: "pointer" }}
+                  ></span>
+                  {/* 只有在已登入時才顯示數量，否則顯示空 */}
+                  {auth.token &&  totalQty > 0 && <span className={styles.iconCartNum}>{totalQty}</span>}
+                </div>
 
                 {auth.id != 0 ? (
-                  <button
-                    className={styles.quickActionBtn}
-                    onClick={handleLogout}
-                  >
-                    登出
-                  </button>
-                ) : (
-                  <button
-                    className={styles.quickActionBtn}
-                    onClick={() => (window.location.href = "/auth/login")}
-                  >
-                    登入
-                  </button>
-                )}
+  <div className={styles.avatarWrapper}>
+    <img
+       src={auth?.avatar ? `${AVATAR_PATH}/${auth.avatar}`: `${AVATAR_PATH}/imgs.png`}
+      alt="User Avatar"
+      className={styles.avatarImg}
+      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+    />
+    {isDropdownOpen && (
+      <ul className={styles.dropdownMenu}>
+        <li onClick={() => router.push("/auth/member")}>會員中心</li>
+        <li onClick={() => router.push("/auth/member-edit")}>編輯個人檔案</li>
+        <li onClick={() => router.push("/auth/member-account")}>帳號管理</li>
+        <li onClick={() => router.push("/auth/orderHistory")}>我的訂單</li>
+        <li onClick={() => router.push("/auth/member-likes")}>收藏商品</li>
+        <li onClick={handleLogout}>登出</li>
+      </ul>
+    )}
+  </div>
+) : (
+  <button
+    className={styles.quickActionBtn}
+    onClick={() => {
+       // ✅ 登入前紀錄當前頁
+      localStorage.setItem("lastVisitedPage", window.location.pathname);
+      router.push("/auth/login");
+    }}
+  >
+    登入
+  </button>
+)}
 
                 <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>

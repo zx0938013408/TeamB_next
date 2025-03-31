@@ -63,16 +63,16 @@
   font-size: 18px;
   font-weight: bold;
   color: #333;
-  /* width: 25%; */
-  flex: 2;
+  width: 25%;
+  /* flex: 2; */
 }
 
 .price,
 .subTotal {
   font-size: 18px;
   color: firebrick;
-  /* width: 15%; */
-  flex: 1;
+  width: 15%;
+  /* flex: 1; */
   text-align: center;
 }
 
@@ -83,8 +83,8 @@
 }
 
 .spec {
-  /* width: 15%; */
-  flex: 1;
+  width: 15%;
+  /* flex: 1; */
   color: #888;
   font-size: 16px;
   text-align: center;
@@ -92,13 +92,34 @@
 
 .count {
   display: table-cell;
-  /* width: 15%; */
-  flex: 1;
+  width: 15%;
+  /* flex: 1; */
 }
 
 @media (max-width: 768px) {
   .info {
     padding: 30px 20px;
     min-height: 990px;
+  }
+
+ 
+
+  .titleName {
+    font-size: 18px;
+  }
+
+  .item img {
+    width: 80px;  /* 手機版圖片稍微縮小 */
+    height: 80px;
+  }
+
+  .secTitle,
+  .item .name,
+  .price {
+    font-size: 16px;
+  }
+
+  .spec {
+    font-size: 14px;
   }
 }

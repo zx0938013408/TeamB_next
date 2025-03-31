@@ -13,9 +13,12 @@ import {
 } from "../../../config/auth.api";
 import "font-awesome/css/font-awesome.min.css";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const MemberAccount = () => {
-  const { auth, getAuthHeader } = useAuth(); // 從 AuthContext 中獲取 auth 和 getAuthHeader 函數
+  const { auth, logout, getAuthHeader } = useAuth(); // 從 AuthContext 中獲取 auth 和 getAuthHeader 函數
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -138,6 +141,20 @@ const MemberAccount = () => {
           <Link href="auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
+          <button
+    className={styles.menuItemBtn}
+    onClick={() => {
+      logout();
+      toast("會員已登出", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      router.push("/"); // 登出後導回首頁或登入頁
+    }}
+  >
+    登出
+  </button>
         </div>
 
         <div className={styles.mainContent}>
