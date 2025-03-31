@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import "@/public/TeamB_Icon/style.css"
+import { useState, useEffect, useRef } from "react";
+import "@/public/TeamB_Icon/style.css";
 
 export default function NotificationBell({ memberId }) {
   const [messages, setMessages] = useState([]);
@@ -16,12 +16,47 @@ export default function NotificationBell({ memberId }) {
   };
 
   useEffect(() => {
-    if (memberId) fetchMessages();
+    if (!memberId) return;
 
-    // 自動刷新每60秒
+    fetchMessages(); // 初次載入所有訊息
+
+    const socket = new WebSocket("ws://localhost:3001"); // 改成你實際的 port
+
+    socket.onopen = () => {
+      console.log("✅ WebSocket 已連接");
+      socket.send(JSON.stringify({ type: "auth", memberId }));
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        if (msg.type === "new-message") {
+          console.log("🔔 收到即時通知：", msg.data);
+          setMessages((prev) => [msg.data, ...prev]);
+          setUnreadCount((prev) => prev + 1);
+        }
+      } catch (err) {
+        console.error("📛 WebSocket 訊息解析錯誤", err);
+      }
+    };
+
+    socket.onerror = (err) => {
+      console.error("❌ WebSocket 錯誤", err);
+    };
+
+    socket.onclose = () => {
+      console.log("🔌 WebSocket 已關閉");
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [memberId]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       if (memberId) fetchMessages();
-    }, 60000);
+    }, 60000); // 每 60 秒備援更新
     return () => clearInterval(interval);
   }, [memberId]);
 
@@ -46,7 +81,7 @@ export default function NotificationBell({ memberId }) {
           fontSize: "24px",
         }}
       >
-        <span className="icon-Bell" style={{color:" #528F7C"}}></span>
+        <span className="icon-Bell" style={{ color: " #528F7C" }}></span>
         {unreadCount > 0 && (
           <span
             style={{
@@ -84,9 +119,9 @@ export default function NotificationBell({ memberId }) {
         >
           <h4>通知訊息</h4>
           {messages.length === 0 && <p>目前沒有訊息</p>}
-          {messages.map((msg) => (
+          {messages.map((msg, index) => (
             <div
-              key={msg.id}
+              key={msg.id || `${index}-${msg.title}-${msg.content}`}
               style={{
                 borderBottom: "1px solid #ddd",
                 marginBottom: "8px",
