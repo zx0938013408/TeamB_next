@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "@/public/TeamB_Icon/style.css"
 
 export default function NotificationBell({ memberId }) {
   const [messages, setMessages] = useState([]);
@@ -45,7 +46,7 @@ export default function NotificationBell({ memberId }) {
           fontSize: "24px",
         }}
       >
-        🔔
+        <span className="icon-Bell" style={{color:" #528F7C"}}></span>
         {unreadCount > 0 && (
           <span
             style={{

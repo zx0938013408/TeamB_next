@@ -21,6 +21,8 @@ const Login = () => {
 
     const router = useRouter(); // 用於導航
 
+    const lastVisitedPage = localStorage.getItem("lastVisitedPage") || "/auth/member";
+
     const validateEmail = (email) => {
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
       return emailPattern.test(email);
@@ -63,8 +65,14 @@ const Login = () => {
 
         });
   
-        // 導向會員頁面
-        router.push("/auth/member");
+        // 導向原本頁面 || 會員頁面
+        setTimeout(() => {
+          if (lastVisitedPage && lastVisitedPage !== "/auth/login") {
+            router.push(lastVisitedPage);
+          } else {
+            router.push("/auth/member");
+          }
+        }, 500); // 加點延遲會讓 toast 顯示更自然
       } else {
         setEmailError("帳號錯誤");  // 這裡會顯示 email 錯誤訊息
         setPasswordError("密碼錯誤"); // 密碼錯誤訊息

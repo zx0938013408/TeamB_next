@@ -71,8 +71,9 @@ export default function CartPage() {
       showCancelButton: true,
       confirmButtonColor: '#F7BF58',
       cancelButtonColor: '#29755D',
-      cancelButtonText: '取消',
       confirmButtonText: '是的，我要刪除!',
+      cancelButtonText: '取消',
+      reverseButtons: true,
       backdrop: true, // 讓 SweetAlert2 自己管理滾動條
     }).then((result) => {
       // 按下確定刪除按鈕
@@ -330,7 +331,7 @@ export default function CartPage() {
               <div>
                 總數量:{' '}
                 <div className={styles.amount}>{selectedItemsCount}</div>個
-                &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;商品總金額:
+                &nbsp;&nbsp;/&nbsp;&nbsp;商品總金額:
                 <div className={styles.amount}>
                   NT$
                   {selectedItemsTotalAmount.toLocaleString()}

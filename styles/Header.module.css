@@ -301,3 +301,40 @@
   pointer-events: none; /* 禁止點擊 */
 
 }
+
+
+.avatarImg {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block;
+  cursor: pointer
+}
+.dropdownMenu {
+  position: absolute;
+  right: 360px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 8px 0;
+  list-style: none;
+  min-width: 160px;
+  z-index: 999;
+  font-size: 15px;
+  font-weight: 0px;
+}
+
+.dropdownMenu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.dropdownMenu li:hover {
+  background-color: #F4F4F4;
+  color: #1b5b47;
+}
