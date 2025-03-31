@@ -509,7 +509,7 @@
 }
 
 .hover-text .sport-text {
-  font-size: 18px;
+  font-size: 20px;
   opacity: 0;
 }
 
@@ -626,7 +626,7 @@
 }
 
 .activity-scroll-vertical {
-  width: 60%;
+  width: auto;
   max-height: 70vh;
   /* ✅ 區塊最大高度 */
   overflow-y: auto;
@@ -657,142 +657,7 @@
 
 
 
-@media (max-width: 768px) {
 
-  /********   球類選項   *******/
-  .sports-section {
-    height: auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #29755d;
-    box-sizing: border-box;
-  }
-
-  .sports-container {
-    width: 100%;
-    height: auto;
-    padding: 50px 0;
-  }
-
-  /* 九宮格 */
-  .row {
-    display: flex;
-    width: 100%;
-    height: auto;
-  }
-
-  /* 九官格白線 */
-  .col-4 {
-    border: 2.5px solid white;
-    /* 邊框 */
-    height: 200px;
-  }
-
-  /* 標題字體 */
-  .title-box {
-    display: flex;
-    /* flex-direction: column-reverse; */
-    align-items: center;
-  }
-
-  .sports-title {
-    margin: 5px 0;
-    font-size: 20px;
-    font-family: Inter, sans-serif;
-    font-weight: 700;
-    letter-spacing: 6px;
-    color: white;
-  }
-
-  .sports-text {
-    font-size: 18px;
-    margin-top: 10px;
-  }
-
-  .sport-text {
-    font-size: 16px;
-    letter-spacing: 3px;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .sports-icon {
-    width: 52px;
-    height: 52px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-
-  /* 排球圖示 */
-  .icon-Volleyball {
-    font-size: 42px;
-    color: white;
-  }
-
-  /* 籃球圖示 */
-  .icon-Basketball {
-    font-size: 42px;
-    color: white;
-  }
-
-  /* 羽球圖示 */
-  .icon-Badminton {
-    font-size: 42px;
-    color: white;
-  }
-
-
-  /********   活動列表   ********/
-
-  /* 查看更多 */
-  .activity-footer {
-    grid-column: auto;
-    /* ✅ 移除跨兩欄，回歸單欄 */
-    justify-content: center;
-    display: flex;
-    margin-top: 16px;
-    margin-bottom: 40px;
-    width: 100%;
-  }
-
-  .activity-footer .more-link {
-    font-size: 18px;
-  }
-
-
-  .activity-scroll-vertical {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-height: none;
-    overflow-y: auto;
-    gap: 12px;
-    max-height: 70vh;
-    padding: 20px auto;
-  }
-
-  .activity-box>.card {
-    flex: 0 0 auto;
-    width: 85%;
-    scroll-snap-align: start;
-  }
-
-  .activity-container {
-    gap: 40px;
-    padding: 30px 0;
-  }
-
-  .activity-title {
-    font-size: 42px;
-    font-weight: 600;
-  }
-
-  .activity-box {
-    height: 60vh;
-  }
-
-}
 
 /* ************** 購物商城 **************** */
 /* 商城區塊 */
@@ -819,16 +684,17 @@
 
 .shop-title {
   font-size: 60px;
-  font-weight: 700;
-  color: #002116;
+  font-weight: 600;
   letter-spacing: 12px;
   margin-bottom: 10px;
+  font-weight: 700;
+  color: #528f7c;
 }
 
 .shop-promo {
   font-size: 26px;
   font-weight: 700;
-  color: black;
+  color: #528f7c;
   letter-spacing: 6px;
 }
 
@@ -1447,6 +1313,188 @@
 .icon-Mail {
   font-size: 30px;
   color: white;
+}
+
+@media (max-width: 768px) {
+
+  /********   球類選項   *******/
+  .sports-section {
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #29755d;
+    box-sizing: border-box;
+  }
+
+  .sports-container {
+    width: 100%;
+    height: auto;
+    padding: 50px 0;
+  }
+
+  /* 九宮格 */
+  .row {
+    display: flex;
+    width: 100%;
+    height: auto;
+  }
+
+  /* 九官格白線 */
+  .col-4 {
+    border: 2.5px solid white;
+    /* 邊框 */
+    height: 200px;
+  }
+
+  /* 標題字體 */
+  .title-box {
+    display: flex;
+    /* flex-direction: column-reverse; */
+    align-items: center;
+  }
+
+  .sports-title {
+    margin: 5px 0;
+    font-size: 20px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: white;
+  }
+
+  .sports-text {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  .sport-text {
+    font-size: 16px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .sports-icon {
+    width: 52px;
+    height: 52px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* 排球圖示 */
+  .icon-Volleyball {
+    font-size: 42px;
+    color: white;
+  }
+
+  /* 籃球圖示 */
+  .icon-Basketball {
+    font-size: 42px;
+    color: white;
+  }
+
+  /* 羽球圖示 */
+  .icon-Badminton {
+    font-size: 42px;
+    color: white;
+  }
+
+
+  /********   活動列表   ********/
+
+  /* 查看更多 */
+  .activity-footer {
+    grid-column: auto;
+    /* ✅ 移除跨兩欄，回歸單欄 */
+    justify-content: center;
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  .activity-footer .more-link {
+    font-size: 18px;
+  }
+
+
+  .activity-scroll-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: none;
+    overflow-y: auto;
+    gap: 12px;
+    max-height: 70vh;
+    padding: 20px auto;
+    width: 300px;
+  }
+
+  .activity-box>.card {
+    flex: 0 0 auto;
+    width: 85%;
+    scroll-snap-align: start;
+  }
+
+  .activity-container {
+    gap: 40px;
+    padding: 30px 0;
+  }
+
+  .activity-title {
+    font-size: 42px;
+    font-weight: 600;
+  }
+
+  .activity-box {
+    height: 60vh;
+  }
+
+  /* ************** 購物商城 **************** */
+  .shop-container {
+    padding: 100px 0;
+  }
+
+  .shop-title {
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: 8px;
+  }
+
+  .shop-product-list {
+    overflow: scroll;
+    width: 100vh;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  .shop-product-card {
+    width: 300px;
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+
+  /* 商品圖片 */
+  .shop-product-image {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #d9d9d9;
+    border-radius: 5px;
+  }
+
+  /* 商品名稱 */
+  .shop-product-name {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: black;
+  }
+
+  .shop-footer .more-link {
+    font-size: 18px;
+  }
 }
 
 
