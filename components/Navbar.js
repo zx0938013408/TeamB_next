@@ -10,6 +10,7 @@ const sections = [
   {
     title: "商城",
     links: [
+      { label: "商城", href: "../../shop/" },
       { label: "上衣", href: "../../shop/top" },
       { label: "褲裝", href: "../../shop/bottom" },
       { label: "鞋類", href: "../../shop/shoes" },
