@@ -9,6 +9,7 @@ import { useAuth } from "../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
+import NotificationBell from "./NotificationBell";
 
 const Header = () => {
   const { auth, logout } = useAuth();
@@ -159,6 +160,8 @@ const Header = () => {
                 <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
                 </Link>
+
+                {auth.id !== 0 && <NotificationBell memberId={auth.id} />}
               </div>
 
               {/* Navbar 開關按鈕 */}
