@@ -14,13 +14,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
 const MemberLikes = () => {
-  const { auth,logout } = useAuth(); // 獲取會員認證資料
+  const { auth, logout } = useAuth(); // 獲取會員認證資料
   const [user, setUser] = useState(null); // 儲存用戶資料
   const [selectedTab, setSelectedTab] = useState("all"); // 預設顯示的位置
   const [pdLikes, setPdLikes] = useState([]);
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState(null);
   const router = useRouter(); // 用於導航
-  
 
   const tabs = [
     { key: "all", label: "全部收藏" },
@@ -68,29 +67,60 @@ const MemberLikes = () => {
     }
   }, [auth?.id]);
 
-  // 取消收藏
-  async function removeFavorite(productId, setPdLikes) {
-    // const token = localStorage.getItem("token");
+  // 取得收藏資料
+  useEffect(() => {
+    if (!product || !product.id) return; // 🧠 等 product 載入再執行
+    const fetchInitialLike = async () => {
+      const userData = localStorage.getItem("TEAM_B-auth");
+      const parsedUser = JSON.parse(userData);
+      const token = parsedUser?.token;
 
-    try {
-      const res = await fetch(`${AB_ITEM_GET}/pd_likes/${productId}`, {
-        method: "DELETE",
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   "Authorization": `Bearer ${token}`, // 登入取得的 JWT
-        // },
-      })
-      const result = await res.json();
+      if (!token) return;
 
-      if (result.success) {
-        setPdLikes((prev) => prev.filter((p) => p.pd_id !== productId));
-      }else {
-        console.error("移除收藏失敗：", result.message);
+      try {
+        const res = await fetch(`${AB_ITEM_GET}/pd_likes/check/${product.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          setLiked(data.liked);
+        }
+      } catch (err) {
+        console.error("取得收藏狀態失敗", err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("移除收藏失敗：", err);
-    }
-  }
+    };
+
+    fetchInitialLike();
+  }, [product]);
+
+  // 取消收藏
+  // async function removeFavorite(productId, setPdLikes) {
+  //   // const token = localStorage.getItem("token");
+
+  //   try {
+  //     const res = await fetch(`${AB_ITEM_GET}/pd_likes/${productId}`, {
+  //       method: "DELETE",
+  //       // headers: {
+  //       //   "Content-Type": "application/json",
+  //       //   "Authorization": `Bearer ${token}`, // 登入取得的 JWT
+  //       // },
+  //     });
+  //     const result = await res.json();
+
+  //     if (result.success) {
+  //       setPdLikes((prev) => prev.filter((p) => p.pd_id !== productId));
+  //     } else {
+  //       console.error("移除收藏失敗：", result.message);
+  //     }
+  //   } catch (err) {
+  //     console.error("移除收藏失敗：", err);
+  //   }
+  // }
 
   useEffect(() => {
     if (auth?.id) {
@@ -122,19 +152,19 @@ const MemberLikes = () => {
             收藏商品
           </Link>
           <button
-    className={styles.menuItemBtn}
-    onClick={() => {
-      logout();
-      toast("會員已登出", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
-      router.push("/"); // 登出後導回首頁或登入頁
-    }}
-  >
-    登出
-  </button>
+            className={styles.menuItemBtn}
+            onClick={() => {
+              logout();
+              toast("會員已登出", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+              });
+              router.push("/"); // 登出後導回首頁或登入頁
+            }}
+          >
+            登出
+          </button>
         </div>
 
         {/* 右側內容 */}
@@ -159,7 +189,7 @@ const MemberLikes = () => {
 
             {/* 收藏清單 */}
             <div className={styles.list}>
-              <div className={styles.order}>
+              <div className={styles}>
                 {filteredPdLikes.length > 0 ? (
                   filteredPdLikes.map((product) => (
                     <FavoriteItem
@@ -171,7 +201,7 @@ const MemberLikes = () => {
                     />
                   ))
                 ) : (
-                  <div className={styles.noOrders}>尚未有收藏</div>
+                  <div className={styles.noLikes}>尚未有收藏</div>
                 )}
               </div>
             </div>
@@ -183,31 +213,32 @@ const MemberLikes = () => {
 };
 
 // ✅ 內部元件：FavoriteItem
+import ProductLikeButton from "@/components/shop/ProductLikeButton";
 const FavoriteItem = ({ product, onRemove }) => {
   const { product_id, product_name, color, price, image } = product;
+  const [liked, setLiked] = useState(false);
   return (
     <div className={styles.list}>
-      <img
-        src={
-          product.image
-            ? `${AVATAR_PATH}/${encodeURIComponent(product.image)}`
-            : `/photo/iconLogo.png`
-        }
-        alt={product.product_name}
-        className={styles.avatarImage}
-      />
-      <div className={styles.productInfo}>
-        <h3>{product.product_name}</h3>
-        <p>顏色: {product.color}</p>
-        <p className={styles.price}>
-          NT${(product.price ?? 0).toLocaleString()}
-        </p>
-        <button
-          onClick={() => onRemove(product.id)}
-          className={styles.removeBtn}
-        >
-          移除收藏
-        </button>
+      <div className={styles.listCard}>
+        <div className={styles.productImageContainer}>
+          <img
+            src={
+              product.image
+                ? `${AVATAR_PATH}/${encodeURIComponent(product.image)}`
+                : `/photo/iconLogo.png`
+            }
+            alt={product.product_name}
+            className={styles.productImage}
+          />
+        </div>
+        <div className={styles.productInfo}>
+          <div className={styles.productName}>{product.product_name}</div>
+          <div className={styles.productColor}>{product.color}</div>
+          <div className={styles.productPrice}>
+            NT${(product.price ?? 0).toLocaleString()}
+          </div>
+        </div>
+        <ProductLikeButton productId={product.id} checked={liked} />
       </div>
     </div>
   );
