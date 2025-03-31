@@ -16,6 +16,7 @@ export default function ActivityListPage() {
   const { auth } = useAuth();
   const searchParams = useSearchParams();
   const keywordFromURL = searchParams.get('search');
+  const [sortType, setSortType] = useState("date");
   const [searchInput, setSearchInput] = useState('')
   const router = useRouter();
   const searchRef = useRef();
@@ -110,8 +111,12 @@ export default function ActivityListPage() {
         const obj = await r.json();
     
         if (obj.success) {
+          const original = obj.rows;
+          const sorted = [...original].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          );
           setOriginalData(obj.rows);  // 儲存完整活動資料
-          setListData(obj.rows);      // 顯示在畫面上的活動資料
+          setListData(sorted);      // 顯示在畫面上的活動資料
         } else {
           console.warn("API 回傳失敗", obj);
         }
@@ -241,7 +246,12 @@ export default function ActivityListPage() {
           <select
               id="people"
               name="people"
-              onChange={(e) => handleSortChange(e.target.value)}
+              value={sortType}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSortType(value);
+                handleSortChange(value);
+                }}
             >
               <option value="date">依照活動日期排序</option>
               <option value="location">依照地區排序</option>
