@@ -225,7 +225,7 @@ const OrderTable = () => {
         product_name: item.product_name,
         quantity: item.quantity,
         price: item.price,
-        size: item.size,
+        size: item.variant_size,
         color: item.color,
         image: item.image
       })
