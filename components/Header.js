@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import NotificationBell from "./NotificationBell";
+import { AVATAR_PATH } from "../config/auth.api";
 
 const Header = () => {
   const { auth, logout } = useAuth();
@@ -129,33 +130,33 @@ const Header = () => {
                 <Link href="#">
                   <span className={`icon-Cart ${styles.iconCart}`}></span>
                 </Link>
-                <span
-                  className={`icon-User ${styles.iconUser}`}
-                  onClick={() => {
-                    if (auth.token) {
-                      router.push("/auth/member");
-                    } else {
-                      router.push("/auth/login");
-                    }
-                  }}
-                  style={{ cursor: "pointer" }}
-                ></span>
-
                 {auth.id != 0 ? (
-                  <button
-                    className={styles.quickActionBtn}
-                    onClick={handleLogout}
-                  >
-                    登出
-                  </button>
-                ) : (
-                  <button
-                    className={styles.quickActionBtn}
-                    onClick={() => (window.location.href = "/auth/login")}
-                  >
-                    登入
-                  </button>
-                )}
+  <div className={styles.avatarWrapper}>
+    <img
+       src={auth?.avatar ? `${AVATAR_PATH}/${auth.avatar}`: `${AVATAR_PATH}/imgs.png`}
+      alt="User Avatar"
+      className={styles.avatarImg}
+      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+    />
+    {isDropdownOpen && (
+      <ul className={styles.dropdownMenu}>
+        <li onClick={() => router.push("/auth/member")}>會員中心</li>
+        <li onClick={() => router.push("/auth/member-edit")}>編輯個人檔案</li>
+        <li onClick={() => router.push("/auth/member-account")}>帳號管理</li>
+        <li onClick={() => router.push("/auth/orderHistory")}>我的訂單</li>
+        <li onClick={() => router.push("/auth/member-likes")}>收藏商品</li>
+        <li onClick={handleLogout}>登出</li>
+      </ul>
+    )}
+  </div>
+) : (
+  <button
+    className={styles.quickActionBtn}
+    onClick={() => router.push("/auth/login")}
+  >
+    登入
+  </button>
+)}
 
                 <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
