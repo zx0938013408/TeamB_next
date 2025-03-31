@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../public/src/assets/iconLogo.png";
 import { useAuth } from "../context/auth-context"; // 引入 useAuth
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import NotificationBell from "./NotificationBell";
@@ -14,6 +14,7 @@ import { AVATAR_PATH } from "../config/auth.api";
 import { useCart } from "@/hooks/use-cart"
 
 const Header = () => {
+  const pathname = usePathname();
   const { auth, logout } = useAuth();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -35,6 +36,11 @@ const Header = () => {
       autoClose:2000   ,   
       hideProgressBar:true ,// 隱藏進度
     });
+
+    if (pathname && pathname.startsWith("/auth/member")) {
+      router.push("/");
+    }
+
   };
 
   // 🔹 點擊外部時關閉搜尋框
@@ -168,7 +174,11 @@ const Header = () => {
 ) : (
   <button
     className={styles.quickActionBtn}
-    onClick={() => router.push("/auth/login")}
+    onClick={() => {
+       // ✅ 登入前紀錄當前頁
+      localStorage.setItem("lastVisitedPage", window.location.pathname);
+      router.push("/auth/login");
+    }}
   >
     登入
   </button>
