@@ -217,11 +217,21 @@ export default function ActivityCreatePage() {
 
   // 打開Modal
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && modalRef.current) {
       const bootstrap = require("bootstrap");
-      if (modalRef.current) {
-        bsModal.current = new bootstrap.Modal(modalRef.current);
-      }
+      const modalInstance = new bootstrap.Modal(modalRef.current);
+      bsModal.current = modalInstance;
+  
+      // ✅ 加入 event listener 等 Modal 完全開啟後觸發 resize
+      const handleShown = () => {
+        window.dispatchEvent(new Event("resize"));
+      };
+      modalRef.current.addEventListener("shown.bs.modal", handleShown);
+  
+      // ✅ 清除事件監聽（避免記憶體外洩）
+      return () => {
+        modalRef.current?.removeEventListener("shown.bs.modal", handleShown);
+      };
     }
   }, []);
 
@@ -335,11 +345,40 @@ export default function ActivityCreatePage() {
           {/* 羽球圖片 */}
           <div className={selected === "shuttlecock" || hovered === "shuttlecock" ? Styles.shuttlecockPhotoHover : Styles.shuttlecockPhoto}></div>
           <h1 className={Styles.title}>請選擇要開團的球局類別</h1>
-          <button className={Styles.goBack} onClick={() => router.back()}>
+          <button 
+            className={Styles.goBack} 
+            onClick={() => {
+              if (window.history.length > 2) {
+                router.back();
+              } else {
+                router.push("/"); // 或任何你希望導去的 fallback 頁面
+              }
+            }}
+          >
             <Image src="/photo/logo/TeamB-logo-whiteYellow.png" alt="TeamB Logo" width={20} height={20} /> 回上一頁
           </button>
-          <div className={`${Styles.sport} row`}>
-            <a href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
+          <div 
+            className={`${Styles.sport} row`}
+            onClick={()=>{
+              if (!auth?.id) {
+                // 顯示 SweetAlert2 提示框
+                Swal.fire({
+                  icon: "warning",
+                  text: "請先登入",  // 顯示後端回傳的訊息
+                  confirmButtonText: "確定",
+                  confirmButtonColor: "#29755D", // 修改按鈕顏色
+                  timer: 1300, // 顯示 1.3 秒後自動關閉
+                  showConfirmButton: false,
+                  allowOutsideClick: false,
+                  didClose: () => {
+                    window.location.href = "/auth/login"; // 或用 router.push
+                  }
+                });
+                return;
+              }
+            }}
+          >
+            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("basketball")
               setSelectedSport(1)
@@ -348,8 +387,8 @@ export default function ActivityCreatePage() {
                 <div className={`icon-Basketball ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>籃球</h3>
               </div>
-            </a>
-            <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
+            </div>
+            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("volleyball")
               setSelectedSport(2)
@@ -358,8 +397,8 @@ export default function ActivityCreatePage() {
                 <div className={`icon-Volleyball ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>排球</h3>
               </div>
-            </Link>
-            <Link href="#" className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
+            </div>
+            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("shuttlecock")
               setSelectedSport(3)
@@ -368,7 +407,7 @@ export default function ActivityCreatePage() {
                 <div className={`icon-Badminton ${Styles.sportIcon}`}></div>
                 <h3 className={Styles.sportTitle}>羽球</h3>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -497,11 +536,11 @@ export default function ActivityCreatePage() {
               </div>
 
               <div className={`row`}>
-              <span className={`col`}>
+              <span className={`col-6`}>
               <label>需求人數</label>
               <input type="number" name="need_num" className={Styles.createInput} ref={(el) => (inputRef.current[5] = el)} min="0" onChange={handleInputChange} />
               </span>
-              <span className={`col`}>
+              <span className={`col-6`}>
               <label>費用(每人)</label>
               <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
               </span>

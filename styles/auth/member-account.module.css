@@ -57,12 +57,12 @@
     height: 100%;
   }
   .title {
-    margin-top: 20px;
-    margin-left: 30px;
-    margin-bottom: 10PX;
-    font-size: 36px;
-    font-weight: 700;
-    color: black;
+
+      font-size: 22px;
+      font-weight: bold;
+      padding-top: 30px;
+      padding-left: 30px;
+    
   
   }
   .avatarContainer {
@@ -181,7 +181,7 @@
     border: 3px solid #29755D;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 30px;
     line-height: 40px;
   }
   .confirmBtn:hover {

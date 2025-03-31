@@ -50,15 +50,43 @@
 
 .titleName {
   width: 100%;
-  margin-left: 20px;
+  margin: 0px 15px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
 
+.titleNum {
+  display: flex;
 }
 
 .idName {
   color: #F7BF58;
 }
+
+/* 取消訂單按鈕 */
+.cancelButtonContainer {
+  background-color: red;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.cancelButton {
+  border: none;
+  background-color: red;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.cancelIcon {
+  color: #FFF;
+  width: 15px;
+}
+
 
 /* 清單 */
 .list {
@@ -172,7 +200,6 @@
   cursor: pointer;
   text-align: center;
   font-size: 14px;
-
 }
 
 

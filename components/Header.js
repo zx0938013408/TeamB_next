@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import styles from "@/styles/Header.module.css";
 import Navbar from "./Navbar"; // 引入 Navbar 組件
@@ -10,8 +9,6 @@ import { useAuth } from "../context/auth-context"; // 引入 useAuth
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
-import NotificationBell from "./NotificationBell";
-import { useCart } from "@/hooks/use-cart";
 
 const Header = () => {
   const { auth, logout } = useAuth();
@@ -20,7 +17,6 @@ const Header = () => {
   const [isHidden, setIsHidden] = useState(false);
   const searchRef = useRef(null);
   const router = useRouter();
-  const { totalQty } = useCart(); // 取得購物車的總數量
 
   const handleLogout = () => {
     // 紀錄當前頁面 URL
@@ -129,22 +125,9 @@ const Header = () => {
                   />
                 </div>
 
-                <div className={styles.iconCartArea}>
-                  <span 
-                    className={`icon-Cart ${styles.iconCart}`}
-                    onClick={() => {
-                      if (auth.token) {
-                        router.push("/cart");
-                      } else {
-                        router.push("/auth/login");
-                      }
-                    }}
-                    style={{ cursor: "pointer" }}
-                  ></span>
-                  {/* 只有在已登入時才顯示數量，否則顯示空 */}
-                  {auth.token && <span className={styles.iconCartNum}>{totalQty}</span>}
-                </div>
-                
+                <Link href="#">
+                  <span className={`icon-Cart ${styles.iconCart}`}></span>
+                </Link>
                 <span
                   className={`icon-User ${styles.iconUser}`}
                   onClick={() => {
@@ -176,9 +159,7 @@ const Header = () => {
                 <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
                 </Link>
-
-                {auth.id !== 0 && <NotificationBell memberId={auth.id} />}
-                </div>
+              </div>
 
               {/* Navbar 開關按鈕 */}
               <div className={styles.navbarToggle}>

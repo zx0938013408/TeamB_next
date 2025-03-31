@@ -3,6 +3,8 @@ import Styles from "../../app/activity-list/activity-list.module.css";
 import LikeHeart from "../like-hearts";
 import { AVATAR_PATH } from "@/config/api-path";
 import { useAuth } from "@/context/auth-context";
+import Swal from "sweetalert2"; // 引入 SweetAlert2
+
 
 export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) {
   // 取得當前日期
@@ -111,8 +113,19 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) 
               }`}
               onClick={() => {
                 if (!auth?.id) {
-                  alert("請先登入");
-                  window.location.href = "/auth/login"; // 或用 router.push
+                  // 顯示 SweetAlert2 提示框
+                  Swal.fire({
+                    icon: "warning",
+                    text: "請先登入",  // 顯示後端回傳的訊息
+                    confirmButtonText: "確定",
+                    confirmButtonColor: "#29755D", // 修改按鈕顏色
+                    timer: 1300, // 顯示 1.3 秒後自動關閉
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didClose: () => {
+                      window.location.href = "/auth/login"; // 或用 router.push
+                    }
+                  });
                   return;
                 } else if (
                   !isExpired &&

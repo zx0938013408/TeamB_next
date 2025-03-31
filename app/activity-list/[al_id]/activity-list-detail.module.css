@@ -553,3 +553,89 @@
     width: 450px;
     height: 180px;
   }
+  
+/* --- 留言板整體區塊 --- */
+.messageBoard {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #a0c4b0;
+}
+
+/* 單筆留言 */
+.messageItem {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.messageMeta {
+  font-size: 14px;
+  color: #555;
+}
+
+.ownerTag {
+  background: #29755D;
+  color: white;
+  padding: 2px 5px;
+  margin-left: 8px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.timestamp {
+  margin-left: 10px;
+  color: #999;
+  font-size: 12px;
+}
+
+.messageText {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+/* --- 發送留言區塊 --- */
+.newMessage {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.newMessage .textareaInput {
+  flex: 1;
+  height: 80px;
+  resize: none;
+  padding: 10px;
+  font-size: 14px;
+  border: 3px solid #a0c4b0;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+/* 發送留言按鈕 */
+.newMessage .register {
+  white-space: nowrap;
+  height: 80px;
+  padding: 0 16px;
+  background-color: #29755D;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: bold;
+}
+
+.newMessage .register:hover {
+  background-color: #1f5c48;
+}
+
+  

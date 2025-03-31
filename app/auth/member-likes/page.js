@@ -8,14 +8,14 @@ import Header from "../../../components/Header";
 import moment from "moment";
 import "@/public/TeamB_Icon/style.css";
 import styles from "./member-likes.module.css";
-import { AB_LIST } from "@/config/shop-api-path";
+import { AB_ITEM_GET, AVATAR_PATH } from "@/config/shop-api-path";
 
 const MemberLikes = () => {
   const { auth } = useAuth(); // 獲取會員認證資料
   const [user, setUser] = useState(null); // 儲存用戶資料
-  const [selectedTab, setSelectedTab] = useState("all"); // 預設顯示
-  const [orders, setOrders] = useState([]);
-  const [favorites, setFavorites] = useState([]);
+  const [selectedTab, setSelectedTab] = useState("all"); // 預設顯示的位置
+  const [pdLikes, setPdLikes] = useState([]);
+  const [product, setProduct] = useState();
 
   const tabs = [
     { key: "all", label: "全部收藏" },
@@ -25,40 +25,33 @@ const MemberLikes = () => {
     { key: "accessories", label: "運動裝備" },
   ];
 
-  // 根據分類過濾收藏商品
-  const filteredFavorites = favorites.filter((product) => {
-    if (selectedTab === "all") return true;
-    if (selectedTab === "onsale") return product.is_discount === 1;
-    return product.category === selectedTab;
-  });
-
-  const handleRemoveFavorite = async (productId) => {
-    try {
-      const res = await fetch(`/api/favorites/delete/${productId}`, {
-        method: "DELETE",
-      });
-      const result = await res.json();
-
-      if (result.success) {
-        setFavorites((prev) => prev.filter((p) => p.product_id !== productId));
-      }
-    } catch (err) {
-      console.error("移除收藏失敗：", err);
-    }
+  const categoryIdMap = {
+    top: 1,
+    bottom: 2,
+    shoes: 3,
+    accessories: 4,
   };
 
+  // 根據分類過濾收藏商品
+  function filterByCategory(products, selectedTab) {
+    if (selectedTab === "all") return products;
+
+    const expectedCategoryId = categoryIdMap[selectedTab];
+    return products.filter(
+      (product) => product.category_id === expectedCategoryId
+    );
+  }
+  const filteredPdLikes = filterByCategory(pdLikes, selectedTab);
+
+  // 取得單一會員收藏資料
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchPdLikes = async () => {
       try {
-        const res = await fetch(`${AB_LIST}`);
+        const res = await fetch(`${AB_ITEM_GET}/member/${auth.id}`);
         const data = await res.json();
 
         if (data.success) {
-          const memberId = auth.id;
-          const myFavorites = data.rows.filter(
-            (fav) => Number(fav.member_id) === Number(memberId)
-          );
-          setFavorites(myFavorites);
+          setPdLikes(data.rows);
         }
       } catch (error) {
         console.error("載入收藏失敗：", error);
@@ -66,9 +59,33 @@ const MemberLikes = () => {
     };
 
     if (auth?.id) {
-      fetchFavorites();
+      fetchPdLikes();
     }
   }, [auth?.id]);
+
+  // 取消收藏
+  async function removeFavorite(productId, setPdLikes) {
+    // const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`${AB_ITEM_GET}/pd_likes/${productId}`, {
+        method: "DELETE",
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   "Authorization": `Bearer ${token}`, // 登入取得的 JWT
+        // },
+      })
+      const result = await res.json();
+
+      if (result.success) {
+        setPdLikes((prev) => prev.filter((p) => p.pd_id !== productId));
+      }else {
+        console.error("移除收藏失敗：", result.message);
+      }
+    } catch (err) {
+      console.error("移除收藏失敗：", err);
+    }
+  }
 
   useEffect(() => {
     if (auth?.id) {
@@ -104,7 +121,8 @@ const MemberLikes = () => {
         {/* 右側內容 */}
         <div className={styles.content}>
           <div className={styles.orderName}>收藏的商品</div>
-          {/* 根據選中的訂單狀態顯示訂單 */}
+
+          {/* 分類 Tabs */}
           <div className={styles.tabContent}>
             <div className={styles.tabContainer}>
               <div className={styles.tabs}>
@@ -119,14 +137,18 @@ const MemberLikes = () => {
                 ))}
               </div>
             </div>
+
+            {/* 收藏清單 */}
             <div className={styles.list}>
               <div className={styles.order}>
-                {filteredFavorites.length > 0 ? (
-                  filteredFavorites.map((product) => (
+                {filteredPdLikes.length > 0 ? (
+                  filteredPdLikes.map((product) => (
                     <FavoriteItem
-                      key={product.product_id}
+                      key={product.id}
                       product={product}
-                      onRemove={handleRemoveFavorite}
+                      onRemove={(productId) =>
+                        removeFavorite(productId, setPdLikes)
+                      }
                     />
                   ))
                 ) : (
@@ -138,6 +160,37 @@ const MemberLikes = () => {
         </div>
       </div>
     </>
+  );
+};
+
+// ✅ 內部元件：FavoriteItem
+const FavoriteItem = ({ product, onRemove }) => {
+  const { product_id, product_name, color, price, image } = product;
+  return (
+    <div className={styles.list}>
+      <img
+        src={
+          product.image
+            ? `${AVATAR_PATH}/${encodeURIComponent(product.image)}`
+            : `/photo/iconLogo.png`
+        }
+        alt={product.product_name}
+        className={styles.avatarImage}
+      />
+      <div className={styles.productInfo}>
+        <h3>{product.product_name}</h3>
+        <p>顏色: {product.color}</p>
+        <p className={styles.price}>
+          NT${(product.price ?? 0).toLocaleString()}
+        </p>
+        <button
+          onClick={() => onRemove(product.id)}
+          className={styles.removeBtn}
+        >
+          移除收藏
+        </button>
+      </div>
+    </div>
   );
 };
 

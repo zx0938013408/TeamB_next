@@ -41,6 +41,7 @@
 .content {
     padding: 30px;
     flex: 1;
+  
 }
 
 
@@ -60,14 +61,14 @@
     justify-content: center;
     align-items: center;
     object-fit: cover;
+    border: 4px solid transparent;  /* 先設置透明邊框 */
+    box-shadow: 0 0 0 1mm #3F6D62, /* 在頭像四周設置紅色陰影，5mm的距離 */
+    0 4px 6px rgba(0, 0, 2, 2); /* 渲染陰影效果來模擬斷層效果 */
+    
+    
 }
 
 
-
-.userInfo h2 {
-    margin: 0;
-    font-size: 22px;
-}
 
 .tabMenu {
     display: flex;
@@ -136,4 +137,10 @@
   .userInfo h2 {
     margin-bottom: 10px;
     color: #25423b;
+    font-size: 22px;
+  }
+
+
+  .userInfo{
+    margin-left: 10px;
   }

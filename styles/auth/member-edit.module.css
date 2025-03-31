@@ -56,14 +56,15 @@
     height: 100%;
   }
   .title {
-    margin-top: 20px;
-    margin-left: 30px;
-    margin-bottom: 10PX;
-    font-size: 36px;
-    font-weight: 700;
-    color: black;
+
+    font-size: 22px;
+    font-weight: bold;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-bottom: 20px;
   
-  }
+
+}
   .avatarContainer {
     display: flex;
     flex-direction: column;
@@ -131,7 +132,7 @@
     width: 100%;
     max-width: 400px;
     margin-top: 50px;
-    margin-left: 50px;
+    margin-left: 100px;
   }
   .inputBox,
   .selectBox {

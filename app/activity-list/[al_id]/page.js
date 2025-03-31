@@ -4,11 +4,10 @@ import { useRef, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "@/public/TeamB_Icon/style.css";
 import Styles from "./activity-list-detail.module.css";
-import { AL_ITEM_GET } from "@/config/api-path";
+import { AL_ITEM_GET,AVATAR_PATH,MESSAGE_BOARD_GET, MESSAGE_BOARD_POST } from "@/config/api-path";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
-import { AVATAR_PATH } from "@/config/api-path";
 import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
@@ -29,6 +28,9 @@ export default function ActivityDetailPage() {
   const bsModal = useRef(null);
   const [originalData, setOriginalData] = useState([]);
   const [listData, setListData] = useState([]);
+  //留言板
+  const [messages, setMessages] = useState([]);
+const [newMessage, setNewMessage] = useState("");
 
 
   // Modal
@@ -179,6 +181,65 @@ useEffect(() => {
   fetchActivityDetail();
 }, [al_id]);
 
+// 抓取留言資料
+const fetchMessages = async () => {
+  try {
+    const res = await fetch(MESSAGE_BOARD_GET(al_id));
+    const data = await res.json();
+    if (data.success) {
+      setMessages(data.messages);
+    }
+  } catch (err) {
+    console.error("留言載入失敗:", err);
+  }
+};
+
+// 發送留言功能
+const handleAddMessage = async () => {
+  if (!auth?.id || !newMessage.trim()) return;
+
+  try {
+    const res = await fetch(MESSAGE_BOARD_POST, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        activity_id: al_id,
+        member_id: auth.id,
+        message: newMessage,
+        is_owner: auth.id === activity?.member_id
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      setNewMessage("");
+      fetchMessages();
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "留言失敗",
+        text: data.error || "請稍後再試",
+        confirmButtonText: "確定",
+        confirmButtonColor: "#29755D",
+      });
+    }
+  } catch (err) {
+    console.error("留言發送失敗:", err);
+    Swal.fire({
+      icon: "error",
+      title: "發送錯誤",
+      text: "伺服器無回應或連線錯誤，請稍後再試。",
+      confirmButtonText: "確定",
+      confirmButtonColor: "#29755D",
+    });
+  }
+};
+
+
+useEffect(() => {
+  if (al_id) fetchMessages();
+}, [al_id]);
+
+
 
   if (!activity) {
     return <p className={Styles.loading}>載入中...</p>;
@@ -327,12 +388,17 @@ useEffect(() => {
                 if (!auth?.id) {
                   // 顯示 SweetAlert2 提示框
                   Swal.fire({
-                    icon: "error",
+                    icon: "warning",
                     text: "請先登入",  // 顯示後端回傳的訊息
                     confirmButtonText: "確定",
                     confirmButtonColor: "#29755D", // 修改按鈕顏色
+                    timer: 1300, // 顯示 1.3 秒後自動關閉
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didClose: () => {
+                      window.location.href = "/auth/login"; // 或用 router.push
+                    }
                   });
-                  window.location.href = "/auth/login";
                   return;
                 }
                 openModal();
@@ -356,6 +422,51 @@ useEffect(() => {
           <p className={Styles.infoText}>{activity.introduction}</p>
         </div>
       </div>
+
+      {/* 留言板 */}
+      <div className={`${Styles.container} mx-auto ${Styles.information}`}>
+  <div className={Styles.information1}>
+    <h2 className={Styles.infoTitle}>活動留言板</h2>
+
+    <div className={Styles.messageBoard}>
+  {messages.map((msg) => (
+    <div key={msg.id} className={Styles.messageItem}>
+      <img
+        src={msg.member_avatar || "/default-avatar.png"}
+        alt="avatar"
+        className={Styles.avatar}
+      />
+      <div>
+        <div className={Styles.messageMeta}>
+          <strong>{msg.member_name}</strong>
+          {msg.is_owner && <span className={Styles.ownerTag}>主辦</span>}
+          <span className={Styles.timestamp}>
+            {new Date(msg.created_at).toLocaleString()}
+          </span>
+        </div>
+        <p className={Styles.messageText}>{msg.message}</p>
+      </div>
+    </div>
+  ))}
+
+  {auth?.id && (
+    <div className={Styles.newMessage}>
+      <textarea
+        value={newMessage}
+        placeholder="輸入留言..."
+        onChange={(e) => setNewMessage(e.target.value)}
+        className={Styles.textareaInput}
+      />
+      <button onClick={handleAddMessage} className={Styles.register}>
+        發送留言
+      </button>
+    </div>
+  )}
+</div>
+
+  </div>
+</div>
+
 
       {/* 商品推薦區 */}
       <div className={`${Styles.container} mx-auto ${Styles.advertise}`}>

@@ -9,6 +9,7 @@ import ActivityRegisteredEditModal from "@/components/activity-registered-edit-m
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 import { ACTIVITY_REGISTRATION_DELETE } from "@/config/activity-registered-api-path";
 
+
 export default function ActivityCardRegistered({
   activity,
   registeredId,
@@ -73,8 +74,21 @@ const openEditModal = async () => {
 
 //取消報名按鈕功能
 const handleCancel = async () => {
-  const reason = prompt("請輸入取消報名的原因：");
-  if (!reason) return alert("請填寫取消原因");
+  const { value: reason } = await Swal.fire({
+    title: "請輸入取消報名的原因",
+    input: "text",
+    inputPlaceholder: "請填寫原因...",
+    showCancelButton: true,
+    confirmButtonText: "送出",
+    cancelButtonText: "取消",
+    confirmButtonColor: "#29755D",
+    inputValidator: (value) => {
+      if (!value) {
+        return "請填寫取消原因";
+      }
+      return null;
+    },
+  });
 
   try {
     const res = await fetch(ACTIVITY_REGISTRATION_DELETE(activity.registered_id), {

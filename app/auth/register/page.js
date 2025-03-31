@@ -23,7 +23,7 @@ const Register = () => {
 
   // 驗證密碼長度
   const validatePassword = (password) => {
-    return password.length >= 6 && password.length <= 8;
+    return password.length >= 6 ;
   };
 
   const handleNext = async (e) => {
@@ -61,7 +61,7 @@ const Register = () => {
     }
 
     if (!validatePassword(password)) {
-      setPasswordError("密碼必須為 6-8 位數");
+      setPasswordError("密碼必須至少 6 位數");
       return;
     }
 
