@@ -83,3 +83,7 @@ export const MB_VERIFY_POST =`${AUTH_GET}/api/verify-user`;
 //忘記密碼後設定新密碼
 export const MB_RESET_POST =`${AUTH_GET}/api/reset-password`;
 
+
+
+export const MB_CONTACT_POST =`${AUTH_GET}/submit-contact-form`;
+
