@@ -26,6 +26,18 @@ export default function ProductDetailPage() {
   const [stock, setStock] = useState({}); // 存儲庫存數量
   const [selectedSize, setSelectedSize] = useState(""); //儲存庫存
   const [selectedQuantity, setSelectedQuantity] = useState(""); //儲存選擇數量
+  const [quantity, setQuantity] = useState(1);
+
+  const increase = () => {
+    const nextQty = quantity + 1;
+    setQuantity(nextQty);
+  };
+
+  const decrease = () => {
+    if (quantity <= 1) return; // 不能小於 1
+    const nextQty = quantity - 1;
+    setQuantity(nextQty);
+  };
 
   // 引用 select 元素
   const sizeRef = useRef(null);
@@ -155,17 +167,17 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    const qty = parseInt(selectedQuantity, 10);
+    const qty = quantity;
     console.log("✅ 選擇的尺寸：", selectedSize);
     console.log("✅ 選擇的數量：", selectedQuantity);
 
-    if (!selectedSize || isNaN(qty) || qty < 1) {
+    if (!selectedSize || qty < 1) {
       toast.error("請選擇尺寸和數量");
       return;
     }
 
     const availableStock = stock[selectedSize] || 0;
-    if (selectedQuantity > availableStock) {
+    if (qty > availableStock) {
       toast.error(`庫存不足，僅剩 ${availableStock} 件`);
       return;
     }
@@ -255,8 +267,57 @@ export default function ProductDetailPage() {
                         </option>
                       ))}
                     </select>
-                    <div className={styles.quantity}>
-                      <select
+                    {/* 選擇數量 */}
+                    {/* <div className={styles.quantity}> */}
+                      <div className="flex items-center border rounded overflow-hidden w-32">
+                        <button
+                          onClick={decrease}
+                          disabled={quantity <= 1}
+                          className={`w-10 h-10 text-xl ${
+                            quantity <= 1
+                              ? "text-gray-400 cursor-not-allowed"
+                              : ""
+                          }`}
+                        >
+                          –
+                        </button>
+                        <div className="w-full text-center">{quantity}</div>
+                        <button
+                          onClick={increase}
+                          className="w-10 h-10 text-xl"
+                        >
+                          +
+                        </button>
+                      {/* </div> */}
+                      {/* <ul>
+                        {cartItems.map((cartItem) => (
+                          <li
+                            key={cartItem.id}
+                            className="flex items-center gap-2"
+                          >
+                            <button
+                              onClick={() => {
+                                const nextCount = cartItem.count - 1;
+                                if (nextCount <= 0) {
+                                  onRemove(cartItem.id); // 數量為 0，從購物車移除
+                                } else {
+                                  onDecrease(cartItem.id); // 數量減 1
+                                }
+                              }}
+                            >
+                              –
+                            </button>
+                            <span>{cartItem.count}</span> {/* 顯示目前數量 */}
+                            {/* <button onClick={() => onIncrease(cartItem.id)}>
+                              +
+                            </button>
+                          </li>
+                        ))}
+                      </ul> */}
+
+
+                      
+                      {/* <select
                         className={styles.quantitySection}
                         value={selectedQuantity}
                         onChange={(e) => setSelectedQuantity(e.target.value)}
@@ -266,7 +327,7 @@ export default function ProductDetailPage() {
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
-                      </select>
+                      </select> */}
                       <div className={styles.inventory}>
                         {selectedSize
                           ? `庫存：${stock[selectedSize] ?? 0} 件`
