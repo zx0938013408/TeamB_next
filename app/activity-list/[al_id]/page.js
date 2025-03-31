@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "@/public/TeamB_Icon/style.css";
 import Styles from "./activity-list-detail.module.css";
-import { AL_ITEM_GET,AVATAR_PATH,MESSAGE_BOARD_GET, MESSAGE_BOARD_POST } from "@/config/api-path";
+import { AL_ITEM_GET,AVATAR_PATH,MESSAGE_BOARD_GET, MESSAGE_BOARD_POST,API_SERVER } from "@/config/api-path";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
@@ -427,12 +427,12 @@ useEffect(() => {
       <div className={`${Styles.container} mx-auto ${Styles.information}`}>
   <div className={Styles.information1}>
     <h2 className={Styles.infoTitle}>活動留言板</h2>
-
     <div className={Styles.messageBoard}>
   {messages.map((msg) => (
     <div key={msg.id} className={Styles.messageItem}>
+    {console.log("會員照片",msg.member_avatar)    }
       <img
-        src={msg.member_avatar || "/default-avatar.png"}
+        src={`${API_SERVER}${msg.member_avatar}`}
         alt="avatar"
         className={Styles.avatar}
       />
@@ -448,7 +448,6 @@ useEffect(() => {
       </div>
     </div>
   ))}
-
   {auth?.id && (
     <div className={Styles.newMessage}>
       <textarea
