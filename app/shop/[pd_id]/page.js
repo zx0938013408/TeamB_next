@@ -22,6 +22,10 @@ export default function ProductDetailPage() {
   const [liked, setLiked] = useState(false); // 控制愛心狀態
   const [loading, setLoading] = useState(true); // 防止閃爍
   const { onAdd } = useCart();
+  const [sizes, setSizes] = useState([]); // 存儲尺寸
+  const [stock, setStock] = useState({}); // 存儲庫存數量
+  const [selectedSize, setSelectedSize] = useState(""); //儲存庫存
+  const [selectedQuantity, setSelectedQuantity] = useState(""); //儲存選擇數量
 
   // 引用 select 元素
   const sizeRef = useRef(null);
@@ -38,10 +42,12 @@ export default function ProductDetailPage() {
     console.log("📦 API 回傳的 product:", product);
     const apiUrl = `${AB_ITEM_GET}/${pd_id}`;
     console.log(`📢 正在請求 API: ${apiUrl}`);
+
     fetch(apiUrl)
       .then(async (res) => {
         console.log(`✅ API 響應狀態: ${res.status}`);
         const responseText = await res.text();
+        const data = JSON.parse(responseText);
         console.log("📄 API 回應內容:", responseText);
         try {
           return JSON.parse(responseText);
@@ -51,14 +57,34 @@ export default function ProductDetailPage() {
       })
       .then((data) => {
         console.log("📦 API 回傳資料:", data);
-        if (data.success) {
-          setProduct(data.data);
+        if (data.success && data.data) {
+          const productData = data.data;
+
+          setProduct(productData);
+
+          // 先檢查 productData 中是否有 size 和 stock 資料
+          console.log("商品資料:", productData);
+
+          if (productData.sizes && productData.stocks) {
+            const sizes = productData.sizes.split(","); // ['S', 'M', 'L']
+            const stocks = productData.stocks.split(",").map(Number); // [10, 20, 15]
+
+            setSizes(sizes);
+            setStock(
+              sizes.reduce((acc, size, i) => {
+                acc[size] = stocks[i] ?? 0;
+                return acc;
+              }, {})
+            );
+          } else {
+            console.error("❌ 無法找到 size 或 stock 資料");
+          }
         } else {
-          console.error("❌ API 內部錯誤:", data.error);
+          console.error("API 回傳錯誤:", data.error);
         }
       })
       .catch((error) => console.error("❌ fetch 錯誤:", error));
-  }, [pd_id]); // 依賴 pd_id
+  }, [pd_id]);
 
   // 取得收藏資料
   useEffect(() => {
@@ -90,36 +116,6 @@ export default function ProductDetailPage() {
 
     fetchInitialLike();
   }, [product]);
-
-  // ✅ 點擊愛心 → 切換收藏狀態
-  const handleToggleLike = async () => {
-    const userData = localStorage.getItem("TEAM_B-auth");
-    const parsedUser = JSON.parse(userData);
-    const token = parsedUser?.token;
-
-    if (!token) {
-      alert("請先登入！");
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/favorite", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ pdId: product.pd_id }),
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        setLiked(data.liked); // ✅ 更新前端狀態
-      }
-    } catch (err) {
-      console.error("切換收藏失敗", err);
-    }
-  };
 
   // 取得隨機推薦商品資料
   useEffect(() => {
@@ -159,11 +155,18 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    const selectedSize = sizeRef.current?.value;
-    const selectedQuantity = quantityRef.current?.value;
+    const qty = parseInt(selectedQuantity, 10);
+    console.log("✅ 選擇的尺寸：", selectedSize);
+    console.log("✅ 選擇的數量：", selectedQuantity);
 
-    if (selectedSize === "尺寸" || selectedQuantity === "數量") {
+    if (!selectedSize || isNaN(qty) || qty < 1) {
       toast.error("請選擇尺寸和數量");
+      return;
+    }
+
+    const availableStock = stock[selectedSize] || 0;
+    if (selectedQuantity > availableStock) {
+      toast.error(`庫存不足，僅剩 ${availableStock} 件`);
       return;
     }
 
@@ -174,7 +177,7 @@ export default function ProductDetailPage() {
       price: product.price,
       color: product.color,
       size: selectedSize,
-      quantity: selectedQuantity,
+      quantity: qty,
       image: product.image,
     });
     notify(product.product_name);
@@ -238,15 +241,26 @@ export default function ProductDetailPage() {
                     </div>
                   </div>
                   <div className={styles.productDetail}>
-                    <select className={styles.sizeSection}>
-                      <option className={styles.dropdown}>尺寸</option>
-                      <option value="S">S</option>
-                      <option value="M">M</option>
-                      <option value="L">L</option>
-                      <option value="XL">XL</option>
+                    <select
+                      className={styles.sizeSection}
+                      onChange={(e) => setSelectedSize(e.target.value)}
+                      value={selectedSize}
+                    >
+                      <option className={styles.dropdown} value="">
+                        尺寸
+                      </option>
+                      {sizes.map((size) => (
+                        <option key={size} value={size}>
+                          {size}
+                        </option>
+                      ))}
                     </select>
                     <div className={styles.quantity}>
-                      <select className={styles.quantitySection}>
+                      <select
+                        className={styles.quantitySection}
+                        value={selectedQuantity}
+                        onChange={(e) => setSelectedQuantity(e.target.value)}
+                      >
                         <option className={styles.dropdown}>數量</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -254,7 +268,9 @@ export default function ProductDetailPage() {
                         <option value="4">4</option>
                       </select>
                       <div className={styles.inventory}>
-                        庫存：{product.inventory} 件
+                        {selectedSize
+                          ? `庫存：${stock[selectedSize] ?? 0} 件`
+                          : "請先選擇尺寸"}
                       </div>
                     </div>
                     <div className={styles.buttons}>
