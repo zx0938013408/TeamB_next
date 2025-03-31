@@ -2,24 +2,29 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Styles from "./create.module.css";
+import styles from "@/styles/Header.module.css";
 import StylesCity from "@/styles/city-area/city-area.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
-import { AL_CREATE_POST } from "@/config/api-path";
+import { AL_CREATE_POST, AVATAR_PATH } from "@/config/api-path";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
 import CourtList from "@/components/court-info/court_info"
 import { useAuth } from "@/context/auth-context"; // 引入 useAuth
+import { toast } from "react-toastify";  // 引入 react-toastify
+import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
 export default function ActivityCreatePage() {
-    const { auth } = useAuth();
+  const pathname = usePathname();
+  const { auth, logout } = useAuth();
   const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   // const [selectedCity, setSelectedCity] = useState("14");
   const [selectedArea, setSelectedArea] = useState("");
   const [cityData, setCityData] = useState([]);
@@ -44,6 +49,26 @@ export default function ActivityCreatePage() {
     introduction: "",
     address: "",
   });
+
+  // 登出功能
+  const handleLogout = () => {
+      // 紀錄當前頁面 URL
+      localStorage.setItem("lastPageBeforeLogout", router.asPath);
+  
+      logout();
+  
+      // 顯示登出提示
+      toast("會員已登出",{
+        position:"top-center" , // 設定通知顯示位置
+        autoClose:2000   ,   
+        hideProgressBar:true ,// 隱藏進度
+      });
+  
+      if (pathname && pathname.startsWith("/auth/member")) {
+        router.push("/");
+      }
+  
+    };
 
   // 按取消 || X 會清空資料
   const resetForm = () => {
@@ -357,6 +382,41 @@ export default function ActivityCreatePage() {
           >
             <Image src="/photo/logo/TeamB-logo-whiteYellow.png" alt="TeamB Logo" width={20} height={20} /> 回上一頁
           </button>
+
+          {/* 會員頁面 */}
+          {auth.id != 0 ? (
+            <div className={Styles.avatarWrapper}>
+              <img
+                 src={auth?.avatar ? `${AVATAR_PATH}/${auth.avatar}`: `${AVATAR_PATH}/imgs.png`}
+                alt="User Avatar"
+                className={Styles.avatarImg}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              />
+              {isDropdownOpen && (
+                <ul className={Styles.dropdownMenu}>
+                  <li onClick={() => router.push("/auth/member")}>會員中心</li>
+                  <li onClick={() => router.push("/auth/member-edit")}>編輯個人檔案</li>
+                  <li onClick={() => router.push("/auth/member-account")}>帳號管理</li>
+                  <li onClick={() => router.push("/auth/orderHistory")}>我的訂單</li>
+                  <li onClick={() => router.push("/auth/member-likes")}>收藏商品</li>
+                  <li onClick={handleLogout}>登出</li>
+                </ul>
+              )}
+            </div>
+          ) : (
+            <button
+              className={Styles.user}
+              onClick={() => {
+                 // ✅ 登入前紀錄當前頁
+                localStorage.setItem("lastVisitedPage", window.location.pathname);
+                router.push("/auth/login");
+              }}
+            >
+              登入
+            </button>
+          )}
+
+
           <div 
             className={`${Styles.sport} row`}
             onClick={()=>{
