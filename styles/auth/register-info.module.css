@@ -1,240 +1,244 @@
-
+/* 整體容器 */
 .container {
-    display: flex;
-    max-width: 1300px;
-    max-height: 700px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transform: translateY(-90px); /* 向上移動容器 */
-
-    
-    
-  }
-.form {
-    width: 90%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  max-width: 1300px;
+  max-height: 700px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transform: translateY(-90px); /* 向上移動容器 */
 }
-/* 左側區塊設為綠色背景，內容對齊 */
+
+/* 表單 */
+.form {
+  width: 90%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 左側區塊 */
 .leftSection {
-    width: 55%; /* 調整為 40%，讓右側區塊佔更大區域 */
-    background: #0F3D3E;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 50px;
-    text-align: left;
-  }
-  
-  .leftSection p {
-    font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.8;
-  }
-  
-  .leftSection h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+  width: 55%; /* 調整為 40%，讓右側區塊佔更大區域 */
+  background: #0F3D3E;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px;
+  text-align: left;
+}
+
+.leftSection p {
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.leftSection h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
 /* ✅ 輸入框樣式 */
-.inputBox
- {
-    width: 98%;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    margin-bottom: 30px;
-
-    
+.inputBox {
+  width: 98%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 30px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+.inputBox:focus {
+  border-color: #0F3D3E; /* 深綠色 */
+  box-shadow: 0 0 5px rgba(15, 61, 62, 0.5);
+}
+
 .inputBox.error {
-    border-color: red;
-  }
-
-.separator{
-    width: 50px;
-    height: 4px;
-    background: #1DB954;
-    margin: 15px 0;
+  border-color: red; /* 錯誤狀態紅色邊框 */
 }
 
-.selectBox{
-    width: 50%;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    margin-bottom: 30px;
 
+.inputBox:focus + .placeholder, 
+.inputBox:valid + .placeholder {
+  display: none; /* 當焦點或有值時隱藏 */
 }
-.selectBox.error {
-    border-color: red;
-  }
 
-  .error {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-  }
-.inputBox:focus,
+.separator {
+  width: 50px;
+  height: 4px;
+  background: #1DB954;
+  margin: 15px 0;
+}
+
+.selectBox {
+  width: 50%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 30px;
+  transition: border-color 0.3s ease;
+}
+
 .selectBox:focus {
-    border-color: #0F3D3E;
+  border-color: #0F3D3E; /* 深綠色 */
+  box-shadow: 0 0 5px rgba(15, 61, 62, 0.5);
 }
 
-/* ✅ 勾選框群組 */
+.selectBox.error {
+  border-color: red;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
 .checkboxGroup {
-    display: flex;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #333;
-    width: 99%;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    align-items: center;
-    margin-bottom: 30px;
-}
-.checkboxGroup:focus{
-    border-color: #0F3D3E;
+  display: flex;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+  width: 99%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
-.checkboxGroup.error{
-    border-color: red;
+.checkboxGroup:focus {
+  border-color: #0F3D3E;
+}
+
+.checkboxGroup.error {
+  border-color: red;
 }
 
 .checkboxItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 5px;
-    
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
 }
 
-
 .submitSection {
-    text-align: center;
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .submitButton {
-    width: 120px;
-    height: 50px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background: #0F3D3E;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
+  width: 120px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background: #0F3D3E;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .submitButton:hover {
-    background: #146C94;
+  background: #146C94;
 }
-
-
 
 /* 讓頭像與姓名欄位水平排列 */
 .avatarNameContainer {
-    display: flex;
-    align-items: center;
-    gap: 20px;  /* 控制間距 */
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 控制間距 */
 }
 
-.genderSportContainer{
-    display: flex;
-    align-items: center;
-    gap: 20px;  /* 控制間距 */
+.genderSportContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 控制間距 */
 }
 
 /* 頭像區域 */
 .avatarContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 頭像預覽 */
 .avatarPreview {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
 }
 
 /* 隱藏 input[type=file] */
 .hiddenFileInput {
-    display: none;
+  display: none;
 }
 
 /* 按鈕樣式 */
 .uploadButton {
-    background-color: #1d3b34;
-    color: white;
-    border: none;
-    padding: 6px 6px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 8px;
-    margin-bottom: 10px;
-
-   
+  background-color: #1d3b34;
+  color: white;
+  border: none;
+  padding: 6px 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-bottom: 10px;
 }
 
 .uploadButton:hover {
-    background-color: #173029;
+  background-color: #173029;
 }
 
-
 .errors {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-  }
-  .row {
-    display: flex;
-    gap: 20px; /* 控制間距 */
-    flex-wrap: nowrap; /* 防止換行 */
-  }
-  
-  .row .inputBox {
-    width: 50%; /* 兩個欄位各佔50%寬度 */
-  }
-  
-  .singleRow {
-    width: 100%; /* 地址單獨佔滿一行 */
-    margin-top: 10px;
-    
-  }
-  
-  .singleRow .inputBox {
-    width: 100%; /* 地址輸入框佔滿整行 */
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
 
-  }
+.row {
+  display: flex;
+  gap: 20px; /* 控制間距 */
+  flex-wrap: nowrap; /* 防止換行 */
+}
 
-  .addressContainer {
+.row .inputBox {
+  width: 50%; /* 兩個欄位各佔50%寬度 */
+}
+
+.singleRow {
+  width: 100%; /* 地址單獨佔滿一行 */
+  margin-top: 10px;
+}
+
+.singleRow .inputBox {
+  width: 100%; /* 地址輸入框佔滿整行 */
+}
+
+.addressContainer {
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -248,8 +252,6 @@
   font-size: 16px;
   border: 2px solid #ccc;
   border-radius: 6px;
-
-  
 }
 
 .input {
@@ -258,50 +260,48 @@
   padding-bottom: 14px;
   border: 2px solid #ccc;
   border-radius: 6px;
- 
- 
-  
 }
-.cityBox{
-    width: 20%;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    margin-bottom: 30px;
-    gap: 10px;
-    margin-right: 20px;
-    flex-direction: column;
 
+.cityBox {
+  width: 20%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 30px;
+  gap: 10px;
+  margin-right: 20px;
+  flex-direction: column;
 }
-.addressBox{
-    width: 50%;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    margin-bottom: 30px;
+
+.addressBox {
+  width: 50%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 30px;
 }
 
 .errorArea {
   display: flex;
- flex-direction: column;
- align-items: start;
+  flex-direction: column;
+  align-items: start;
   color: red;
   font-size: 16px;
   margin-left: 10px;
-  
 }
-  
-.submitSection{
+
+.submitSection {
   display: flex;
   justify-content: space-between;
   margin-bottom: 50px;
 }
+
 .errorText {
   color: red;
   text-align: left;
@@ -318,9 +318,17 @@
   transform: translateY(-50%);
   color: #aaa;
   pointer-events: none; /* 讓文字不會干擾到用戶操作 */
+  font-size: 14px;
 }
 
-.inputBox:valid + .placeholder, 
+.inputBox:valid + .placeholder,
 .inputBox:focus + .placeholder {
   display: none;
+}
+
+.validationInfo {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
