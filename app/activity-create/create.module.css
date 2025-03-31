@@ -20,6 +20,7 @@
 .goBack{
     position: absolute;
     top: 5%;
+    left: 1%;
     background-color: #29755D;
     color: #fff;
     border-radius: 5px;
@@ -321,3 +322,91 @@
     border: none !important; 
     border-radius: 10px !important;
 }
+
+
+/* 會員登入 icons */
+
+/* 登入按鈕 */
+  .quickActionBtn {
+    display: inline-flex; /* 保持顯示 */
+  }
+
+  /* Navbar 右側按鈕 */
+.navbarActions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+
+
+  /* 登入標籤 */
+  .user{
+    position: absolute;
+    top: 5%;
+    right: 1%;
+    background-color: #29755D;
+    color: #fff;
+    border-radius: 5px;
+    /* display: flex; */
+    /* justify-content: end; */
+    z-index: 10;
+    border: none;
+    width: 5rem;
+
+    &:hover{
+        font-weight: bold;
+        background: #A8D5C5;
+        color: #29755D;
+        border: none;
+    }
+}
+
+    /* 會員頭像 */
+    .avatarImg {
+        position: absolute;
+        top: 5%;
+        right: 1%;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        display: block;
+        cursor: pointer;
+        z-index: 10;
+
+        &:hover{
+            box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.7);
+            transform: scale(1.03); /* 微微放大，可選 */
+        }
+    }
+
+    /* 點選後出現的頁簽 */
+    .dropdownMenu {
+        position: absolute;
+        top: 10%;
+        right: 1%;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        padding: 8px 0;
+        list-style: none;
+        min-width: 160px;
+        z-index: 999;
+        font-size: 15px;
+        font-weight: 0px;
+      }
+      
+      .dropdownMenu li {
+        padding: 10px 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        color: #333;
+        transition: background-color 0.2s;
+      }
+      
+      .dropdownMenu li:hover {
+        background-color: #F4F4F4;
+        color: #1b5b47;
+      }
