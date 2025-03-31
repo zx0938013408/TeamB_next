@@ -53,7 +53,15 @@ const HomePage = () => {
       .then((data) => {
         if (data.message === "表單已成功提交") {
           setSubmitStatus("您的訊息已成功送出！");
-          toast.success("表單提交成功！");  // 顯示成功通知
+          toast.success( <div>
+            {"表單提交成功"}<br />
+            {"將會有專人與您聯繫！"}<br />
+            {"感謝您的提交。"}
+            </div>,
+  {
+    autoClose: 5000, 
+  }
+);
           
           // 1秒後跳轉回首頁
           setTimeout(() => {
