@@ -11,13 +11,12 @@ import ActivityCard from "@/components/activity-list-card/ActivityCard";
 import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
-
 export default function ActivityListPage() {
   const { auth } = useAuth();
   const searchParams = useSearchParams();
-  const keywordFromURL = searchParams.get('search');
+  const keywordFromURL = searchParams.get("search");
   const [sortType, setSortType] = useState("date");
-  const [searchInput, setSearchInput] = useState('')
+  const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
   const searchRef = useRef();
   // const { auth, getAuthHeader } = useAuth();
@@ -40,13 +39,18 @@ export default function ActivityListPage() {
   const currentItems = listData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(listData.length / itemsPerPage);
 
-
+  const handlePageChange = (page) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // 當使用者輸入時即時搜尋
   const handleSearch = (query) => {
     setSearchInput(query);
     setSearchQuery(query);
-  
+
     if (query.trim() === "") {
       setListData(originalData); // 還原完整資料
     } else {
@@ -68,7 +72,7 @@ export default function ActivityListPage() {
       setSearchInput(keywordFromURL); // 填入輸入框
     }
   }, [keywordFromURL]);
-  
+
   // Step 2: 等 originalData 有資料再搜尋
   useEffect(() => {
     if (keywordFromURL && originalData.length > 0) {
@@ -76,7 +80,6 @@ export default function ActivityListPage() {
     }
   }, [originalData]);
 
-  
   // Modal
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -87,103 +90,108 @@ export default function ActivityListPage() {
     }
   }, []);
 
-    const openModal = () => {
-      if (bsModal.current) bsModal.current.show();
-    };
-    
-    const closeModal = () => {
-      if (bsModal.current) bsModal.current.hide();
-    };
+  const openModal = () => {
+    if (bsModal.current) bsModal.current.show();
+  };
 
+  const closeModal = () => {
+    if (bsModal.current) bsModal.current.hide();
+  };
 
-    // 新增報名資料至資料庫
-    const fetchData = async () => {
-      try {
-        const userData = localStorage.getItem("TEAM_B-auth");
-        const token = userData ? JSON.parse(userData).token : "";
-    
-        const r = await fetch(`${AL_LIST}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+  // 新增報名資料至資料庫
+  const fetchData = async () => {
+    try {
+      const userData = localStorage.getItem("TEAM_B-auth");
+      const token = userData ? JSON.parse(userData).token : "";
+
+      const r = await fetch(`${AL_LIST}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const obj = await r.json();
+
+      if (obj.success) {
+        const now = new Date();
+
+        // 過濾掉已過期活動
+        const validActivities = obj.rows.filter((activity) => {
+          const activityTime = new Date(activity.activity_time);
+          return activityTime >= now; // 僅保留今天之後的活動
         });
-    
-        const obj = await r.json();
-    
-        if (obj.success) {
-          const original = obj.rows;
-          const sorted = [...original].sort(
-            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
-          );
-          setOriginalData(obj.rows);  // 儲存完整活動資料
-          setListData(sorted);      // 顯示在畫面上的活動資料
-        } else {
-          console.warn("API 回傳失敗", obj);
-        }
-      } catch (error) {
-        console.warn("fetchData 錯誤:", error);
+
+        const sorted = [...validActivities].sort(
+          (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+        );
+
+        setOriginalData(validActivities);
+        setListData(sorted);
+      } else {
+        console.warn("API 回傳失敗", obj);
       }
+    } catch (error) {
+      console.warn("fetchData 錯誤:", error);
+    }
+  };
+
+  // ✅ 報名送出後可以使用
+  const handleRegister = async () => {
+    setLoading(true);
+
+    if (!activityName || !activityName.al_id) {
+      // 顯示 SweetAlert2 提示框
+      Swal.fire({
+        icon: "warning",
+        text: "請選擇活動", // 顯示後端回傳的訊息
+        confirmButtonText: "確定",
+        confirmButtonColor: "#29755D", // 修改按鈕顏色
+      });
+      setLoading(false);
+      return;
+    }
+
+    const formData = {
+      member_id: auth.id,
+      activity_id: activityName?.al_id,
+      num: selectedPeople,
+      notes: notes.trim(),
     };
-    
-    
-    // ✅ 報名送出後可以使用
-    const handleRegister = async () => {
-      setLoading(true);
-    
-      if (!activityName || !activityName.al_id) {
+
+    try {
+      const response = await fetch(ACTIVITY_ADD_POST, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setNotes("");
+        setSelectedPeople(1);
         // 顯示 SweetAlert2 提示框
         Swal.fire({
-          icon: "warning",
-          text: "請選擇活動",  // 顯示後端回傳的訊息
+          icon: "success",
+          text: "活動報名成功", // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
         });
-        setLoading(false);
-        return;
+        closeModal();
+        await fetchData(); // 正確呼叫更新列表
       }
-    
-      const formData = {
-        member_id: auth.id,
-        activity_id: activityName?.al_id,
-        num: selectedPeople,
-        notes: notes.trim(),
-      };
-    
-      try {
-        const response = await fetch(ACTIVITY_ADD_POST, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-    
-        const data = await response.json();
-    
-        if (data.success) {
-          setNotes("");
-          setSelectedPeople(1);
-          // 顯示 SweetAlert2 提示框
-          Swal.fire({
-            icon: "success",
-            text: "活動報名成功",  // 顯示後端回傳的訊息
-            confirmButtonText: "確定",
-            confirmButtonColor: "#29755D", // 修改按鈕顏色
-          });
-          closeModal();
-          await fetchData(); // 正確呼叫更新列表
-        }
-      } catch (error) {
-        console.error("報名失敗", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    // 初次載入資料
-    useEffect(() => {
-      fetchData();
-    }, []);
-  console.log("data:", listData);  // end Modal 報名
+    } catch (error) {
+      console.error("報名失敗", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // 初次載入資料
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log("data:", listData); // end Modal 報名
 
   const handleSortChange = (sortBy) => {
     const sorted = [...listData]; // 複製一份原始資料
@@ -225,25 +233,25 @@ export default function ActivityListPage() {
             </span>
           </ol>
           <div className={`${Styles.selectGroup}`}>
-  <form
-    onSubmit={(e) => {
-      e.preventDefault();
-      handleSearch(searchInput);
-    }}
-  >
-  <input
-    type="text"
-    placeholder="搜尋活動名稱、地點、主揪…"
-    className={Styles.searchInput}
-    value={searchInput}
-    onChange={(e) => handleSearch(e.target.value)}
-  />
-  </form>
-</div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch(searchInput);
+              }}
+            >
+              <input
+                type="text"
+                placeholder="搜尋活動名稱、地點、主揪…"
+                className={Styles.searchInput}
+                value={searchInput}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+            </form>
+          </div>
 
           {/* 篩選列 */}
           <div className={Styles.selectGroup}>
-          <select
+            <select
               id="people"
               name="people"
               value={sortType}
@@ -251,7 +259,7 @@ export default function ActivityListPage() {
                 const value = e.target.value;
                 setSortType(value);
                 handleSortChange(value);
-                }}
+              }}
             >
               <option value="date">依照活動日期排序</option>
               <option value="location">依照地區排序</option>
@@ -270,48 +278,96 @@ export default function ActivityListPage() {
 
       {/* 活動列表 */}
       <div className={`${Styles.container} mx-auto`}>
-      {currentItems.length > 0 ? (
-  currentItems.map((activity, i) => (
-    <ActivityCard
-      key={i}
-      activity={activity}
-      onQuickSignUp={(activity) => {
-        setActivityName(activity);
-        openModal();
-      }}
-    />
-  ))
-) : (
-  <p className={`${Styles.noData}`}>目前沒有活動</p>
-)}
-
+        {currentItems.length > 0 ? (
+          currentItems.map((activity, i) => (
+            <ActivityCard
+              key={i}
+              activity={activity}
+              onQuickSignUp={(activity) => {
+                setActivityName(activity);
+                openModal();
+              }}
+            />
+          ))
+        ) : (
+          <p className={`${Styles.noData}`}>目前沒有活動</p>
+        )}
       </div>
 
       {/* 分頁按鈕 */}
       <div className={Styles.containerPage}>
-  <nav aria-label="Page navigation">
-    <ul className="pagination justify-content-center">
-      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-        <button className="page-link" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}>
-          «
-        </button>
-      </li>
-      {Array.from({ length: totalPages }, (_, i) => (
-        <li key={i} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
-          <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
-            {i + 1}
-          </button>
-        </li>
-      ))}
-      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-        <button className="page-link" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
-          »
-        </button>
-      </li>
-    </ul>
-  </nav>
-</div>
+        <nav aria-label="Page navigation">
+          <ul
+            className={`pagination justify-content-center ${Styles.customPagination}`}
+          >
+            {/* ⏮️ 跳到第一頁 */}
+            {currentPage !== 1 && (
+              <li className="page-item">
+                <button
+                  className={`page-link ${Styles.pageButton}`}
+                  onClick={() => handlePageChange(1)}
+                >
+                  <span className="icon-Left"></span>
+                  <span className="icon-Left"></span>
+                </button>
+              </li>
+            )}
 
+            {/* « 上一頁 */}
+            {currentPage !== 1 && (
+              <li className="page-item">
+                <button
+                  className={`page-link ${Styles.pageButton}`}
+                  onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                >
+                  <span className="icon-Left"></span>
+                </button>
+              </li>
+            )}
+
+            {/* 分頁數字 */}
+            {Array.from({ length: totalPages }, (_, i) => (
+              <li key={i} className={`page-item`}>
+                <button
+                  className={`page-link ${Styles.pageButton} ${
+                    currentPage === i + 1 ? Styles.activePage : ""
+                  }`}
+                  onClick={() => handlePageChange(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              </li>
+            ))}
+
+            {/* » 下一頁 */}
+            {currentPage !== totalPages && (
+              <li className="page-item">
+                <button
+                  className={`page-link ${Styles.pageButton}`}
+                  onClick={() =>
+                    handlePageChange(Math.min(currentPage + 1, totalPages))
+                  }
+                >
+                  <span className="icon-Right"></span>
+                </button>
+              </li>
+            )}
+
+            {/* ⏭️ 跳到最後一頁 */}
+            {currentPage !== totalPages && (
+              <li className="page-item">
+                <button
+                  className={`page-link ${Styles.pageButton}`}
+                  onClick={() => handlePageChange(totalPages)}
+                >
+                  <span className="icon-Right"></span>
+                  <span className="icon-Right"></span>
+                </button>
+              </li>
+            )}
+          </ul>
+        </nav>
+      </div>
 
       {/* Modal */}
       <div
@@ -340,7 +396,7 @@ export default function ActivityListPage() {
             <div className="modal-body">
               <div className={`${Styles.title} row`}>
                 <div className={`${Styles.titleIcons} col-1`}>
-                {activityName?.sport_name === "籃球" ? (
+                  {activityName?.sport_name === "籃球" ? (
                     <span
                       className={`icon-Basketball ${Styles.iconTitle}`}
                     ></span>
