@@ -1,124 +1,208 @@
 "use client";
-import React, { useState } from "react";
+import "../../../styles/globals.css";
 import Link from "next/link";
-import styles from "../../../styles/auth/member-account.module.css";
-import Header from "../../../components/Header";
-import "@/public/TeamB_Icon/style.css";
+import React, { useEffect, useState, useRef } from "react";
+import Styles from "@/app/activity-list/activity-list.module.css";
+import styles from "../../../styles/auth/member.module.css";
 import { useAuth } from "../../../context/auth-context";
-import axios from "axios";
-import { useRouter } from "next/navigation"; // 引入 useRouter
-import {
-  MB_PASSWORD_POST,
-  MB_OLD_PASSWORD_POST,
-} from "../../../config/auth.api";
-import "font-awesome/css/font-awesome.min.css";
-import Swal from "sweetalert2"; // 引入 SweetAlert2
+import Header from "../../../components/Header";
+import moment from "moment";
+import "@/public/TeamB_Icon/style.css";
+import { AVATAR_PATH } from "../../../config/auth.api";
+import ActivityCard from "../../../components/activity-list-card/ActivityCard"; // 顯示活動的卡片
+import ActivityCardRegistered from "@/components/activity-list-card/ActivityCardRegistered";
+import ActivityCardCreate from "@/components/activity-list-card/ActivityCardCreate";
+import { MEMBER_ACTIVITIES } from "@/config/api-path"; // 已報名的 API 路徑
+import { MEMBER_CREATED_ACTIVITIES } from "@/config/api-path"; // 已開團的 API 路徑
+import { MEMBER_FAVORITES } from "@/config/api-path"; // 已收藏的 API 路徑
+import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 
-const MemberAccount = () => {
-  const { auth, logout, getAuthHeader } = useAuth(); // 從 AuthContext 中獲取 auth 和 getAuthHeader 函數
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showOldPassword, setShowOldPassword] = useState(false); // 控制原始密碼顯示/隱藏
-  const [showNewPassword, setShowNewPassword] = useState(false); // 控制新密碼顯示/隱藏
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // 控制確認密碼顯示/隱藏
 
-  const router = useRouter(); // 用於導航
+const isExpired = (activityTime) => {
+  // 判斷活動時間是否已過
+  return moment(activityTime).isBefore(moment(), "day"); // 判斷是否早於今天
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-  
-    if (!oldPassword || !newPassword || !confirmPassword) {
-      setError("每個欄位都是必填");
+const Member = () => {
+  const { auth, logout } = useAuth();
+  const [user, setUser] = useState(null); // 儲存用戶資料
+  const [registeredActivities, setRegisteredActivities] = useState([]); // 儲存會員已報名的活動
+  const [createdActivities, setCreatedActivities] = useState([]); // 儲存會員已開團的活動
+  const [favoriteActivities, setFavoriteActivities] = useState([]); // 儲存會員已收藏的活動
+  const [activeTab, setActiveTab] = useState("registered"); // 用來控制顯示的活動類型，默認顯示已報名活動
+  const router = useRouter();
+  const modalRef = useRef(null); // 新增：用來控制 modal 顯示的參考
+  const bsModal = useRef(null); // 新增：用來初始化 bootstrap modal
+  const [activityName, setActivityName] = useState(null); // 新增：活動名稱
+  const [selectedPeople, setSelectedPeople] = useState(1); // 新增：選擇報名人數
+  const [notes, setNotes] = useState(""); // 新增：備註
+  const [loading, setLoading] = useState(false); // 新增：報名中狀態
+
+  const openModal = (activity) => {
+    setActivityName(activity); // 設置選擇的活動名稱
+    if (bsModal.current) bsModal.current.show(); // 顯示 modal
+  };
+
+  const closeModal = () => {
+    if (bsModal.current) bsModal.current.hide();  // 關閉 modal
+  };
+
+  const handleRegister = async () => {
+    setLoading(true);
+
+    if (!activityName || !activityName.al_id) {
+        Swal.fire({
+          icon: "warning",
+          text: "請選擇活動",  // 顯示後端回傳的訊息
+          confirmButtonText: "確定",
+          confirmButtonColor: "#29755D", // 修改按鈕顏色
+        });
+      setLoading(false);
       return;
     }
-  
-    // 驗證新密碼和確認密碼是否一致
-    if (newPassword !== confirmPassword) {
-      setError("新密碼和確認密碼不一致");
-      return;
-    }
-  
-    // 檢查新密碼長度
-    if (newPassword.length < 6) {
-      setError("新密碼至少需要 6 個字符");
-      return;
-    }
-  
+
+    const formData = {
+      member_id: auth.id,
+      activity_id: activityName?.al_id,
+      num: selectedPeople,
+      notes: notes.trim(),
+    };
+
     try {
-      // 先驗證舊密碼是否正確
-      const headers = getAuthHeader(); // 使用 getAuthHeader 獲取 token
-      const passwordCheckResponse = await axios.post(
-        MB_OLD_PASSWORD_POST, // 確保你的後端有這個 API 來檢查舊密碼
-        { oldPassword },
-        { headers }
-      );
-  
-      console.log("Password Check Response:", passwordCheckResponse.data); // 確認後端是否正確回傳
-  
-      if (!passwordCheckResponse.data.success) {
-        setError("舊密碼不正確");
-        return; // 結束，避免繼續處理
-      }
-  
-      // 如果舊密碼正確，則繼續更改密碼
-      const response = await axios.post(
-        MB_PASSWORD_POST,
-        { oldPassword, newPassword, confirmPassword },
-        { headers }
-      );
-  
-      // 從後端獲取回應訊息
-      const responseMessage = response.data.message || "密碼更改成功，請重新登入";
-  
-      // 顯示 SweetAlert2 成功提示框
-      Swal.fire({
-        icon: "success",
-        title: "修改成功！",
-        text: responseMessage,  // 顯示後端回傳的訊息
-        confirmButtonText: "確定",
-        confirmButtonColor: "#4CAF50", // 修改按鈕顏色
+      const response = await fetch(ACTIVITY_ADD_POST, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-  
-      router.push("/auth/login");
-  
-    } catch (error) {
-      console.error("更改密碼時出錯:", error);
-  
-      // 嘗試讀取後端錯誤訊息
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-        Swal.fire({
-          icon: "error",
-          title: "錯誤",
-          text: error.response.data.message,
-          confirmButtonText: "確定",
-          confirmButtonColor: "#FF4136",  // 可以自訂錯誤的按鈕顏色
-        });
-      } else {
-        setError("伺服器錯誤，請稍後再試");
-        Swal.fire({
-          icon: "error",
-          title: "伺服器錯誤",
-          text: "請稍後再試",
-          confirmButtonText: "確定",
-          confirmButtonColor: "#FF4136",  // 可以自訂錯誤的按鈕顏色
-        });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setNotes("");
+        setSelectedPeople(1);
+        closeModal();
+        fetchRegisteredActivities(auth.id);// 重新獲取已報名的活動資料
       }
+    } catch (error) {
+      console.error("報名失敗", error);
+    } finally {
+      setLoading(false);
     }
   };
-  
-  
-  
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const bootstrap = require("bootstrap");
+      if (modalRef.current) {
+        bsModal.current = new bootstrap.Modal(modalRef.current); // 初始化 modal
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (auth.id) {
+      fetchRegisteredActivities(auth.id); // 獲取已報名的活動
+      fetchCreatedActivities(auth.id); // 獲取已開團的活動
+      fetchFavoriteActivities(auth.id); // 獲取已收藏的活動
+    }
+  }, [auth]);
+
+  const fetchRegisteredActivities = async (memberId) => {
+    // 與後端 API 通訊，獲取已報名的活動
+    try {
+      const storedAuth = localStorage.getItem("TEAM_B-auth");
+      const auth = storedAuth ? JSON.parse(storedAuth) : {}; // 解析 JWT 資料
+      const token = auth.token; // 提取 token 部分
+      console.log("JWT 令牌:", token); // 確認 JWT 是否正確獲取
+
+      const response = await fetch(MEMBER_ACTIVITIES(memberId), {
+        headers: {
+          Authorization: `Bearer ${token}`, // 使用 Bearer token 格式
+        },
+      });
+
+      const data = await response.json();
+      console.log('API 回應MEMBER_ACTIVITIES的資料:', data);  // 檢查資料是否正確
+      if (data.success && data.activities) {
+        setRegisteredActivities((prevActivities) => {
+          // 確保只更新資料並觸發渲染
+          return [...data.activities];
+        });
+      } else {
+        setRegisteredActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
+        console.warn("無法獲取活動資料", data);
+      }
+    } catch (error) {
+      console.error("錯誤:", error);
+      setRegisteredActivities([]); // 發生錯誤時設置空陣列
+    }
+  };
+
+  const fetchCreatedActivities = async (memberId) => {
+    // 與後端 API 通訊，獲取已開團的活動
+    try {
+      const storedAuth = localStorage.getItem("TEAM_B-auth");
+      const auth = storedAuth ? JSON.parse(storedAuth) : {}; // 解析 JWT 資料
+      const token = auth.token; // 提取 token 部分
+
+      const response = await fetch(MEMBER_CREATED_ACTIVITIES(memberId), {
+        headers: {
+          Authorization: `Bearer ${token}`, // 使用 Bearer token 格式
+        },
+      });
+
+      const data = await response.json();
+      console.log('API 回應團主的資料:', data);  // 檢查資料是否正確
+      if (data.success && data.activities) {
+        setCreatedActivities((prevActivities) => {
+          // 確保只更新資料並觸發渲染
+          return [...data.activities];
+        }); // 設置已開團的活動資料
+      } else {
+        setCreatedActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
+        console.warn("無法獲取已開團活動資料", data);
+      }
+    } catch (error) {
+      console.error("錯誤:", error);
+      setCreatedActivities([]); // 發生錯誤時設置空陣列
+    }
+  };
+
+  const fetchFavoriteActivities = async (memberId) => {
+    // 與後端 API 通訊，獲取已收藏的活動
+    try {
+      const storedAuth = localStorage.getItem("TEAM_B-auth");
+      const auth = storedAuth ? JSON.parse(storedAuth) : {}; // 解析 JWT 資料
+      const token = auth.token; // 提取 token 部分
+
+      const response = await fetch(MEMBER_FAVORITES(memberId), {
+        headers: {
+          Authorization: `Bearer ${token}`, // 使用 Bearer token 格式
+        },
+      });
+
+      const data = await response.json();
+      console.log('API 回應的資料:', data);  // 檢查資料是否正確
+      if (data.success && data.activities) {
+        setFavoriteActivities((prevActivities) => {
+          // 確保只更新資料並觸發渲染
+          return [...data.activities];
+        }); // 設置已收藏的活動資料
+      } else {
+        setFavoriteActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
+        console.warn("無法獲取已收藏的活動資料", data);
+      }
+    } catch (error) {
+      console.error("錯誤:", error);
+      setFavoriteActivities([]); // 發生錯誤時設置空陣列
+    }
+  };
+
+  if (!auth) return <p>載入中...</p>;
 
   return (
     <>
@@ -138,7 +222,7 @@ const MemberAccount = () => {
           <Link href="/auth/orderHistory" className={styles.menuItem}>
             我的訂單
           </Link>
-          <Link href="auth/member-likes" className={styles.menuItem}>
+          <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
           <button
@@ -157,86 +241,231 @@ const MemberAccount = () => {
   </button>
         </div>
 
-        <div className={styles.mainContent}>
-          <div className={styles.title}>帳號管理</div>
-          <div className={styles.rightSection}>
-            <form className={styles.form} method="POST" onSubmit={handleSubmit}>
-              <p className={styles.prp}>原始密碼</p>
-              <div className={styles.passwordContainer}>
-                <input
-                  className={styles.inputBox}
-                  type={showOldPassword ? "text" : "password"}
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  placeholder="請輸入原始密碼"
-                  required=""
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowOldPassword(!showOldPassword)}
-                  className={styles.eyeIcon}
-                >
-                  {showOldPassword ? (
-                    <i className="fa-regular fa-eye"></i>
-                  ) : (
-                    <i className="fa-regular fa-eye-slash"></i>
-                  )}
-                </button>
-              </div>
+        {/* 右側內容 */}
+        <div className={styles.content}>
+          <div className={styles.profileHeader}>
+            {/* 會員的 Avatar */}
+            <img
+              src={
+                auth?.avatar
+                  ? `${AVATAR_PATH}/${auth.avatar}`
+                  : `${AVATAR_PATH}/imgs.png`
+              }
+              alt="User Avatar"
+              className={styles.avatar}
+            />
+            <div className={styles.userInfo}>
+              <h2>{auth?.name || "未命名使用者"}</h2>
+              <p>
+                生日：
+                {auth?.birthday_date
+                  ? moment(auth.birthday_date).format("YYYY-MM-DD")
+                  : "未填寫"}
+              </p>
 
-              <p className={styles.prp}>新密碼</p>
-              <div className={styles.passwordContainer}>
-                <input
-                  className={styles.inputBox}
-                  type={showNewPassword ? "text" : "password"}
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="請輸入新密碼"
-                  required=""
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowNewPassword(!showNewPassword)}
-                  className={styles.eyeIcon}
-                >
-                  {showNewPassword ? (
-                    <i className="fa-regular fa-eye"></i>
-                  ) : (
-                    <i className="fa-regular fa-eye-slash"></i>
-                  )}
-                </button>
-              </div>
-              <div className={styles.passwordContainer}>
-                <input
-                  className={styles.inputBox}
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="再次確認新密碼"
-                  required=""
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className={styles.eyeIcon}
-                >
-                  {showConfirmPassword ? (
-                    <i className="fa-regular fa-eye"></i>
-                  ) : (
-                    <i className="fa-regular fa-eye-slash"></i>
-                  )}
-                </button>
-              </div>
+              <p>喜愛運動：{auth?.sportText || "未填寫"}</p>
+            </div>
+          </div>
 
-              <div className={styles.confirm}>
-                <div className={styles.errorArea}>
-                  {error && <p style={{ color: "red" }}>{error}</p>}
+          {/* 分頁選單 */}
+          <div className={styles.tabMenu}>
+            <div className={styles.tabLeft}>
+              <span
+                className={`${styles.tabItem} ${
+                  activeTab === "registered" ? styles.active : ""
+                }`}
+                onClick={() => setActiveTab("registered")}
+              >
+                已報名
+              </span>
+              <span
+                className={`${styles.tabItem} ${
+                  activeTab === "created" ? styles.active : ""
+                }`}
+                onClick={() => setActiveTab("created")}
+              >
+                已開團
+              </span>
+              <span
+                className={`${styles.tabItem} ${
+                  activeTab === "favorite" ? styles.active : ""
+                }`}
+                onClick={() => setActiveTab("favorite")}
+              >
+                已收藏
+              </span>
+            </div>
+          </div>
+          <hr />
+
+          {/* 根據選中的活動類型顯示不同的活動 */}
+          <div className={styles.tabContent}>
+            {activeTab === "registered" &&
+              (registeredActivities.length > 0 ? (
+                registeredActivities.map((activity) => (
+                  <ActivityCardRegistered
+                    key={activity.registered_id}
+                    activity={activity}
+                    onQuickSignUp={openModal}
+                    onRefresh={() => fetchRegisteredActivities(auth.id)}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
+                    isExpired={isExpired(activity.activity_time)}
+                  />
+                ))
+              ) : (
+                <p>目前沒有已報名的活動。</p>
+              ))}
+
+            {activeTab === "created" &&
+              (createdActivities.length > 0 ? (
+                createdActivities.map((activity) => (
+                  <ActivityCardCreate
+                    key={activity.al_id}
+                    activity={activity}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
+                    isExpired={isExpired(activity.activity_time)}
+                    onQuickSignUp={openModal}
+                  />
+                ))
+              ) : (
+                <p>目前沒有已開團的活動。</p>
+              ))}
+
+            {activeTab === "favorite" &&
+              (favoriteActivities.length > 0 ? (
+                favoriteActivities.map((activity) => (
+                  <ActivityCard
+                    key={activity.al_id}
+                    activity={activity}
+                    onLikeToggle={() => {
+                      fetchRegisteredActivities(auth.id);
+                      fetchCreatedActivities(auth.id);
+                      fetchFavoriteActivities(auth.id);
+                    }}
+                    isExpired={isExpired(activity.activity_time)}
+                    onQuickSignUp={openModal}
+                  />
+                ))
+              ) : (
+                <p>目前沒有已收藏的活動。</p>
+              ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+        ref={modalRef}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content bgc">
+            <div className="modal-header">
+              <h5 className={Styles.titleText} id="staticBackdropLabel">
+                報名資訊
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <div className={`${Styles.title} row`}>
+                <div className="titleIcons col-1">
+                  {activityName?.sport_name === "籃球" ? (
+                    <span
+                      className={`icon-Basketball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "排球" ? (
+                    <span
+                      className={`icon-Volleyball ${Styles.iconTitle}`}
+                    ></span>
+                  ) : activityName?.sport_name === "羽球" ? (
+                    <span
+                      className={`icon-Badminton ${Styles.iconTitle}`}
+                    ></span>
+                  ) : null}
                 </div>
-                <button type="submit" className={styles.confirmBtn}>
-                  確認
-                </button>
+                <h2 className={`${Styles.titleText} col`}>
+                  {activityName?.activity_name}
+                </h2>
+                {/* 人數選擇 */}
+                <div className={Styles.inputGroup}>
+                  <div className={`${Styles.selectGroup} ${Styles.group1}`}>
+                    <label htmlFor="people" className={`${Styles.peopleLabel}`}>
+                      人數
+                    </label>
+                    <select
+                      id="people"
+                      name="people"
+                      className={`${Styles.people}`}
+                      value={selectedPeople} // ✅ 讓 `<select>` 綁定 `useState`
+                      onChange={(e) =>
+                        setSelectedPeople(Number(e.target.value))
+                      } // ✅ 更新 `selectedPeople`
+                    >
+                      <option value={1}>1 人</option>
+                      <option value={2}>2 人</option>
+                      <option value={3}>3 人</option>
+                      <option value={4}>4 人</option>
+                    </select>
+                  </div>
+                  <input
+                    className={`${Styles.inputPrice}`}
+                    type="text"
+                    name=""
+                    id=""
+                    value={`報名費用: 總計 ${
+                      activityName?.payment
+                        ? activityName?.payment * selectedPeople
+                        : 0
+                    } 元`}
+                    disabled
+                  />
+                  <textarea
+                    className={`${Styles.textareaInput}`}
+                    name=""
+                    id=""
+                    placeholder="備註:ex 3男2女 (填)"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className={Styles.cancel}
+                      data-bs-dismiss="modal"
+                    >
+                      取消
+                    </button>
+                    <button
+                      type="button"
+                      className={Styles.register}
+                      onClick={handleRegister}
+                      disabled={loading}
+                    >
+                      {loading ? "報名中..." : "確定報名"}
+                    </button>
+                  </div>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -244,4 +473,4 @@ const MemberAccount = () => {
   );
 };
 
-export default MemberAccount;
+export default Member;
