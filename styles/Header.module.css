@@ -313,16 +313,17 @@
 }
 .dropdownMenu {
   position: absolute;
-  right: 360px;
+  right: 370px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  padding: 8px 0;
+  padding: 8px 8px;
   list-style: none;
   min-width: 160px;
   z-index: 999;
   font-size: 15px;
+  width: 200px;
   font-weight: 0px;
 }
 
