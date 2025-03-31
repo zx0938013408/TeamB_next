@@ -15,7 +15,7 @@
 }
 
 /* logo 縮小（可自訂） */
-.logoSmall {
+/* .logoSmall {
   transform: scale(0.8);
   transition: transform 0.3s ease;
 }
@@ -23,7 +23,7 @@
   transform: scale(0.95);
   transition: transform 0.3s ease;
   transform-origin: top center;
-}
+} */
 /* ************** header **************** */
 .navbarHd {
   width: 100%;
