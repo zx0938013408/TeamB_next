@@ -128,10 +128,11 @@ const Member = () => {
       const data = await response.json();
       console.log('API 回應MEMBER_ACTIVITIES的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setRegisteredActivities((prevActivities) => {
-          // 確保只更新資料並觸發渲染
-          return [...data.activities];
-        });
+        setRegisteredActivities(
+          [...data.activities].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          )
+        );
       } else {
         setRegisteredActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取活動資料", data);
@@ -158,10 +159,11 @@ const Member = () => {
       const data = await response.json();
       console.log('API 回應團主的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setCreatedActivities((prevActivities) => {
-          // 確保只更新資料並觸發渲染
-          return [...data.activities];
-        }); // 設置已開團的活動資料
+        setCreatedActivities(
+          [...data.activities].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          )
+        ); // 設置已開團的活動資料
       } else {
         setCreatedActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取已開團活動資料", data);
@@ -188,10 +190,11 @@ const Member = () => {
       const data = await response.json();
       console.log('API 回應的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setFavoriteActivities((prevActivities) => {
-          // 確保只更新資料並觸發渲染
-          return [...data.activities];
-        }); // 設置已收藏的活動資料
+        setFavoriteActivities(
+          [...data.activities].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          )
+        ); // 設置已收藏的活動資料
       } else {
         setFavoriteActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取已收藏的活動資料", data);
