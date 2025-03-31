@@ -206,7 +206,7 @@ const handleAddMessage = async () => {
         activity_id: al_id,
         member_id: auth.id,
         message: newMessage,
-        is_owner: auth.id === activity?.member_id
+        is_owner: auth.id === activity?.founder_id
       }),
     });
     const data = await res.json();
