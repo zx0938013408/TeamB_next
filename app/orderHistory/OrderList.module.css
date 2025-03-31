@@ -158,7 +158,10 @@
 .spec p {
   color: #888;
   font-size: 16px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 }
 
 .count {

@@ -100,24 +100,43 @@ export function CartProvider({ children }) {
   }
 
   // 加入購物車
+  // const onAdd = (product) => {
+  //   // 先判斷此商品是否已經在購物車裡
+  //   const foundIndex = cartItems.findIndex(
+  //     (cartItem) => cartItem.id === product.id
+  //   )
+
+  //   if (foundIndex !== -1) {
+  //     // 已經在購物車裡 ===> 作遞增
+  //     onIncrease(product.id)
+  //   } else {
+  //     // 沒有在購物車裡 ===> 作新增
+  //     // 少了一個count數量屬性(商品物件中沒數量，要購物車項目才有)
+  //     const newItem = { ...product, quantity: 1 }
+  //     // 加到購物車最前面
+  //     const nextCartItems = [newItem, ...cartItems]
+  //     setCartItems(nextCartItems)
+  //   }
+  // }
+  // 加入購物車
   const onAdd = (product) => {
-    // 先判斷此商品是否已經在購物車裡
+    // 先判斷此商品是否已經在購物車裡，並確認選擇的尺寸（如果有）
     const foundIndex = cartItems.findIndex(
-      (cartItem) => cartItem.id === product.id
-    )
+      (cartItem) => cartItem.id === product.id && cartItem.size === product.size
+    );
 
     if (foundIndex !== -1) {
-      // 已經在購物車裡 ===> 作遞增
-      onIncrease(product.id)
+      // 已經在購物車裡，根據選擇的商品ID和尺寸進行數量遞增
+      const updatedCartItems = [...cartItems];
+      updatedCartItems[foundIndex].quantity += product.quantity;
+      setCartItems(updatedCartItems);
     } else {
-      // 沒有在購物車裡 ===> 作新增
-      // 少了一個count數量屬性(商品物件中沒數量，要購物車項目才有)
-      const newItem = { ...product, quantity: 1 }
-      // 加到購物車最前面
-      const nextCartItems = [newItem, ...cartItems]
-      setCartItems(nextCartItems)
+      // 沒有在購物車裡，新增此商品並設置數量
+      const newItem = { ...product, quantity: product.quantity };
+      const nextCartItems = [newItem, ...cartItems];
+      setCartItems(nextCartItems);
     }
-  }
+  };
 
   // 計算總數量&金額 陣列的reduce方法(累加/歸納)
   const totalQty = cartItems.reduce((acc, v) => acc + v.quantity, 0)

@@ -90,9 +90,17 @@
   text-align: center;
 }
 
+.spec p {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
 .count {
   display: table-cell;
   width: 15%;
+  font-size: 18px;
   /* flex: 1; */
 }
 
@@ -102,24 +110,52 @@
     min-height: 990px;
   }
 
+  
+  .item {
+    display: flex;
+    flex-wrap: wrap;
+  }
  
+  
+
 
   .titleName {
     font-size: 18px;
   }
 
   .item img {
-    width: 80px;  /* 手機版圖片稍微縮小 */
+    width: 80px;  /* 手機版圖片稍微縮小*/ 
     height: 80px;
   }
 
   .secTitle,
-  .item .name,
-  .price {
+  .item .name {
     font-size: 16px;
   }
 
-  .spec {
+  .spec,
+  .price {
     font-size: 14px;
+  }
+
+  .spec p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+  }
+
+  .item .name {
+    width: 40%;
+  }
+
+  .price,
+  .spec,
+  .count {
+    width: 30%;
+  }
+
+  .price {
+    margin-left: 95px;
   }
 }
