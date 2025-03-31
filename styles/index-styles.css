@@ -235,17 +235,19 @@
 /* 主視覺區塊 */
 .hero-container {
   width: 100%;
-  height: 100vh;
+  height: auto;
   background: #29755d;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 200px 0;
 }
 
 /* 內部內容 */
 .hero-content {
-  width: 1440px;
-  height: 632px;
+  width: 90vw;
+  aspect-ratio: 16/9;
+  height: 70vh;
   display: flex;
   position: relative;
   border: 18px solid #dfdfdf;
@@ -261,11 +263,12 @@
 }
 
 .hero-logo {
-  font-size: 80px;
+  font-size: 72px;
   font-family: Inter, sans-serif;
   font-weight: 700;
   color: white;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  letter-spacing: 6px;
 }
 
 /* 右側內容區域 */
@@ -301,13 +304,14 @@
   align-items: center;
   border-bottom: 9px solid #dfdfdf;
   padding: 40px 0;
+  letter-spacing: 3px;
 }
 
 .hero-title {
   font-size: 60px;
   font-family: Inter, sans-serif;
   font-weight: 700;
-  letter-spacing: 13.8px;
+  letter-spacing: 6px;
   color: white;
 }
 
@@ -315,7 +319,7 @@
   font-size: 40px;
   font-family: Inter, sans-serif;
   font-weight: 700;
-  letter-spacing: 9.2px;
+  letter-spacing: 3px;
   color: white;
 }
 
@@ -378,7 +382,7 @@
   width: 100%;
   height: auto;
   min-height: 100vh;
-  padding: 200px 0;
+  padding-bottom: 200px;
   background: #29755d;
 }
 
@@ -447,8 +451,8 @@
   opacity: 1;
 }
 
-.sportSelect{
-  cursor: pointer;  /* hover 進去會變手指 */
+.sportSelect {
+  cursor: pointer; /* hover 進去會變手指 */
 }
 
 /* 讓未懸停的圖示變淡 */
@@ -523,10 +527,6 @@
   transition: opacity 0.3s ease;
   text-align: center;
 }
-
-
-
-
 
 /* ************** 活動列表 **************** */
 /* 活動區塊 */
@@ -614,7 +614,6 @@
   text-align: center;
   margin-top: 20px;
   margin-bottom: 50px;
-
 }
 
 .scroll-hint {
@@ -650,14 +649,6 @@
   background-color: #ccc;
   border-radius: 4px;
 }
-
-
-
-
-
-
-
-
 
 /* ************** 購物商城 **************** */
 /* 商城區塊 */
@@ -1069,7 +1060,6 @@
 
 /* RWD for scroll items */
 @media (max-width: 768px) {
-
   /* 確保 h2 和 p 分行顯示 */
   .scroll-item h2,
   .scroll-item p {
@@ -1316,6 +1306,127 @@
 }
 
 @media (max-width: 768px) {
+  .hero-container {
+    width: 100%;
+    height: auto;
+    background: #29755d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 0 50px 0;
+  }
+  
+  /* 內部內容 */
+  /* 改成上下排列 */
+  
+  .hero-content {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 18px solid #dfdfdf;
+  }
+  
+  .hero-divider {
+    display: none;
+  }
+
+  .hero-left,
+.hero-right {
+  width: 100%;
+  padding: 20px 0;
+}
+  .hero-logo {
+    font-size: 72px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    letter-spacing: 3px;
+  }
+  
+  /* **中央分割線** */
+  .hero-divider {
+    width: 0px;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    border-left: 10px solid #dfdfdf;
+  }
+  
+  /* 主要標題區域 */
+  .hero-text {
+    width: 100%;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 9px solid #dfdfdf;
+    padding: 40px 0;
+  }
+  
+  .hero-title {
+    font-size: 28px;
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: white;
+  }
+  
+  .hero-subtitle {
+    font-size: 18px;
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: white;
+  }
+  
+  /* 副標題與行動 */
+  .hero-action {
+    width: 100%;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 9px solid #dfdfdf;
+    padding: 40px 0;
+  }
+  
+  .hero-highlight {
+    font-size: 20px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+  }
+  
+  .hero-scroll {
+    font-size: 18px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 3px;
+    color: white;
+  }
+  
+  /* 右側中線（連接邊框及正中央線） */
+  .hero-right-divider {
+    width: 0px;
+    height: calc(100% + 36px);
+    position: absolute;
+    left: 75%;
+    transform: translateX(-50%);
+    border-left: 3px solid #dfdfdf;
+    top: -18px;
+  }
+
+
 
   /********   球類選項   *******/
   .sports-section {
@@ -1400,7 +1511,6 @@
     color: white;
   }
 
-
   /********   活動列表   ********/
 
   /* 查看更多 */
@@ -1418,7 +1528,6 @@
     font-size: 18px;
   }
 
-
   .activity-scroll-vertical {
     display: flex;
     flex-direction: column;
@@ -1431,7 +1540,7 @@
     width: 300px;
   }
 
-  .activity-box>.card {
+  .activity-box > .card {
     flex: 0 0 auto;
     width: 85%;
     scroll-snap-align: start;
@@ -1496,8 +1605,6 @@
     font-size: 18px;
   }
 }
-
-
 
 /* 動畫區 */
 @keyframes shake-icon {

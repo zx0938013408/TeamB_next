@@ -16,7 +16,7 @@ const HeroSection = React.forwardRef((_, ref) => {
           </div>
           <div className="hero-action">
             <div className="hero-highlight">ㄟ!打球啦</div>
-            <div className="hero-scroll">下滑前往報團 +1</div>
+            <div className="hero-scroll">前往報團 +1</div>
           </div>
         </div>
       </div>

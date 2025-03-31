@@ -10,10 +10,15 @@ import "@/public/TeamB_Icon/style.css";
 import OrderTable from "@/app/orderHistory/page";
 import orderStyles from '@/app/orderHistory/OrderList.module.css'
 // import {AVATAR_PATH} from '@/config/orders-api-path'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const OrderHistory = () => {
-  const { auth } = useAuth(); // 獲取會員認證資料
+  const { auth ,logout} = useAuth(); // 獲取會員認證資料
   const [user, setUser] = useState(null); // 儲存用戶資料
+  const router = useRouter(); // 用於導航
+
  
 
   useEffect(() => {
@@ -36,6 +41,20 @@ const OrderHistory = () => {
           <Link href="/auth/member-account" className={styles.menuItem}>帳號管理</Link>
           <Link href="/auth/orderHistory" className={styles.menuItem}>我的訂單</Link>
           <Link href="/auth/member-likes" className={styles.menuItem}>收藏商品</Link>
+          <button
+    className={styles.menuItemBtn}
+    onClick={() => {
+      logout();
+      toast("會員已登出", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      router.push("/"); // 登出後導回首頁或登入頁
+    }}
+  >
+    登出
+  </button>
         </div>
 
         {/* 右側內容 */}

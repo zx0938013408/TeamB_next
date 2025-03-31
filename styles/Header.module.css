@@ -15,7 +15,7 @@
 }
 
 /* logo 縮小（可自訂） */
-.logoSmall {
+/* .logoSmall {
   transform: scale(0.8);
   transition: transform 0.3s ease;
 }
@@ -23,7 +23,7 @@
   transform: scale(0.95);
   transition: transform 0.3s ease;
   transform-origin: top center;
-}
+} */
 /* ************** header **************** */
 .navbarHd {
   width: 100%;
@@ -300,4 +300,42 @@
 .disabled {
   pointer-events: none; /* 禁止點擊 */
 
+}
+
+
+.avatarImg {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block;
+  cursor: pointer
+}
+.dropdownMenu {
+  position: absolute;
+  right: 370px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 8px 8px;
+  list-style: none;
+  min-width: 160px;
+  z-index: 999;
+  font-size: 15px;
+  width: 200px;
+  font-weight: 0px;
+}
+
+.dropdownMenu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.dropdownMenu li:hover {
+  background-color: #F4F4F4;
+  color: #1b5b47;
 }

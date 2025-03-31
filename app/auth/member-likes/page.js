@@ -9,13 +9,18 @@ import moment from "moment";
 import "@/public/TeamB_Icon/style.css";
 import styles from "./member-likes.module.css";
 import { AB_ITEM_GET, AVATAR_PATH } from "@/config/shop-api-path";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const MemberLikes = () => {
-  const { auth } = useAuth(); // 獲取會員認證資料
+  const { auth,logout } = useAuth(); // 獲取會員認證資料
   const [user, setUser] = useState(null); // 儲存用戶資料
   const [selectedTab, setSelectedTab] = useState("all"); // 預設顯示的位置
   const [pdLikes, setPdLikes] = useState([]);
   const [product, setProduct] = useState();
+  const router = useRouter(); // 用於導航
+  
 
   const tabs = [
     { key: "all", label: "全部收藏" },
@@ -116,6 +121,20 @@ const MemberLikes = () => {
           <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
+          <button
+    className={styles.menuItemBtn}
+    onClick={() => {
+      logout();
+      toast("會員已登出", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      router.push("/"); // 登出後導回首頁或登入頁
+    }}
+  >
+    登出
+  </button>
         </div>
 
         {/* 右側內容 */}

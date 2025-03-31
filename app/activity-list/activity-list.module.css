@@ -395,3 +395,47 @@
   background-color: #dc3545; /* Bootstrap 紅色 */
   color: white;
 }
+
+
+/* 分頁按鈕 */
+/* 自定分頁按鈕樣式 */
+.customPagination {
+  margin-top: 1rem !important;
+}
+
+.pageButton {
+  color: #29755D !important;
+  /* border-color: #29755D !important; */
+  background-color: #fff !important;
+  transition: all 0.2s ease !important;
+}
+
+/* hover 效果 */
+.pageButton:hover {
+  background-color: #29755D;
+  color: #fff;
+}
+
+/* 被點選（active）狀態 */
+.activePage {
+  background-color: #29755D !important;
+  color: #fff !important;
+  border-color: #29755D !important;
+  font-weight: bold !important;
+}
+
+.page-item.disabled .page-link,
+.page-link:disabled {
+  background-color: #e0e0e0 !important;
+  color: #888 !important;
+  border-color: #ccc !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+.pageButton:disabled {
+  background-color: #e0e0e0 !important;
+  color: #888 !important;
+  border-color: #ccc !important;
+  cursor: not-allowed !important;
+}

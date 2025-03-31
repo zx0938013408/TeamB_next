@@ -381,21 +381,24 @@ export default function CheckInfoPage() {
                     <img src={image ? `${AVATAR_PATH}${image}` : `${AVATAR_PATH}TeamB-logo-greenYellow.png`} alt={product_name} />
                   </td>
                   <td className={checkInfo.name}>{product_name}</td>
-                  <td className={styles.spec}>
+                  <td className={checkInfo.spec}>
                     <p>{size}</p>
                     <p>{color}</p>
                   </td>
-                  <td className={styles.price}>NT${price.toLocaleString()}</td>
-                  <td className={styles.count}>
+                  <td className={checkInfo.price}>NT${price.toLocaleString()}</td>
+                  <td className={checkInfo.count}>
+                    <div className={styles.quantityControls}>×{quantity}</div>
+                   </td>
+                  {/* <td className={checkInfo.count}>
                     <div className={styles.quantityControls}>
                       <input
-                        className={styles.input}
+                        className={checkInfo.input}
                         type="text"
                         value={quantity}
                         readOnly
                       />
                     </div>
-                  </td>
+                  </td> */}
                   <td className={styles.subTotal}>
                     NT${(quantity * price).toLocaleString()}
                   </td>

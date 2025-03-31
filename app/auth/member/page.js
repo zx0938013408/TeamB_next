@@ -16,6 +16,10 @@ import { MEMBER_ACTIVITIES } from "@/config/api-path"; // 已報名的 API 路�
 import { MEMBER_CREATED_ACTIVITIES } from "@/config/api-path"; // 已開團的 API 路徑
 import { MEMBER_FAVORITES } from "@/config/api-path"; // 已收藏的 API 路徑
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+
 
 
 const isExpired = (activityTime) => {
@@ -24,13 +28,13 @@ const isExpired = (activityTime) => {
 };
 
 const Member = () => {
-  const { auth } = useAuth(); // 獲取會員認證資料
+  const { auth, logout } = useAuth();
   const [user, setUser] = useState(null); // 儲存用戶資料
   const [registeredActivities, setRegisteredActivities] = useState([]); // 儲存會員已報名的活動
   const [createdActivities, setCreatedActivities] = useState([]); // 儲存會員已開團的活動
   const [favoriteActivities, setFavoriteActivities] = useState([]); // 儲存會員已收藏的活動
   const [activeTab, setActiveTab] = useState("registered"); // 用來控制顯示的活動類型，默認顯示已報名活動
-
+  const router = useRouter();
   const modalRef = useRef(null); // 新增：用來控制 modal 顯示的參考
   const bsModal = useRef(null); // 新增：用來初始化 bootstrap modal
   const [activityName, setActivityName] = useState(null); // 新增：活動名稱
@@ -124,10 +128,11 @@ const Member = () => {
       const data = await response.json();
       console.log('API 回應MEMBER_ACTIVITIES的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setRegisteredActivities((prevActivities) => {
-          // 確保只更新資料並觸發渲染
-          return [...data.activities];
-        });
+        setRegisteredActivities(
+          [...data.activities].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          )
+        );
       } else {
         setRegisteredActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取活動資料", data);
@@ -154,10 +159,11 @@ const Member = () => {
       const data = await response.json();
       console.log('API 回應團主的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setCreatedActivities((prevActivities) => {
-          // 確保只更新資料並觸發渲染
-          return [...data.activities];
-        }); // 設置已開團的活動資料
+        setCreatedActivities(
+          [...data.activities].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          )
+        ); // 設置已開團的活動資料
       } else {
         setCreatedActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取已開團活動資料", data);
@@ -184,10 +190,11 @@ const Member = () => {
       const data = await response.json();
       console.log('API 回應的資料:', data);  // 檢查資料是否正確
       if (data.success && data.activities) {
-        setFavoriteActivities((prevActivities) => {
-          // 確保只更新資料並觸發渲染
-          return [...data.activities];
-        }); // 設置已收藏的活動資料
+        setFavoriteActivities(
+          [...data.activities].sort(
+            (a, b) => new Date(b.activity_time) - new Date(a.activity_time)
+          )
+        ); // 設置已收藏的活動資料
       } else {
         setFavoriteActivities([]); // 如果沒有活動資料或 API 返回錯誤，設置空陣列
         console.warn("無法獲取已收藏的活動資料", data);
@@ -221,6 +228,20 @@ const Member = () => {
           <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
+          <button
+    className={styles.menuItemBtn}
+    onClick={() => {
+      logout();
+      toast("會員已登出", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      router.push("/"); // 登出後導回首頁或登入頁
+    }}
+  >
+    登出
+  </button>
         </div>
 
         {/* 右側內容 */}

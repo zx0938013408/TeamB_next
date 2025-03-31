@@ -168,13 +168,19 @@ const OrderTable = () => {
     const today = new Date();
     let start = new Date(today);
     let end = new Date(today);
-  
+
     switch (filter) {
       case '一星期':
         start.setDate(today.getDate() - 7);
         break;
       case '一個月':
         start.setMonth(today.getMonth() - 1);
+        break;
+      case '三個月':
+        start.setMonth(today.getMonth() - 3);
+        break;
+      case '六個月':
+        start.setMonth(today.getMonth() - 6);
         break;
       case '全部':
         start = null;  // 不篩選日期
@@ -183,9 +189,9 @@ const OrderTable = () => {
       default:
         break;
     }
-  
-    setStartDate(start ? start : null);
-    setEndDate(end ? end : null);
+
+    setStartDate(start);
+    setEndDate(end);
   };
 
   const groupOrders = (rawData) => {
@@ -219,7 +225,7 @@ const OrderTable = () => {
         product_name: item.product_name,
         quantity: item.quantity,
         price: item.price,
-        size: item.size,
+        size: item.variant_size,
         color: item.color,
         image: item.image
       })
@@ -343,6 +349,8 @@ const OrderTable = () => {
         <option value="全部">全部</option>
         <option value="一星期">一星期</option>
         <option value="一個月">一個月</option>
+        <option value="三個月">三個月</option>
+        <option value="六個月">六個月</option>
       </select>
     </div>
 

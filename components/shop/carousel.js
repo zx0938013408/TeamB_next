@@ -42,7 +42,7 @@ function Carousel({ items = [], categoryId, itemsPerPage = 4 }) {
         {filteredItems
           .slice(startIndex, startIndex + itemsPerPage)
           .map((item) => (
-            <Card key={item.id} item={item} />
+            <Card key={`pd-${item.id}`} item={item} />
           ))}
       </div>
 
