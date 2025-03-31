@@ -30,9 +30,7 @@
     border-radius: 5px;
   }
   
-  .sidebar a:hover, .sidebar a.active {
-    background: #29755D;
-  }
+
   
   .mainContent {
     width: 70%;
@@ -275,4 +273,40 @@
   color: red;
   margin-top: 15px;
   margin-right: 20px; /* 讓錯誤訊息與按鈕有一點距離 */
+}
+
+.menuItemBtn {
+  font-size: 18px;
+  padding: 12px 12px;
+  border-radius: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  text-align: left;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.menuItemBtn:hover {
+  background-color: #4e7367;
+  color: #fff;
+  border-radius: 5px;
+
+}
+
+.menuItem {
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.menuItem:hover, 
+.menuItem.active {
+  background-color: #5f8b7c;
+  color: #fff;
 }

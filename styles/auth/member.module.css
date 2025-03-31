@@ -34,7 +34,8 @@
 
 .menuItem:hover, 
 .menuItem.active {
-    background-color: #146C94;
+    background-color: #5f8b7c;
+    color: #fff;
 }
 
 /* ✅ 內容區塊 */
@@ -143,4 +144,25 @@
 
   .userInfo{
     margin-left: 10px;
+  }
+
+
+  .menuItemBtn {
+    font-size: 18px;
+    padding: 12px 12px;
+    border-radius: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    text-align: left;
+    width: 100%;
+    transition: background 0.3s;
+  }
+  
+  .menuItemBtn:hover {
+    background-color: #4e7367;
+    color: #fff;
+    border-radius: 5px;
+
   }
