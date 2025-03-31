@@ -174,7 +174,11 @@ const Header = () => {
 ) : (
   <button
     className={styles.quickActionBtn}
-    onClick={() => router.push("/auth/login")}
+    onClick={() => {
+       // ✅ 登入前紀錄當前頁
+      localStorage.setItem("lastVisitedPage", window.location.pathname);
+      router.push("/auth/login");
+    }}
   >
     登入
   </button>
