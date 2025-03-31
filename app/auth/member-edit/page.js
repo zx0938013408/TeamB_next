@@ -184,7 +184,7 @@ const MemberEdit = () => {
         autoClose: 2000,
         hideProgressBar: true,
       });
-      router.push("/auth/login"); // 登出後導回首頁或登入頁
+      router.push("/"); // 登出後導回首頁或登入頁
     }}
   >
     登出
