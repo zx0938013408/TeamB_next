@@ -47,7 +47,7 @@ function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
   return (
     <div className={styles.cardContainer}>
       {visibleData.map((item, index) => (
-          <Link href={`${linkPath}/${item.id}`} passHref key={item.id}>
+          <Link href={`${linkPath}/${item.id}`} passHref key={`pd-${item.id}`}>
             <div
               key={item.id}
               className={styles.card}
