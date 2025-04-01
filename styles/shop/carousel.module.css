@@ -1,44 +1,97 @@
 .carouselContainer {
-  display: flex;
-  align-items: center; /* 垂直居中對齊 */
-  justify-content: center; /* 水平置中 */
-  gap: 10px; /* 控制按鈕與卡片之間的距離 */
+  position: relative;
   width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  /* padding: 0 20px; */
 }
 
 .cardWrapper {
-  display: flex;
-  justify-content: space-between; /* 讓卡片之間保持間距 */
-  min-width: 800px; /* 設定最小寬度，避免擠壓 */
-  max-width: 1000px; /* 限制最大寬度 */
-  flex-grow: 1;;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  justify-content: center;
+  width: 100%;  
 }
 
 /* 左右箭頭 */
-
 .iconButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: white;
   border: none;
-  cursor: pointer;
+  border-radius: 50%;
   width: 40px;
   height: 40px;
-  background: none;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: transparent;
-  color: #528f7c;
-  font-size: 30px;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.765); /* ✅ 半透明 */
+  backdrop-filter: blur(4px); /* ✅ 模糊背景 */
 }
 
 .iconButton:hover {
-  background-color: #e6eaee;
+  background-color: #e1e4e8;
   border-radius: 50%;
+  transform: translateY(-50%) scale(1.15);
 }
 
-.iconRight,
-.iconLeft {
+.iconInner {
+  font-size: 24px;
   color: #528f7c;
-  font-size: 30px;
-  background: none;
+  line-height: 1;
+  /* position: relative; */
+}
+
+.leftArrow {
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.rightArrow {
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.iconLeft {
+  position: relative;
+left: -1px;
+}
+
+.iconRight {
+  position: relative;
+  right: -2px;
+}
+
+
+/* RWD 手機板 */
+
+@media (max-width: 768px) {
+  .iconButton {
+    display: none;
+  }
+
+
+  /* 手機卡片橫向滾動 */
+  .cardWrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding: 0 16px;
+  }
+
+.scrollItem {
+  width: 240px;
+  flex: 0 0 auto;  
+  scroll-snap-align: start;
+}
 }
 
