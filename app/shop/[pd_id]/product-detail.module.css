@@ -364,45 +364,18 @@
   letter-spacing: 9.6px;
 }
 
+
 /* more */
 
 .more {
   display: flex;
   justify-content: flex-end;
-  align-items: center; /* 讓內容垂直對齊 */
+  align-items: center;
   margin-top: 50px;
-  width: 95%;
+  margin-bottom: 50px;
   cursor: pointer;
-}
-
-.textBox {
-  display: flex;
-  justify-content: end;
-  align-content: center; /* 讓文字和底線 + 箭頭都對齊 */
-  position: relative;
-}
-
-.text {
-  color: #528f7c;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1.2; /* 避免行高過大影響對齊 */
-  letter-spacing: 6.24px;
-  text-align: center;
-}
-
-.textBox .iconRight {
-  font-size: 26px;
-}
-
-/* more */
-
-.more {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center; /* 讓內容垂直對齊 */
-  margin-top: 50px;
-  width: 95%;
+  width: 100%;             /* ✅ 跟卡片保持同寬 */
+  box-sizing: border-box;  /* ✅ 確保 padding 計入寬度 */
 }
 
 .textBox {
