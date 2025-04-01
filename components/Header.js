@@ -114,15 +114,15 @@ const Header = () => {
               {/* 搜尋、購物車、登入按鈕 */}
               <div className={styles.navbarActions}>
                 {/* 搜尋按鈕 */}
-                <div
+                {/* <div
                   className={styles.searchToggle}
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
                 >
                   <span className={`icon-Search ${styles.iconSearch}`}></span>
-                </div>
+                </div> */}
 
                 {/* 🔹 搜尋欄 (點擊放大鏡才顯示) */}
-                <div
+                {/* <div
                   ref={searchRef}
                   className={`${styles.searchContainer} ${
                     isSearchOpen ? styles.active : ""
@@ -133,7 +133,7 @@ const Header = () => {
                     placeholder="搜尋關鍵字"
                     className={styles.searchInput}
                   />
-                </div>
+                </div> */}
 
                 <div className={styles.iconCartArea}>
                   <span
@@ -152,6 +152,7 @@ const Header = () => {
                     <span className={styles.iconCartNum}>{totalQty}</span>
                   )}
                 </div>
+                {auth.id !== 0 && <NotificationBell memberId={auth.id} className={styles.iconBell}/>}
 
                 {auth.id != 0 ? (
                   <div className={styles.avatarWrapper}>
@@ -206,7 +207,6 @@ const Header = () => {
                   <button className={styles.quickActionBtn}>快速開團</button>
                 </Link>
 
-                {auth.id !== 0 && <NotificationBell memberId={auth.id} />}
               </div>
 
               {/* Navbar 開關按鈕 */}
