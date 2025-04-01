@@ -35,7 +35,7 @@ export default function ActivityDetailPage() {
   //留言板
   const [messages, setMessages] = useState([]);
 const [newMessage, setNewMessage] = useState("");
-
+const socketRef = useRef(null);
   // 好物推薦
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const [shopType, setShopType] = useState([]); // ✅ 確保 hooks 不變
@@ -190,6 +190,42 @@ useEffect(() => {
   fetchActivityDetail();
 }, [al_id]);
 
+useEffect(() => {
+  if (!al_id) return;
+
+  const socket = new WebSocket("ws://localhost:3001"); // 請改成你的實際 WebSocket 位址
+  socketRef.current = socket;
+
+  socket.onopen = () => {
+    console.log("✅ WebSocket 已連線至留言板");
+    socket.send(JSON.stringify({ type: "join-room", room: `activity-${al_id}` }));
+  };
+
+  socket.onmessage = (event) => {
+    try {
+      const msg = JSON.parse(event.data);
+      if (msg.type === "new-comment" && msg.activity_id == al_id) {
+        setMessages((prev) => [...prev, msg.data]);
+      }
+    } catch (err) {
+      console.error("📛 留言 WebSocket 錯誤：", err);
+    }
+  };
+
+  socket.onerror = (err) => {
+    console.error("❌ 留言 WebSocket 錯誤", err);
+  };
+
+  socket.onclose = () => {
+    console.log("🔌 留言 WebSocket 關閉");
+  };
+
+  return () => {
+    socket.close();
+  };
+}, [al_id]);
+
+
 // 抓取留言資料
 const fetchMessages = async () => {
   try {
@@ -221,7 +257,6 @@ const handleAddMessage = async () => {
     const data = await res.json();
     if (data.success) {
       setNewMessage("");
-      fetchMessages();
     }else{
       Swal.fire({
         icon: "error",
