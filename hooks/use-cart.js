@@ -122,7 +122,7 @@ export function CartProvider({ children }) {
   const onAdd = (product) => {
     // 先判斷此商品是否已經在購物車裡，並確認選擇的尺寸（如果有）
     const foundIndex = cartItems.findIndex(
-      (cartItem) => cartItem.id === product.id && cartItem.size === product.size
+      (cartItem) => cartItem.id === product.id
     );
 
     if (foundIndex !== -1) {

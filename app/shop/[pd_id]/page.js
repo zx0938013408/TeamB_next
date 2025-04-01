@@ -25,8 +25,8 @@ export default function ProductDetailPage() {
   const [sizes, setSizes] = useState([]); // 存儲尺寸
   const [stock, setStock] = useState({}); // 存儲庫存數量
   const [selectedSize, setSelectedSize] = useState(""); //儲存庫存
-  const [selectedQuantity, setSelectedQuantity] = useState(""); //儲存選擇數量
   const [quantity, setQuantity] = useState(1);
+  const [sizeIdMap, setSizeIdMap] = useState({});
 
   const increase = () => {
     const nextQty = quantity + 1;
@@ -77,17 +77,22 @@ export default function ProductDetailPage() {
           // 先檢查 productData 中是否有 size 和 stock 資料
           console.log("商品資料:", productData);
 
-          if (productData.sizes && productData.stocks) {
-            const sizes = productData.sizes.split(","); // ['S', 'M', 'L']
-            const stocks = productData.stocks.split(",").map(Number); // [10, 20, 15]
+          if (
+            productData.sizes &&
+            productData.stocks &&
+            productData.variant_ids
+          ) {
+            const sizeNames = productData.sizes.split(","); // ['M', 'L', ...]
+            const stockNumbers = productData.stocks.split(",").map(Number); // [10, 20, ...]
+            const variantIds = productData.variant_ids.split(",").map(Number); // [3, 4, ...]
 
-            setSizes(sizes);
-            setStock(
-              sizes.reduce((acc, size, i) => {
-                acc[size] = stocks[i] ?? 0;
-                return acc;
-              }, {})
-            );
+            const sizeInfo = sizeNames.map((size, i) => ({
+              id: variantIds[i],
+              size: size,
+              stock: stockNumbers[i] ?? 0,
+            }));
+
+            setSizes(sizeInfo); // 傳給 select
           } else {
             console.error("❌ 無法找到 size 或 stock 資料");
           }
@@ -169,30 +174,56 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     const qty = quantity;
     console.log("✅ 選擇的尺寸：", selectedSize);
-    console.log("✅ 選擇的數量：", selectedQuantity);
+    console.log("✅ 選擇的數量：", quantity);
 
     if (!selectedSize || qty < 1) {
       toast.error("請選擇尺寸和數量");
       return;
     }
 
-    const availableStock = stock[selectedSize] || 0;
-    if (qty > availableStock) {
-      toast.error(`庫存不足，僅剩 ${availableStock} 件`);
+    if (qty > selectedSize.stock) {
+      toast.error(`庫存不足，僅剩 ${selectedSize.stock} 件`);
       return;
     }
 
+    // const availableStock = stock[selectedSize] || 0;
+    // if (qty > availableStock) {
+    //   toast.error(`庫存不足，僅剩 ${availableStock} 件`);
+    //   return;
+    // }
+
     // 這裡把選擇的尺寸和數量傳遞給 onAdd
+    //   onAdd({
+    //     id: product.id,
+    //     product_name: product.product_name,
+    //     price: product.price,
+    //     color: product.color,
+    //     size: selectedSize,
+
+    //     quantity: qty,
+    //     image: product.image,
+    //   });
+    //   notify(product.product_name);
+    // };
+    // ✅ 防止 product.size_info 還沒載入好就報錯
+
     onAdd({
-      id: product.id,
-      product_name: product.product_name,
-      price: product.price,
-      color: product.color,
-      size: selectedSize,
+      id: selectedSize.id, // ✅ 用尺寸_庫存表的主鍵 id 當購物車識別用
+      product_id: product.id,
+      size: selectedSize.size,
+      size_id: selectedSize.id, // ✅ 傳給後端用
       quantity: qty,
+      price: product.price,
+      product_name: product.product_name,
       image: product.image,
+      color: product.color,
     });
-    notify(product.product_name);
+    console.log(
+      "✅ 加入購物車的尺寸 ID 是",
+      selectedSize.id,
+      typeof selectedSize.id
+    );
+    notify(product.product_name); // ✅ 加入成功提示
   };
 
   return (
@@ -255,40 +286,42 @@ export default function ProductDetailPage() {
                   <div className={styles.productDetail}>
                     <select
                       className={styles.sizeSection}
-                      onChange={(e) => setSelectedSize(e.target.value)}
-                      value={selectedSize}
+                      onChange={(e) => {
+                        const selectedId = Number(e.target.value);
+                        const found = sizes.find((s) => s.id === selectedId);
+                        if (found) {
+                          setSelectedSize(found);
+                        } else {
+                          toast.error("找不到對應尺寸");
+                        }
+                      }}
+                      value={selectedSize?.id || ""}
                     >
-                      <option className={styles.dropdown} value="">
-                        尺寸
-                      </option>
+                      <option value="">尺寸</option>
                       {sizes.map((size) => (
-                        <option key={size} value={size}>
-                          {size}
+                        <option key={size.id} value={size.id}>
+                          {size.size}
                         </option>
                       ))}
                     </select>
+
                     {/* 選擇數量 */}
-                    {/* <div className={styles.quantity}> */}
-                      <div className="flex items-center border rounded overflow-hidden w-32">
+                    <div className={styles.quantity}>
+                      <div className={styles.quantityWrapper}>
                         <button
                           onClick={decrease}
                           disabled={quantity <= 1}
-                          className={`w-10 h-10 text-xl ${
-                            quantity <= 1
-                              ? "text-gray-400 cursor-not-allowed"
-                              : ""
+                          className={`${styles.qtyBtn} ${
+                            quantity <= 1 ? styles.disabled : ""
                           }`}
                         >
                           –
                         </button>
-                        <div className="w-full text-center">{quantity}</div>
-                        <button
-                          onClick={increase}
-                          className="w-10 h-10 text-xl"
-                        >
+                        <div className={styles.qtyNumber}>{quantity}</div>
+                        <button onClick={increase} className={styles.qtyBtn}>
                           +
                         </button>
-                      {/* </div> */}
+                      </div>
                       {/* <ul>
                         {cartItems.map((cartItem) => (
                           <li
@@ -308,15 +341,13 @@ export default function ProductDetailPage() {
                               –
                             </button>
                             <span>{cartItem.count}</span> {/* 顯示目前數量 */}
-                            {/* <button onClick={() => onIncrease(cartItem.id)}>
+                      {/* <button onClick={() => onIncrease(cartItem.id)}>
                               +
                             </button>
                           </li>
                         ))}
                       </ul> */}
 
-
-                      
                       {/* <select
                         className={styles.quantitySection}
                         value={selectedQuantity}
@@ -330,7 +361,7 @@ export default function ProductDetailPage() {
                       </select> */}
                       <div className={styles.inventory}>
                         {selectedSize
-                          ? `庫存：${stock[selectedSize] ?? 0} 件`
+                          ? `庫存：${selectedSize.stock ?? 0} 件`
                           : "請先選擇尺寸"}
                       </div>
                     </div>
