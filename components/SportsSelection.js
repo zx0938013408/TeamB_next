@@ -71,28 +71,31 @@ const SportsSelection = React.forwardRef((_, ref) => {
           {/* 選擇球類區域 */}
         <div className="row g-0 row-2" id="sports-middle">
           
-          <div 
+          <a
+            href={`/activity-list?search=籃球`}
             className={`col-4 grid-item basketball sportSelect ${getSportClass('basketball')}`}
             onClick={() => handleSportClick('basketball')}
           >
             <div className="sports-icon icon-Basketball" ref={el => (iconRefs.current[0] = el)}></div>
             <p className="sports-text">前往報團</p>
-          </div>
+          </a>
 
-          <div 
+          <a
+            href={`/activity-list?search=排球`}
             className={`col-4 grid-item volleyball sportSelect ${getSportClass('volleyball')}`}
             onClick={() => handleSportClick('volleyball')}
           >
             <div className="sports-icon icon-Volleyball" ref={el => (iconRefs.current[1] = el)}></div>
             <p className="sports-text">前往報團</p>
-          </div>
-          <div 
+          </a>
+          <a
+            href={`/activity-list?search=羽球`}
             className={`col-4 grid-item badminton sportSelect ${getSportClass('badminton')}`}
             onClick={() => handleSportClick('badminton')}
           >
             <div className="sports-icon icon-Badminton" ref={el => (iconRefs.current[2] = el)}></div>
             <p className="sports-text">前往報團</p>
-          </div>
+          </a>
         </div>
 
         <div className="row g-0 row-3">
@@ -111,6 +114,8 @@ const SportsSelection = React.forwardRef((_, ref) => {
    
   );
 });
+
+SportsSelection.displayName = "SportsSelection";
 
 export default SportsSelection;
 {/*揪一波打起來ㄟ咦！<br/>開團啦 發球啦！都不揪 play +1*/}
