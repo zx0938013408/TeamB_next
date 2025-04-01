@@ -2,6 +2,11 @@ import Script from "next/script";
 import '@/styles/globals.css'
 import Providers from './providers'
 import { AuthContextProvider } from "@/context/auth-context";
+import dynamic from "next/dynamic";
+
+const AiChatWidget = dynamic(() => import("@/components/AiChatWidget"), {
+  ssr: false,
+});
 
 export const metadata = {
   title: "TeamB的網站",
@@ -30,7 +35,8 @@ export default function RootLayout({ children }) {
         </head>
         <body>
         <AuthContextProvider>
-        <Providers>{children}</Providers>
+        <Providers>        <AiChatWidget/>
+        {children}</Providers>
         </AuthContextProvider>
         
 
