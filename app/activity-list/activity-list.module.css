@@ -57,15 +57,76 @@
     }
   }
 
+  /* 進階選項 */
+  .advancedOptions{
+    display: flex;
+    justify-content: space-between;
+  }
   /* 搜尋列 */
+
+  .selectTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    margin-right: 3%;
+    border: 3px solid #a0c4b0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 100%;
+    /* max-width: 300px; */
+    background-color: #fff;
+  }
+
   .searchInput {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
+    padding: 8px 0;
+    border: none;
     border-radius: 6px;
     width: 100%;
-    max-width: 300px;
+    max-width: 600px;
+
+    &:focus {
+      border: none;
+      outline: none; /* 確保點擊時無邊框陰影 */
+    }
+  }
+
+  .X{
+    margin-right: 1rem;
+    cursor: pointer; 
+  }
+
+  .selectTop label {
+    flex: 1;
+    color: #3f6d62;
+    font-weight: bold;
+  }
+
+  .selectTop .peopleLabel {
+    width: 60px;
+  }
+
+  .selectTop select {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+    width: 300px;
+  }
+
+  .group1 {
+    width: 450px;
+  }
+
+  .selectTop .people {
+    width: 290px;
   }
   
+
+  .selectType{
+    flex: 1;
+  }
 
   /* 單一列表 */
   .list {
@@ -438,4 +499,91 @@
   color: #888 !important;
   border-color: #ccc !important;
   cursor: not-allowed !important;
+}
+
+
+@media screen and (max-width: 481px){
+  /* 整體排版 */
+  .container{
+    width: 95%;
+  }
+
+  /* 搜尋 + 篩選 */
+  .bread {
+    padding: 0;
+  }
+
+  .top{
+    display: block;
+  }
+
+  .advancedOptions{
+    display: block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .selectTop{
+    flex: 1;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 2%;
+  }
+
+  .searchInput{
+    padding: 0;
+    width: 70%;
+
+  }
+
+
+  .breadcrumb{
+    display: none;
+  }
+  
+  /* 創建活動BTN */
+  .create {
+    width: 100%;
+  }
+
+  /* 活動卡片 */
+  .list {
+    height: 20%;
+    margin: auto 0;
+    display: flex;
+
+    &:hover{
+      background-color: #fff;
+    }
+  }
+
+  .img{
+    position: relative;
+    width: 30%;
+  }
+
+  /* 按鈕排版 */
+  .groupButton{
+    justify-content: space-between;
+  }
+
+  .registerInfoBtn{
+    border: none;
+  }
+
+
+  .selectGroup{
+    width: 100%;
+  }
+  .inputPrice{
+    width: 100%;
+  }
+  .textareaInput{
+    width: 100%;
+  }
+  .selectGroup .people{
+    width: 34%;
+  }
 }
