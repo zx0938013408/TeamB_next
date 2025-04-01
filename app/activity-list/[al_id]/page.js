@@ -4,11 +4,15 @@ import { useRef, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "@/public/TeamB_Icon/style.css";
 import Styles from "./activity-list-detail.module.css";
+import StylesShop from "@/app/shop/[pd_id]/product-detail.module.css";
+import Carousel from "@/components/shop/carousel";
 import { AL_ITEM_GET,AVATAR_PATH,MESSAGE_BOARD_GET, MESSAGE_BOARD_POST,API_SERVER } from "@/config/api-path";
+import { AVATAR_PATH as SHOP_AVATAR_PATH, AB_LIST as SHOP_AB_LIST } from "@/config/shop-api-path";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import LikeHeart from "@/components/like-hearts";
 import { ST } from "next/dist/shared/lib/utils";
 import { useAuth } from "@/context/auth-context";
+import Link from "next/link";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
@@ -31,6 +35,11 @@ export default function ActivityDetailPage() {
   //留言板
   const [messages, setMessages] = useState([]);
 const [newMessage, setNewMessage] = useState("");
+
+  // 好物推薦
+  const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
+  const [shopType, setShopType] = useState([]); // ✅ 確保 hooks 不變
+
 
 
   // Modal
@@ -238,6 +247,51 @@ const handleAddMessage = async () => {
 useEffect(() => {
   if (al_id) fetchMessages();
 }, [al_id]);
+
+
+  // 取得隨機推薦商品資料
+  useEffect(() => {
+    if (!activity || !activity.sport_name) return;
+
+    const fetchRecommendedItems = async () => {
+      try {
+        const apiUrl = `${SHOP_AB_LIST}`;
+        console.log("正在請求推薦商品:", apiUrl);
+
+        const res = await fetch(apiUrl);
+        console.log("API 響應狀態:", res.status); // 檢查狀態碼
+
+        if (!res.ok) {
+          throw new Error(`API 請求失敗，狀態碼: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("API 回應資料:", data); // 檢查返回資料
+
+        if (data.success && data.rows) {
+
+        // 新增：過濾包含關鍵字的商品
+        const keywords = [activity?.sport_name, "運動", "訓練"].filter(Boolean); // 
+        const filteredItems = data.rows.filter(item =>
+          keywords.some(keyword =>
+            item.product_name?.includes(keyword)
+          )
+        );
+
+          const randomItems = [...filteredItems]
+            .sort(() => Math.random() - 0.5) // 隨機排序
+            .slice(0, 8); // 取前 8 個
+          setRecommendedItems(randomItems); // 📌 設定推薦商品
+        } else {
+          console.error("❌ 無法獲取推薦商品", data.error);
+        }
+      } catch (error) {
+        console.error("❌ fetch 錯誤:", error);
+      }
+    };
+
+    fetchRecommendedItems();
+  }, [activity]); // 🚀 只在頁面載入時執行一次
 
 
 
@@ -467,17 +521,35 @@ useEffect(() => {
 </div>
 
 
+
       {/* 商品推薦區 */}
-      <div className={`${Styles.container} mx-auto ${Styles.advertise}`}>
-        <h2 className={Styles.shopTitle}>中場休息 - 好物推薦</h2>
-        <div className={`${Styles.shop} row`}>
-          {/* 放入推薦商品（與首頁商品區相同) */}
-          <div className={Styles.seeMore}>
-            <a href="#">查看更多</a>
+      <div className={`${Styles.container} mx-auto ${Styles.information}`}>
+        <div className={Styles.information1}>
+          <div className={StylesShop.itemsSection}>
+              <div className={StylesShop.titleBg}>
+                <h2 className={Styles.infoTitle}>中場休息 - 好物推薦</h2>
+              </div>
+              {recommendedItems.length > 0 ? (
+                <Carousel items={recommendedItems} categoryId={null} />
+              ) : (
+                <p className={StylesShop.loading}>推薦商品載入中...</p>
+              )}
+              <div className={StylesShop.more}>
+                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                  <div className={StylesShop.textBox}>
+                    <div className={StylesShop.text}>查看更多</div>
+                    <span className={`icon-Right ${StylesShop.iconRight}`} />
+                  </div>
+                </Link>
+              </div>
           </div>
         </div>
       </div>
 
+
+
+
+{/* AI 客服 */}
       {showLightbox && (
   <div className={Styles.lightboxOverlay} onClick={() => setShowLightbox(false)}>
     <div className={Styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
