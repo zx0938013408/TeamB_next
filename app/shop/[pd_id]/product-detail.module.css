@@ -248,6 +248,44 @@
   border: 3px solid #c87a1e;
 }
 
+/* 數量按鈕 */
+
+.quantityWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #A7C4BA; /* 跟 select 一樣的綠色 */
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.qtyBtn {
+  width: 2.5rem;   /* 約等於 w-10 */
+  height: 2.5rem;  /* 約等於 h-10 */
+  font-size: 1.25rem; /* text-xl */
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.qtyBtn:hover {
+  background-color: #f0f0f0;
+}
+
+.disabled {
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.qtyNumber {
+  flex: 1;
+  text-align: center;
+  font-size: 1rem;
+}
+
 /* section-b 商品詳情 */
 
 .bContainer {
