@@ -61,7 +61,7 @@ const OrderHistory = () => {
         <div className={styles.content}>
           <div className={orderStyles.orderName}>訂單歷史記錄</div>
             {/* 根據選中的訂單狀態顯示訂單 */}
-            <div className={styles.tabContent}>
+            <div className={orderStyles.tabContent}>
               <OrderTable/>
             </div>
           </div>

@@ -246,40 +246,6 @@ const OrderTable = () => {
     return sortedOrders
   }
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await fetch(ORDER_LIST)
-  //       const data = await res.json()
-
-  //       if (data.success) {
-  //         const memberId = auth.id
-
-  //         const memberOrders = data.rows.filter(order =>
-  //           Number(order.member_id) === Number(memberId) &&
-  //           Number(order.order_status_id) === Number(selectedTab)
-  //         )
-
-  //         const groupedOrders = groupOrders(memberOrders)
-  //         setOrders(groupedOrders)
-  //         setOrderCount(groupedOrders.length) // 計算符合條件的訂單數量
-  //       }
-  //     } catch (error) {
-  //       console.error("載入訂單列表失敗：", error)
-  //     }
-  //   }
-
-  //   if (auth?.id) {
-  //     fetchData()
-  //   }
-  // }, [auth?.id, selectedTab, startDate, endDate])
-
-  
-  
-  
-  
-  
-  // 取消訂單
  
   useEffect(() => {
     const fetchData = async () => {
@@ -327,7 +293,7 @@ const OrderTable = () => {
     setOrderCounts(filteredOrders.length); // 更新顯示對應狀態的訂單數量
   };
   
-
+  // 取消訂單
   const handleCancelOrder = async (orderId) => {
     // 顯示確認取消訂單的 SweetAlert 訊息
     const result = await MySwal.fire({
