@@ -7,11 +7,11 @@ import Image from "next/image";
 import Logo from "../public/src/assets/iconLogo.png";
 import { useAuth } from "../context/auth-context"; // 引入 useAuth
 import { useRouter, usePathname } from "next/navigation";
-import { toast } from "react-toastify";  // 引入 react-toastify
-import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
+import { toast } from "react-toastify"; // 引入 react-toastify
+import "react-toastify/dist/ReactToastify.css"; // 引入 CSS
 import NotificationBell from "./NotificationBell";
 import { AVATAR_PATH } from "../config/auth.api";
-import { useCart } from "@/hooks/use-cart"
+import { useCart } from "@/hooks/use-cart";
 
 const Header = () => {
   const pathname = usePathname();
@@ -31,16 +31,15 @@ const Header = () => {
     logout();
 
     // 顯示登出提示
-    toast("會員已登出",{
-      position:"top-center" , // 設定通知顯示位置
-      autoClose:2000   ,   
-      hideProgressBar:true ,// 隱藏進度
+    toast("會員已登出", {
+      position: "top-center", // 設定通知顯示位置
+      autoClose: 2000,
+      hideProgressBar: true, // 隱藏進度
     });
 
     if (pathname && pathname.startsWith("/auth/member")) {
       router.push("/");
     }
-
   };
 
   // 🔹 點擊外部時關閉搜尋框
@@ -137,7 +136,7 @@ const Header = () => {
                 </div>
 
                 <div className={styles.iconCartArea}>
-                  <span 
+                  <span
                     className={`icon-Cart ${styles.iconCart}`}
                     onClick={() => {
                       if (auth.token) {
@@ -149,40 +148,59 @@ const Header = () => {
                     style={{ cursor: "pointer" }}
                   ></span>
                   {/* 只有在已登入時才顯示數量，否則顯示空 */}
-                  {auth.token &&  totalQty > 0 && <span className={styles.iconCartNum}>{totalQty}</span>}
+                  {auth.token && totalQty > 0 && (
+                    <span className={styles.iconCartNum}>{totalQty}</span>
+                  )}
                 </div>
 
                 {auth.id != 0 ? (
-  <div className={styles.avatarWrapper}>
-    <img
-       src={auth?.avatar ? `${AVATAR_PATH}/${auth.avatar}`: `${AVATAR_PATH}/imgs.png`}
-      alt="User Avatar"
-      className={styles.avatarImg}
-      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-    />
-    {isDropdownOpen && (
-      <ul className={styles.dropdownMenu}>
-        <li onClick={() => router.push("/auth/member")}>會員中心</li>
-        <li onClick={() => router.push("/auth/member-edit")}>編輯個人檔案</li>
-        <li onClick={() => router.push("/auth/member-account")}>帳號管理</li>
-        <li onClick={() => router.push("/auth/orderHistory")}>我的訂單</li>
-        <li onClick={() => router.push("/auth/member-likes")}>收藏商品</li>
-        <li onClick={handleLogout}>登出</li>
-      </ul>
-    )}
-  </div>
-) : (
-  <button
-    className={styles.quickActionBtn}
-    onClick={() => {
-       // ✅ 登入前紀錄當前頁
-      localStorage.setItem("lastVisitedPage", window.location.pathname);
-      router.push("/auth/login");
-    }}
-  >
-    登入
-  </button>
-)}
+                  <div className={styles.avatarWrapper}>
+                    <img
+                      src={
+                        auth?.avatar
+                          ? `${AVATAR_PATH}/${auth.avatar}`
+                          : `${AVATAR_PATH}/imgs.png`
+                      }
+                      alt="User Avatar"
+                      className={styles.avatarImg}
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    />
+                    {isDropdownOpen && (
+                      <ul className={styles.dropdownMenu}>
+                        <li>
+                          <a href="/auth/member">會員中心</a>
+                        </li>
+                        <li>
+                          <a href="/auth/member-edit">編輯個人檔案</a>
+                        </li>
+                        <li>
+                          <a href="/auth/member-account">帳號管理</a>
+                        </li>
+                        <li>
+                          <a href="/auth/orderHistory">我的訂單</a>
+                        </li>
+                        <li>
+                          <a href="/auth/member-likes">收藏商品</a>
+                        </li>
+                        <li onClick={handleLogout}>登出</li>
+                      </ul>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    className={styles.quickActionBtn}
+                    onClick={() => {
+                      // ✅ 登入前紀錄當前頁
+                      localStorage.setItem(
+                        "lastVisitedPage",
+                        window.location.pathname
+                      );
+                      router.push("/auth/login");
+                    }}
+                  >
+                    登入
+                  </button>
+                )}
 
                 <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
