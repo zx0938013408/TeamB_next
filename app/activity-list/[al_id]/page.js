@@ -538,7 +538,7 @@ useEffect(() => {
                 <p className={StylesShop.loading}>推薦商品載入中...</p>
               )}
               <div className={StylesShop.more}>
-                <Link href="../shop/top" style={{ textDecoration: "none" }}>
+                <Link href={`/shop/?keyword=${activity.sport_name}`} style={{ textDecoration: "none" }}>
                   <div className={StylesShop.textBox}>
                     <div className={StylesShop.text}>查看更多</div>
                     <span className={`icon-Right ${StylesShop.iconRight}`} />
