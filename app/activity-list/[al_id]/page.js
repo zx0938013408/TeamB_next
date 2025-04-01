@@ -271,7 +271,10 @@ useEffect(() => {
         if (data.success && data.rows) {
 
         // 新增：過濾包含關鍵字的商品
-        const keywords = [activity?.sport_name, "運動", "訓練"].filter(Boolean); // 
+        const keywords = activity?.sport_name
+        ? [activity.sport_name]    // 只推薦與該運動相關商品
+        : ["運動", "訓練"];        // 沒指定運動，才推薦通用商品
+        
         const filteredItems = data.rows.filter(item =>
           keywords.some(keyword =>
             item.product_name?.includes(keyword)
