@@ -114,15 +114,15 @@ const Header = () => {
               {/* 搜尋、購物車、登入按鈕 */}
               <div className={styles.navbarActions}>
                 {/* 搜尋按鈕 */}
-                <div
+                {/* <div
                   className={styles.searchToggle}
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
                 >
                   <span className={`icon-Search ${styles.iconSearch}`}></span>
-                </div>
+                </div> */}
 
                 {/* 🔹 搜尋欄 (點擊放大鏡才顯示) */}
-                <div
+                {/* <div
                   ref={searchRef}
                   className={`${styles.searchContainer} ${
                     isSearchOpen ? styles.active : ""
@@ -133,7 +133,7 @@ const Header = () => {
                     placeholder="搜尋關鍵字"
                     className={styles.searchInput}
                   />
-                </div>
+                </div> */}
 
                 <div className={styles.iconCartArea}>
                   <span
@@ -152,6 +152,12 @@ const Header = () => {
                     <span className={styles.iconCartNum}>{totalQty}</span>
                   )}
                 </div>
+                {auth.id !== 0 && (
+                  <NotificationBell
+                    memberId={auth.id}
+                    className={styles.iconBell}
+                  />
+                )}
 
                 {auth.id != 0 ? (
                   <div className={styles.avatarWrapper}>
@@ -167,21 +173,26 @@ const Header = () => {
                     />
                     {isDropdownOpen && (
                       <ul className={styles.dropdownMenu}>
-                        <li>
-                          <a href="/auth/member">會員中心</a>
-                        </li>
-                        <li>
-                          <a href="/auth/member-edit">編輯個人檔案</a>
-                        </li>
-                        <li>
-                          <a href="/auth/member-account">帳號管理</a>
-                        </li>
-                        <li>
-                          <a href="/auth/orderHistory">我的訂單</a>
-                        </li>
-                        <li>
-                          <a href="/auth/member-likes">收藏商品</a>
-                        </li>
+                        <a href="/auth/member">
+                          <li>會員中心</li>
+                        </a>
+
+                        <a href="/auth/member-edit">
+                          <li>編輯個人檔案</li>
+                        </a>
+
+                        <a href="/auth/member-account">
+                          <li>帳號管理</li>
+                        </a>
+
+                        <a href="/auth/orderHistory">
+                          <li>我的訂單</li>
+                        </a>
+
+                        <a href="/auth/member-likes">
+                          <li>收藏商品</li>
+                        </a>
+
                         <li onClick={handleLogout}>登出</li>
                       </ul>
                     )}
@@ -205,8 +216,6 @@ const Header = () => {
                 <Link href="/activity-create">
                   <button className={styles.quickActionBtn}>快速開團</button>
                 </Link>
-
-                {auth.id !== 0 && <NotificationBell memberId={auth.id} />}
               </div>
 
               {/* Navbar 開關按鈕 */}

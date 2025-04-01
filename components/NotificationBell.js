@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "@/public/TeamB_Icon/style.css";
+import "@/styles/NotificationBell.css";
 
 export default function NotificationBell({ memberId }) {
   const [messages, setMessages] = useState([]);
@@ -71,71 +72,35 @@ export default function NotificationBell({ memberId }) {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="notification-wrapper">
       <button
         onClick={() => setShowInbox((prev) => !prev)}
-        style={{
-          position: "relative",
-          background: "none",
-          border: "none",
-          fontSize: "24px",
-        }}
+        className="notification-button"
       >
-        <span className="icon-Bell" style={{ color: " #528F7C" }}></span>
+        <span className="icon-Bell notification-bell"></span>
         {unreadCount > 0 && (
-          <span
-            style={{
-              position: "absolute",
-              top: "-5px",
-              right: "-5px",
-              background: "red",
-              color: "white",
-              borderRadius: "50%",
-              padding: "2px 6px",
-              fontSize: "12px",
-            }}
-          >
-            {unreadCount}
-          </span>
+          <span className="notification-badge">{unreadCount}</span>
         )}
       </button>
 
       {showInbox && (
-        <div
-          style={{
-            position: "absolute",
-            top: "110%",
-            right: 0,
-            width: "350px",
-            maxHeight: "400px",
-            overflowY: "auto",
-            background: "white",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            zIndex: 9999,
-            padding: "10px",
-          }}
-        >
+        <div className="notification-inbox">
           <h4>通知訊息</h4>
           {messages.length === 0 && <p>目前沒有訊息</p>}
           {messages.map((msg, index) => (
             <div
               key={msg.id || `${index}-${msg.title}-${msg.content}`}
-              style={{
-                borderBottom: "1px solid #ddd",
-                marginBottom: "8px",
-                paddingBottom: "5px",
-              }}
+              className="notification-message"
             >
               <strong>{msg.title}</strong>
               <p>{msg.content}</p>
               <small>{new Date(msg.created_at).toLocaleString()}</small>
-              <br />
-              {!msg.is_read && (
-                <button onClick={() => markAsRead(msg.id)}>標記為已讀</button>
-              )}
-              <button onClick={() => deleteMessage(msg.id)}>刪除</button>
+              <div className="notification-actions">
+                {!msg.is_read && (
+                  <button onClick={() => markAsRead(msg.id)}>標記為已讀</button>
+                )}
+                <button onClick={() => deleteMessage(msg.id)}>刪除</button>
+              </div>
             </div>
           ))}
         </div>

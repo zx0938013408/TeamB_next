@@ -6,6 +6,12 @@ import gsap from "gsap";
 const FloatingBallEffect = () => {
   useEffect(() => {
     const handleClick = (e) => {
+      const tag = e.target.tagName.toLowerCase();
+
+      // 避免在互動元素上產生球
+      const ignoreTags = ["button", "a", "input", "textarea", "select", "label", "img"];
+      if (ignoreTags.includes(tag)) return;
+
       const ball = document.createElement("div");
       ball.style.width = "20px";
       ball.style.height = "20px";
