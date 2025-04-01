@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "next/navigation"; // 使用 next/navigation 的 useParams
+import { useParams, useRouter } from "next/navigation"; // 使用 next/navigation 的 useParams
 import { AB_ITEM_GET, AVATAR_PATH, AB_LIST } from "@/config/shop-api-path";
 import styles from "./product-detail.module.css";
 import "../../../public/TeamB_Icon/style.css";
@@ -25,6 +25,7 @@ export default function ProductDetailPage() {
   const [sizes, setSizes] = useState([]); // 存儲尺寸
   const [stock, setStock] = useState({}); // 存儲庫存數量
   const [selectedSize, setSelectedSize] = useState(""); //儲存庫存
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [sizeIdMap, setSizeIdMap] = useState({});
 
@@ -177,7 +178,7 @@ export default function ProductDetailPage() {
     return <p className={styles.loading}>載入中...</p>;
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (redirect = false) => {
     const qty = quantity;
     console.log("✅ 選擇的尺寸：", selectedSize);
     console.log("✅ 選擇的數量：", quantity);
@@ -209,6 +210,12 @@ export default function ProductDetailPage() {
       typeof selectedSize.id
     );
     notify(product.product_name); // ✅ 加入成功提示
+
+    // 立即購買會跳頁到購物車
+    if (redirect) {
+      router.push('/cart'); // 立即購買時導向購物車
+    }
+
   };
 
   return (
@@ -318,11 +325,16 @@ export default function ProductDetailPage() {
                     <div className={styles.buttons}>
                       <button
                         className={styles.btnPrimary}
-                        onClick={handleAddToCart}
+                        onClick={()=>handleAddToCart(false)}
                       >
                         加入購物車
                       </button>
-                      <button className={styles.btnSecondary}>立即購買</button>
+                      <button 
+                        className={styles.btnSecondary}
+                        onClick={()=>handleAddToCart(true)}
+                      >
+                        立即購買
+                      </button>
                     </div>
                   </div>
                 </div>
