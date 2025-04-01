@@ -14,7 +14,9 @@ import MotionPathPlugin from "gsap/MotionPathPlugin";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // 引入樣式
 import "@/public/TeamB_Icon/style.css";
-import {MB_CONTACT_POST} from "../config/auth.api"
+import {MB_CONTACT_POST} from "../config/auth.api";
+import FloatingBallEffect from "@/components/FloatingBallEffect";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -274,6 +276,8 @@ const HomePage = () => {
         </div>
       </section>
       <Footer />
+      <FloatingBallEffect />
+<ScrollToTopButton />
     </>
   );
 };
