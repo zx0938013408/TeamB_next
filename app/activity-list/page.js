@@ -30,6 +30,8 @@ export default function ActivityListPage() {
   // 搜尋功能
   const [searchQuery, setSearchQuery] = useState("");
   const [originalData, setOriginalData] = useState([]);
+  const [isShow, setIsShow] = useState(false);
+  
   // 分頁
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // 每頁顯示的活動數量
@@ -50,8 +52,10 @@ export default function ActivityListPage() {
   const handleSearch = (query) => {
     setSearchInput(query);
     setSearchQuery(query);
+    setIsShow(true)
 
     if (query.trim() === "") {
+      setIsShow(false);
       setListData(originalData); // 還原完整資料
     } else {
       const lowerQuery = query.toLowerCase();
@@ -64,6 +68,14 @@ export default function ActivityListPage() {
       });
       setListData(filtered);
     }
+  };
+
+  const clearSearch = () => {
+    searchRef.current.value = "";
+    setIsShow(false);
+    fetchData(null); // ✅ 手動清除搜尋並重新抓資料
+    setSearchInput("");
+    router.replace("/activity-list");
   };
 
   // 首頁點選會自動帶入
@@ -232,7 +244,10 @@ export default function ActivityListPage() {
               活動列表
             </span>
           </ol>
-          <div className={`${Styles.selectGroup}`}>
+        </nav>
+        <div className={`${Styles.advancedOptions}`}>
+          {/* 篩選列 */}
+          <div className={`${Styles.selectTop}`}>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -242,19 +257,28 @@ export default function ActivityListPage() {
               <input
                 type="text"
                 placeholder="搜尋活動名稱、地點、主揪…"
+                ref={searchRef}
                 className={Styles.searchInput}
                 value={searchInput}
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </form>
+            {isShow ? (
+              <div onClick={clearSearch} className={Styles.X}>
+                清除條件
+              </div>
+            ) : (
+              ""
+            )}
           </div>
 
           {/* 篩選列 */}
-          <div className={Styles.selectGroup}>
+          <div className={Styles.selectTop}>
             <select
               id="people"
               name="people"
               value={sortType}
+              className={Styles.selectType}
               onChange={(e) => {
                 const value = e.target.value;
                 setSortType(value);
@@ -267,7 +291,7 @@ export default function ActivityListPage() {
               <option value="people">依照報名人數排序</option>
             </select>
           </div>
-        </nav>
+        </div>
       </div>
       {/* 開團按鈕 */}
       <div className={`${Styles.container} mx-auto ${Styles.bread}`}>
