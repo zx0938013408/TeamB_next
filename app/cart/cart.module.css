@@ -60,9 +60,9 @@
 }
 
 .icon {
-  background: var(--components-stepper-icon-success-bg-color, #528F7C);
+  background: var(--components-stepper-icon-success-bg-color, #6C7275);
   border-radius: var(--components-stepper-icon-border-radius, 999px);
-  border: 2px solid #528F7C; /* 設定邊框顏色 */
+  border: 2px solid #6C7275; /* 設定邊框顏色 */
   display: flex;
   flex-direction: row;
   gap: 0px;
@@ -99,7 +99,7 @@
 }
 
 .rightDivider {
-  background: var(--components-stepper-icon-success-bg-color, #528F7C);
+  background: var(--components-stepper-icon-success-bg-color, #6C7275);
   flex: 1;
   height: var(--components-stepper-divider-height, 1px);
   position: relative;
@@ -128,7 +128,7 @@
 }
 
 .leftDivider2 {
-  background: var(--components-stepper-icon-success-bg-color,#528F7C);
+  background: var(--components-stepper-icon-success-bg-color,#6C7275);
   flex: 1;
   height: var(--components-stepper-divider-height, 1px);
   position: relative;
@@ -174,7 +174,7 @@
 /* 購物車清單 */
 .list {
   width: 70vw;
-  
+  max-width: 1000px;
   margin: 0px auto ;
   margin-top: 130px;
   margin-bottom: 100px;
@@ -324,13 +324,14 @@
 
 
 .item:hover {
-  cursor: pointer;
+
   background-color: #f5f5f5;
 }
 
 .item img {
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 95px;
+  border-radius: 10px;
 }
 
 .item .name {
@@ -545,7 +546,6 @@
     justify-content: space-between;
     background: #fff;
     padding: 5px 0px;
-   
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 

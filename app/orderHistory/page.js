@@ -153,7 +153,7 @@ const OrderTable = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const MySwal = withReactContent(Swal) // 將 SweetAlert2 包裝為 React 版本
-
+  const [orderCounts, setOrderCounts] = useState({});
   // 設定訂單狀態分類
   const tabs = [
     { key: 1, label: '待出貨' },
@@ -246,34 +246,88 @@ const OrderTable = () => {
     return sortedOrders
   }
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch(ORDER_LIST)
+  //       const data = await res.json()
+
+  //       if (data.success) {
+  //         const memberId = auth.id
+
+  //         const memberOrders = data.rows.filter(order =>
+  //           Number(order.member_id) === Number(memberId) &&
+  //           Number(order.order_status_id) === Number(selectedTab)
+  //         )
+
+  //         const groupedOrders = groupOrders(memberOrders)
+  //         setOrders(groupedOrders)
+  //         setOrderCount(groupedOrders.length) // 計算符合條件的訂單數量
+  //       }
+  //     } catch (error) {
+  //       console.error("載入訂單列表失敗：", error)
+  //     }
+  //   }
+
+  //   if (auth?.id) {
+  //     fetchData()
+  //   }
+  // }, [auth?.id, selectedTab, startDate, endDate])
+
+  
+  
+  
+  
+  
+  // 取消訂單
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(ORDER_LIST)
-        const data = await res.json()
-
+        const res = await fetch(ORDER_LIST);
+        const data = await res.json();
+  
         if (data.success) {
-          const memberId = auth.id
-
-          const memberOrders = data.rows.filter(order =>
-            Number(order.member_id) === Number(memberId) &&
-            Number(order.order_status_id) === Number(selectedTab)
-          )
-
-          const groupedOrders = groupOrders(memberOrders)
-          setOrders(groupedOrders)
+          const memberId = auth.id;
+  
+          // 根據訂單狀態和時間篩選
+          const memberOrders = data.rows.filter(order => {
+            const orderDate = new Date(order.created_at);
+            const isAfterStartDate = !startDate || orderDate >= startDate;
+            const isBeforeEndDate = !endDate || orderDate <= endDate;
+  
+            return (
+              Number(order.member_id) === Number(memberId) &&
+              isAfterStartDate &&
+              isBeforeEndDate
+            );
+          });
+  
+          const groupedOrders = groupOrders(memberOrders);
+          setOrders(groupedOrders);
+  
+          // 更新訂單數量
+          setOrderCounts(groupedOrders.length); // 計算符合條件的總訂單數量
         }
       } catch (error) {
-        console.error("載入訂單列表失敗：", error)
+        console.error("載入訂單列表失敗：", error);
       }
-    }
-
+    };
+  
     if (auth?.id) {
-      fetchData()
+      fetchData();
     }
-  }, [auth?.id, selectedTab, startDate, endDate])
+  }, [auth?.id, selectedTab, startDate, endDate]); // 依賴變數包含 startDate 和 endDate
+  
+  const handleTabClick = (tabKey) => {
+    setSelectedTab(tabKey);
+  
+    // 計算選擇狀態下的訂單數量
+    const filteredOrders = orders.filter(order => order.order_status_id === tabKey);
+    setOrderCounts(filteredOrders.length); // 更新顯示對應狀態的訂單數量
+  };
+  
 
-  // 取消訂單
   const handleCancelOrder = async (orderId) => {
     // 顯示確認取消訂單的 SweetAlert 訊息
     const result = await MySwal.fire({
@@ -361,9 +415,9 @@ const OrderTable = () => {
           <button
             key={tab.key}
             className={selectedTab === tab.key ? styles.activeTab : ''}
-            onClick={() => setSelectedTab(tab.key)}
+            onClick={() => handleTabClick(tab.key)}
           >
-            {tab.label}
+            {tab.label} {selectedTab === tab.key && ` (${orderCounts})`} {/* 只在選中時顯示數量 */}
           </button>
         ))}
       </div>
@@ -375,7 +429,9 @@ const OrderTable = () => {
         {orders.length > 0 ? (
           orders.map(order => <OrderItem key={order.orderId} order={order}  handleCancelOrder={handleCancelOrder} />)
         ) : (
-          <div className={styles.noOrders}>尚未有訂單</div>
+          <div className={styles.noOrders}>
+            <img src="/photo/noOrders.png" alt="" />
+          </div>
         )}
       </div>
     </div>
