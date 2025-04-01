@@ -174,6 +174,7 @@
 /* 購物車清單 */
 .list {
   width: 70vw;
+  
   margin: 0px auto ;
   margin-top: 130px;
   margin-bottom: 100px;
@@ -362,7 +363,10 @@
 .spec p {
   color: #888;
   font-size: 16px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 }
 
 .count {

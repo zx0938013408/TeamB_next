@@ -188,7 +188,8 @@ export default function CheckInfoPage() {
       payment_method_id: selectedPayMethod,
       order_items: selectedItems.map(item => ({
         item_id: item.id, // 這裡要確保 item.id 是正確的
-        quantity: item.quantity
+        quantity: item.quantity,
+        variant_id: item.variant_id,  // 商品變體 ID (這是連結到 pd_variants 的部分)
         
       })),
       recipient_name: recipient.recipientName,
