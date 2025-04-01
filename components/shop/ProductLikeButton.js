@@ -38,8 +38,9 @@ export default function ProductLikeButton({ checked = false, productId, onClick 
       const data = await res.json();
       if (data.success) {
         setIsLiked(data.liked);  // 根據後端回傳的結果更新按鈕狀態
+
         if (onClick) {
-          onClick(productId, data.liked); // 回調父組件，更新最愛狀態
+          onClick(data.liked); // 告知父層最新狀態（紅色或灰色）
         }
       } else {
         console.error("喜歡/取消喜歡操作失敗", data);

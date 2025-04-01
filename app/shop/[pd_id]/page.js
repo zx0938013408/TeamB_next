@@ -114,15 +114,21 @@ export default function ProductDetailPage() {
       if (!token) return;
 
       try {
-        const res = await fetch(`${AB_ITEM_GET}/pd_likes/check/${product.id}`, {
+        const res = await fetch(`${AB_ITEM_GET}/pd_likes`, {
+          method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify({
+            productId: product.id,
+            toggle: false, // ✅ 只查詢不切換
+          }),
         });
 
         const data = await res.json();
         if (data.success) {
-          setLiked(data.liked);
+          setLiked(data.liked); // ✅ 正確設定紅或灰
         }
       } catch (err) {
         console.error("取得收藏狀態失敗", err);
@@ -185,27 +191,6 @@ export default function ProductDetailPage() {
       toast.error(`庫存不足，僅剩 ${selectedSize.stock} 件`);
       return;
     }
-
-    // const availableStock = stock[selectedSize] || 0;
-    // if (qty > availableStock) {
-    //   toast.error(`庫存不足，僅剩 ${availableStock} 件`);
-    //   return;
-    // }
-
-    // 這裡把選擇的尺寸和數量傳遞給 onAdd
-    //   onAdd({
-    //     id: product.id,
-    //     product_name: product.product_name,
-    //     price: product.price,
-    //     color: product.color,
-    //     size: selectedSize,
-
-    //     quantity: qty,
-    //     image: product.image,
-    //   });
-    //   notify(product.product_name);
-    // };
-    // ✅ 防止 product.size_info 還沒載入好就報錯
 
     onAdd({
       id: selectedSize.id, // ✅ 用尺寸_庫存表的主鍵 id 當購物車識別用
@@ -284,6 +269,7 @@ export default function ProductDetailPage() {
                     </div>
                   </div>
                   <div className={styles.productDetail}>
+                  {/* 選擇尺寸 */}
                     <select
                       className={styles.sizeSection}
                       onChange={(e) => {
@@ -322,43 +308,7 @@ export default function ProductDetailPage() {
                           +
                         </button>
                       </div>
-                      {/* <ul>
-                        {cartItems.map((cartItem) => (
-                          <li
-                            key={cartItem.id}
-                            className="flex items-center gap-2"
-                          >
-                            <button
-                              onClick={() => {
-                                const nextCount = cartItem.count - 1;
-                                if (nextCount <= 0) {
-                                  onRemove(cartItem.id); // 數量為 0，從購物車移除
-                                } else {
-                                  onDecrease(cartItem.id); // 數量減 1
-                                }
-                              }}
-                            >
-                              –
-                            </button>
-                            <span>{cartItem.count}</span> {/* 顯示目前數量 */}
-                      {/* <button onClick={() => onIncrease(cartItem.id)}>
-                              +
-                            </button>
-                          </li>
-                        ))}
-                      </ul> */}
-
-                      {/* <select
-                        className={styles.quantitySection}
-                        value={selectedQuantity}
-                        onChange={(e) => setSelectedQuantity(e.target.value)}
-                      >
-                        <option className={styles.dropdown}>數量</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                      </select> */}
+                      {/* 庫存顯示 */}
                       <div className={styles.inventory}>
                         {selectedSize
                           ? `庫存：${selectedSize.stock ?? 0} 件`

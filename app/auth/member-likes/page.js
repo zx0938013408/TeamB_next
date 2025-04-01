@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/auth-context";
 import Header from "../../../components/Header";
-import moment from "moment";
 import "@/public/TeamB_Icon/style.css";
 import styles from "./member-likes.module.css";
 import { AB_ITEM_GET, AVATAR_PATH } from "@/config/shop-api-path";
@@ -66,61 +65,6 @@ const MemberLikes = () => {
       fetchPdLikes();
     }
   }, [auth?.id]);
-
-  // 取得收藏資料
-  useEffect(() => {
-    if (!product || !product.id) return; // 🧠 等 product 載入再執行
-    const fetchInitialLike = async () => {
-      const userData = localStorage.getItem("TEAM_B-auth");
-      const parsedUser = JSON.parse(userData);
-      const token = parsedUser?.token;
-
-      if (!token) return;
-
-      try {
-        const res = await fetch(`${AB_ITEM_GET}/pd_likes/check/${product.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const data = await res.json();
-        if (data.success) {
-          setLiked(data.liked);
-        }
-      } catch (err) {
-        console.error("取得收藏狀態失敗", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchInitialLike();
-  }, [product]);
-
-  // 取消收藏
-  // async function removeFavorite(productId, setPdLikes) {
-  //   // const token = localStorage.getItem("token");
-
-  //   try {
-  //     const res = await fetch(`${AB_ITEM_GET}/pd_likes/${productId}`, {
-  //       method: "DELETE",
-  //       // headers: {
-  //       //   "Content-Type": "application/json",
-  //       //   "Authorization": `Bearer ${token}`, // 登入取得的 JWT
-  //       // },
-  //     });
-  //     const result = await res.json();
-
-  //     if (result.success) {
-  //       setPdLikes((prev) => prev.filter((p) => p.pd_id !== productId));
-  //     } else {
-  //       console.error("移除收藏失敗：", result.message);
-  //     }
-  //   } catch (err) {
-  //     console.error("移除收藏失敗：", err);
-  //   }
-  // }
 
   useEffect(() => {
     if (auth?.id) {
@@ -196,7 +140,9 @@ const MemberLikes = () => {
                       key={product.id}
                       product={product}
                       onRemove={(productId) =>
-                        removeFavorite(productId, setPdLikes)
+                        setPdLikes((prev) =>
+                          prev.filter((p) => p.id !== productId)
+                        )
                       }
                     />
                   ))
@@ -238,7 +184,15 @@ const FavoriteItem = ({ product, onRemove }) => {
             NT${(product.price ?? 0).toLocaleString()}
           </div>
         </div>
-        <ProductLikeButton productId={product.id} checked={liked} />
+        <ProductLikeButton
+          productId={product.id}
+          checked={true} // 會員中心裡的一定是收藏過的
+          onClick={(liked) => {
+            if (!liked) {
+              onRemove(product.id); // 💥 讓整張卡片從畫面消失
+            }
+          }}
+        />
       </div>
     </div>
   );
