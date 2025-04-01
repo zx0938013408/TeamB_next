@@ -1,6 +1,7 @@
 'use client'
 
 import styles from './address.module.css'
+import btnStyles from '@/app/cart/_components/button.module.css'
 import { useShip711StoreOpener } from '@/app/ship/_hooks/use-ship-711-store'
 import {
   nextUrl,
@@ -36,10 +37,11 @@ export default function ShipPage() {
           placeholder="門市地址"
           value={store711.storeaddress} disabled />
         </div>
-
-        <button className={styles.storeBtn} onClick={() => {
+       
+        <button className={btnStyles.btn3} onClick={() => {
             openWindow()
           }}>選擇門市</button>
+       
       </div>
     </>
   )

@@ -276,7 +276,7 @@ export default function CheckInfoPage() {
                 <div className={styles.rightDivider}></div>
               </div>
               <div className={styles.verticalTitle}>
-                <div className={styles.step} style={{ color: '#528F7C' }}>
+                <div className={styles.step} style={{ color: '#6C7275' }}>
                   確認購物車清單
                 </div>
               </div>
@@ -307,7 +307,7 @@ export default function CheckInfoPage() {
                 ></div>
               </div>
               <div className={styles.verticalTitle}>
-                <div className={styles.step} style={{ color: '#528F7C',textShadow: '2px 2px 4px rgba(255, 255, 255, 0.6), -2px -2px 4px rgba(0, 0, 0, 0.3)' }}>
+                <div className={styles.step} style={{ color: '#528F7C'}}>
                   填寫訂購資訊
                 </div>
               </div>
