@@ -487,7 +487,7 @@ export default function ActivityCreatePage() {
             <div className={`modal-header ${Styles.modalWidth}`}>
               <h5 className={`modal-title ${Styles.inputTitle}`} id="staticBackdropLabel">
                 {selected && <span className={`icon-${selected.charAt(0).toUpperCase() + selected.slice(1)} ${Styles.modalIcon}`}></span>}
-                建立{selected ? (selected === "basketball" ? "籃球" : selected === "volleyball" ? "排球" : "羽球") : ""}活動
+                建立{selected ? (selected === "basketball" ? "籃球" : selected === "volleyball" ? "排球" : selected === "shuttlecock" ?  "羽球" : "") : ""}活動
               </h5>
               <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={resetForm} />
             </div>
@@ -602,7 +602,7 @@ export default function ActivityCreatePage() {
               </span>
               <span className={`col-6`}>
               <label>費用(每人)</label>
-              <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} />
+              <input type="number" name="payment" className={Styles.createInput} min="0" ref={(el) => (inputRef.current[6] = el)}  onChange={handleInputChange} value={0} />
               </span>
               </div>
 
