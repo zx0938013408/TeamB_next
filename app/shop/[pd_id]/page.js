@@ -14,8 +14,10 @@ import ProductLikeButton from "@/components/shop/ProductLikeButton";
 import Search from "@/components/shop/Search";
 import { useCart } from "@/hooks/use-cart";
 import { ToastContainer, toast } from "react-toastify";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function ProductDetailPage() {
+  const router = useRouter();
   const [product, setProduct] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const params = useParams();
@@ -24,11 +26,8 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true); // 防止閃爍
   const { onAdd } = useCart();
   const [sizes, setSizes] = useState([]); // 存儲尺寸
-  const [stock, setStock] = useState({}); // 存儲庫存數量
-  const [selectedSize, setSelectedSize] = useState(""); //儲存庫存
-  const router = useRouter();
+  const [selectedSize, setSelectedSize] = useState(""); //依不同尺寸的庫存  
   const [quantity, setQuantity] = useState(1);
-  const [sizeIdMap, setSizeIdMap] = useState({});
   const [isMobile, setIsMobile] = useState(false); // 判斷是否為手機板
   const [hasMounted, setHasMounted] = useState(false); //防止畫面閃爍或 hydration 錯誤
 
@@ -422,6 +421,7 @@ export default function ProductDetailPage() {
         </div>
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 }

@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import InfiniteCard from "@/components/shop/infinite-card";
 import Search from "@/components/shop/Search";
 import Link from "next/link";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function TopPage() {
   const [products, setProducts] = useState([]);
@@ -66,6 +67,7 @@ export default function TopPage() {
         </div>
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 }
