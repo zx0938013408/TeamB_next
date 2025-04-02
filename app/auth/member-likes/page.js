@@ -133,19 +133,47 @@ const MemberLikes = () => {
 
             {/* 收藏清單 */}
             <div className={styles.list}>
-              <div className={styles}>
+              <div>
                 {filteredPdLikes.length > 0 ? (
-                  filteredPdLikes.map((product) => (
-                    <FavoriteItem
-                      key={product.id}
-                      product={product}
-                      onRemove={(productId) =>
-                        setPdLikes((prev) =>
-                          prev.filter((p) => p.id !== productId)
-                        )
-                      }
-                    />
-                  ))
+                  [...filteredPdLikes] //要攤開
+                    .sort((a, b) => {
+                      const dateA = new Date(a.liked_at).getTime();
+                      const dateB = new Date(b.liked_at).getTime();
+                      // 把無效的日期排到後面
+                      if (isNaN(dateA)) return 1;
+                      if (isNaN(dateB)) return -1;
+                      console.log(
+                        `排序比較：${a.id} (${dateA}) vs ${b.id} (${dateB})`
+                      );
+                      return dateB - dateA;
+                    })
+                    .map((product) => {
+                      console.log("渲染順序：", product.id, product.created_at);
+                      console.log(
+                        filteredPdLikes.map((p) => ({
+                          id: p.id,
+                          created_at: p.created_at,
+                          liked_at: p.liked_at,
+                        }))
+                      );
+
+                      return (
+                        <Link
+                          key={product.id}
+                          href={`/shop/${product.id}`}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          <FavoriteItem
+                            product={product}
+                            onRemove={(productId) =>
+                              setPdLikes((prev) =>
+                                prev.filter((p) => p.id !== productId)
+                              )
+                            }
+                          />
+                        </Link>
+                      );
+                    })
                 ) : (
                   <div className={styles.noLikes}>尚未有收藏</div>
                 )}
@@ -183,6 +211,9 @@ const FavoriteItem = ({ product, onRemove }) => {
           <div className={styles.productPrice}>
             NT${(product.price ?? 0).toLocaleString()}
           </div>
+          {/* <div className={styles.likedAt}>
+            收藏時間：{new Date(product.liked_at).toLocaleString()}
+          </div> */}
         </div>
         <ProductLikeButton
           productId={product.id}
