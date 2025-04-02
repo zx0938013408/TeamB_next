@@ -5,9 +5,10 @@
 }
 
 .container {
-  width: 80%;
+  width: 70vw;
+  max-width: 1280px; /* 限制最大寬度 */
   margin: auto;
-  padding: 150px 100px 100px 100px;
+  padding: 120px 20px 60px 20px; /* 行動裝置也能吃 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +16,8 @@
 
 .Main{
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 /* 麵包屑 */
@@ -46,12 +48,12 @@
 /* end麵包屑 */
 
 .sideBar{
-  width: 16%;
-  margin-right: 20px;
+  flex: 1 1 240px;
+  max-width: 300px;
 }
 
 .mainContent{
-  width: 84%;
+  flex: 3 1 0;
 }
 
 .itemSection {
@@ -80,41 +82,17 @@
 
 /* more */
 
-.more {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center; /* 讓內容垂直對齊 */
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 95%;
-}
 
-.textBox {
-  display: flex;
-  justify-content: end;
-  align-content: center; /* 讓文字和底線 + 箭頭都對齊 */
-  position: relative;
-}
+/* 手機版 */
 
-.text {
-  color: #528f7c;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 1.2; /* 避免行高過大影響對齊 */
-  letter-spacing: 6.24px;
-  text-align: center;
-}
+@media (max-width: 768px) {
+  .Main {
+    flex-direction: column;
+  }
 
-.textBox .iconRight {
-  font-size: 26px;
-  transition: transform 0.3s ease;
-  color: #528f7c;
-}
-
-.textBox:hover .iconRight {
-  transform: translateX(10px);
-  text-shadow: 
-  -8px 0 4px rgba(0, 0, 0, 0.3), 
-    -16px 0 5px rgba(0, 0, 0, 0.25), 
-    -24px 0 6px rgba(0, 0, 0, 0.2);
+  .sideBar,
+  .mainContent {
+    width: 100%;
+    max-width: 100%;
+  }
 }
