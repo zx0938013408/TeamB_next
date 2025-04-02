@@ -501,6 +501,31 @@
   cursor: not-allowed !important;
 }
 
+@media screen and (max-width: 1440px){
+  .container {
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 1420px){
+  .container {
+    width: 80%;
+  }
+}
+
+
+@media screen and (max-width: 1200px){
+  .container {
+    width: 90%;
+  }
+}
+
+
+@media screen and (max-width: 1024px){
+  .container {
+    width: 100%;
+  }
+  }
 
 @media screen and (max-width: 481px){
   /* 整體排版 */
