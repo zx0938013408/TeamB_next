@@ -1,9 +1,9 @@
 /* 主容器 */
 .container {
-  max-width: 90%;
+    width: 70vw;
   margin: auto 100px;
   padding: 20px;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
 }
 
 .imgContainer {
@@ -12,13 +12,13 @@
   margin: auto 100px;
   padding: 20px;
   padding-bottom: 100px;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
   border-bottom: 3px solid #a0c4b0;
 }
 
 /* 麵包屑 */
 .bread {
-  border-bottom: 3px solid #a0c4b0;
+  /* border-bottom: 3px solid #a0c4b0; */
   padding: 0 20px;
 }
 
@@ -29,7 +29,13 @@
 
 .notActiveText {
   border: none;
-  color: #000;
+  color: #3f6d62;
+  font-weight: bold;
+
+  &:hover{
+    color: #3f6d62;
+    border-bottom: 1px solid #3f6d62;
+  }
 }
 
 /* 左側圖片區 */
@@ -638,4 +644,56 @@
   background-color: #1f5c48;
 }
 
-  
+@media screen and (max-width: 1420px){
+  .container {
+    width: 80%;
+  }
+}
+
+
+@media screen and (max-width: 1200px){
+  .container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1024px){
+  .container {
+    width: 100%;
+  }
+
+  .imgContainer{
+    max-width: 90%;
+  }
+
+  .information1 {
+    margin: 3%;
+  }
+
+  .eventImages{
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 820px){
+  .eventImages{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+  }
+
+  .eventInfo{
+    padding: 2%;
+  }
+
+  .eventImages{
+    width: 50%;
+  }
+
+
+  .thumbnail{
+    width: 30%;
+  }
+}
