@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import FilterSideBar from "@/components/shop/FilterSideBar";
 import Search from "@/components/shop/Search";
 import InfiniteCard from "@/components/shop/infinite-card";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function ShopPage() {
   // 篩選 URL參數（query）
@@ -292,6 +293,7 @@ export default function ShopPage() {
       </div>
 
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 }

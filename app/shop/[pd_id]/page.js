@@ -6,6 +6,7 @@ import { AB_ITEM_GET, AVATAR_PATH, AB_LIST } from "@/config/shop-api-path";
 import styles from "./product-detail.module.css";
 import "../../../public/TeamB_Icon/style.css";
 import Carousel from "../../../components/shop/carousel";
+import MobileCarousel from "@/components/shop/MobileCarousel";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,8 +14,10 @@ import ProductLikeButton from "@/components/shop/ProductLikeButton";
 import Search from "@/components/shop/Search";
 import { useCart } from "@/hooks/use-cart";
 import { ToastContainer, toast } from "react-toastify";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function ProductDetailPage() {
+  const router = useRouter();
   const [product, setProduct] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const params = useParams();
@@ -23,31 +26,21 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true); // 防止閃爍
   const { onAdd } = useCart();
   const [sizes, setSizes] = useState([]); // 存儲尺寸
-  const [stock, setStock] = useState({}); // 存儲庫存數量
-  const [selectedSize, setSelectedSize] = useState(""); //儲存庫存
-  const router = useRouter();
+  const [selectedSize, setSelectedSize] = useState(""); //依不同尺寸的庫存  
   const [quantity, setQuantity] = useState(1);
-  const [sizeIdMap, setSizeIdMap] = useState({});
+  const [isMobile, setIsMobile] = useState(false); // 判斷是否為手機板
+  const [hasMounted, setHasMounted] = useState(false); //防止畫面閃爍或 hydration 錯誤
 
-  const increase = () => {
-    const nextQty = quantity + 1;
-    setQuantity(nextQty);
-  };
-
-  const decrease = () => {
-    if (quantity <= 1) return; // 不能小於 1
-    const nextQty = quantity - 1;
-    setQuantity(nextQty);
-  };
-
-  // 引用 select 元素
-  const sizeRef = useRef(null);
-  const quantityRef = useRef(null);
-
-  // toast
-  const notify = (name) => {
-    toast.success(`${name} 成功加入購物車!`);
-  };
+  //判斷是否為手機板 防止畫面閃爍或 hydration 錯誤
+  useEffect(() => {
+    setHasMounted(true);
+    setIsMobile(window.innerWidth <= 768);
+    const resizeHandler = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", resizeHandler);
+    return () => window.removeEventListener("resize", resizeHandler);
+  }, []);
 
   // 取得個別動態路由的資料
   useEffect(() => {
@@ -174,10 +167,29 @@ export default function ProductDetailPage() {
     fetchRecommendedItems();
   }, []); // 🚀 只在頁面載入時執行一次
 
+  if (!hasMounted) return null;
+
   if (!product) {
-    return <p className={styles.loading}>載入中...</p>;
+    return <p className={styles.loading}>美美的商品載入中...</p>;
   }
 
+  // 數量按鈕增加和減少
+  const increase = () => {
+    if (!selectedSize) {
+      toast.error("請先選擇尺寸");
+      return;
+    }
+
+    setQuantity(quantity + 1);
+  };
+
+  const decrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  // 購物車
   const handleAddToCart = (redirect = false) => {
     const qty = quantity;
     console.log("✅ 選擇的尺寸：", selectedSize);
@@ -213,9 +225,13 @@ export default function ProductDetailPage() {
 
     // 立即購買會跳頁到購物車
     if (redirect) {
-      router.push('/cart'); // 立即購買時導向購物車
+      router.push("/cart"); // 立即購買時導向購物車
     }
+  };
 
+  // toast提示通知
+  const notify = (name) => {
+    toast.success(`${name} 成功加入購物車!`);
   };
 
   return (
@@ -265,7 +281,9 @@ export default function ProductDetailPage() {
                         />
                       </div>
                       <div className={styles.productName}>
-                        {product.product_name} {product.color}
+                        {product.product_name}
+                        <br />
+                        {product.color}
                       </div>
                     </div>
                     <div>
@@ -276,14 +294,16 @@ export default function ProductDetailPage() {
                     </div>
                   </div>
                   <div className={styles.productDetail}>
-                  {/* 選擇尺寸 */}
+                    {/* 選擇尺寸 */}
                     <select
                       className={styles.sizeSection}
                       onChange={(e) => {
+                        e.target.blur(); // 取消 focus，避免完跳到最上面
                         const selectedId = Number(e.target.value);
                         const found = sizes.find((s) => s.id === selectedId);
                         if (found) {
                           setSelectedSize(found);
+                          setQuantity(1); // 切換尺寸時重設數量
                         } else {
                           toast.error("找不到對應尺寸");
                         }
@@ -311,7 +331,17 @@ export default function ProductDetailPage() {
                           –
                         </button>
                         <div className={styles.qtyNumber}>{quantity}</div>
-                        <button onClick={increase} className={styles.qtyBtn}>
+                        <button
+                          onClick={increase}
+                          disabled={
+                            !selectedSize || quantity >= selectedSize.stock
+                          }
+                          className={`${styles.qtyBtn} ${
+                            !selectedSize || quantity >= selectedSize.stock
+                              ? styles.disabled
+                              : ""
+                          }`}
+                        >
                           +
                         </button>
                       </div>
@@ -325,13 +355,13 @@ export default function ProductDetailPage() {
                     <div className={styles.buttons}>
                       <button
                         className={styles.btnPrimary}
-                        onClick={()=>handleAddToCart(false)}
+                        onClick={() => handleAddToCart(false)}
                       >
                         加入購物車
                       </button>
-                      <button 
+                      <button
                         className={styles.btnSecondary}
-                        onClick={()=>handleAddToCart(true)}
+                        onClick={() => handleAddToCart(true)}
                       >
                         立即購買
                       </button>
@@ -344,7 +374,11 @@ export default function ProductDetailPage() {
               {/* 商品詳情 */}
               <div className={styles.bContainer}>
                 <div className={styles.title}>商品詳情</div>
-                <div
+                <img
+                  src="./basketball--jersey-product-promotion-details-pictu.jpg"
+                  alt={product.product_name}
+                />
+                {/* <div
                   className={styles.bDetailSection}
                   style={{
                     backgroundImage: `url(${AVATAR_PATH}/${encodeURIComponent(
@@ -355,7 +389,7 @@ export default function ProductDetailPage() {
                   <div className={styles.description}>
                     {product.product_description}
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* 大家還看了 */}
@@ -364,7 +398,11 @@ export default function ProductDetailPage() {
                   <div className={styles.title}>大家還看了</div>
                 </div>
                 {recommendedItems.length > 0 ? (
-                  <Carousel items={recommendedItems} categoryId={null} />
+                  isMobile ? (
+                    <MobileCarousel items={recommendedItems} />
+                  ) : (
+                    <Carousel items={recommendedItems} categoryId={null} />
+                  )
                 ) : (
                   <p className={styles.loading}>推薦商品載入中...</p>
                 )}
@@ -383,6 +421,7 @@ export default function ProductDetailPage() {
         </div>
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 }

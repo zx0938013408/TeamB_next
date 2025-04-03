@@ -3,15 +3,17 @@
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 0 20px; */
 }
 
 .cardWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* ✅ 固定 4 欄 */
   gap: 24px;
-  justify-content: center;
-  width: 100%;  
+  width: 100%;
+  max-width: 1280px; /* ✅ 對齊上面的灰色區塊寬度 */
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;  
 }
 
 /* 左右箭頭 */
@@ -32,6 +34,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.765); /* ✅ 半透明 */
   backdrop-filter: blur(4px); /* ✅ 模糊背景 */
+  transition: transform 0.2s ease;
 }
 
 .iconButton:hover {
@@ -44,17 +47,16 @@
   font-size: 24px;
   color: #528f7c;
   line-height: 1;
-  /* position: relative; */
 }
 
 .leftArrow {
-  left: -20px;
+  left: -25px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .rightArrow {
-  right: -20px;
+  right: -25px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -81,11 +83,15 @@ left: -1px;
   /* 手機卡片橫向滾動 */
   .cardWrapper {
     display: flex;
+    /* flex-wrap: nowrap; */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 16px;
-    padding: 0 16px;
+    padding-left: 16px; /* ✅ 只保留左側 padding，避免第一張卡片被切到 */
+    padding-right: 8px; /* ✅ 微調右側 */
+    width: 100%;
+    box-sizing: border-box;
   }
 
 .scrollItem {

@@ -1,0 +1,51 @@
+.carouselContainer {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.mobileSwiper {
+  display: flex;
+  justify-content: center;
+  min-height: 100px;
+  height: auto; /* ✅ 給定固定高度，防止跳動 */
+  overflow: visible;
+  width: 100%;
+}
+
+.swiperSlide {
+  padding: 8px 0;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.swiperCardWrapper {
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* ✅ 垂直置中卡片 */
+  padding: 0;
+}
+
+/* Swiper 點點樣式 */
+
+/* 點點專屬容器 */
+.paginationWrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.paginationWrapper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #ccc;
+  border-radius: 50%;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}

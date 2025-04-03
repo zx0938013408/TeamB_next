@@ -14,7 +14,7 @@
   align-items: center;
 }
 
-.Main{
+.Main {
   display: flex;
   flex-direction: row;
 }
@@ -46,7 +46,7 @@
 }
 /* end麵包屑 */
 
-.mainContent{
+.mainContent {
   width: 100%;
 }
 
@@ -71,7 +71,9 @@
   width: 100%;
   overflow: hidden;
   line-height: 0px;
+  border-radius: 10px;
 }
+
 .mainImage img {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -90,6 +92,7 @@
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
+  border-radius: 10px;
 }
 
 .rightSection {
@@ -117,6 +120,8 @@
   font-weight: 500;
   color: #241c23;
   margin: 5px 0px 10px 0px;
+  display: flex;
+  flex-direction: column;
 }
 
 .detailPrice {
@@ -141,57 +146,16 @@
   font-size: 16px;
 }
 
+.sizeSection:focus {
+  border-color: #e6a700;
+  outline: none;
+}
+
 .inventory {
   color: #528f7c;
   font-size: 16px;
   margin-top: 10px;
 }
-
-/* 選擇顏色區塊 */
-
-/* .colorOptions {
-  display: flex;
-  gap: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.colorBtn input {
-  display: none;
-}
-
-.colorBtn span {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  display: block;
-} */
-
-/* 顏色定義 */
-/* .black span {
-  background: #212529;
-}
-.white span {
-  background: #ffffff;
-  border: 1px solid #ccc;
-}
-.gray span {
-  background: #d6d6d6;
-}
-.red span {
-  background: #a73d3d;
-}
-.blue span {
-  background: #4a61a8;
-}
-.green span {
-  background: #6ea36b;
-} */
-
-/* 讓選中的顏色加上外框，而不是邊框 */
-/* .colorBtn input:checked + span {
-  outline: 2px solid #919191;
-} */
 
 /* 按鈕區塊 */
 
@@ -254,17 +218,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 2px solid #A7C4BA; /* 跟 select 一樣的綠色 */
+  border: 2px solid #a7c4ba; /* 跟 select 一樣的綠色 */
   border-radius: 10px;
   overflow: hidden;
   width: 100%;
 }
 
+.quantityWrapper:focus-within {
+  border-color: #e6a700;
+}
+
 .qtyBtn {
-  width: 2.5rem;   /* 約等於 w-10 */
-  height: 2.5rem;  /* 約等於 h-10 */
+  width: 2.5rem; /* 約等於 w-10 */
+  height: 2.5rem; /* 約等於 h-10 */
   font-size: 1.25rem; /* text-xl */
-  font-weight: bold;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -348,7 +315,6 @@
   font-weight: bold;
 }
 
-
 /* section-c 大家還看了 */
 .itemsSection {
   width: 100%;
@@ -364,7 +330,6 @@
   letter-spacing: 9.6px;
 }
 
-
 /* more */
 
 .more {
@@ -374,8 +339,8 @@
   margin-top: 50px;
   margin-bottom: 50px;
   cursor: pointer;
-  width: 100%;             /* ✅ 跟卡片保持同寬 */
-  box-sizing: border-box;  /* ✅ 確保 padding 計入寬度 */
+  width: 100%; /* ✅ 跟卡片保持同寬 */
+  box-sizing: border-box; /* ✅ 確保 padding 計入寬度 */
 }
 
 .textBox {
@@ -404,4 +369,138 @@
   transform: translateX(10px);
   text-shadow: -8px 0 4px rgba(0, 0, 0, 0.3), -16px 0 5px rgba(0, 0, 0, 0.25),
     -24px 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* RWD 手機板 */
+@media (max-width: 768px) {
+  .container {
+    width: 100% !important;
+    padding: 150px 16px 40px 16px;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .Main {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .mainContent {
+    width: 100%;
+  }
+
+  .aContainer {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    gap: 24px;
+  }
+
+  .leftSection,
+  .rightSection {
+    width: 100% !important;
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+  .mainImage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mainImage img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumbnailImages {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+  }
+
+  .productInfo,
+  .productDetail {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+
+  .sizeSection {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .sizeSection:focus {
+    border-color: #e6a700; /* 奶奶喜歡的金黃色 */
+    outline: none;
+  }
+
+  .quantity {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .quantityWrapper {
+    height: 48px; /* ✅ 跟 .sizeSection 一樣高 */
+    display: flex;
+    align-items: center;
+    border: 2px solid #b0cfc2;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .qtyBtn {
+    width: 40px;
+    height: 100%; /* ✅ 填滿容器 */
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .qtyNumber {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 12px;
+    gap: 8px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 48%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .itemsSection {
+    padding: 0 16px;
+  }
+
+  .more {
+    padding-right: 16px;
+  }
+
+  .bContainer {
+    padding: 24px 0;
+  }
+
+  .bContainer img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 }
