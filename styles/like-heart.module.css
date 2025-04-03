@@ -12,3 +12,12 @@
     color: #b7b7b7;
     }
 }
+
+.iconHeartFill,
+.iconLikeStroke {
+  font-size: 24px; /* 或視情況調整 */
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

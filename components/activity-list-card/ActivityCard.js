@@ -21,7 +21,7 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) 
     >
       {isExpired && <span className={Styles.expiredTag}>已過期</span>}
       <div className={`${Styles.list} row`}>
-        <div className={`${Styles.img} col-md-4`}>
+        <div className={`${Styles.img} col-md-4`} style={{ position: 'relative' }}>
           <div className={`${Styles.iconLikeStroke}`}>
             <LikeHeart
               checked={activity.is_favorite}
