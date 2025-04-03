@@ -14,37 +14,42 @@ import { useRouter } from "next/navigation";
 
 const MemberLikes = () => {
   const { auth, logout } = useAuth(); // 獲取會員認證資料
+  const router = useRouter(); // 用於導航
   const [user, setUser] = useState(null); // 儲存用戶資料
   const [selectedTab, setSelectedTab] = useState("all"); // 預設顯示的位置
   const [pdLikes, setPdLikes] = useState([]);
   const [product, setProduct] = useState(null);
-  const router = useRouter(); // 用於導航
+  const [sortOption, setSortOption] = useState("liked_desc"); //預設排序法
 
   const tabs = [
     { key: "all", label: "全部收藏" },
     { key: "top", label: "上衣" },
-    { key: "bottom", label: "褲子" },
-    { key: "shoes", label: "鞋子" },
+    { key: "bottom", label: "褲類" },
+    { key: "shoes", label: "鞋類" },
     { key: "accessories", label: "運動裝備" },
   ];
-
-  const categoryIdMap = {
-    top: 1,
-    bottom: 2,
-    shoes: 3,
-    accessories: 4,
-  };
 
   // 根據分類過濾收藏商品
   function filterByCategory(products, selectedTab) {
     if (selectedTab === "all") return products;
 
-    const expectedCategoryId = categoryIdMap[selectedTab];
-    return products.filter(
-      (product) => product.category_id === expectedCategoryId
-    );
+    const tab = tabs.find((t) => t.key === selectedTab);
+    if (!tab) return products;
+
+    return products.filter((product) => product.category_key === selectedTab);
   }
   const filteredPdLikes = filterByCategory(pdLikes, selectedTab);
+
+  // 計算分類數量
+  const tabCounts = tabs.reduce((acc, tab) => {
+    const count =
+      tab.key === "all"
+        ? pdLikes.length
+        : pdLikes.filter((p) => p.category_key === tab.key).length;
+
+    return { ...acc, [tab.key]: count };
+  }, {});
+  console.log(pdLikes);
 
   // 取得單一會員收藏資料
   useEffect(() => {
@@ -115,6 +120,20 @@ const MemberLikes = () => {
         <div className={styles.content}>
           <div className={styles.orderName}>收藏的商品</div>
 
+          {/* 排序選單 */}
+
+          <div className={styles.sortControls}>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="liked_desc">最新收藏</option>
+              <option value="liked_asc">最早收藏</option>
+              <option value="price_asc">價格由低到高</option>
+              <option value="price_desc">價格由高到低</option>
+            </select>
+          </div>
+
           {/* 分類 Tabs */}
           <div className={styles.tabContent}>
             <div className={styles.tabContainer}>
@@ -126,6 +145,7 @@ const MemberLikes = () => {
                     onClick={() => setSelectedTab(tab.key)}
                   >
                     {tab.label}
+                    {selectedTab === tab.key && `（${tabCounts[tab.key]}）`}
                   </button>
                 ))}
               </div>
@@ -137,15 +157,17 @@ const MemberLikes = () => {
                 {filteredPdLikes.length > 0 ? (
                   [...filteredPdLikes] //要攤開
                     .sort((a, b) => {
-                      const dateA = new Date(a.liked_at).getTime();
-                      const dateB = new Date(b.liked_at).getTime();
-                      // 把無效的日期排到後面
-                      if (isNaN(dateA)) return 1;
-                      if (isNaN(dateB)) return -1;
-                      console.log(
-                        `排序比較：${a.id} (${dateA}) vs ${b.id} (${dateB})`
-                      );
-                      return dateB - dateA;
+                      switch (sortOption) {
+                        case "price_asc":
+                          return a.price - b.price;
+                        case "price_desc":
+                          return b.price - a.price;
+                        case "liked_asc":
+                          return new Date(a.liked_at) - new Date(b.liked_at);
+                        case "liked_desc":
+                        default:
+                          return new Date(b.liked_at) - new Date(a.liked_at);
+                      }
                     })
                     .map((product) => {
                       console.log("渲染順序：", product.id, product.created_at);

@@ -11,7 +11,7 @@
   margin: 50px auto; /* 置中 */
 }
 
-/* ✅ 側邊欄 */
+/* 側邊欄 */
 .sidebar {
   width: 220px;
   background: #3f6d62;
@@ -23,20 +23,20 @@
   border-radius: 10px 0 0 10px;
 }
 
-/* ✅ 內容區塊 */
+/* 內容區塊 */
 .content {
   padding: 30px;
   flex: 1;
 }
 
-/* ✅ 搜尋框 */
+/* 搜尋框 */
 /* .searchContainer input {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
 } */
 
-/* ✅ 內容顯示區 */
+/* 內容顯示區 */
 .tabContent {
   margin-top: 20px;
 }
@@ -45,6 +45,27 @@
 /* 右側內容樣式 */
 .list * {
   box-sizing: border-box;
+}
+
+/* 排序選單 */
+.sortControls {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-bottom: 25px;
+}
+
+.sortControls select {
+  width: 130px;
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid #29755D;
+}
+
+.sortControls option {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* tab */
