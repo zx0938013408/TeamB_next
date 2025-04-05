@@ -38,14 +38,15 @@ const OrderItem = ({ order, handleCancelOrder }) => {
       <div className={styles.title}>
         <div className={styles.titleName}>
           <div className={styles.titleNum}>
-            <div>訂單編號:</div>&nbsp;&nbsp;
+            <div>訂單編號:</div>
             <div className={styles.idName}>{order.MerchantTradeNo}</div>
           </div>
            {/* 顯示取消訂單按鈕 */}
            {order.status === "待出貨" && (
           <div className={styles.cancelButtonContainer}>
-            <ImCross className={styles.cancelIcon}/>
+            
             <button className={styles.cancelButton} onClick={() => handleCancelOrder(order.orderId)}>
+              <ImCross className={styles.cancelIcon}/>
               取消訂單
             </button>
           </div>

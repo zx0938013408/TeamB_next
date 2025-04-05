@@ -9,7 +9,6 @@ import moment from 'moment';
 import "@/public/TeamB_Icon/style.css";
 import OrderTable from "@/app/orderHistory/page";
 import orderStyles from '@/app/orderHistory/OrderList.module.css'
-// import {AVATAR_PATH} from '@/config/orders-api-path'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
@@ -58,7 +57,7 @@ const OrderHistory = () => {
         </div>
 
         {/* 右側內容 */}
-        <div className={styles.content}>
+        <div className={orderStyles.content}>
           <div className={orderStyles.orderName}>訂單歷史記錄</div>
             {/* 根據選中的訂單狀態顯示訂單 */}
             <div className={orderStyles.tabContent}>
