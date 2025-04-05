@@ -1,0 +1,11 @@
+.bannerWrapper {
+    min-height: 700px; /* 或 600px 也可以，看圖而定 */
+    position: relative;
+  }
+.bannerImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 等同 shadow-md */
+  }

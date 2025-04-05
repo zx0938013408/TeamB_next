@@ -10,6 +10,7 @@ import InfiniteCard from "@/components/shop/infinite-card";
 import Search from "@/components/shop/Search";
 import Link from "next/link";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import BannerSlider from "@/components/shop/BannerSlider";
 
 export default function TopPage() {
   const [products, setProducts] = useState([]);
@@ -30,6 +31,7 @@ export default function TopPage() {
   return (
     <>
       <Header />
+      <BannerSlider/>
       <div className={styles.body}>
         <div className={styles.container}>
           {/* 麵包屑 */}
