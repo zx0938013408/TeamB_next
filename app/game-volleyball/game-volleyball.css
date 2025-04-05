@@ -21,7 +21,7 @@
     width: 6.5rem;
 
     &:hover{
-        font-weight: 200;
+        font-weight: bold;
         background: #A8D5C5;
         color: #29755D;
         border: none;
