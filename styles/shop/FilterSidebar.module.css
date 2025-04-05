@@ -48,11 +48,13 @@
   font-weight: bold;
 }
 
-/* 篩選按鈕 */
-/* .filterBtn{
+/* 類別頁連結 */
+.categoryList .text{
+  text-decoration: none;
+  color: black;
   display: flex;
-  justify-content: end;
-} */
+  flex-direction: column;
+}
 
 .btn {
   padding: 5px;
