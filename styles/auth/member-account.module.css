@@ -1,244 +1,212 @@
+/* === 原始樣式區 === */
 .container {
-    display: flex;
-    max-width: 1200px;  /* 限制最大寬度 */
-    min-height: 600px;  /* 設定最小高度 */
-    width: 100%;         /* 避免過度壓縮 */
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin: 50px auto;  /* 置中 */
-
-  }
-  /* 側邊欄 */
-  .sidebar {
-    width: 220px;
-    background: #3F6D62;
-    color: white;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-radius: 10px 0 0 10px;
-  }
-  
-  .sidebar a {
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
- 
-  
-  .mainContent {
-    width: 70%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-  
-  
-  }
-  #profileForm{
-    display: flex;
-    justify-content:space-around;
-  }
-  
-  .rightSection {
-    display: flex;
-    margin-left: 150px;
-    align-content: center;
-    gap: 100px;
-    width: 100%;
-    height: 100%;
-  }
-  .title {
-
-      font-size: 22px;
-      font-weight: bold;
-      padding-top: 30px;
-      padding-left: 30px;
-    
-  
-  }
-  .avatarContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 水平置中 */
-    gap: 10px; /* 讓圖片與按鈕有間距 */
-  }
-  
-  .avatar {
-    margin-top: 30px;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  
-  #avatarUpload {
-    display: none; /* 隱藏原始的文件選擇框 */
-  }
-  
-  .uploadLabel {
-    background: #29755D;
-    color: white;
-    font-size: 14px;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    display: inline-block;
-    width: auto;
-  }
-  
-  .uploadLabel:hover {
-    background: #3F6D62;
-  }
-  
-  .uploadLabel {
-      background: #29755D;
-      color: white;
-      font-size: 14px;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 5px;
-      text-align: center;
-  }
-  
-  .uploadLabel:hover {
-      background: #3F6D62;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-    max-width: 400px;
-    margin-top: 50px;
-    margin-left: 100px;
-  }
-  .inputBox,
-  .selectBox {
-
-    width: 100%;
-    height: 45px;
-    padding: 10px;
-    border: 2px solid #a3c4ba;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #000000;
-    outline: none;
-    box-sizing: border-box;
-  }
-  
-  .checkboxGroup{
-    display: flex;
-  }
-  .checkboxGroup{
-    width: 100%;
-    height: 45px;
-    padding: 10px;
-    border: 2px solid #a3c4ba;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #000000;
-    outline: none;
-    box-sizing: border-box;
-  }
-  .confirm{
-    display: flex;
-    justify-content: space-between;
-  
-  
-  }
-  .confirmBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 120px;
-    height: 40px;
-    background:  #29755D;
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
-    border: 3px solid #29755D;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 30px;
-    line-height: 40px;
-  }
-  .confirmBtn:hover {
-    width: 120px;
-    height: 40px;
-    background: #A3C4BA;
-    border-radius: 5px;
-    border: 3px solid #29755D;
-    color:#29755D;
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    line-height: 40px;
-    cursor: pointer; 
-  
-  }
-  
-
-  .errorArea{
-    display: flex;
-    margin-top: 20px;
-  }
-  
-  .prp{
-  
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: #333;
-
-  }
-
-  .passwordContainer {
-    position: relative;
-  }
-  
-  .eyeIcon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  .menuItem {
-    color: white;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.3s;
+  display: flex;
+  max-width: 1200px;
+  min-height: 600px;
+  width: 100%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 50px auto;
 }
 
-.menuItem:hover, 
+.sidebar {
+  width: 220px;
+  background: #3F6D62;
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 10px 0 0 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.mainContent {
+  width: 70%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+#profileForm {
+  display: flex;
+  justify-content: space-around;
+}
+
+.rightSection {
+  display: flex;
+  margin-left: 150px;
+  align-content: center;
+  gap: 100px;
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  padding-top: 30px;
+  padding-left: 30px;
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  margin-top: 30px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+#avatarUpload {
+  display: none;
+}
+
+.uploadLabel {
+  background: #29755D;
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.uploadLabel:hover {
+  background: #3F6D62;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.inputBox,
+.selectBox {
+  width: 100%;
+  height: 45px;
+  padding: 10px;
+  border: 2px solid #a3c4ba;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000000;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.checkboxGroup {
+  display: flex;
+  width: 100%;
+  height: 45px;
+  padding: 10px;
+  border: 2px solid #a3c4ba;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000000;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.confirm {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirmBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  background: #29755D;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  border: 3px solid #29755D;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 30px;
+  line-height: 40px;
+}
+
+.confirmBtn:hover {
+  background: #A3C4BA;
+  border: 3px solid #29755D;
+  color: #29755D;
+}
+
+.errorArea {
+  display: flex;
+  margin-top: 20px;
+}
+
+.prp {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.passwordContainer {
+  position: relative;
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.menuItem {
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.menuItem:hover,
 .menuItem.active {
-    background-color: #5f8b7c;
-    color: #fff;
+  background-color: #5f8b7c;
+  color: #fff;
 }
 
 .menuItemBtn {
@@ -258,5 +226,95 @@
   background-color: #4e7367;
   color: #fff;
   border-radius: 5px;
+}
 
+/* === 響應式設計區 === */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    border-radius: 0;
+    margin: 20px auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    padding: 20px;
+    justify-items: center;
+    align-items: center;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .sidebar a,
+  .menuItemBtn {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .mainContent {
+    width: 100%;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .form {
+    margin-left: 0;
+    padding: 0 10px;
+    max-width: 100%;
+  }
+
+  .confirm {
+    justify-content: center;
+  }
+
+  .confirmBtn {
+    width: 100%;
+  }
+
+  .rightSection {
+    flex-direction: column;
+    gap: 40px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar a,
+  .menuItemBtn {
+    font-size: 15px;
+    padding: 8px;
+  }
+
+  .title {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .inputBox,
+  .selectBox {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .confirmBtn {
+    font-size: 18px;
+    height: 45px;
+  }
+
+  .prp {
+    font-size: 14px;
+  }
+
+  .eyeIcon {
+    font-size: 18px;
+  }
 }

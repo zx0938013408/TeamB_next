@@ -175,3 +175,134 @@
     border-radius: 5px;
 
   }
+
+  .activityCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .activityImage {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    background-color: #eee;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .activityInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .activityActions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      padding: 1rem;
+    }
+  
+    .sidebar {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+  
+    .menuItem,
+    .menuItemBtn {
+      width: 45%;
+      margin: 0.25rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+  
+    .content {
+      width: 100%;
+    }
+  
+    .profileHeader {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .avatar {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 1rem;
+    }
+  
+    .userInfo h2 {
+      font-size: 1.2rem;
+    }
+  
+    .tabMenu {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  
+    .tabItem {
+      font-size: 0.9rem;
+      padding: 0.25rem 0.5rem;
+    }
+  
+    .tabContent {
+      padding: 0;
+    }
+    @media (max-width: 768px) {
+      .activityCard {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    
+      .activityImage {
+        width: 80%;
+        height: auto;
+      }
+    
+      .activityInfo {
+        width: 100%;
+        align-items: center;
+      }
+    
+      .activityActions {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    
+      .activityActions button {
+        font-size: 14px;
+        padding: 8px 12px;
+        width: auto;
+      }
+    }
+    
+  }
+  

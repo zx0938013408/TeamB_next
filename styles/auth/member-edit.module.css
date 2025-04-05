@@ -310,3 +310,85 @@
   background-color: #5f8b7c;
   color: #fff;
 }
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .sidebar a, .menuItemBtn {
+    font-size: 16px;
+    padding: 10px 8px;
+    text-align: center;
+    flex: 1 1 40%;
+  }
+
+  .mainContent {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .rightSection {
+    flex-direction: column;
+    margin-left: 0;
+    gap: 30px;
+  }
+
+  .form {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .cityBox,
+  .addressBox {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .confirm {
+    justify-content: center;
+  }
+
+  .confirmBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 18px;
+    padding: 20px 10px;
+  }
+
+  .form {
+    gap: 10px;
+  }
+
+  .inputBox,
+  .selectBox,
+  .checkboxGroup,
+  .cityBox,
+  .addressBox {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .confirmBtn {
+    font-size: 18px;
+  }
+
+  .errorMessage {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+}
