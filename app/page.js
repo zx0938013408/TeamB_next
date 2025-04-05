@@ -17,6 +17,7 @@ import "@/public/TeamB_Icon/style.css";
 import {MB_CONTACT_POST} from "../config/auth.api";
 import FloatingBallEffect from "@/components/FloatingBallEffect";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import { useAuth } from "../context/auth-context";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -31,6 +32,8 @@ const HomePage = () => {
   const headerRef = useRef(null);
   const sportsRef = useRef(null);
   const heroRef = useRef(null);
+  const { auth } = useAuth();
+
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -241,36 +244,87 @@ const HomePage = () => {
             <p className="contact-subtitle">聯繫我們</p>
           </div>
           <div className="contact-right">
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <label htmlFor="name">姓名</label>
-              <input
-                type="text"
-                id="name"
-                placeholder="請輸入姓名"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <label htmlFor="email">電子郵件</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="請輸入電子郵件"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <label htmlFor="message">意見回饋</label>
-              <textarea
-                id="message"
-                placeholder="字數須小於200"
-                value={formData.message}
-                onChange={handleChange}
-                maxLength="200"
-                required
-              ></textarea>
-              <button type="submit">送出</button>
-            </form>
+   
+<div style={{ width: "60%", display: "flex", justifyContent: "flex-start" }}>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      marginBottom: "1rem",
+      marginTop: "-1rem",
+      fontSize: "14px",
+      color: "#fff",
+      fontWeight: 500,
+    }}
+  >
+    <input
+      type="checkbox"
+      id="useMember"
+      style={{
+        width: "18px",
+        height: "18px",
+        accentColor: "#fff",
+        cursor: "pointer",
+      }}
+      onChange={(e) => {
+        if (e.target.checked) {
+          setFormData((prev) => ({
+            ...prev,
+            name: auth.name || "",
+            email: auth.email || "",
+          }));
+        } else {
+          setFormData((prev) => ({
+            ...prev,
+            name: "",
+            email: "",
+          }));
+        }
+      }}
+    />
+    <label htmlFor="useMember" style={{ cursor: "pointer" }}>
+      使用會員資料自動填入
+    </label>
+  </div>
+</div>
+
+
+          <form className="contact-form" onSubmit={handleSubmit}>
+
+  <label htmlFor="name">姓名</label>
+  <input
+    type="text"
+    id="name"
+    placeholder="請輸入姓名"
+    value={formData.name}
+    onChange={handleChange}
+    required
+  />
+
+  <label htmlFor="email">電子郵件</label>
+  <input
+    type="email"
+    id="email"
+    placeholder="請輸入電子郵件"
+    value={formData.email}
+    onChange={handleChange}
+    required
+  />
+
+  <label htmlFor="message">意見回饋</label>
+  <textarea
+    id="message"
+    placeholder="字數須小於200"
+    value={formData.message}
+    onChange={handleChange}
+    maxLength="200"
+    required
+  ></textarea>
+
+  <button type="submit">送出</button>
+</form>
+
             <ToastContainer />  {/* 吐司通知容器 */}
           </div>
         </div>
