@@ -67,6 +67,7 @@ export function AuthContextProvider({ children }) {
       const formData = new FormData();
       formData.append("avatar", updatedData.avatar);
       formData.append("name", updatedData.name);
+      formData.append("birthday_date", updatedData.birthday_date);
       formData.append("gender", updatedData.gender);
       formData.append("phone", updatedData.phone);
       formData.append("city_id", updatedData.city_id);
