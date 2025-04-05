@@ -142,12 +142,23 @@ const Login = () => {
 
               if (result.success) {
                 const authData = {
-                  id: result.data.id,
-                  email: result.data.email,
-                  name: result.data.name,
-                  avatar: result.data.avatar,
-                  token: result.data.token,
-                };
+  id: result.data.id,
+  email: result.data.email,
+  name: result.data.name,
+  avatar: result.data.avatar,
+  birthday_date: result.data.birthday_date,
+  gender: result.data.gender, // ✅ 新增
+  phone: result.data.phone,
+  address: result.data.address,
+  city_id: result.data.city_id, // ✅ 新增
+  area_id: result.data.area_id, // ✅ 新增
+  sport: result.data.sport,
+  sportText: result.data.sportText,
+  token: result.data.token,
+};
+setAuth(authData);
+localStorage.setItem("TEAM_B-auth", JSON.stringify(authData));
+
 
                 setAuth(authData); // ✅ 更新 context
                 localStorage.setItem("TEAM_B-auth", JSON.stringify(authData));
@@ -159,7 +170,7 @@ const Login = () => {
                 });
 
                 if (result.data.isNew) {
-                  router.push("/auth/member-edit?from=google");
+                  router.push("/auth/google-member");
                 } else {
                   router.push("/auth/member");
                 }
