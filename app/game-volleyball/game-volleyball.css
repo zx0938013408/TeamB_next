@@ -1,0 +1,130 @@
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #F4F4F4;
+    overflow: hidden;
+    padding-top: 1rem;
+  }
+
+.goBack{
+    position: absolute;
+    top: 3%;
+    left: 1%;
+    background-color: #F4F4F4;
+    color: #29755D;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    z-index: 10;
+    border: none;
+    width: 6.5rem;
+
+    &:hover{
+        font-weight: bold;
+        background: #A8D5C5;
+        color: #29755D;
+        border: none;
+    }
+}
+
+.logo {
+  position: absolute;
+  width: 50vh;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* 完整置中 */
+  opacity: 0.2; /* 透明感 */
+  pointer-events: none; /* 不阻擋點擊互動 */
+}
+
+.net{
+  position: absolute;
+  height: 50vh;
+  width: 36vh;
+  left: 38%;
+  top: 76%;
+  transform: translate(-50%, -50%); /* 完整置中 */
+}
+
+  .title {
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  .titleBall{
+    width: 45px;
+  }
+
+  .info {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0.5rem;
+  }
+
+  .hoop {
+    position: absolute;
+    top: 30%;
+    left: 75%;
+    width: 18vw;
+    max-width: 80px;
+  }
+
+  .ball {
+    position: absolute;
+    width: 15vw;
+    max-width: 60px;
+    cursor: pointer;
+  }
+
+  
+
+  .start-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 6vw;
+    z-index: 10;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .start-button {
+    margin-top: 1rem;
+    font-size: 4.5vw;
+    padding: 1rem 2rem;
+    background: #004C34;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  @media (min-width: 768px) {
+    .title {
+      font-size: 2.5rem;
+    }
+    .info {
+      font-size: 1.5rem;
+    }
+    .start-button {
+      font-size: 1.25rem;
+    }
+  }
+
+
+@media screen and (max-width: 481px){
+  .net{
+    height: 40vh;
+    width: 18vh;
+    top: 80%;
+  }
+}
