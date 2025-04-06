@@ -1,180 +1,224 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+import styles from "@/styles/shop/FilterSidebar.module.css";
+import Search from "./Search";
+import * as Accordion from "@radix-ui/react-accordion";
 // import Slider, { Range } from "rc-slider";
 // import "rc-slider/assets/index.css";
+
+// 連結列
+const links = [
+  { href: "../shop/top", label: "上衣" },
+  { href: "../shop/bottom", label: "褲類" },
+  { href: "../shop/shoes", label: "鞋類" },
+  { href: "../shop/accessory", label: "運動裝備" },
+];
+
+// ✅ 單一篩選按鈕群組
+function FilterButtonGroup({ title, options = [], selected, onSelect }) {
+  return (
+    <div className={styles.Section}>
+      <div className={styles.title}>{title}</div>
+      <div className={styles.check}>
+        {options.map((option) => {
+          const value = typeof option === "string" ? option : option.id;
+          const label = typeof option === "string" ? option : option.name;
+          const isChecked = selected === value;
+
+          return (
+            <label key={value} className={styles.label}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => onSelect(value)}
+              />
+              <span className={styles.checkMark}></span>
+              {label}
+            </label>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function FilterSideBar({
   categories = [],
   pdTypes = [],
-  themes = [], // ✅ 加入主題清單
+  themes = [],
+  sports = [],
   filters,
   setFilters,
   selectedCategory,
   selectedPdTypes = [],
-  selectedThemes = [], // ✅ 新增選中的主題
-  onCategorySelect,
-  onPdTypeToggle,
-  onThemeToggle, // ✅ 新增主題切換事件
-  onClear,
+  selectedThemes = [],
+  selectedTheme = null,
+  selectedSport = null,
+  onCategorySelect = () => {},
+  onPdTypeToggle = () => {},
+  onThemeSelect = () => {},
+  onSportSelect = () => {},
+  onClear = () => {},
 }) {
-  // ✅ 解構 filters
-  const [priceRange, setPriceRange] = useState([1000, 3000]);
-  const [expandedThemes, setExpandedThemes] = useState([]);
-
-  // 拆主題群組與子主題
-  const mainThemes = themes.filter((t) => t.parent_id === null);
-  const subThemes = themes.filter((t) => t.parent_id !== null);
-
-  const toggleThemeGroup = (id) => {
-    setExpandedThemes((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
-  };
-
-  const selectedMainCategory = categories.find(
-    (cat) => cat.name === selectedCategory
-  );
-  const filteredSubCategories = pdTypes.filter(
-    (sub) => sub.parent_id === selectedMainCategory?.id
-  );
   return (
-    <div
-      style={{ border: "1px solid #ccc", padding: "1rem", borderRadius: "8px" }}
-    >
-      {/* <h3 style={{ marginTop: "1rem" }}>主題分類</h3>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
-      {mainThemes.map((main) => {
-        const children = subThemes.filter((t) => t.parent_id === main.id);
-          const isExpanded = expandedThemes.includes(main.id);
-          return (
-            <div key={main.id}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <label style={{ cursor: "pointer" }}>
-                  <input
-                    type="checkbox"
-                    value={main.name}
-                    checked={selectedThemes.includes(main.name)}
-                    onChange={(e) =>
-                      onThemeToggle(e.target.value, e.target.checked)
-                    }
-                    style={{ marginRight: "0.5rem" }}
-                  />
-                  {main.name}
-                </label>
-                <button
-                  onClick={() => toggleThemeGroup(main.id)}
-                  style={{ fontSize: "12px", background: "none", border: "none", cursor: "pointer", color: "#0070f3" }}
-                >
-                  {isExpanded ? "收合" : "展開"}
-                </button>
-              </div>
-              {isExpanded && (
-                <div style={{ paddingLeft: "1rem", marginTop: "0.25rem" }}>
-                  {children.map((sub) => (
-                    <label key={sub.id} style={{ display: "block", cursor: "pointer" }}>
-                      <input
-                        type="checkbox"
-                        value={sub.name}
-                        checked={selectedThemes.includes(sub.name)}
-                        onChange={(e) =>
-                          onThemeToggle(e.target.value, e.target.checked)
-                        }
-                        style={{ marginRight: "0.5rem" }}
-                      />
-                      {sub.name}
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div> */}
+    <div>
+      {/* 搜尋 */}
+      <Search />
 
-      <h3>主分類</h3>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-        {categories.map((category) => (
-          <button
-            key={category}
-            onClick={() => onCategorySelect(category)}
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "4px",
-              backgroundColor: category === selectedCategory ? "#333" : "#eee",
-              color: category === selectedCategory ? "#fff" : "#000",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      {/* <h3 style={{ marginTop: "1rem" }}>子分類</h3>
-      {filteredSubCategories.length > 0 ? (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-          {filteredSubCategories.map((sub) => (
-            <label key={sub.id} style={{ cursor: "pointer" }}>
-              <input
-                type="checkbox"
-                value={sub.name}
-                checked={selectedPdTypes.includes(sub.name)}
-                onChange={(e) =>
-                  onPdTypeToggle(e.target.value, e.target.checked)
-                }
-                style={{ marginRight: "0.5rem" }}
-              />
-              {sub.name}
-            </label>
+      {/* 連結列 */}
+      <div className={styles.quickLinksSection}>
+        <div className={styles.title}>快速導覽</div>
+        <div className={styles.linkList}>
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} className={styles.linkItem}>
+              {link.label}
+            </Link>
           ))}
         </div>
-      ) : (
-        <div style={{ fontSize: "14px", color: "#888" }}>請先選擇主分類</div>
-      )} */}
+      </div>
 
-      {/* <h3>價格區間</h3>
-      <div style={{ marginBottom: "1rem" }}> */}
-        {/* <Range
-          min={0}
-          max={5000}
-          step={100}
-          value={[filters.priceRange.min, filters.priceRange.max]}
-          onChange={(value) => {
-            const [min, max] =value
-            console.log("Range 是：", Range);
-            setFilters((prev) => ({
-              ...prev,
-              priceRange: { min, max },
-            }));
-          }}
-        /> */}
-        {/* <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: "14px",
-            marginTop: "0.5rem",
-          }}
-        >
-          <span>最低：${priceRange.min}</span>
-          <span>最高：${priceRange.max}</span>
-        </div>
-      </div> */}
+      <Accordion.Root type="multiple" className={styles.accordionRoot}>
+        {/* ✅ 精選主題 */}
+        <Accordion.Item value="themes" className={styles.accordionItem}>
+          <Accordion.Header className={styles.accordionHeader}>
+            <Accordion.Trigger className={styles.accordionTrigger}>
+              <span className={styles.labelText}>精選主題</span>
+              <span className="ml-auto">
+                <i className={`icon-Dropdown ${styles.iconClosed}`}></i>
+                <i className={`icon-Dropup ${styles.iconOpen}`}></i>
+              </span>
+            </Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content className={styles.accordionContent}>
+            <div className={styles.check}>
+              {themes.map((theme) => (
+                <label key={theme.id} className={styles.label}>
+                  <input
+                    type="checkbox"
+                    checked={filters.themes.includes(theme.id)}
+                    onChange={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        themes: prev.themes.includes(theme.id)
+                          ? prev.themes.filter((id) => id !== theme.id)
+                          : [...prev.themes, theme.id],
+                      }));
+                    }}
+                  />
+                  <span className={styles.checkMark}></span>
+                  <span className={styles.subLabelText}>{theme.name}</span>
+                </label>
+              ))}
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
 
-      <div style={{ marginTop: "1.5rem" }}>
-        <button
-          onClick={() => {
-            onClear(); // 呼叫上層清除邏輯
-          }}
-          style={{
-            background: "transparent",
-            border: "none",
-            color: "#0070f3",
-            cursor: "pointer",
-            marginTop: "1rem",
-          }}
-        >
+        {/* ✅ 運動類型 */}
+        <Accordion.Item value="sports" className={styles.accordionItem}>
+          <Accordion.Header className={styles.accordionHeader}>
+            <Accordion.Trigger className={styles.accordionTrigger}>
+              <span className={styles.labelText}>運動類型</span>
+              <span className="ml-auto">
+                <i className={`icon-Dropdown ${styles.iconClosed}`}></i>
+                <i className={`icon-Dropup ${styles.iconOpen}`}></i>
+              </span>
+            </Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content className={styles.accordionContent}>
+            <div className={styles.check}>
+              {sports.map((sport) => (
+                <label key={sport} className={styles.label}>
+                  <input
+                    type="checkbox"
+                    checked={filters.sports.includes(sport)}
+                    onChange={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        sports: prev.sports.includes(sport)
+                          ? prev.sports.filter((s) => s !== sport)
+                          : [...prev.sports, sport],
+                      }));
+                    }}
+                  />
+                  <span className={styles.checkMark}></span>
+                  <span className={styles.subLabelText}>{sport}</span>
+                </label>
+              ))}
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+
+        {/* ✅ 商品分類（主分類＋子分類） */}
+        <div className={styles.title}>商品分類</div>
+        {categories.map((cat) => (
+          <Accordion.Item
+            key={cat.id}
+            value={`cat-${cat.id}`}
+            className={styles.accordionItem}
+          >
+            <Accordion.Header className={styles.accordionHeader}>
+              <Accordion.Trigger asChild>
+                <div className={styles.accordionHeaderRow}>
+                  <label className={styles.label}>
+                    <input
+                      type="checkbox"
+                      checked={filters.parentCategories.includes(cat.id)}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        setFilters((prev) => ({
+                          ...prev,
+                          parentCategories: prev.parentCategories.includes(
+                            cat.id
+                          )
+                            ? prev.parentCategories.filter(
+                                (id) => id !== cat.id
+                              )
+                            : [...prev.parentCategories, cat.id],
+                        }));
+                      }}
+                    />
+                    <span className={styles.checkMark}></span>
+                    <span className={styles.labelText}>{cat.name}</span>
+                  </label>
+                  <div className={styles.iconWrap}>
+                    <i className={`icon-Dropdown ${styles.iconClosed}`}></i>
+                    <i className={`icon-Dropup ${styles.iconOpen}`}></i>
+                  </div>
+                </div>
+              </Accordion.Trigger>
+            </Accordion.Header>
+            <Accordion.Content className={styles.accordionContent}>
+              <div className={styles.check}>
+                {cat.subCategories?.map((sub) => (
+                  <label
+                    key={sub.id}
+                    className={`${styles.label} ${styles.subLabel}`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={filters.subCategories.includes(sub.id)}
+                      onChange={() => {
+                        setFilters((prev) => ({
+                          ...prev,
+                          subCategories: prev.subCategories.includes(sub.id)
+                            ? prev.subCategories.filter((id) => id !== sub.id)
+                            : [...prev.subCategories, sub.id],
+                        }));
+                      }}
+                    />
+                    <span className={styles.checkMark}></span>
+                    <span className={styles.subLabelText}>{sub.name}</span>
+                  </label>
+                ))}
+              </div>
+            </Accordion.Content>
+          </Accordion.Item>
+        ))}
+      </Accordion.Root>
+
+      <div>
+        <button onClick={onClear} className={styles.btn}>
           清除篩選
         </button>
       </div>

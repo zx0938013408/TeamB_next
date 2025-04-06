@@ -1,11 +1,71 @@
 .bannerWrapper {
-    min-height: 700px; /* 或 600px 也可以，看圖而定 */
-    position: relative;
-  }
+  min-height: 800px; /* 或 600px 也可以，看圖而定 */
+  position: relative;
+  margin-top: 40px;
+}
+
+.swiper {
+  height: 100%;
+}
+
 .bannerImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 等同 shadow-md */
-  }
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 等同 shadow-md */
+}
+
+/* 左右按鈕 */
+.iconButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.765);
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease;
+}
+
+.iconButton:hover {
+  background-color: #e1e4e8;
+  transform: translateY(-50%) scale(1.15);
+}
+
+.iconInner {
+  font-size: 24px;
+  color: #528f7c;
+  line-height: 1;
+}
+
+.leftArrow {
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.rightArrow {
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.iconLeft {
+  position: relative;
+  left: -1px;
+}
+
+.iconRight {
+  position: relative;
+  right: -2px;
+}

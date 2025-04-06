@@ -1,0 +1,184 @@
+.check {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordionRoot {
+  margin-top: 20px;
+}
+
+/* 商品分類 標題 */
+.title {
+  font-size: 18px;
+  margin: 22px 0 10px 0;
+  font-weight: 700;
+}
+
+.labelText {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333; /* ✅ 確保有顏色 */
+  display: inline-block;
+}
+
+.subLabelText {
+  font-size: 16px;
+  font-weight: 400;
+  color: #444;
+  margin-left: 8px;
+}
+
+/* 篩選收合 */
+.accordionContent {
+  overflow: hidden;
+  transition: height 0.2s ease;
+  margin-bottom: 10px;
+}
+.accordionTrigger {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  padding: 10px 0;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+/* 分隔線 */
+.accordionItem {
+  border-bottom: 1px solid #ddd;
+}
+
+.accordionHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+}
+.iconOpen {
+  display: none;
+  font-size: 16px;
+  color: #29755d;
+}
+.iconClosed {
+  display: inline-block;
+  font-size: 16px;
+  color: #29755d;
+}
+
+/* 展開時，隱藏下箭頭、顯示上箭頭 */
+[data-state="open"] .iconClosed {
+  display: none;
+}
+[data-state="open"] .iconOpen {
+  display: inline-block;
+}
+
+/* 隱藏原生 checkbox */
+.label input {
+  display: none;
+}
+/* 自訂 checkbox 樣式 */
+.label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkMark {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #a8acaa;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+}
+
+.subCheckMark {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #a8acaa;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+}
+
+/* 當 checkbox 被選中時，改變勾勾顏色 */
+.label input:checked + .checkMark {
+  background-color: #7aaa9b;
+  border-color: #29755d;
+}
+
+/* 自製勾勾 */
+.label input:checked + .checkMark::after,
+.label input:checked + .subCheckMark::after {
+  content: "✔";
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.accordionContent .checkMark {
+  width: 16px;
+  height: 16px;
+  border-width: 1.5px;
+  margin-right: 6px;
+}
+
+.accordionContent .checkMark::after {
+  font-size: 14px;
+}
+
+/* 類別頁連結 */
+.linkList {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.linkItem{
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.2s ease;
+  padding: 3px 0;
+}
+.linkItem:hover {
+  color: #29755d;
+}
+
+/* 清除篩選按鈕 */
+.btn {
+  padding: 5px;
+  margin-top: 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  background: #bde6d9;
+  color: #29755d;
+  border: 3px solid #29755d63;
+}
+.btn:hover {
+  background: #7aaa9b;
+  color: #29755d;
+  border: 3px solid #29755d;
+}

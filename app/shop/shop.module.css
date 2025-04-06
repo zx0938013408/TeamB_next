@@ -8,7 +8,7 @@
   width: 70vw;
   max-width: 1280px; /* 限制最大寬度 */
   margin: auto;
-  padding: 120px 20px 60px 20px; /* 行動裝置也能吃 */
+  padding: 50px 20px 60px 20px; /* 行動裝置也能吃 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +17,7 @@
 .Main{
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 32px;
 }
 
 /* 麵包屑 */
@@ -48,12 +48,13 @@
 /* end麵包屑 */
 
 .sideBar{
-  flex: 1 1 240px;
-  max-width: 300px;
+  flex: 0 0 20%;       /* ✅ 改成佔 container 20% */
+  max-width: 240px;    /* ✅ 可設一個最大寬度，避免太寬 */
+  padding-right: 20px;
 }
 
 .mainContent{
-  flex: 3 1 0;
+  flex: 1; /* 自動吃剩下的空間 */
 }
 
 .itemSection {
@@ -61,6 +62,27 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+/* 排序選單 */
+.sortControls {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  margin-bottom: 25px;
+}
+
+.sortControls select {
+  width: 130px;
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid #29755D;
+}
+
+.sortControls option {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .titleBg {
@@ -80,19 +102,49 @@
   letter-spacing: 9.6px;
 }
 
-/* more */
+/* 卡片容器 */
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ✅ 固定 4 欄 */
+  gap: 24px;
+  width: 100%;
+  max-width: 1280px; /* ✅ 對齊上面的灰色區塊寬度 */
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 包卡片的外框控制寬度 */
+.cardWrapper {
+  width: 100%;
+}
+
+/* 載入 */
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #666;
+}
 
 
 /* 手機版 */
 
-@media (max-width: 768px) {
-  .Main {
-    flex-direction: column;
+@media screen and (max-width: 992px) {
+  .cardContainer {
+    grid-template-columns: repeat(2, 1fr); /* 📱 平板：2 欄 */
   }
+}
 
-  .sideBar,
-  .mainContent {
-    width: 100%;
-    max-width: 100%;
+@media screen and (max-width: 576px) {
+  .container {
+    width: 100% !important;
+    padding: 0 16px 40px 16px;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  .cardContainer {
+    grid-template-columns: 1fr; /* 📱 手機：1 欄 */
   }
 }

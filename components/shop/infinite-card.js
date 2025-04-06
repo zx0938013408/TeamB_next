@@ -12,8 +12,8 @@ function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
   const itemsPerPage = 10; // 每次載入 5 筆
   const observer = useRef(null);
   const filteredItems = categoryId
-    ? items.filter((item) => item.category_id === categoryId)
-    : items;
+  ? items.filter((item) => String(item.category_id) === String(categoryId))
+  : items;
 
   // 滾動載入更多
   useEffect(() => {
@@ -43,6 +43,7 @@ function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
     setVisibleData(nextData);
     setPage(nextPage);
   };
+  
 
   return (
     <div className={styles.cardContainer}>
@@ -53,6 +54,7 @@ function InfiniteCard({ categoryId, items = [], linkPath = "/shop" }) {
               className={styles.card}
               ref={index === visibleData.length - 1 ? observer : null}
             >
+            
 
               <div className={styles.imgContainer}>
                 <img src={`${AVATAR_PATH}/${item.image}`} alt={item.product_name} />

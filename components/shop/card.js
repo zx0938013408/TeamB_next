@@ -6,6 +6,7 @@ import { AVATAR_PATH } from "@/config/api-path";
 
 // 參數item、愛心跟購物車是否出現
 function Card({ item, showLike = true, showCart = true }) {
+  // console.log("🃏 渲染卡片 id:", item.id, item.product_name);
   return (
     <Link href={`/shop/${item.id}`} passHref>
       <div key={item.id} className={styles.card}>

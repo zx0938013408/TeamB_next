@@ -6,124 +6,233 @@ import styles from "./shop.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { AB_LIST } from "@/config/shop-api-path";
 import Link from "next/link";
-import Carousel from "@/components/shop/carousel";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FilterSideBar from "@/components/shop/FilterSideBar";
-import Search from "@/components/shop/Search";
-import InfiniteCard from "@/components/shop/infinite-card";
+import InfiniteCard from "@/components/shop/InfiniteCard";
+import Card from "@/components/shop/card";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import BannerSlider from "@/components/shop/BannerSlider";
 
 export default function ShopPage() {
   // 篩選 URL參數（query）
   const searchParams = useSearchParams();
   // const keyword = searchParams.get("keyword")?.toLowerCase() || "";
   const [keyword, setKeyword] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({
-    category: "",
-    sports: [],
-    apparel: [],
-    priceRange: { min: "0", max: "5000" },
-  });
   const [categories, setCategories] = useState([]);
-  const [pdTypes, setPdTypes] = useState([]);
+  const [visibleData, setVisibleData] = useState([]);
+  const [selectedParentId, setselectedParentId] = useState();
+  const [sortOption, setSortOption] = useState("latest-desc"); //預設排序法
+  const [loading, setLoading] = useState(false);
 
+  const [filters, setFilters] = useState({
+    keyword: "",
+    parentCategories: [], // 主分類 id
+    subCategories: [], // 子分類 id
+    sports: [],
+    themes: [],
+    sizes: [],
+    priceRange: { min: "", max: "" },
+  });
+
+  const [pdTypes, setPdTypes] = useState([]);
+  const [themes, setThemes] = useState([]);
+  const [sports, setSports] = useState([]);
+
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // 關鍵字
   useEffect(() => {
     const kw = searchParams.get("keyword")?.toLowerCase() || "";
     setKeyword(kw);
   }, [searchParams]);
 
-  // 監聽 關鍵字、篩選 取得資料
+  // 取得商品資料
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch(`${AB_LIST}`);
-        const data = await res.json();
-        console.log("API 回傳的分類資料:", data); // 確認資料格式 是物件
-
-        if (data.success && Array.isArray(data.rows)) {
-          // ✅ 整理主分類
-          const categories = [
-            ...new Set(
-              data.rows.map((item) => item.categories_name).filter(Boolean)
-            ),
-          ];
-
-          // ✅ 整理子分類
-          const pdTypes = [
-            ...new Set(data.rows.map((item) => item.pd_type).filter(Boolean)),
-          ];
-
-          console.log("主分類:", categories);
-          console.log("子分類:", pdTypes);
-
-          // ✅ 存進狀態（如果你有 setPdTypes 的話）
-          setCategories(categories);
-          setPdTypes(pdTypes);
-        } else {
-          console.error("❌ 資料格式錯誤:", data);
+    fetch(AB_LIST)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          console.log("✅ 取得資料:", data);
+          setAllProducts(data.rows);
         }
-      } catch (error) {
-        console.error("❌ 分類加載失敗:", error);
-      }
-    };
+      })
+      .catch((error) => console.error("❌ API 錯誤:", error));
+  }, []);
 
+  // 取得分類商品資料
+  useEffect(() => {
+    const query = new URLSearchParams({
+      sort: sortOption,
+      keyword,
+      // categoryId,
+      parentCategories: selectedParentId,
+      // minPrice,
+      // maxPrice,
+      // ...等等
+    }).toString();
+
+    fetch(`${AB_LIST}?${query}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setProducts(data.rows);
+        }
+      });
+  }, [sortOption, selectedParentId]);
+
+  // 監聽 關鍵字、篩選 取得資料
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const res = await fetch(`${AB_LIST}`);
+  //       const data = await res.json();
+  //       console.log("API 回傳的分類資料:", data);
+
+  //       if (data.success && Array.isArray(data.rows)) {
+  //         setCategories(data.rows);
+  //       } else {
+  //         console.error("❌ 資料格式錯誤:", data);
+  //       }
+  //     } catch (error) {
+  //       console.error("❌ 分類加載失敗:", error);
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
+
+  useEffect(() => {
+    setCategories([
+      {
+        id: 1,
+        name: "上衣",
+        subCategories: [
+          { id: 5, name: "短袖" },
+          { id: 6, name: "長袖" },
+        ],
+      },
+      {
+        id: 2,
+        name: "褲子",
+        subCategories: [
+          { id: 7, name: "短褲" },
+          { id: 8, name: "長褲" },
+        ],
+      },
+      {
+        id: 3,
+        name: "鞋類",
+        subCategories: [
+          { id: 14, name: "籃球鞋" },
+          { id: 15, name: "排球鞋" },
+          { id: 16, name: "羽毛球鞋" },
+          { id: 17, name: "休閒鞋" },
+        ],
+      },
+      {
+        id: 4,
+        name: "運動配件",
+        subCategories: [
+          { id: 9, name: "後背包" },
+          { id: 10, name: "腰包" },
+          { id: 11, name: "水壺" },
+          { id: 12, name: "運動手套" },
+          { id: 13, name: "護膝" },
+        ],
+      },
+    ]);
+
+    setSports(["籃球", "排球", "羽毛球"]);
+
+    setThemes([
+      { id: 1, name: "TeamB出品" },
+      { id: 2, name: "櫻色律動" },
+    ]);
+  }, []);
+
+  useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
+      setErrorMsg(""); // 清除舊錯誤
       console.log("🔄 current filters:", filters);
-      try {
-        const queryParams = new URLSearchParams();
 
+      try {
+        // 組裝 query 字串
+        const queryParams = new URLSearchParams();
+        // 關鍵字
         if (keyword) queryParams.append("keyword", keyword);
         // 加入篩選條件
-        filters.sports.forEach((sport) =>
-          queryParams.append("sports[]", sport)
-        );
-        filters.apparel.forEach((apparel) =>
-          queryParams.append("apparel[]", apparel)
-        );
-
-        if (filters.category) {
-          queryParams.append("category", filters.category);
-        }
+        if (filters.parentCategories.length)
+          filters.parentCategories.forEach((id) =>
+            queryParams.append("parentCategories", id)
+          );
+        if (filters.subCategories.length)
+          filters.subCategories.forEach((id) =>
+            queryParams.append("subCategories", id)
+          );
+        if (filters.sports.length)
+          filters.sports.forEach((sport) =>
+            queryParams.append("sports", sport)
+          );
+        if (filters.themes.length)
+          filters.themes.forEach((theme) =>
+            queryParams.append("themes", theme)
+          );
+        if (filters.sizes.length)
+          filters.sizes.forEach((size) => queryParams.append("sizes", size));
+        if (filters.priceRange.min)
+          queryParams.append("minPrice", filters.priceRange.min);
+        if (filters.priceRange.max)
+          queryParams.append("maxPrice", filters.priceRange.max);
 
         const url = `${AB_LIST}?${queryParams.toString()}`;
         console.log("🔍 請求 API:", url);
 
         const res = await fetch(url);
-        if (!res.ok) throw new Error("無法取得商品");
+        if (!res.ok) throw new Error("無法取得商品（HTTP 錯誤）");
 
-        const data = await res.json();
-        if (data.success) {
+        let data;
+        try {
+          data = await res.json();
+        } catch (jsonError) {
+          console.error("❌ JSON 解析失敗：", jsonError);
+          setErrorMsg("伺服器回傳格式錯誤，請稍後再試 🥲");
+          setProducts([]);
+          return;
+        }
+
+        if (data.success && Array.isArray(data.rows)) {
           console.log("✅ 取得資料:", data.rows);
           setProducts(data.rows);
         } else {
+          console.warn("⚠️ API 回傳結構異常:", data);
+          setErrorMsg("資料格式錯誤或查無結果 🧐");
           setProducts([]);
         }
-      } catch (error) {
-        console.error("❌ API 錯誤:", error);
+      } catch (fetchError) {
+        console.error("❌ API 請求失敗:", fetchError);
+        setErrorMsg("商品資料載入失敗，請檢查網路或稍後再試 😢");
         setProducts([]);
       } finally {
         setLoading(false);
       }
       console.log("🔍 keyword:", keyword);
     };
-
     fetchProducts();
-    if (categories.length === 0) {
-      fetchCategories(); // 🔄 只在第一次載入時取得分類
-    }
+    console.log("🟢 目前 filters 狀態：", filters);
   }, [keyword, filters]); // ✅ 監聽 filters，當篩選條件變動時，重新請求
 
-  console.log("滑桿 value：", filters.priceRange);
+  // console.log("滑桿 value：", filters.priceRange);
 
   return (
     <>
       <Header />
 
       <div className={styles.body}>
+        {/* 輪播圖 */}
+        <BannerSlider />
         <div className={styles.container}>
           {/* 麵包屑 */}
           <nav className={styles.breadcrumb} aria-label="breadcrumb">
@@ -135,34 +244,32 @@ export default function ShopPage() {
               商城
             </span>
           </nav>
-          {/* 輪播圖 */}
-          <div className={styles.imgContainer}>
-            {/* <img src="/photo/activity-volleyballCourt.jpg" style={{ width: 1024 }}/> */}
-          </div>
+
+          <div className={styles.imgContainer}></div>
           {/* 主要區域 */}
           <div className={styles.Main}>
             {/* 篩選搜尋 sidebar */}
             <div className={styles.sideBar}>
-              {/* 搜尋 */}
-              <Search />
-
+              {errorMsg && <div className="text-red-500">{errorMsg}</div>}
               <FilterSideBar
                 categories={categories}
-                pdTypes={pdTypes}
-                themes={["櫻花主題", "春季限定", "聯名系列"]}
+                // pdTypes={pdTypes}
+                themes={themes}
+                sports={sports}
                 filters={filters}
                 setFilters={setFilters}
-                selectedCategory={filters.category}
-                selectedPdTypes={filters.apparel}
+                selectedCategory={filters.parentCategories?.[0] || ""}
+                selectedPdTypes={filters.subCategories}
                 selectedThemes={filters.themes}
-                onCategorySelect={(category) => {
-                  setFilters((prev) => ({ ...prev, category }));
+                selectedSport={filters.sports}
+                onCategorySelect={(id) => {
+                  setFilters((prev) => ({ ...prev, parentCategories: [id] }));
                 }}
-                onPdTypeToggle={(type, checked) => {
+                onPdTypeToggle={(id, checked) => {
                   const updated = checked
-                    ? [...filters.apparel, type]
-                    : filters.apparel.filter((t) => t !== type);
-                  setFilters((prev) => ({ ...prev, apparel: updated }));
+                    ? [...filters.subCategories, id]
+                    : filters.subCategories.filter((t) => t !== id);
+                  setFilters((prev) => ({ ...prev, subCategories: updated }));
                 }}
                 onThemeToggle={(theme, checked) => {
                   const next = checked
@@ -172,128 +279,87 @@ export default function ShopPage() {
                 }}
                 onClear={() =>
                   setFilters({
-                    category: "",
-                    apparel: [],
+                    keyword: "",
+                    parentCategories: [],
+                    subCategories: [],
                     sports: [],
+                    themes: [],
+                    sizes: [],
                     priceRange: { min: "", max: "" },
                   })
                 }
               />
-
-              {/* 排序列 */}
-              {/* <div>
-        <select
-          id="sort-bar"
-          name="sort-bar"
-          onChange={(e) => onFilterChange("sort", e.target.value)}
-        >
-          <option value="date">最新上架</option>
-          <option value="location">價錢由高至低</option>
-          <option value="price">價前由低至高</option>
-        </select>
-      </div> */}
-
-              {/* 連結列 */}
-              {/* <div>
-        <div className={styles.title}>精選主題</div>
-        <Link href="../shop/top" style={{ textDecoration: "none" }}>
-          <div className={styles.text}>TeamB</div>
-        </Link>
-        <Link href="../shop/bottom" style={{ textDecoration: "none" }}>
-          <div className={styles.text}>GymFlex</div>
-        </Link>
-        <Link href="../shop/bottom" style={{ textDecoration: "none" }}>
-          <div className={styles.text}>Sweet Blossom</div>
-        </Link>
-      </div> */}
             </div>
 
             <div className={styles.mainContent}>
-              {/* 上衣 top */}
-              {/* <div className={styles.itemsSection}>
-                <div className={styles.titleBg}>
-                  <div className={styles.title}>上衣</div>
+              {/* 排序選單 */}
+              <div className={styles.sortControls}>
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                >
+                  <option value="latest-desc">最新上架</option>
+                  <option value="price-asc">價格由低到高</option>
+                  <option value="price-desc">價格由高到低</option>
+                </select>
+              </div>
+
+              {/* 商城首頁：分類推薦區塊 */}
+              {/* {categories.map((cat) => {
+                const filteredItems = allProducts.filter((item) => {
+                  const matchParent =
+                    !filters.parentCategories.length ||
+                    item.category_id === filters.parentCategories[0];
+
+                  const matchSub =
+                    !filters.subCategories.length ||
+                    (item.sub_category_id &&
+                      filters.subCategories.includes(item.sub_category_id));
+
+                  return matchParent && matchSub;
+                });
+
+                return (
+                  <section key={cat.id} className={styles.itemsSection}>
+                    <div className={styles.titleBg}>
+                      <div className={styles.title}>{cat.name}</div>
+                    </div>
+                    <div className={styles.cardContainer}>
+                      {filteredItems.slice(0, 8).map((item) => (
+                        <div key={item.id} className={styles.cardWrapper}>
+                          <Card item={item} linkPath="/shop" />
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })} */}
+              <InfiniteCard items={products} onDataChange={setVisibleData} />
+              {visibleData.length === 0 ? (
+                <p className="text-gray-500">沒有找到符合條件的商品喔～</p>
+              ) : (
+                <div className={styles.cardContainer}>
+                  {visibleData.map((item) => (
+                    <Card key={item.id} item={item} />
+                  ))}
                 </div>
-                <Carousel items={products} categoryId={1} itemsPerPage={4} />
-                <div className={styles.more}>
-                  <div>
-                    <Link href="../shop/top" style={{ textDecoration: "none" }}>
-                      <div className={styles.textBox}>
-                        <div className={styles.text}>查看更多</div>
-                        <span className={`icon-Right ${styles.iconRight}`} />
-                      </div>
-                    </Link>
-                  </div>
+              )}
+
+              {errorMsg && (
+                <div className="text-red-500 text-sm my-2">{errorMsg}</div>
+              )}
+              {loading && (
+                <div className="text-gray-500 text-sm my-2">
+                  商品資料載入中...
                 </div>
-              </div> */}
-              {/* 褲類 bottom */}
-              {/* <div className={styles.itemsSection}>
-                <div className={styles.titleBg}>
-                  <div className={styles.title}>褲類</div>
-                </div>
-                <Carousel items={products} categoryId={2} itemsPerPage={4} />
-                <div className={styles.more}>
-                  <div>
-                    <Link
-                      href="../shop/bottom"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <div className={styles.textBox}>
-                        <div className={styles.text}>查看更多</div>
-                        <span className={`icon-Right ${styles.iconRight}`} />
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div> */}
-              {/* 褲類 shoes */}
-              {/* <div className={styles.itemsSection}>
-                <div className={styles.titleBg}>
-                  <div className={styles.title}>鞋類</div>
-                </div>
-                <Carousel items={products} categoryId={3} itemsPerPage={4} />
-                <div className={styles.more}>
-                  <div>
-                    <Link
-                      href="../shop/shoes"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <div className={styles.textBox}>
-                        <div className={styles.text}>查看更多</div>
-                        <span className={`icon-Right ${styles.iconRight}`} />
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div> */}
-              {/* 運動配件 accessory */}
-              {/* <div className={styles.itemsSection}>
-                <div className={styles.titleBg}>
-                  <div className={styles.title}>運動配件</div>
-                </div>
-                <Carousel items={products} categoryId={4} itemsPerPage={4} />
-                <div className={styles.more}>
-                  <div>
-                    <Link
-                      href="../shop/accessory"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <div className={styles.textBox}>
-                        <div className={styles.text}>查看更多</div>
-                        <span className={`icon-Right ${styles.iconRight}`} />
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div> */}
-              <InfiniteCard items={products} categoryId={null} />
+              )}
             </div>
           </div>
         </div>
       </div>
 
       <Footer />
-      <ScrollToTopButton/>
+      <ScrollToTopButton />
     </>
   );
 }
