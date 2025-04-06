@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import {MB_GOOGLE_POST} from "../../../config/auth.api"
 
 const Login = () => {
   
@@ -132,7 +133,7 @@ const Login = () => {
         <GoogleOAuthProvider clientId="881251310998-lj4kfi1a8c087ul4vmoisp815jq1hqbd.apps.googleusercontent.com">
           <GoogleLogin
             onSuccess={async (credentialResponse) => {
-              const res = await fetch("http://localhost:3001/auth/login-google", {
+              const res = await fetch(MB_GOOGLE_POST, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ credential: credentialResponse.credential }),

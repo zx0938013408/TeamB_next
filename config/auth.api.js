@@ -27,7 +27,6 @@ export const MB_MEMBER_ID_GET= `${AUTH_GET}/members/api/:id`;
 export const MB_MEMBER_NEW_PUT= `${AUTH_GET}//members/api/:id`;
 
 
-
 //處理照片上傳
 export const  MB_AVATAR_POST =`${AUTH_GET}/avatar/api`
 
@@ -53,18 +52,12 @@ export const MB_OLD_PASSWORD_POST=`${AUTH_GET}/api/check-old-password`;
 
 
 
-
 //會員更改密碼
 export const MB_PASSWORD_POST=`${AUTH_GET}/api/change-password`;
 
 
-
-
-
 //登入
 export const MB_LOGIN_POST =`${AUTH_GET}/login-jwt`;
-
-
 
 
 // 修改會員資料 API
@@ -76,14 +69,14 @@ export const MB_EDIT_PUT =`${AUTH_GET}/user-edit`;
 export const MB_VERIFY_POST =`${AUTH_GET}/api/verify-user`;
 
 
-
-
-
-
 //忘記密碼後設定新密碼
 export const MB_RESET_POST =`${AUTH_GET}/api/reset-password`;
 
 
-
+//聯繫表單
 export const MB_CONTACT_POST =`${AUTH_GET}/submit-contact-form`;
+
+
+//第三方登入
+export const MB_GOOGLE_POST =`${AUTH_GET}/login-google`;
 

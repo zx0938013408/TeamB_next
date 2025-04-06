@@ -1,5 +1,4 @@
 "use client";
-// import "../../styles/globals.css";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import styles from "../../../styles/auth/member-edit.module.css";
@@ -7,9 +6,7 @@ import { useAuth } from "../../../context/auth-context"; // 引入 useAuth
 import Header from "../../../components/Header";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter } from "next/navigation";
-import { MB_CITY_GET,MB_AREA_GET} from "../../../config/auth.api";
-// import {MB_AVATAR_POST} from "../../../config/auth.api"
-import { AVATAR_PATH } from "@/config/auth.api";
+import { MB_CITY_GET,MB_AREA_GET,AVATAR_PATH} from "../../../config/auth.api";
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 
