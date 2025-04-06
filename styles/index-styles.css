@@ -500,7 +500,7 @@
 
 /* 預設隱藏 "前往報團" */
 .sports-text {
-  font-size: 30px;
+  font-size: 20px;
   font-family: Inter, sans-serif;
   font-weight: 600;
   letter-spacing: 6px;
@@ -509,7 +509,7 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   position: absolute;
-  bottom: 10px;
+  bottom: 3px;
 }
 
 .hover-text .sport-text {
@@ -682,19 +682,24 @@
   color: #528f7c;
 }
 
-.shop-promo {
-  font-size: 26px;
-  font-weight: 700;
-  color: #528f7c;
-  letter-spacing: 6px;
-}
 
 /* 商品列表 */
 .shop-product-list {
   display: flex;
   gap: 20px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap; 
+  /* max-width: 1200px;   */
+  margin: 0 auto; 
 }
-
+.shop-product-list::-webkit-scrollbar {
+  display: none;
+}
+.shop-product-list {
+  -ms-overflow-style: none; /* IE */
+  scrollbar-width: none; /* Firefox */
+}
 /* 商品卡片 */
 .shop-product-card {
   width: 400px;
@@ -745,7 +750,13 @@
   text-align: center;
   margin-bottom: 70px;
 }
-
+/* 預設：桌機版顯示 footer、隱藏卡片 */
+.desktop-only {
+  display: block;
+}
+.mobile-only {
+  display: none;
+}
 /* ************** 查看更多xx **************** */
 /* 統一查看更多樣式 */
 .more-link {
@@ -758,6 +769,7 @@
   display: inline-block;
   padding-bottom: 10px;
   /* 保持底線與箭頭的間距 */
+  animation: pulse 3s infinite;
 }
 
 /* 底線 */
@@ -788,6 +800,7 @@
   /* 初始位置與底線右端對齊 */
   opacity: 0;
   transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  
 }
 
 /* Hover 效果 */
@@ -1532,6 +1545,7 @@
 
   .activity-footer .more-link {
     font-size: 18px;
+    animation: pulse 3s infinite;
   }
 
   .activity-scroll-vertical {
@@ -1569,6 +1583,7 @@
   /* ************** 購物商城 **************** */
   .shop-container {
     padding: 100px 0;
+    overflow: hidden;
   }
 
   .shop-title {
@@ -1578,37 +1593,80 @@
   }
 
   .shop-product-list {
-    overflow: scroll;
-    width: 100vh;
-    height: 100%;
-    border-radius: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 16px;
+    padding: 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
   }
-
+  .shop-product-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  
   .shop-product-card {
-    width: 300px;
+    flex: 0 0 auto;
+    width: 280px;
     height: auto;
     aspect-ratio: 1/1;
+    /* display: flex; */
+    scroll-snap-align: start;
   }
 
+  
   /* 商品圖片 */
   .shop-product-image {
     width: 100%;
-    aspect-ratio: 4/3;
-    background: #d9d9d9;
-    border-radius: 5px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    /* flex: 1; */
   }
 
   /* 商品名稱 */
   .shop-product-name {
-    width: 100%;
     padding: 10px;
-    font-size: 18px;
-    letter-spacing: 3px;
-    color: black;
+    font-size: 16px;
+    text-align: center;
   }
 
-  .shop-footer .more-link {
-    font-size: 18px;
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: flex;
+    
+  }
+  .shop-more-card {
+    flex: 0 0 auto;
+    width: 280px;
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    border-radius: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    animation: pulse 3s infinite;
+  }
+  
+  .more-card-img {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: transparent;
+  }
+  
+  .more-card-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #29755d;
   }
 }
 
@@ -1638,3 +1696,10 @@
 .shake {
   animation: shake-icon 0.6s ease-in-out;
 }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+
