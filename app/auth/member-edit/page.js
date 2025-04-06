@@ -129,11 +129,11 @@ const MemberEdit = () => {
     }
   
     setError(""); // 清除錯誤訊息
-
     const result = await updateUserData({
       ...auth,
       name,
       gender,
+      birthday_date: auth.birthday_date?.slice(0, 10), // ✅ 加這一行，保留原生日格式
       phone,
       address,
       city_id: cityId,
