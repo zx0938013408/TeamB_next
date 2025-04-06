@@ -504,7 +504,6 @@
 }
 
 .shopSection {
-  /* margin-top: 80px; */
   margin-bottom: 80px;
 }
 
@@ -597,7 +596,7 @@
   .price {
     font-size: 16px;
     width: 40%;
-    margin-left: 30px;
+    margin-left: 35px;
     padding: 0;
     
   }
@@ -662,6 +661,7 @@
   .quantityControls {
     display: flex;
     align-items: center;
+    margin-left: 25px;
   }
 
   .total {
@@ -685,5 +685,12 @@
   margin: 60px 0px;
 }
 
+.money span {
+  font-size: 18px;
+}
+
+.amount {
+  font-size: 18px;
+}
 
 }
