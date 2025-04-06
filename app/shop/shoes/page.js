@@ -6,7 +6,7 @@ import styles from "../category.module.css";
 import "@/public/TeamB_Icon/style.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import InfiniteCard from "@/components/shop/infinite-card";
+import InfiniteCard from "@/components/shop/InfiniteCard";
 import Card from "@/components/shop/card";
 import Search from "@/components/shop/Search";
 import Link from "next/link";

@@ -17,7 +17,7 @@
 .Main{
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 32px;
 }
 
 /* 麵包屑 */
@@ -48,12 +48,13 @@
 /* end麵包屑 */
 
 .sideBar{
-  flex: 1 1 240px;
-  max-width: 300px;
+  flex: 0 0 20%;       /* ✅ 改成佔 container 20% */
+  max-width: 240px;    /* ✅ 可設一個最大寬度，避免太寬 */
+  padding-right: 20px;
 }
 
 .mainContent{
-  flex: 3 1 0;
+  flex: 1; /* 自動吃剩下的空間 */
 }
 
 .itemSection {

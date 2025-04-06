@@ -14,7 +14,7 @@ function InfiniteCard({
   // ✅ 使用 useMemo 優化，避免 filteredItems 每次都是新陣列
   const filteredItems = useMemo(() => {
     return categoryId
-      ? items.filter((item) => item.parent_category_id === categoryId)
+      ? items.filter((item) => item.category_id === categoryId || item.parent_category_id === categoryId)
       : items;
   }, [categoryId, items]);
 

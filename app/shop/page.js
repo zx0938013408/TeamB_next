@@ -124,7 +124,12 @@ export default function ShopPage() {
       {
         id: 3,
         name: "鞋類",
-        subCategories: [],
+        subCategories: [
+          { id: 14, name: "籃球鞋" },
+          { id: 15, name: "排球鞋" },
+          { id: 16, name: "羽毛球鞋" },
+          { id: 17, name: "休閒鞋" },
+        ],
       },
       {
         id: 4,
@@ -141,7 +146,10 @@ export default function ShopPage() {
 
     setSports(["籃球", "排球", "羽毛球"]);
 
-    setThemes(["TeamB出品", "櫻色律動"]);
+    setThemes([
+      { id: 1, name: "TeamB出品" },
+      { id: 2, name: "櫻色律動" },
+    ]);
   }, []);
 
   useEffect(() => {
@@ -213,6 +221,7 @@ export default function ShopPage() {
       console.log("🔍 keyword:", keyword);
     };
     fetchProducts();
+    console.log("🟢 目前 filters 狀態：", filters);
   }, [keyword, filters]); // ✅ 監聽 filters，當篩選條件變動時，重新請求
 
   // console.log("滑桿 value：", filters.priceRange);
@@ -244,7 +253,7 @@ export default function ShopPage() {
               {errorMsg && <div className="text-red-500">{errorMsg}</div>}
               <FilterSideBar
                 categories={categories}
-                pdTypes={pdTypes}
+                // pdTypes={pdTypes}
                 themes={themes}
                 sports={sports}
                 filters={filters}
