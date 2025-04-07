@@ -9,7 +9,8 @@ import styles from "@/styles/Header.module.css";
 import StylesCity from "@/styles/city-area/city-area.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
-import { AL_CREATE_POST, AVATAR_PATH } from "@/config/api-path";
+import { AL_CREATE_POST } from "@/config/api-path";
+import { AVATAR_PATH } from "@/config/auth.api";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
@@ -491,7 +492,11 @@ export default function ActivityCreatePage() {
           <div className={`modal-content ${Styles.modalContent}`}>
             <div className={`modal-header ${Styles.modalWidth}`}>
               <h5 className={`modal-title ${Styles.inputTitle}`} id="staticBackdropLabel">
-                {selected && <span className={`icon-${selected.charAt(0).toUpperCase() + selected.slice(1)} ${Styles.modalIcon}`}></span>}
+                {selected && <span className={`${
+                    selected === "shuttlecock"
+                      ? "icon-Badminton"
+                      : `icon-${selected.charAt(0).toUpperCase() + selected.slice(1)}`
+                  } ${Styles.modalIcon}`}></span>}
                 建立{selected ? (selected === "basketball" ? "籃球" : selected === "volleyball" ? "排球" : selected === "shuttlecock" ?  "羽球" : "") : ""}活動
               </h5>
               <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={resetForm} />

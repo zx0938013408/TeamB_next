@@ -211,9 +211,11 @@
 }
 
 .likeHeart {
+  position: relative;
   font-size: 30px;
   padding: 0px;
   margin: 0px;
+  bottom: 15;
 }
 
 /* 活動詳情 */
