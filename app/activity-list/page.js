@@ -31,6 +31,9 @@ export default function ActivityListPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [originalData, setOriginalData] = useState([]);
   const [isShow, setIsShow] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [afterRegisterCallback, setAfterRegisterCallback] = useState(null);
+
   
   // 分頁
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +43,8 @@ export default function ActivityListPage() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = listData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(listData.length / itemsPerPage);
+  // 已報名的話
+  const [registeredIds, setRegisteredIds] = useState([]);
 
   const handlePageChange = (page) => {
     if (page !== currentPage) {
@@ -182,6 +187,16 @@ export default function ActivityListPage() {
       if (data.success) {
         setNotes("");
         setSelectedPeople(1);
+
+        // ✅ 把剛報名的 activityId 加入已報名列表
+        setRegisteredIds((prev) => [...prev, activityName.al_id]);
+
+        // ✅ 報名成功後執行子層傳來的 callback
+        if (typeof afterRegisterCallback === "function") {
+          afterRegisterCallback(); 
+          setAfterRegisterCallback(null); // 清空避免重複
+        }
+
         // 顯示 SweetAlert2 提示框
         Swal.fire({
           icon: "success",
@@ -189,7 +204,7 @@ export default function ActivityListPage() {
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
         });
-        closeModal();
+        closeModal(setAfterRegisterCallback(null));
         await fetchData(); // 正確呼叫更新列表
       }
     } catch (error) {
@@ -307,8 +322,10 @@ export default function ActivityListPage() {
             <ActivityCard
               key={i}
               activity={activity}
-              onQuickSignUp={(activity) => {
+              registeredIds={registeredIds}
+              onQuickSignUp={(activity, onRegisteredCallback) => {
                 setActivityName(activity);
+                setAfterRegisterCallback(() => onRegisteredCallback); // 存起報名成功後要執行的 callback
                 openModal();
               }}
             />
