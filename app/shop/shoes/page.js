@@ -146,7 +146,7 @@ export default function TopPage() {
             </Link>
             <span className={styles.separator}>/</span>
 
-            <Link href="/shop/shoes" className={styles.link}>
+            <Link href="/shop" className={styles.link}>
               商城
             </Link>
             <span className={styles.separator}>/</span>
