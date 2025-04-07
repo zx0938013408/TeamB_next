@@ -435,10 +435,15 @@ const Member = () => {
                         setSelectedPeople(Number(e.target.value))
                       } // ✅ 更新 `selectedPeople`
                     >
-                      <option value={1}>1 人</option>
-                      <option value={2}>2 人</option>
-                      <option value={3}>3 人</option>
-                      <option value={4}>4 人</option>
+                      {activityName &&
+                        Array.from(
+                          { length: Math.min(4, activityName?.need_num - activityName?.registered_people) },
+                          (_, i) => i + 1
+                      ).map((num) => (
+                          <option key={num} value={num}>
+                            {num} 人
+                          </option>
+                      ))}
                     </select>
                   </div>
                   <input
