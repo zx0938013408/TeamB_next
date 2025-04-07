@@ -1,0 +1,57 @@
+/* ✅ 內容區塊 */
+.content {
+    padding: 30px;
+    flex: 1;
+  
+  }
+
+.orderName {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.tabContent {
+    min-height: auto;
+}
+
+.list {
+    width: 70vw;
+    max-width: 920px;
+    margin: 0px auto ;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto;      /* 允許上下捲動 */
+    overflow-x: hidden;    /* 禁止左右捲動 */
+    max-height: 400px;     /* 設一個高度才能產生滾動條 */
+  }
+
+  /* tab */
+.tabContainer {
+    width: 70vw;
+    max-width: 920px;
+    margin: 0px auto ;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  .tabs button {
+    flex: 1;
+    border: none;
+    padding: 10px 20px;
+    background-color: #FFF;
+    cursor: pointer;
+    font-size: 18px;
+    border-bottom: 3px solid #ddd;
+  }
+  
+  /* 當Tab被選中時的樣式 */
+  .activeTab {
+    font-weight: bold;
+    border-bottom: 3px solid #29755D !important; /* 底部邊框顯示綠色 */
+    color: #29755D; /* Tab文字顯示為綠色 */
+  } 
