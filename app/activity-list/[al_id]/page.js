@@ -339,6 +339,7 @@ useEffect(() => {
 
   return (
     <>
+              <likeHeart />
       {/* 麵包屑 */}
       <div className={`${Styles.container} mx-auto ${Styles.bread}`}>
         <nav aria-label="breadcrumb">
@@ -468,9 +469,12 @@ useEffect(() => {
               type="button"
               className={`${Styles.collect} col-2`}
               //onClick={toggleHeartStatus}
-            >
-              <span className={Styles.likeHeart}>
-      <LikeHeart checked={activity.is_favorite} activityId={activity.al_id} />
+              >
+              <span className={`${Styles.likeHeart}`}>
+                <LikeHeart 
+                  checked={!!activity.is_favorite} 
+                  activityId={activity.al_id} 
+                />
               </span>
             </button>
             <button

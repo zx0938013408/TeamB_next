@@ -17,7 +17,7 @@
 .iconLikeStroke {
   font-size: 24px; /* 或視情況調整 */
   cursor: pointer;
-  position: absolute;
+  /* position: absolute; */
   top: 10px;
   right: 10px;
 }
