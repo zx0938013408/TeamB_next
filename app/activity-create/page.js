@@ -18,6 +18,8 @@ import { useAuth } from "@/context/auth-context"; // 引入 useAuth
 import { toast } from "react-toastify";  // 引入 react-toastify
 import "react-toastify/dist/ReactToastify.css";  // 引入 CSS
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import Header from "@/components/Header";
+
 
 
 export default function ActivityCreatePage() {
@@ -360,6 +362,9 @@ export default function ActivityCreatePage() {
 
   return (
     <>
+    <div className={Styles.header}>
+      <Header />
+    </div>
       <div className={Styles.background}>
         {/* 選擇三項運動 */}
         <div className={Styles.sportIndex}>
@@ -438,7 +443,7 @@ export default function ActivityCreatePage() {
               }
             }}
           >
-            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
+            <div className={`col-md ${Styles.select}`} onMouseEnter={() => setHovered("basketball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("basketball")
               setSelectedSport(1)
@@ -448,7 +453,7 @@ export default function ActivityCreatePage() {
                 <h3 className={Styles.sportTitle}>籃球</h3>
               </div>
             </div>
-            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
+            <div className={`col-md ${Styles.select}`} onMouseEnter={() => setHovered("volleyball")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("volleyball")
               setSelectedSport(2)
@@ -458,7 +463,7 @@ export default function ActivityCreatePage() {
                 <h3 className={Styles.sportTitle}>排球</h3>
               </div>
             </div>
-            <div className={`col ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
+            <div className={`col-md ${Styles.select}`} onMouseEnter={() => setHovered("shuttlecock")} onMouseLeave={() => setHovered(null)} 
             onClick={() => {
               setSelected("shuttlecock")
               setSelectedSport(3)

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import Styles from "@/styles/like-heart.module.css";
+import styles from "@/styles/shop/ProductLikeButton.module.css"
 import { TOGGLE_LIKE } from "@/config/shop-api-path";
+
 
 export default function ProductLikeButton({ checked = false, productId, onClick }) {
 
@@ -52,7 +53,7 @@ export default function ProductLikeButton({ checked = false, productId, onClick 
 
   return (
     <span
-      className={`icon-Heart-Fill ${isLiked ? Styles.iconHeartFill : Styles.iconLikeStroke}`}
+      className={`icon-Heart-Fill ${isLiked ? styles.iconHeartFill : styles.iconLikeStroke}`}
       onClick={toggleLike}
     ></span>
   );

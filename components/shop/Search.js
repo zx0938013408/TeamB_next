@@ -1,10 +1,11 @@
 "use client";
 import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "@/styles/shop/search.module.css";
 
-export default function Search() {
+export default function Search({ onSearchDone = () => {} }) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchRef = useRef();
   const [isShow, setIsShow] = useState(false);
 
@@ -13,48 +14,42 @@ export default function Search() {
     const query = searchRef.current.value.trim();
     if (!query) return;
 
-    router.push(`/shop?keyword=${encodeURIComponent(query)}`);
+    router.push(`${pathname}?keyword=${encodeURIComponent(query)}`, { scroll: false });
     setIsShow(true);
+    onSearchDone(); //搜尋後滾動
   };
 
   const clearSearch = () => {
-    router.replace("/shop");
+    router.replace(pathname, undefined, { scroll: false });
     searchRef.current.value = "";
     setIsShow(false);
+    onSearchDone(); //清除後滾動
   };
 
   return (
     <>
       <div className={styles.search}>
-        <div className={styles.searchBar}>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="search"
-              ref={searchRef}
-              className={styles.input}
-            />
-            <button
-              type="submit"
-              style={{
-                border: "none",
-                outline: "none",
-              }}
-            >
-              <div className={styles.iconButton}>
-                <span className={`icon-Search ${styles.iconSearch}`} />
-              </div>
-            </button>
-          </form>
-        </div>
-        {isShow ? (
-          <div className={styles.clearSearch} onClick={clearSearch}>
-            清除搜尋
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
+  <form onSubmit={handleSubmit} className={styles.searchForm}>
+    <div className={styles.inputWrapper}>
+      <input
+        type="text"
+        placeholder="search"
+        ref={searchRef}
+        className={styles.input}
+      />
+      <button type="submit" className={styles.iconButton}>
+        <span className={`icon-Search ${styles.iconSearch}`}/>
+      </button>
+    </div>
+  </form>
+
+  {isShow && (
+    <div className={styles.clearSearch} onClick={clearSearch}>
+      清除搜尋
+    </div>
+  )}
+</div>
+
     </>
   );
 }
