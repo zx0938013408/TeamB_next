@@ -11,7 +11,6 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductLikeButton from "@/components/shop/ProductLikeButton";
-import Search from "@/components/shop/Search";
 import { useCart } from "@/hooks/use-cart";
 import { ToastContainer, toast } from "react-toastify";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
@@ -26,7 +25,7 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true); // 防止閃爍
   const { onAdd } = useCart();
   const [sizes, setSizes] = useState([]); // 存儲尺寸
-  const [selectedSize, setSelectedSize] = useState(""); //依不同尺寸的庫存  
+  const [selectedSize, setSelectedSize] = useState(""); //依不同尺寸的庫存
   const [quantity, setQuantity] = useState(1);
   const [isMobile, setIsMobile] = useState(false); // 判斷是否為手機板
   const [hasMounted, setHasMounted] = useState(false); //防止畫面閃爍或 hydration 錯誤
@@ -273,7 +272,10 @@ export default function ProductDetailPage() {
                     <div className={styles.productNameSection}>
                       <div className={styles.topColumn}>
                         <div className={styles.category}>
-                          {product.categories_name}
+                          {(product.parent_category_name || "未分類") +
+                            (product.sub_category_name
+                              ? ` / ${product.sub_category_name}`
+                              : "")}
                         </div>
                         <ProductLikeButton
                           productId={product.id}
@@ -375,9 +377,13 @@ export default function ProductDetailPage() {
               <div className={styles.bContainer}>
                 <div className={styles.title}>商品詳情</div>
                 <img
-                  src="./basketball--jersey-product-promotion-details-pictu.jpg"
+                  src="/photo/ProductDetail_1.png"
                   alt={product.product_name}
+                  className={styles.detailImage}
                 />
+                <div className={styles.descriptionOverlay}>
+                  {product.product_description}
+                </div>
                 {/* <div
                   className={styles.bDetailSection}
                   style={{
@@ -421,7 +427,7 @@ export default function ProductDetailPage() {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton/>
+      <ScrollToTopButton />
     </>
   );
 }
