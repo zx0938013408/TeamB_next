@@ -711,9 +711,9 @@ useEffect(() => {
                 } // ✅ 更新 `selectedPeople`
               >
                 <option value={1}>1 人</option>
-                <option value={2}>2 人</option>
-                <option value={3}>3 人</option>
-                <option value={4}>4 人</option>
+                <option value={2} disabled={activity.need_num - activity.registered_people < 2}>2 人</option>
+                <option value={3} disabled={activity.need_num - activity.registered_people < 3}>3 人</option>
+                <option value={4} disabled={activity.need_num - activity.registered_people < 4}>4 人</option>
               </select>
             </div>
             <input

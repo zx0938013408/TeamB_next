@@ -464,15 +464,17 @@ export default function ActivityListPage() {
                       id="people"
                       name="people"
                       className={`${Styles.people}`}
-                      value={selectedPeople} // ✅ 讓 `<select>` 綁定 `useState`
-                      onChange={(e) =>
-                        setSelectedPeople(Number(e.target.value))
-                      } // ✅ 更新 `selectedPeople`
+                      value={selectedPeople}
+                      onChange={(e) => setSelectedPeople(Number(e.target.value))}
                     >
-                      <option value={1}>1 人</option>
-                      <option value={2}>2 人</option>
-                      <option value={3}>3 人</option>
-                      <option value={4}>4 人</option>
+                      {Array.from(
+                        { length: Math.min(4, activityName.need_num - activityName.registered_people) },
+                        (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1} 人
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
                   <input
