@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "@/styles/shop/FilterSidebar.module.css";
 import Search from "./Search";
@@ -15,56 +16,22 @@ const links = [
   { href: "../shop/accessory", label: "運動裝備" },
 ];
 
-// ✅ 單一篩選按鈕群組
-function FilterButtonGroup({ title, options = [], selected, onSelect }) {
-  return (
-    <div className={styles.Section}>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.check}>
-        {options.map((option) => {
-          const value = typeof option === "string" ? option : option.id;
-          const label = typeof option === "string" ? option : option.name;
-          const isChecked = selected === value;
-
-          return (
-            <label key={value} className={styles.label}>
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => onSelect(value)}
-              />
-              <span className={styles.checkMark}></span>
-              {label}
-            </label>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 export default function FilterSideBar({
   categories = [],
-  pdTypes = [],
   themes = [],
   sports = [],
   filters,
   setFilters,
-  selectedCategory,
-  selectedPdTypes = [],
-  selectedThemes = [],
-  selectedTheme = null,
-  selectedSport = null,
-  onCategorySelect = () => {},
-  onPdTypeToggle = () => {},
-  onThemeSelect = () => {},
-  onSportSelect = () => {},
   onClear = () => {},
+  onSearchDone = () => {},
 }) {
+  const pathname = usePathname();
+  const currentCategoryName = decodeURIComponent(pathname.split("/").pop());
+
   return (
     <div>
       {/* 搜尋 */}
-      <Search />
+      <Search onSearchDone={onSearchDone} />
 
       {/* 連結列 */}
       <div className={styles.quickLinksSection}>
@@ -151,70 +118,69 @@ export default function FilterSideBar({
 
         {/* ✅ 商品分類（主分類＋子分類） */}
         <div className={styles.title}>商品分類</div>
-        {categories.map((cat) => (
-          <Accordion.Item
-            key={cat.id}
-            value={`cat-${cat.id}`}
-            className={styles.accordionItem}
-          >
-            <Accordion.Header className={styles.accordionHeader}>
-              <Accordion.Trigger asChild>
-                <div className={styles.accordionHeaderRow}>
-                  <label className={styles.label}>
-                    <input
-                      type="checkbox"
-                      checked={filters.parentCategories.includes(cat.id)}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        setFilters((prev) => ({
-                          ...prev,
-                          parentCategories: prev.parentCategories.includes(
-                            cat.id
-                          )
-                            ? prev.parentCategories.filter(
-                                (id) => id !== cat.id
-                              )
-                            : [...prev.parentCategories, cat.id],
-                        }));
-                      }}
-                    />
-                    <span className={styles.checkMark}></span>
-                    <span className={styles.labelText}>{cat.name}</span>
-                  </label>
-                  <div className={styles.iconWrap}>
-                    <i className={`icon-Dropdown ${styles.iconClosed}`}></i>
-                    <i className={`icon-Dropup ${styles.iconOpen}`}></i>
+        {categories.map((cat) => {
+          return (
+            <Accordion.Item
+              key={cat.id}
+              value={`cat-${cat.id}`}
+              className={styles.accordionItem}
+            >
+              <Accordion.Header className={styles.accordionHeader}>
+                <Accordion.Trigger asChild>
+                  <div className={styles.accordionHeaderRow}>
+                    <label className={styles.label}>
+                      <input
+                        type="checkbox"
+                        checked={filters.parentCategories.includes(cat.id)}
+                        onChange={() => {
+                          setFilters((prev) => ({
+                            ...prev,
+                            parentCategories: prev.parentCategories.includes(
+                              cat.id
+                            )
+                              ? prev.parentCategories.filter(
+                                  (id) => id !== cat.id
+                                )
+                              : [...prev.parentCategories, cat.id],
+                          }));
+                        }}
+                      />
+                      <span className={styles.checkMark}></span>
+                      <span className={styles.labelText}>{cat.name}</span>
+                    </label>
+                    <div className={styles.iconWrap}>
+                      <i className={`icon-Dropdown ${styles.iconClosed}`}></i>
+                      <i className={`icon-Dropup ${styles.iconOpen}`}></i>
+                    </div>
                   </div>
+                </Accordion.Trigger>
+              </Accordion.Header>
+
+              <Accordion.Content className={styles.accordionContent}>
+                <div className={styles.check}>
+                  {cat.subCategories?.map((sub) => (
+                    <label key={sub.id} className={styles.label}>
+                      <input
+                        type="checkbox"
+                        checked={filters.subCategories.includes(sub.id)}
+                        onChange={() => {
+                          setFilters((prev) => ({
+                            ...prev,
+                            subCategories: prev.subCategories.includes(sub.id)
+                              ? prev.subCategories.filter((id) => id !== sub.id)
+                              : [...prev.subCategories, sub.id],
+                          }));
+                        }}
+                      />
+                      <span className={styles.checkMark}></span>
+                      <span className={styles.subLabelText}>{sub.name}</span>
+                    </label>
+                  ))}
                 </div>
-              </Accordion.Trigger>
-            </Accordion.Header>
-            <Accordion.Content className={styles.accordionContent}>
-              <div className={styles.check}>
-                {cat.subCategories?.map((sub) => (
-                  <label
-                    key={sub.id}
-                    className={`${styles.label} ${styles.subLabel}`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={filters.subCategories.includes(sub.id)}
-                      onChange={() => {
-                        setFilters((prev) => ({
-                          ...prev,
-                          subCategories: prev.subCategories.includes(sub.id)
-                            ? prev.subCategories.filter((id) => id !== sub.id)
-                            : [...prev.subCategories, sub.id],
-                        }));
-                      }}
-                    />
-                    <span className={styles.checkMark}></span>
-                    <span className={styles.subLabelText}>{sub.name}</span>
-                  </label>
-                ))}
-              </div>
-            </Accordion.Content>
-          </Accordion.Item>
-        ))}
+              </Accordion.Content>
+            </Accordion.Item>
+          );
+        })}
       </Accordion.Root>
 
       <div>
