@@ -108,7 +108,7 @@ export default function ShopPage() {
       },
     ]);
 
-    setSports(["籃球", "排球", "羽毛球"]);
+    setSports(["籃球", "排球", "羽球"]);
 
     setThemes([
       { id: 1, name: "TeamB出品" },
