@@ -2,7 +2,11 @@
     background-color: #29755D;
     margin: 0;
     padding: 0;
-    height: 110vh;
+    height: 100vh;
+}
+
+.header{
+    display: none;
 }
 
 /* 標題 */
@@ -112,8 +116,8 @@
 
 
 .basketballPhoto{
-    width: 700px;
-    height: 700px;
+    width: 60vh;
+    height: 60vh;
     background-image: url("/photo/activity/activity-basketballCourt.jpg");
     background-size: cover;
     background-position: center;
@@ -129,8 +133,8 @@
 }
 
 .basketballPhotoHover{
-    width: 700px;
-    height: 700px;
+    width: 60vh;
+    height: 60vh;
     background-image: url("/photo/activity-basketballCourt.jpg");
     background-size: cover;
     background-position: center;
@@ -144,8 +148,8 @@
 }
 
 .volleyballPhoto{
-    width: 700px;
-    height: 700px;
+    width: 60vh;
+    height: 60vh;
     background-image: url("/photo/activity-volleyballCourt.jpg");
     background-size: cover;
     background-position: center;
@@ -161,8 +165,8 @@
 }
 
 .volleyballPhotoHover{
-    width: 700px;
-    height: 700px;
+    width: 60vh;
+    height: 60vh;
     background-image: url("/photo/activity-volleyballCourt.jpg");
     background-size: cover;
     background-position: center;
@@ -177,8 +181,8 @@
 
 
 .shuttlecockPhoto{
-    width: 700px;
-    height: 700px;
+    width: 60vh;
+    height: 60vh;
     background-image: url("/photo/activity-shuttlecockCourt.jpg");
     background-size: cover;
     background-position: center;
@@ -194,8 +198,8 @@
 }
 
 .shuttlecockPhotoHover{
-    width: 700px;
-    height: 700px;
+    width: 60vh;
+    height: 60vh;
     background-image: url("/photo/activity-shuttlecockCourt.jpg");
     background-size: cover;
     background-position: center;
@@ -411,6 +415,95 @@
       }
 
 
-@media screen and (min-width: 481px){
+@media screen and (max-width: 1100px){
+  .title{
+    font-size: 43px;
+  }
+  .modalContent{
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 980px){
+    .title{
+      font-size: 38px;
+    }
+}
+
+@media screen and (max-width: 820px){
+    .title{
+      font-size: 32px;
+    }
+}
+
+@media screen and (max-width: 769px){
+    .header{
+        display: block;
+    }
+    .title{
+        width: 100%;
+        font-size: 28px;
+        top: 25%;
+        text-align: center;
+    }
+
+    .goBack{
+        display: none;
+    }
+    .avatarWrapper{
+        display: none;
+    }
+
+    .sportType{
+        top: 20%;
+    }
+
+    .basketballPhoto{
+        display: none;
+    }
+    .basketballPhotoHover{
+        display: none;
+    }
+    .volleyballPhoto{
+        display: none;
+    }
+    .volleyballPhotoHover{
+        display: none;
+    }
+    .shuttlecockPhoto{
+        display: none;
+    }
+    .shuttlecockPhotoHover{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 718px){
+    .sportIndex{
+        top: 15%;
+    }
+
+    .title{
+      width: 100%;
+      font-size: 28px;
+      top: 0%;
+      text-align: center;
+    }
+
+    .select{
+        height: 20%;
+        padding: 0;
+        margin: 0;
+        /* border-top: 1px dashed #fff; */
+    }
+    .sportType{
+        /* display: block; */
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 481px){
     
 }

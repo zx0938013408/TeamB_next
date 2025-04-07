@@ -4,8 +4,11 @@ import Link from "next/link";
 
 const sections = [
   {
-    title: "活動列表",
-    links: [{ label: "活動列表", href: "/activity-list" }],
+    title: "活動專區",
+    links: [
+      { label: "活動列表", href: "/activity-list" },
+      { label: "手指運動", href: "/sport-game" },
+    ],
   },
   {
     title: "商城",
