@@ -252,7 +252,7 @@ const Member = () => {
               src={
                 auth?.avatar
                   ? `${AVATAR_PATH}/${auth.avatar}`
-                  : `${AVATAR_PATH}/imgs.png`
+                  : `${AVATAR_PATH}/imgs/main.png`
               }
               alt="User Avatar"
               className={styles.avatar}
