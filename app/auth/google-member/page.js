@@ -140,7 +140,17 @@ const MemberEditGoogle = () => {
             <form id={styles.profileForm} onSubmit={handleSubmit}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatar}>
-                  <img src={preview || `${AVATAR_PATH}/${auth?.avatar}`} alt="Avatar" className={styles.avatar} />
+                <img
+  src={
+    preview
+      ? preview
+      : auth?.avatar?.startsWith("http")
+        ? auth.avatar
+        : `${AVATAR_PATH}/${auth?.avatar || "imgs/main.png"}`
+  }
+  alt="User Avatar"
+  className={styles.avatar}
+/>
                 </div>
                 <label htmlFor="avatar-upload" className={styles.uploadLabel}>更換頭像</label>
                 <input type="file" id="avatar-upload" accept="image/*" onChange={handleAvatarChange} style={{ display: "none" }} />
