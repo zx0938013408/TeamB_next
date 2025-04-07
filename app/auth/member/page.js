@@ -254,14 +254,14 @@ const Member = () => {
           <div className={styles.profileHeader}>
             {/* 會員的 Avatar */}
             <img
-              src={
-                auth?.avatar
-                  ? `${AVATAR_PATH}/${auth.avatar}`
-                  : `${AVATAR_PATH}/imgs/main.png`
-              }
-              alt="User Avatar"
-              className={styles.avatar}
-            />
+  src={
+    auth?.avatar?.startsWith("http")
+      ? auth.avatar // 如果是 http 開頭，代表是外部網址（例如 Google 頭貼）
+      : `${AVATAR_PATH}/${auth?.avatar || "imgs/main.png"}` // 否則用內部預設圖
+  }
+  alt="User Avatar"
+  className={styles.avatar}
+/>
             <div className={styles.userInfo}>
               <h2>{auth?.name || "未命名使用者"}</h2>
               <p>
