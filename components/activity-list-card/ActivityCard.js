@@ -42,6 +42,13 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle, on
     fetchRegistered();
   }, [activity?.al_id, auth?.id]);
   
+  useEffect(() => {
+    const savedPosition = sessionStorage.getItem("scrollPosition");
+    if (savedPosition) {
+      window.scrollTo({ top: parseInt(savedPosition, 10), behavior: "auto" });
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }, []);
 
 
   return (
@@ -126,11 +133,16 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle, on
             </button>
           </div>
           <div className={Styles.buttonWrapper}>
-            <a href={`/activity-list/${activity.al_id}`}>
+            <Link 
+            href={`/activity-list/${activity.al_id}`}
+            onClick={() => {
+              sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+            }}
+            >
               <button type="button" className={Styles.joinButton}>
                 查看詳情
               </button>
-            </a>
+            </Link>
           </div>
           <div className={Styles.buttonWrapper}>
           <button
