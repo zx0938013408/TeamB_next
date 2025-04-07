@@ -468,7 +468,7 @@ export default function ActivityListPage() {
                       onChange={(e) => setSelectedPeople(Number(e.target.value))}
                     >
                       {Array.from(
-                        { length: Math.min(4, activityName.need_num - activityName.registered_people) },
+                        { length: Math.min(4, activityName?.need_num - activityName?.registered_people) },
                         (_, i) => (
                           <option key={i + 1} value={i + 1}>
                             {i + 1} 人

@@ -710,10 +710,11 @@ useEffect(() => {
                   setSelectedPeople(Number(e.target.value))
                 } // ✅ 更新 `selectedPeople`
               >
-                <option value={1}>1 人</option>
-                <option value={2} disabled={activity.need_num - activity.registered_people < 2}>2 人</option>
-                <option value={3} disabled={activity.need_num - activity.registered_people < 3}>3 人</option>
-                <option value={4} disabled={activity.need_num - activity.registered_people < 4}>4 人</option>
+                {Array.from({ length: Math.min(4, activity?.need_num - activity?.registered_people) }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1} 人
+                  </option>
+                ))}
               </select>
             </div>
             <input
