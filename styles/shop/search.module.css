@@ -1,25 +1,31 @@
 .search {
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-.searchBar {
+.searchForm {
   width: 100%;
-  height: 50px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px; /* ⬅️ 讓 input 和按鈕有一點間隔 */
+}
+
+/* 搜尋框 */
+.inputWrapper {
+  position: relative;
+  width: 100%;
 }
 
 .input {
-  width: 74%;
-  height: 30px;
-  /* 點擊時去除外框線 */
+  width: 100%;
+  padding: 6px 36px 6px 8px; /* ✅ 右側多留空間放 icon */
+  border: none;
+  border-bottom: 2px solid #aaccc0;
+  font-size: 16px;
   outline: none;
-  /* 去除預設外框線 */
-  border-style: none;
-  border-bottom: 3px solid rgb(41, 117, 93, 39%) ;
+  background: transparent;
 }
 
 .input:focus {
@@ -28,17 +34,17 @@
 }
 
 .iconButton {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
   border: none;
-  cursor: pointer;
-  width: 35px;
-  height: 35px;
   background: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
+  cursor: pointer;
   color: #528f7c;
-  font-size: 30px;
+  padding: 4px;
+  width: 30px;
+  height: 30px;
 }
 
 .iconButton:hover {
@@ -48,7 +54,7 @@
 
 .iconSearch {
   color: #528f7c;
-  font-size: 20px;
+  font-size: 16px;
   background: none;
 }
 
@@ -56,4 +62,24 @@
   margin-top: 5px;
   width: 100%;
   cursor: pointer;
+}
+
+
+/* 手機板 */
+@media (max-width: 768px) {
+  .Main {
+    flex-direction: column;
+  }
+
+  .sideBar {
+    width: 100%;
+    flex: none;
+    max-width: none;
+    padding-right: 0;
+    margin-bottom: 16px;
+  }
+
+  .mainContent {
+    width: 100%;
+  }
 }

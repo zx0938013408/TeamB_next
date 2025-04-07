@@ -8,7 +8,7 @@
   width: 70VW;
   max-width: 1440px;
   margin: auto;
-  padding: 150px 40px;
+  padding: 150px 20px 60px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,7 +16,8 @@
 
 .Main {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 32px;
 }
 
 /* 麵包屑 */
@@ -48,12 +49,13 @@
 
 /* 左右側比例 */
 .sideBar {
-  width: 20%;
-  margin-right: 20px;
+  flex: 0 0 20%;       /* ✅ 改成佔 container 20% */
+  max-width: 240px;    /* ✅ 可設一個最大寬度，避免太寬 */
+  padding-right: 20px;
 }
 
 .mainContent {
-  width: 80%;
+  flex: 1;
 }
 
 /* 右側主要區域 */
@@ -62,20 +64,6 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-}
-
-.photoContainer{
-  width: 100%;              /* ✅ 滿版容器 */
-  max-width: 1200px;        /* ✅ 避免太寬可選 */
-  margin: 0 auto;           /* ✅ 水平置中 */
-  padding: 16px 0;          /* ✅ 上下留點空間 */
-}
-
-.photoContainer img{
-  width: 100%;              /* ✅ 圖片填滿容器 */
-  height: auto;             /* ✅ 等比縮放 */
-  display: block;           /* ✅ 拿掉底部空隙 */
-  object-fit: cover;        /* ✅ 圖片裁切效果更自然 */
 }
 
 /* 排序選單 */

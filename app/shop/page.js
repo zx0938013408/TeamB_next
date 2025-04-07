@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import styles from "./shop.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { AB_LIST } from "@/config/shop-api-path";
@@ -15,17 +16,15 @@ import ScrollToTopButton from "@/components/ScrollToTopButton";
 import BannerSlider from "@/components/shop/BannerSlider";
 
 export default function ShopPage() {
-  // 篩選 URL參數（query）
   const searchParams = useSearchParams();
-  // const keyword = searchParams.get("keyword")?.toLowerCase() || "";
   const [keyword, setKeyword] = useState("");
+  const cardRef = useRef(null);
   const [allProducts, setAllProducts] = useState([]);
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [visibleData, setVisibleData] = useState([]);
-  const [selectedParentId, setselectedParentId] = useState();
-  const [sortOption, setSortOption] = useState("latest-desc"); //預設排序法
+  const [sortOption, setSortOption] = useState("id-asc"); //預設排序法
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [filters, setFilters] = useState({
     keyword: "",
@@ -37,11 +36,16 @@ export default function ShopPage() {
     priceRange: { min: "", max: "" },
   });
 
-  const [pdTypes, setPdTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [themes, setThemes] = useState([]);
   const [sports, setSports] = useState([]);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const handleSearchDone = () => {
+    setTimeout(() => {
+      cardRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+  
 
   // 關鍵字
   useEffect(() => {
@@ -62,47 +66,7 @@ export default function ShopPage() {
       .catch((error) => console.error("❌ API 錯誤:", error));
   }, []);
 
-  // 取得分類商品資料
-  useEffect(() => {
-    const query = new URLSearchParams({
-      sort: sortOption,
-      keyword,
-      // categoryId,
-      parentCategories: selectedParentId,
-      // minPrice,
-      // maxPrice,
-      // ...等等
-    }).toString();
-
-    fetch(`${AB_LIST}?${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setProducts(data.rows);
-        }
-      });
-  }, [sortOption, selectedParentId]);
-
-  // 監聽 關鍵字、篩選 取得資料
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-  //     try {
-  //       const res = await fetch(`${AB_LIST}`);
-  //       const data = await res.json();
-  //       console.log("API 回傳的分類資料:", data);
-
-  //       if (data.success && Array.isArray(data.rows)) {
-  //         setCategories(data.rows);
-  //       } else {
-  //         console.error("❌ 資料格式錯誤:", data);
-  //       }
-  //     } catch (error) {
-  //       console.error("❌ 分類加載失敗:", error);
-  //     }
-  //   };
-  //   fetchCategories();
-  // }, []);
-
+  // 篩選checkbox
   useEffect(() => {
     setCategories([
       {
@@ -133,7 +97,7 @@ export default function ShopPage() {
       },
       {
         id: 4,
-        name: "運動配件",
+        name: "運動裝備",
         subCategories: [
           { id: 9, name: "後背包" },
           { id: 10, name: "腰包" },
@@ -161,6 +125,8 @@ export default function ShopPage() {
       try {
         // 組裝 query 字串
         const queryParams = new URLSearchParams();
+        // ✅ 加上排序條件
+        queryParams.append("sort", sortOption);
         // 關鍵字
         if (keyword) queryParams.append("keyword", keyword);
         // 加入篩選條件
@@ -222,7 +188,7 @@ export default function ShopPage() {
     };
     fetchProducts();
     console.log("🟢 目前 filters 狀態：", filters);
-  }, [keyword, filters]); // ✅ 監聽 filters，當篩選條件變動時，重新請求
+  }, [keyword, filters, sortOption]);
 
   // console.log("滑桿 value：", filters.priceRange);
 
@@ -252,31 +218,13 @@ export default function ShopPage() {
             <div className={styles.sideBar}>
               {errorMsg && <div className="text-red-500">{errorMsg}</div>}
               <FilterSideBar
+              onSearchDone={handleSearchDone}
                 categories={categories}
                 // pdTypes={pdTypes}
                 themes={themes}
                 sports={sports}
                 filters={filters}
                 setFilters={setFilters}
-                selectedCategory={filters.parentCategories?.[0] || ""}
-                selectedPdTypes={filters.subCategories}
-                selectedThemes={filters.themes}
-                selectedSport={filters.sports}
-                onCategorySelect={(id) => {
-                  setFilters((prev) => ({ ...prev, parentCategories: [id] }));
-                }}
-                onPdTypeToggle={(id, checked) => {
-                  const updated = checked
-                    ? [...filters.subCategories, id]
-                    : filters.subCategories.filter((t) => t !== id);
-                  setFilters((prev) => ({ ...prev, subCategories: updated }));
-                }}
-                onThemeToggle={(theme, checked) => {
-                  const next = checked
-                    ? [...(filters.themes || []), theme]
-                    : filters.themes.filter((t) => t !== theme);
-                  setFilters((f) => ({ ...f, themes: next }));
-                }}
                 onClear={() =>
                   setFilters({
                     keyword: "",
@@ -291,50 +239,20 @@ export default function ShopPage() {
               />
             </div>
 
-            <div className={styles.mainContent}>
+            <div className={styles.mainContent} ref={cardRef}>
               {/* 排序選單 */}
               <div className={styles.sortControls}>
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
                 >
-                  <option value="latest-desc">最新上架</option>
+                  <option value="id-asc">由舊到新</option>
+                  <option value="id-desc">最新上架</option>
                   <option value="price-asc">價格由低到高</option>
                   <option value="price-desc">價格由高到低</option>
                 </select>
               </div>
-
-              {/* 商城首頁：分類推薦區塊 */}
-              {/* {categories.map((cat) => {
-                const filteredItems = allProducts.filter((item) => {
-                  const matchParent =
-                    !filters.parentCategories.length ||
-                    item.category_id === filters.parentCategories[0];
-
-                  const matchSub =
-                    !filters.subCategories.length ||
-                    (item.sub_category_id &&
-                      filters.subCategories.includes(item.sub_category_id));
-
-                  return matchParent && matchSub;
-                });
-
-                return (
-                  <section key={cat.id} className={styles.itemsSection}>
-                    <div className={styles.titleBg}>
-                      <div className={styles.title}>{cat.name}</div>
-                    </div>
-                    <div className={styles.cardContainer}>
-                      {filteredItems.slice(0, 8).map((item) => (
-                        <div key={item.id} className={styles.cardWrapper}>
-                          <Card item={item} linkPath="/shop" />
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                );
-              })} */}
-              <InfiniteCard items={products} onDataChange={setVisibleData} />
+              <InfiniteCard items={products} onDataChange={setVisibleData} key={JSON.stringify(filters)}/>
               {visibleData.length === 0 ? (
                 <p className="text-gray-500">沒有找到符合條件的商品喔～</p>
               ) : (
