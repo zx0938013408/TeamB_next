@@ -358,6 +358,8 @@ export default function CheckInfoPage() {
           <ShipMethod />
         </div>
        
+
+
         {/* 訂單詳情 */}
         <div className={styles.telHead}>付款詳情</div>
         <table title="購物車">
