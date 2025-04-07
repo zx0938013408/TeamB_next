@@ -55,6 +55,17 @@ export default function AiChatWidget() {
     setInput("");
   };
 
+
+  const handleSuggestion = (text) => {
+    const userMessage = {
+      type: "chat",
+      sender: "user",
+      message: text,
+    };
+    setMessages((prev) => [...prev, userMessage]);
+    socketRef.current.send(JSON.stringify(userMessage));
+  };
+
   return (
     <>
       {!isOpen && (
@@ -82,6 +93,18 @@ export default function AiChatWidget() {
                 dangerouslySetInnerHTML={{ __html: msg.message }}
               ></div>
             ))}
+          </div>
+
+           {/* ✅ 建議提問區塊 */}
+          <div className="chat-suggestions">
+            <p>💡 快速提問：</p>
+            <div className="suggestion-buttons">
+              <button onClick={() => handleSuggestion("已報名活動")}>
+                📋 已報名活動
+              </button>
+              {/* 可以擴充更多按鈕 */}
+              {/* <button onClick={() => handleSuggestion("有哪些可報名的活動？")}>📅 活動清單</button> */}
+            </div>
           </div>
 
           <div className="chat-input-bar">

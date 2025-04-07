@@ -94,3 +94,31 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.chat-suggestions {
+  padding: 0.5rem 1rem;
+  background: #f4f4f4;
+  border-top: 1px solid #ddd;
+}
+
+.suggestion-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.suggestion-buttons button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: #e0f2ff;
+  border: 1px solid #90caf9;
+  color: #0d47a1;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.suggestion-buttons button:hover {
+  background-color: #bbdefb;
+}
+
