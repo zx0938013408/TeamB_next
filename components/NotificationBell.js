@@ -2,9 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/NotificationBell.css";
 
-export default function NotificationBell({ memberId }) {
+export default function NotificationBell({ memberId, isOpen, onClick }) {
   const [messages, setMessages] = useState([]);
-  const [showInbox, setShowInbox] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
   const fetchMessages = async () => {
@@ -18,10 +17,9 @@ export default function NotificationBell({ memberId }) {
 
   useEffect(() => {
     if (!memberId) return;
+    fetchMessages();
 
-    fetchMessages(); // 初次載入所有訊息
-
-    const socket = new WebSocket("ws://localhost:3001"); // 改成你實際的 port
+    const socket = new WebSocket("ws://localhost:3001");
 
     socket.onopen = () => {
       console.log("✅ WebSocket 已連接");
@@ -57,7 +55,7 @@ export default function NotificationBell({ memberId }) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (memberId) fetchMessages();
-    }, 60000); // 每 60 秒備援更新
+    }, 60000);
     return () => clearInterval(interval);
   }, [memberId]);
 
@@ -74,7 +72,7 @@ export default function NotificationBell({ memberId }) {
   return (
     <div className="notification-wrapper">
       <button
-        onClick={() => setShowInbox((prev) => !prev)}
+        onClick={onClick}
         className="notification-button"
       >
         <span className="icon-Bell notification-bell"></span>
@@ -83,7 +81,7 @@ export default function NotificationBell({ memberId }) {
         )}
       </button>
 
-      {showInbox && (
+      {isOpen && (
         <div className="notification-inbox">
           <h4>通知訊息</h4>
           {messages.length === 0 && <p>目前沒有訊息</p>}

@@ -200,11 +200,17 @@ const MemberEdit = () => {
               {/* 頭像上傳 */}
               <div className={styles.avatarContainer}>
                 <div className={styles.avatar}>
-                  <img
-                    src={preview || `${AVATAR_PATH}/${auth?.avatar}`}
-                    alt="User Avatar"
-                    className={styles.avatar}
-                  />
+                <img
+  src={
+    preview
+      ? preview
+      : auth?.avatar?.startsWith("http")
+        ? auth.avatar
+        : `${AVATAR_PATH}/${auth?.avatar || "imgs/main.png"}`
+  }
+  alt="User Avatar"
+  className={styles.avatar}
+/>
                 </div>
 
                 <label htmlFor="avatar-upload" className={styles.uploadLabel}>
