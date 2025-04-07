@@ -17,8 +17,9 @@ const Footer = () => {
       {/* 主要連結區 */}
       <div className={styles.footerLinks}>
         <div className={styles.footerSection}>
-          <div className={styles.footerTitle}>活動列表</div>
+          <div className={styles.footerTitle}>活動專區</div>
           <a href="/activity-list" className={styles.footerLink}>活動列表</a>
+          <a href="/sport-game" className={styles.footerLink}>手指運動</a>
         </div>
 
         <div className={styles.footerSection}>

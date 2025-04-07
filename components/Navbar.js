@@ -25,7 +25,6 @@ const sections = [
     links: [
       { label: "品牌故事", href: "#" },
       { label: "聯繫我們", href: "#" },
-      { label: "活動列表", href: "#" },
     ],
   },
   {
