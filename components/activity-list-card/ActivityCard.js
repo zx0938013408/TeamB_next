@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
-export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) {
+export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle, onRegistered, }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
@@ -18,11 +18,12 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) 
   const isFull = activity.registered_people >= activity.need_num;
   const isDeadlinePassed = new Date(activity.deadline) < new Date();
   const [isRegistered, setIsRegistered] = useState(false);
+  
 
   useEffect(() => {
-    if (!auth?.id || !activity?.al_id) return;
-  
+    
     const fetchRegistered = async () => {
+      if (!auth?.id || !activity?.al_id) return;
       try {
         const res = await fetch(
           `${API_SERVER}/registered/check?activity_id=${activity.al_id}&member_id=${auth.id}`
@@ -40,6 +41,8 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) 
   
     fetchRegistered();
   }, [activity?.al_id, auth?.id]);
+  
+
 
   return (
     <div
@@ -131,45 +134,46 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle }) 
           </div>
           <div className={Styles.buttonWrapper}>
           <button
-          type="button"
-          className={`${Styles.joinButton} ${Styles.joinInformation} ${
-            isExpired || isDeadlinePassed || isFull || isRegistered
-              ? Styles.buttonDisabled
-              : ""
-          }`}
-          onClick={() => {
-            if (isRegistered) return;
-
-            if (!auth?.id) {
-              Swal.fire({
-                icon: "warning",
-                text: "請先登入",
-                confirmButtonText: "確定",
-                confirmButtonColor: "#29755D",
-                timer: 1300,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                didClose: () => {
-                  window.location.href = "/auth/login";
-                }
-              });
-              return;
-            }
-
-            if (!isExpired && !isFull && typeof onQuickSignUp === "function") {
-              onQuickSignUp(activity);
-            }
-          }}
-          disabled={isExpired || isDeadlinePassed || isFull || isRegistered}
-        >
-          {isRegistered
-            ? "已報名"
-            : isFull
-            ? "已額滿"
-            : isDeadlinePassed
-            ? "報名截止"
-            : "快速報名"}
-        </button>
+            type="button"
+            className={`${Styles.joinButton} ${Styles.joinInformation} ${
+              isExpired || isDeadlinePassed || isFull || isRegistered
+                ? Styles.buttonDisabled
+                : ""
+            }`}
+            disabled={isExpired || isDeadlinePassed || isFull || isRegistered}
+            onClick={() => {
+              if (isRegistered) return;
+            
+              if (!auth?.id) {
+                Swal.fire({
+                  icon: "warning",
+                  text: "請先登入",
+                  confirmButtonText: "確定",
+                  confirmButtonColor: "#29755D",
+                  timer: 1300,
+                  showConfirmButton: false,
+                  allowOutsideClick: false,
+                  didClose: () => {
+                    window.location.href = "/auth/login";
+                  },
+                });
+                return;
+              }
+            
+              if (!isExpired && !isFull && typeof onQuickSignUp === "function") {
+                onQuickSignUp(activity, () => setIsRegistered(true)); // ✅ 父層會開 Modal
+                // setIsRegistered(true);   // ✅ 即時更新狀態
+              }
+            }}
+          >
+            {isRegistered
+              ? "已報名"
+              : isFull
+              ? "已額滿"
+              : isDeadlinePassed
+              ? "報名截止"
+              : "快速報名"}
+          </button>
           </div>
         </div>
       </div>
