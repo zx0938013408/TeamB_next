@@ -163,10 +163,10 @@ const Header = () => {
                   <div className={styles.avatarWrapper}>
                     <img
                       src={
-                        auth?.avatar
-                          ? `${AVATAR_PATH}/${auth.avatar}`
-                          : `${AVATAR_PATH}/imgs/main.png`
-                      }
+                         auth?.avatar?.startsWith("http")
+                           ? auth.avatar // 如果是 http 開頭，代表是外部網址（例如 Google 頭貼）
+                           : `${AVATAR_PATH}/${auth?.avatar || "imgs/main.png"}` // 否則用內部預設圖
+                       }
                       alt="User Avatar"
                       className={styles.avatarImg}
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
