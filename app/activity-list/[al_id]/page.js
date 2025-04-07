@@ -32,6 +32,8 @@ export default function ActivityDetailPage() {
   const bsModal = useRef(null);
   const [originalData, setOriginalData] = useState([]);
   const [listData, setListData] = useState([]);
+  // 是否已報名
+  const [isRegistered, setIsRegistered] = useState(false);
   //留言板
   const [messages, setMessages] = useState([]);
 const [newMessage, setNewMessage] = useState("");
@@ -40,7 +42,25 @@ const socketRef = useRef(null);
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const [shopType, setShopType] = useState([]); // ✅ 確保 hooks 不變
 
-
+  useEffect(() => {
+    const checkRegistrationStatus = async () => {
+      if (!activity?.al_id || !auth?.id) return;
+  
+      try {
+        const res = await fetch(
+          `${API_SERVER}/registered/check?activity_id=${activity.al_id}&member_id=${auth.id}`
+        );
+        const data = await res.json();
+        if (data.success) {
+          setIsRegistered(data.isRegistered); // true 或 false
+        }
+      } catch (error) {
+        console.error("❌ 檢查是否已報名失敗:", error);
+      }
+    };
+  
+    checkRegistrationStatus();
+  }, [activity, auth]);
 
   // Modal
   useEffect(() => {
@@ -95,6 +115,7 @@ const socketRef = useRef(null);
     
     // ✅ 報名送出後可以使用
     const handleRegister = async () => {
+      setIsRegistered(true);
       setLoading(true);
     
       if (!activity || !activity.al_id) {
@@ -479,7 +500,7 @@ useEffect(() => {
             </button>
             <button
               className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ''}`}
-              disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
+              disabled={ isRegistered || activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
               onClick={() => {
                 if (!auth?.id) {
                   // 顯示 SweetAlert2 提示框
@@ -500,7 +521,9 @@ useEffect(() => {
                 openModal();
               }}
             >
-              {activity.registered_people >= activity.need_num
+              {isRegistered
+              ? "已報名"
+              : activity.registered_people >= activity.need_num
               ? '已額滿'
               : new Date(activity.deadline) < new Date()
               ? '報名時間已截止'
