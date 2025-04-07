@@ -154,6 +154,7 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle, on
                   showConfirmButton: false,
                   allowOutsideClick: false,
                   didClose: () => {
+                    document.body.style.overflow = ''
                     window.location.href = "/auth/login";
                   },
                 });

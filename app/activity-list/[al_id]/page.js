@@ -125,6 +125,9 @@ const socketRef = useRef(null);
           text: "請選擇活動",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         setLoading(false);
         return;
@@ -155,6 +158,9 @@ const socketRef = useRef(null);
             text: "活動報名成功",  // 顯示後端回傳的訊息
             confirmButtonText: "確定",
             confirmButtonColor: "#29755D", // 修改按鈕顏色
+            didClose: () =>{
+              document.body.style.overflow = ''
+            },
           });
           closeModal();
           await fetchActivityDetail(); // 正確呼叫更新列表
@@ -285,6 +291,9 @@ const handleAddMessage = async () => {
         text: data.error || "請稍後再試",
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D",
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
     }
   } catch (err) {
@@ -295,6 +304,9 @@ const handleAddMessage = async () => {
       text: "伺服器無回應或連線錯誤，請稍後再試。",
       confirmButtonText: "確定",
       confirmButtonColor: "#29755D",
+      didClose: () =>{
+        document.body.style.overflow = ''
+      },
     });
   }
 };
@@ -513,6 +525,7 @@ useEffect(() => {
                     showConfirmButton: false,
                     allowOutsideClick: false,
                     didClose: () => {
+                      document.body.style.overflow = ''
                       window.location.href = "/auth/login"; // 或用 router.push
                     }
                   });

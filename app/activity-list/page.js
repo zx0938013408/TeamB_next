@@ -163,6 +163,9 @@ export default function ActivityListPage() {
         text: "請選擇活動", // 顯示後端回傳的訊息
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D", // 修改按鈕顏色
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
       setLoading(false);
       return;
@@ -203,6 +206,9 @@ export default function ActivityListPage() {
           text: "活動報名成功", // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         closeModal(setAfterRegisterCallback(null));
         await fetchData(); // 正確呼叫更新列表
