@@ -172,6 +172,7 @@ const MemberEdit = () => {
           <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
+          <Link href="/auth/member-coupon" className={styles.menuItem}>我的優惠券</Link>
           <button
     className={styles.menuItemBtn}
     onClick={() => {
@@ -200,11 +201,17 @@ const MemberEdit = () => {
               {/* 頭像上傳 */}
               <div className={styles.avatarContainer}>
                 <div className={styles.avatar}>
-                  <img
-                    src={preview || `${AVATAR_PATH}/${auth?.avatar}`}
-                    alt="User Avatar"
-                    className={styles.avatar}
-                  />
+                <img
+  src={
+    preview
+      ? preview
+      : auth?.avatar?.startsWith("http")
+        ? auth.avatar
+        : `${AVATAR_PATH}/${auth?.avatar || "imgs/main.png"}`
+  }
+  alt="User Avatar"
+  className={styles.avatar}
+/>
                 </div>
 
                 <label htmlFor="avatar-upload" className={styles.uploadLabel}>

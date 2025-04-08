@@ -41,6 +41,7 @@ const Member = () => {
   const [selectedPeople, setSelectedPeople] = useState(1); // 新增：選擇報名人數
   const [notes, setNotes] = useState(""); // 新增：備註
   const [loading, setLoading] = useState(false); // 新增：報名中狀態
+  const [afterRegisterCallback, setAfterRegisterCallback] = useState(null);
 
   const openModal = (activity) => {
     setActivityName(activity); // 設置選擇的活動名稱
@@ -60,6 +61,9 @@ const Member = () => {
           text: "請選擇活動",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
       setLoading(false);
       return;
@@ -84,6 +88,10 @@ const Member = () => {
       if (data.success) {
         setNotes("");
         setSelectedPeople(1);
+        if (typeof afterRegisterCallback === "function") {
+          afterRegisterCallback(); // ✅ 子層的 setIsRegistered(true)
+          setAfterRegisterCallback(null); // 清空，避免下次誤用
+        }
         closeModal();
         fetchRegisteredActivities(auth.id);// 重新獲取已報名的活動資料
       }
@@ -228,6 +236,7 @@ const Member = () => {
           <Link href="/auth/member-likes" className={styles.menuItem}>
             收藏商品
           </Link>
+          <Link href="/auth/member-coupon" className={styles.menuItem}>我的優惠券</Link>
           <button
     className={styles.menuItemBtn}
     onClick={() => {
@@ -249,14 +258,14 @@ const Member = () => {
           <div className={styles.profileHeader}>
             {/* 會員的 Avatar */}
             <img
-              src={
-                auth?.avatar
-                  ? `${AVATAR_PATH}/${auth.avatar}`
-                  : `${AVATAR_PATH}/imgs/main.png`
-              }
-              alt="User Avatar"
-              className={styles.avatar}
-            />
+  src={
+    auth?.avatar?.startsWith("http")
+      ? auth.avatar // 如果是 http 開頭，代表是外部網址（例如 Google 頭貼）
+      : `${AVATAR_PATH}/${auth?.avatar || "imgs/main.png"}` // 否則用內部預設圖
+  }
+  alt="User Avatar"
+  className={styles.avatar}
+/>
             <div className={styles.userInfo}>
               <h2>{auth?.name || "未命名使用者"}</h2>
               <p>
@@ -309,7 +318,11 @@ const Member = () => {
                   <ActivityCardRegistered
                     key={activity.registered_id}
                     activity={activity}
-                    onQuickSignUp={openModal}
+                    onQuickSignUp={(activity, onRegisteredCallback) => {
+                      setActivityName(activity);
+                      setAfterRegisterCallback(() => onRegisteredCallback); // 儲存子層傳來的 callback
+                      if (bsModal.current) bsModal.current.show();
+                    }}
                     onRefresh={() => fetchRegisteredActivities(auth.id)}
                     onLikeToggle={() => {
                       fetchRegisteredActivities(auth.id);
@@ -348,13 +361,17 @@ const Member = () => {
                   <ActivityCard
                     key={activity.al_id}
                     activity={activity}
+                    fromFavorite={true}
                     onLikeToggle={() => {
                       fetchRegisteredActivities(auth.id);
                       fetchCreatedActivities(auth.id);
                       fetchFavoriteActivities(auth.id);
                     }}
                     isExpired={isExpired(activity.activity_time)}
-                    onQuickSignUp={openModal}
+                    onQuickSignUp={(activity, onRegisteredCallback) => {
+                      openModal(activity); // 打開 modal
+                      setAfterRegisterCallback(() => onRegisteredCallback); // 父層也要加 useState 儲存這個
+                    }}
                   />
                 ))
               ) : (
@@ -423,10 +440,15 @@ const Member = () => {
                         setSelectedPeople(Number(e.target.value))
                       } // ✅ 更新 `selectedPeople`
                     >
-                      <option value={1}>1 人</option>
-                      <option value={2}>2 人</option>
-                      <option value={3}>3 人</option>
-                      <option value={4}>4 人</option>
+                      {activityName &&
+                        Array.from(
+                          { length: Math.min(4, activityName?.need_num - activityName?.registered_people) },
+                          (_, i) => i + 1
+                      ).map((num) => (
+                          <option key={num} value={num}>
+                            {num} 人
+                          </option>
+                      ))}
                     </select>
                   </div>
                   <input

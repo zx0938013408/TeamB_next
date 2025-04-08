@@ -1,9 +1,11 @@
-'use client';
+"use client";
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import "@/styles/AiChatWidget.modal.css";
+import { useAuth } from "@/context/auth-context";
 
 export default function AiChatWidget() {
+  const { auth } = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +17,18 @@ export default function AiChatWidget() {
 
     socket.onopen = () => {
       console.log("✅ WebSocket connected");
+
+      if (auth?.id && auth.id !== 0) {
+        socket.send(
+          JSON.stringify({
+            type: "auth",
+            memberId: auth.id,
+          })
+        );
+        console.log("🔐 已發送會員 ID 給 WebSocket：", auth.id);
+      } else {
+        console.warn("⚠️ 尚未登入，無法綁定身份");
+      }
     };
 
     socket.onmessage = (event) => {
@@ -25,7 +39,7 @@ export default function AiChatWidget() {
     };
 
     return () => socket.close();
-  }, []);
+  }, [auth]);
 
   const sendMessage = () => {
     if (!input.trim()) return;
@@ -41,13 +55,21 @@ export default function AiChatWidget() {
     setInput("");
   };
 
+
+  const handleSuggestion = (text) => {
+    const userMessage = {
+      type: "chat",
+      sender: "user",
+      message: text,
+    };
+    setMessages((prev) => [...prev, userMessage]);
+    socketRef.current.send(JSON.stringify(userMessage));
+  };
+
   return (
     <>
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="chat-toggle-button"
-        >
+        <button onClick={() => setIsOpen(true)} className="chat-toggle-button">
           <MessageCircle size={24} />
         </button>
       )}
@@ -68,10 +90,22 @@ export default function AiChatWidget() {
                 className={`chat-bubble ${
                   msg.sender === "user" ? "user-message" : "ai-message"
                 }`}
-              >
-                {msg.message}
-              </div>
+                dangerouslySetInnerHTML={{ __html: msg.message }}
+              ></div>
             ))}
+          </div>
+
+           {/* ✅ 建議提問區塊 */}
+          <div className="chat-suggestions">
+            <p>💡 快速提問：</p>
+            <div className="suggestion-buttons">
+              <button onClick={() => handleSuggestion("已報名活動")}>
+                📋 已報名活動
+              </button>
+              <button onClick={() => handleSuggestion("我想查詢我的訂單")}>🧾 我的訂單</button>
+              {/* 可以擴充更多按鈕 */}
+              {/* <button onClick={() => handleSuggestion("有哪些可報名的活動？")}>📅 活動清單</button> */}
+            </div>
           </div>
 
           <div className="chat-input-bar">

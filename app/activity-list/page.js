@@ -10,6 +10,8 @@ import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import ScrollToTopButton from "@/components/ScrollToTopButton";
+
 
 export default function ActivityListPage() {
   const { auth } = useAuth();
@@ -31,6 +33,9 @@ export default function ActivityListPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [originalData, setOriginalData] = useState([]);
   const [isShow, setIsShow] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [afterRegisterCallback, setAfterRegisterCallback] = useState(null);
+
   
   // 分頁
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +45,8 @@ export default function ActivityListPage() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = listData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(listData.length / itemsPerPage);
+  // 已報名的話
+  const [registeredIds, setRegisteredIds] = useState([]);
 
   const handlePageChange = (page) => {
     if (page !== currentPage) {
@@ -158,6 +165,9 @@ export default function ActivityListPage() {
         text: "請選擇活動", // 顯示後端回傳的訊息
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D", // 修改按鈕顏色
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
       setLoading(false);
       return;
@@ -182,14 +192,27 @@ export default function ActivityListPage() {
       if (data.success) {
         setNotes("");
         setSelectedPeople(1);
+
+        // ✅ 把剛報名的 activityId 加入已報名列表
+        setRegisteredIds((prev) => [...prev, activityName.al_id]);
+
+        // ✅ 報名成功後執行子層傳來的 callback
+        if (typeof afterRegisterCallback === "function") {
+          afterRegisterCallback(); 
+          setAfterRegisterCallback(null); // 清空避免重複
+        }
+
         // 顯示 SweetAlert2 提示框
         Swal.fire({
           icon: "success",
           text: "活動報名成功", // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
-        closeModal();
+        closeModal(setAfterRegisterCallback(null));
         await fetchData(); // 正確呼叫更新列表
       }
     } catch (error) {
@@ -204,6 +227,21 @@ export default function ActivityListPage() {
     fetchData();
   }, []);
   console.log("data:", listData); // end Modal 報名
+
+  // 回上一頁會記錄上次觀看點
+  useEffect(() => {
+    const savedPage = sessionStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage, 10));
+      sessionStorage.removeItem("currentPage"); // 用完就清掉
+    }
+  
+    const savedPosition = sessionStorage.getItem("scrollPosition");
+    if (savedPosition) {
+      window.scrollTo({ top: parseInt(savedPosition, 10), behavior: "auto" });
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }, []);
 
   const handleSortChange = (sortBy) => {
     const sorted = [...listData]; // 複製一份原始資料
@@ -307,8 +345,11 @@ export default function ActivityListPage() {
             <ActivityCard
               key={i}
               activity={activity}
-              onQuickSignUp={(activity) => {
+              currentPage={currentPage}
+              registeredIds={registeredIds}
+              onQuickSignUp={(activity, onRegisteredCallback) => {
                 setActivityName(activity);
+                setAfterRegisterCallback(() => onRegisteredCallback); // 存起報名成功後要執行的 callback
                 openModal();
               }}
             />
@@ -447,15 +488,17 @@ export default function ActivityListPage() {
                       id="people"
                       name="people"
                       className={`${Styles.people}`}
-                      value={selectedPeople} // ✅ 讓 `<select>` 綁定 `useState`
-                      onChange={(e) =>
-                        setSelectedPeople(Number(e.target.value))
-                      } // ✅ 更新 `selectedPeople`
+                      value={selectedPeople}
+                      onChange={(e) => setSelectedPeople(Number(e.target.value))}
                     >
-                      <option value={1}>1 人</option>
-                      <option value={2}>2 人</option>
-                      <option value={3}>3 人</option>
-                      <option value={4}>4 人</option>
+                      {Array.from(
+                        { length: Math.min(4, activityName?.need_num - activityName?.registered_people) },
+                        (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1} 人
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
                   <input
@@ -501,6 +544,8 @@ export default function ActivityListPage() {
           </div>
         </div>
       </div>
+<ScrollToTopButton />
+
     </>
   );
 }

@@ -1,9 +1,46 @@
+"use client"
+
 import styles from "@/styles/Footer.module.css";
 import Image from "next/image";
 import Logo from "../public/src/assets/iconLogo.png";
+import Swal from 'sweetalert2'
+
 
 
 const Footer = () => {
+
+  // 運動許願池
+  const handleSuggest = async () => {
+    const { value: sport, isConfirmed } = await Swal.fire({
+      title: '運動許願池',
+      text:'未來您希望 TeamB 網站可以新增哪一種球類/運動可以揪團？',
+      input: 'text',
+      inputPlaceholder: '例如：桌球、棒球、手球…',
+      showCancelButton: true,
+      confirmButtonText: '送出',
+      confirmButtonColor: "#29755D", // 修改按鈕顏色
+      cancelButtonText: '取消',
+      didClose: () =>{
+        document.body.style.overflow = ''
+      },
+      inputValidator: (value) => {
+        if (!value) return '請輸入球類名稱'
+      },
+    })
+  
+    if (isConfirmed && sport) {
+      Swal.fire({
+        icon: 'success',
+        title: '你成功投票！',
+        text: `已收到你的建議：${sport}`,
+        confirmButtonColor: "#29755D", // 修改按鈕顏色
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
+      })
+    }
+  }
+
   return (
     <footer className={styles.footerContainer}>
       {/* 中間分隔線 */}
@@ -17,8 +54,9 @@ const Footer = () => {
       {/* 主要連結區 */}
       <div className={styles.footerLinks}>
         <div className={styles.footerSection}>
-          <div className={styles.footerTitle}>活動列表</div>
+          <div className={styles.footerTitle}>活動專區</div>
           <a href="/activity-list" className={styles.footerLink}>活動列表</a>
+          <a href="/sport-game" className={styles.footerLink}>手指運動</a>
         </div>
 
         <div className={styles.footerSection}>
@@ -33,6 +71,7 @@ const Footer = () => {
           <div className={styles.footerTitle}>關於 TeamB</div>
           <a href="#" className={styles.footerLink}>品牌故事</a>
           <a href="#" className={styles.footerLink}>聯繫我們</a>
+          <a href="#" className={styles.footerLink} onClick={handleSuggest}>運動許願池</a>
         </div>
 
         <div className={styles.footerSection}>

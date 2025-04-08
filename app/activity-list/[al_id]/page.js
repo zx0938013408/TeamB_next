@@ -14,9 +14,12 @@ import { ST } from "next/dist/shared/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 
-export default function ActivityDetailPage() {
+
+export default function ActivityDetailPage({ params }) {
+  const [backPath, setBackPath] = useState('/activity-list')
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
   const [showLightbox, setShowLightbox] = useState(false);
@@ -32,6 +35,8 @@ export default function ActivityDetailPage() {
   const bsModal = useRef(null);
   const [originalData, setOriginalData] = useState([]);
   const [listData, setListData] = useState([]);
+  // 是否已報名
+  const [isRegistered, setIsRegistered] = useState(false);
   //留言板
   const [messages, setMessages] = useState([]);
 const [newMessage, setNewMessage] = useState("");
@@ -39,8 +44,34 @@ const socketRef = useRef(null);
   // 好物推薦
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const [shopType, setShopType] = useState([]); // ✅ 確保 hooks 不變
+  
+  // 回上一頁的內容(紀錄session)
+  useEffect(() => {
+    const from = sessionStorage.getItem('fromPage')
+    if (from) {
+      setBackPath(from)
+    }
+  }, [])
 
-
+  useEffect(() => {
+    const checkRegistrationStatus = async () => {
+      if (!activity?.al_id || !auth?.id) return;
+  
+      try {
+        const res = await fetch(
+          `${API_SERVER}/registered/check?activity_id=${activity.al_id}&member_id=${auth.id}`
+        );
+        const data = await res.json();
+        if (data.success) {
+          setIsRegistered(data.isRegistered); // true 或 false
+        }
+      } catch (error) {
+        console.error("❌ 檢查是否已報名失敗:", error);
+      }
+    };
+  
+    checkRegistrationStatus();
+  }, [activity, auth]);
 
   // Modal
   useEffect(() => {
@@ -95,6 +126,7 @@ const socketRef = useRef(null);
     
     // ✅ 報名送出後可以使用
     const handleRegister = async () => {
+      setIsRegistered(true);
       setLoading(true);
     
       if (!activity || !activity.al_id) {
@@ -104,6 +136,9 @@ const socketRef = useRef(null);
           text: "請選擇活動",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         setLoading(false);
         return;
@@ -134,6 +169,9 @@ const socketRef = useRef(null);
             text: "活動報名成功",  // 顯示後端回傳的訊息
             confirmButtonText: "確定",
             confirmButtonColor: "#29755D", // 修改按鈕顏色
+            didClose: () =>{
+              document.body.style.overflow = ''
+            },
           });
           closeModal();
           await fetchActivityDetail(); // 正確呼叫更新列表
@@ -264,6 +302,9 @@ const handleAddMessage = async () => {
         text: data.error || "請稍後再試",
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D",
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
     }
   } catch (err) {
@@ -274,6 +315,9 @@ const handleAddMessage = async () => {
       text: "伺服器無回應或連線錯誤，請稍後再試。",
       confirmButtonText: "確定",
       confirmButtonColor: "#29755D",
+      didClose: () =>{
+        document.body.style.overflow = ''
+      },
     });
   }
 };
@@ -339,14 +383,15 @@ useEffect(() => {
 
   return (
     <>
+              <likeHeart />
       {/* 麵包屑 */}
       <div className={`${Styles.container} mx-auto ${Styles.bread}`}>
         <nav aria-label="breadcrumb">
           <ol className={Styles.breadcrumb}>
             <li className={Styles.notActive}>
-              <a href="/activity-list" className={Styles.notActiveText}>
+              <Link href={backPath} className={Styles.notActiveText}>
                 回上一頁
-              </a>
+              </Link>
             </li>
           </ol>
         </nav>
@@ -468,14 +513,17 @@ useEffect(() => {
               type="button"
               className={`${Styles.collect} col-2`}
               //onClick={toggleHeartStatus}
-            >
-              <span className={Styles.likeHeart}>
-      <LikeHeart checked={activity.is_favorite} activityId={activity.al_id} />
+              >
+              <span className={`${Styles.likeHeart}`}>
+                <LikeHeart 
+                  checked={!!activity.is_favorite} 
+                  activityId={activity.al_id} 
+                />
               </span>
             </button>
             <button
               className={`${Styles.registerBtn} col ${activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date() ? Styles.buttonDisabled : ''}`}
-              disabled={activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
+              disabled={ isRegistered || activity.registered_people >= activity.need_num || new Date(activity.deadline) < new Date()}
               onClick={() => {
                 if (!auth?.id) {
                   // 顯示 SweetAlert2 提示框
@@ -488,6 +536,7 @@ useEffect(() => {
                     showConfirmButton: false,
                     allowOutsideClick: false,
                     didClose: () => {
+                      document.body.style.overflow = ''
                       window.location.href = "/auth/login"; // 或用 router.push
                     }
                   });
@@ -496,7 +545,9 @@ useEffect(() => {
                 openModal();
               }}
             >
-              {activity.registered_people >= activity.need_num
+              {isRegistered
+              ? "已報名"
+              : activity.registered_people >= activity.need_num
               ? '已額滿'
               : new Date(activity.deadline) < new Date()
               ? '報名時間已截止'
@@ -683,10 +734,11 @@ useEffect(() => {
                   setSelectedPeople(Number(e.target.value))
                 } // ✅ 更新 `selectedPeople`
               >
-                <option value={1}>1 人</option>
-                <option value={2}>2 人</option>
-                <option value={3}>3 人</option>
-                <option value={4}>4 人</option>
+                {Array.from({ length: Math.min(4, activity?.need_num - activity?.registered_people) }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1} 人
+                  </option>
+                ))}
               </select>
             </div>
             <input
@@ -732,6 +784,7 @@ useEffect(() => {
     </div>
   </div>
 </div>
+<ScrollToTopButton />
 
     </>
   );

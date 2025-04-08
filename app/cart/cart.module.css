@@ -180,6 +180,7 @@
   margin-bottom: 100px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .list table {

@@ -9,7 +9,8 @@ import styles from "@/styles/Header.module.css";
 import StylesCity from "@/styles/city-area/city-area.module.css";
 import "@/public/TeamB_Icon/style.css";
 import "@/styles/globals.css";
-import { AL_CREATE_POST, AVATAR_PATH } from "@/config/api-path";
+import { AL_CREATE_POST } from "@/config/api-path";
+import { AVATAR_PATH } from "@/config/auth.api";
 import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import { CITY_LIST } from "@/config/cityArea-api-path";
 import AreaSelector from "@/components/city-area/area";
@@ -196,6 +197,9 @@ export default function ActivityCreatePage() {
           text: "截止時間不可晚於活動時間的3小時前，已自動調整！",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
 
         setFormData((prev) => ({
@@ -305,6 +309,9 @@ export default function ActivityCreatePage() {
           text: "活動建立成功！",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
 
         // ✅ 新增：自動報名自己 1 人
@@ -344,6 +351,9 @@ export default function ActivityCreatePage() {
           text: "建立失敗：" + (result.error?.issues?.[0]?.message || "未知錯誤"),  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         console.error();
       }
@@ -355,6 +365,9 @@ export default function ActivityCreatePage() {
         text: "發生錯誤，請稍後再試。",  // 顯示後端回傳的訊息
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D", // 修改按鈕顏色
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
     }
   };
@@ -436,6 +449,7 @@ export default function ActivityCreatePage() {
                   showConfirmButton: false,
                   allowOutsideClick: false,
                   didClose: () => {
+                    document.body.style.overflow = ''
                     window.location.href = "/auth/login"; // 或用 router.push
                   }
                 });
@@ -491,7 +505,11 @@ export default function ActivityCreatePage() {
           <div className={`modal-content ${Styles.modalContent}`}>
             <div className={`modal-header ${Styles.modalWidth}`}>
               <h5 className={`modal-title ${Styles.inputTitle}`} id="staticBackdropLabel">
-                {selected && <span className={`icon-${selected.charAt(0).toUpperCase() + selected.slice(1)} ${Styles.modalIcon}`}></span>}
+                {selected && <span className={`${
+                    selected === "shuttlecock"
+                      ? "icon-Badminton"
+                      : `icon-${selected.charAt(0).toUpperCase() + selected.slice(1)}`
+                  } ${Styles.modalIcon}`}></span>}
                 建立{selected ? (selected === "basketball" ? "籃球" : selected === "volleyball" ? "排球" : selected === "shuttlecock" ?  "羽球" : "") : ""}活動
               </h5>
               <button type="button" className={`btn-close ${Styles.closeModal}`} data-bs-dismiss="modal" aria-label="Close" onClick={resetForm} />

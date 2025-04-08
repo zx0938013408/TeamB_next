@@ -49,7 +49,124 @@ export function CartProvider({ children }) {
     }))
   }
 
+  // 優惠券
+  const [coupons, setCoupons] = useState([]);
+  const [selectedCoupon, setSelectedCoupon] = useState('');
+  const [selectedCouponAmount,setSelectedCouponAmount] = useState(0);
   
+  const handleCouponChange = (selectedOption) => {
+    // 找到選中的優惠券
+    const selected = coupons.find(coupon => coupon.user_coupon_id === selectedOption.value);
+    
+    if (selected) {
+      // 更新選中的優惠券狀態
+      setSelectedCoupon(selected); // 更新選中的優惠券物件
+      setSelectedCouponAmount(selected.amount); // 更新選中的優惠金額
+      
+      // 如果選中的優惠券還沒使用過，更新 is_used 為 true
+      if (!selected.is_used) {
+        selected.is_used = true; // 改變 is_used 屬性
+      }
+      
+      // 更新 localStorage
+      localStorage.setItem('selectedCoupon', JSON.stringify(selected)); // 存儲整個物件
+      localStorage.setItem('selectedCouponAmount', selected.amount.toString()); // 存儲金額
+  
+      // 這裡可以選擇發送一個 API 請求來將後端資料更新為已使用狀態
+    }
+  };
+  // const handleCouponChange = (selectedOption) => {
+  //   // 先檢查 selectedOption 是否有值
+  //   if (selectedOption) {
+  //     // 找到選中的優惠券物件
+  //     const selected = coupons.find(coupon => coupon.user_coupon_id === selectedOption.value);
+  
+  //     if (selected) {
+  //       // 存儲選中的優惠券
+  //       setSelectedCoupon(selected);
+  //       setSelectedCouponAmount(selected.amount);
+  
+  //       // 更新 localStorage
+  //       localStorage.setItem('selectedCoupon', JSON.stringify(selected));
+  //       localStorage.setItem('selectedCouponAmount', selected.amount.toString());
+  //     }
+  //   } else {
+  //     // 使用者清除選擇時的處理
+  //     setSelectedCoupon(null);
+  //     setSelectedCouponAmount(0);
+  //     localStorage.removeItem('selectedCoupon');
+  //     localStorage.removeItem('selectedCouponAmount');
+  //   }
+  // };
+  // const handleCouponChange = (couponId) => {
+  //   const selected = coupons.find(coupon => coupon.user_coupon_id === couponId);
+  
+  //   if (selected) {
+  //     setSelectedCoupon(selected); // 存整個物件也 OK
+  //     setSelectedCouponAmount(selected.amount);
+  
+  //     localStorage.setItem('selectedCoupon', JSON.stringify(selected));
+  //     localStorage.setItem('selectedCouponAmount', selected.amount.toString());
+  //   } else {
+  //     // 使用者清除選擇時的 fallback
+  //     setSelectedCoupon(null);
+  //     setSelectedCouponAmount(0);
+  //     localStorage.removeItem('selectedCoupon');
+  //     localStorage.removeItem('selectedCouponAmount');
+  //   }
+  // };
+  // const handleCouponChange = (e) => {
+  //   const couponId = parseInt(e.target.value);
+  //   const selected = coupons.find(coupon => coupon.user_coupon_id === couponId);
+  
+  //   if (selected) {
+  //     setSelectedCoupon(selected); // ⬅️ 存整個物件
+  //     setSelectedCouponAmount(selected.amount);
+  
+  //     localStorage.setItem('selectedCoupon', JSON.stringify(selected)); // ⬅️ 存整個物件
+  //     localStorage.setItem('selectedCouponAmount', selected.amount.toString());
+  //   }
+  // };
+  // const handleCouponChange = (couponId) => {
+  //   const selected = coupons.find(coupon => coupon.user_coupon_id === couponId);
+  //   if (selected) {
+  //     setSelectedCoupon(selected); // ✅ 存整個物件
+  //     setSelectedCouponAmount(selected.amount);
+  
+  //     localStorage.setItem('selectedCoupon', JSON.stringify(selected)); // ✅ 存 JSON 字串
+  //     localStorage.setItem('selectedCouponAmount', selected.amount.toString());
+  //   }
+  // };
+  // const handleCouponChange = (couponId) => {
+  //   // 找到選中的優惠券
+  //   const selected = coupons.find(coupon => coupon.user_coupon_id === couponId);
+    
+  //   if (selected) {
+  //     // 設置 selectedCoupon 為優惠券的詳細資訊物件
+  //     setSelectedCoupon({
+  //       user_coupon_id: selected.user_coupon_id,
+  //       amount: selected.amount,
+  //       // 可以加上其他你需要的字段
+  //     });
+  
+  //     // 存儲選中的優惠券詳細資訊到 localStorage
+  //     localStorage.setItem('selectedCoupon', JSON.stringify({
+  //       user_coupon_id: selected.user_coupon_id,
+  //       amount: selected.amount,
+  //     }));
+  //   }
+  // };
+  // const handleCouponChange = (couponId) => {
+  //   const selected = coupons.find(coupon => coupon.user_coupon_id === couponId);
+  //   if (selected) {
+  //     setSelectedCoupon(couponId);
+  //     setSelectedCouponAmount(selected.amount);
+
+  //     // 存儲選中的優惠券到 localStorage
+  //     localStorage.setItem('selectedCoupon', couponId);
+  //     localStorage.setItem('selectedCouponAmount', selected.amount.toString());
+  //   }
+  // };
  
 
   // 記錄首次渲染是否完成的信號值
@@ -99,25 +216,6 @@ export function CartProvider({ children }) {
     setCartItems(nextCartItems)
   }
 
-  // 加入購物車
-  // const onAdd = (product) => {
-  //   // 先判斷此商品是否已經在購物車裡
-  //   const foundIndex = cartItems.findIndex(
-  //     (cartItem) => cartItem.id === product.id
-  //   )
-
-  //   if (foundIndex !== -1) {
-  //     // 已經在購物車裡 ===> 作遞增
-  //     onIncrease(product.id)
-  //   } else {
-  //     // 沒有在購物車裡 ===> 作新增
-  //     // 少了一個count數量屬性(商品物件中沒數量，要購物車項目才有)
-  //     const newItem = { ...product, quantity: 1 }
-  //     // 加到購物車最前面
-  //     const nextCartItems = [newItem, ...cartItems]
-  //     setCartItems(nextCartItems)
-  //   }
-  // }
   // 加入購物車
   const onAdd = (product) => {
     // 先判斷此商品是否已經在購物車裡，並確認選擇的尺寸（如果有）
@@ -171,7 +269,7 @@ export function CartProvider({ children }) {
 
 
   // 付費總金額: 商品總金額 + 運費總金額
-  const finalTotal = selectedItemsTotalAmount + shippingCost
+  const finalTotal = selectedItemsTotalAmount + shippingCost - selectedCouponAmount
 
   // 一開始進入網頁應用(首次渲染時間點之後)
   useEffect(() => {
@@ -186,6 +284,27 @@ export function CartProvider({ children }) {
     setShippingMethod(localStorage.getItem('shippingMethod') || '')
     setShippingCost(parseFloat(localStorage.getItem('shippingCost')) || 0)
     setSelectedPayMethod(localStorage.getItem('selectedPayMethod') || '')
+
+    // 從localStorage取出資料，設定到coupons
+    const nextCoupons = JSON.parse(localStorage.getItem('coupons')) || []
+    setCoupons(nextCoupons)
+
+    // 從localStorage取出資料，設定已選擇的優惠券和金額
+     // 優惠券選擇狀態（加上 try-catch 防止錯誤）
+  try {
+    const savedCoupon = localStorage.getItem('selectedCoupon');
+    const savedCouponAmount = parseFloat(localStorage.getItem('selectedCouponAmount')) || 0;
+
+    if (savedCoupon) {
+      const parsedCoupon = JSON.parse(savedCoupon);
+      setSelectedCoupon(parsedCoupon); // ✅ 正確還原成物件
+      setSelectedCouponAmount(savedCouponAmount);
+    }
+  } catch (error) {
+    console.error("❌ 優惠券資料格式錯誤，已自動清除：", error);
+    localStorage.removeItem('selectedCoupon');
+    localStorage.removeItem('selectedCouponAmount');
+  }
 
     // 信號值設為true，代表首次渲染已經完成
     setDidMount(true)
@@ -204,10 +323,14 @@ export function CartProvider({ children }) {
       localStorage.setItem('shippingCost', shippingCost.toString())
       // 付款方式
       localStorage.setItem('selectedPayMethod', selectedPayMethod)
+      // 優惠券資料同步到localStorage
+      localStorage.setItem('coupons', JSON.stringify(coupons));
+      localStorage.setItem('selectedCoupon', JSON.stringify(selectedCoupon)); // ✅ 修正 key 錯誤
+      localStorage.setItem('selectedCouponAmount', selectedCouponAmount.toString());
     }
     // 下面會有eslint警告提醒，並不需要多加其它的變數在陣列中
     // eslint-disable-next-line
-  }, [cartItems, selectedItems, shippingMethod, shippingCost, selectedPayMethod])
+  }, [cartItems, selectedItems, shippingMethod, shippingCost, selectedPayMethod,selectedCoupon, selectedCouponAmount])
 
   // 清空所有購物車與訂購資訊
   const clearAll = () => {
@@ -220,12 +343,19 @@ export function CartProvider({ children }) {
     setSelectedArea(null);
     setAddress('');
     setRecipient({ recipientName: '', phone: '' });
+    // 清除優惠券相關狀態
+    setCoupons([]);
+    setSelectedCoupon('');
+    setSelectedCouponAmount(0);
 
     localStorage.removeItem('cart');
     localStorage.removeItem('selectedItems');
     localStorage.removeItem('shippingMethod');
     localStorage.removeItem('shippingCost');
     localStorage.removeItem('selectedPayMethod');
+    localStorage.removeItem('coupons');
+    localStorage.removeItem('selectedCoupon');
+    localStorage.removeItem('selectedCouponAmount');
   };
 
   return (
@@ -260,6 +390,13 @@ export function CartProvider({ children }) {
         setSelectedArea,
         address,
         setAddress,
+        coupons,
+        setCoupons,
+        selectedCoupon,
+        setSelectedCoupon,
+        selectedCouponAmount,
+        setSelectedCouponAmount,
+        handleCouponChange,
         clearAll // 新增清空所有資訊的函數
       }}
     >

@@ -6,13 +6,13 @@ import styles from "../../../styles/auth/member.module.css";
 import { useAuth } from "../../../context/auth-context";
 import Header from "../../../components/Header";
 import "@/public/TeamB_Icon/style.css";
-import OrderTable from "@/app/orderHistory/page";
-import orderStyles from '@/app/orderHistory/OrderList.module.css'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import couponStyles from "./coupon.module.css";
+import Coupon from "./_components/coupon";
 
-const OrderHistory = () => {
+const MemberCoupon = () => {
   const { auth ,logout} = useAuth(); // 獲取會員認證資料
   const [user, setUser] = useState(null); // 儲存用戶資料
   const router = useRouter(); // 用於導航
@@ -57,11 +57,11 @@ const OrderHistory = () => {
         </div>
 
         {/* 右側內容 */}
-        <div className={orderStyles.content}>
-          <div className={orderStyles.orderName}>訂單歷史記錄</div>
+        <div className={couponStyles.content}>
+          <div className={couponStyles.orderName}>我的優惠券</div>
             {/* 根據選中的訂單狀態顯示訂單 */}
-            <div className={orderStyles.tabContent}>
-              <OrderTable/>
+            <div className={couponStyles.tabContent}>
+              <Coupon/>
             </div>
           </div>
       </div>
@@ -69,4 +69,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default MemberCoupon;
