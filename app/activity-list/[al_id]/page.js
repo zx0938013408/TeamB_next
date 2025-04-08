@@ -575,7 +575,7 @@ useEffect(() => {
     <div key={msg.id} className={Styles.messageItem}>
     {console.log("會員照片",msg.member_avatar)    }
       <img
-        src={`${API_SERVER}${msg.member_avatar}`}
+        src={`${API_SERVER}/${msg.member_avatar}`}
         alt="avatar"
         className={Styles.avatar}
       />
