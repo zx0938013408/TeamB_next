@@ -79,7 +79,7 @@ const Coupon = () => {
                 ))
             ) : (
               <div className={styles.noCoupons}>
-                <img src="/photo/noCoupons.png" alt="無優惠券" />
+                尚未有優惠券
               </div>
             )}
           </div>

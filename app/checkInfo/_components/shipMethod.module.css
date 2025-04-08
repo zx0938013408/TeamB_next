@@ -62,7 +62,8 @@
   border-bottom: none;
 }
 
-.payMethod, .shipMethod {
+.payMethod, 
+.shipMethod {
   width: auto;
   display: flex;
   padding: 0px 18px;
@@ -73,13 +74,26 @@
   align-items: center; /* 這樣會讓input和文字垂直居中對齊 */
 }
 
+.member label {
+  width: auto;
+  display: flex;
+  padding: 0px 18px;
+  padding-top: 15px;
+  
+  font-weight: bold;
+  margin-top: 5px;
+  align-items: center; /* 這樣會讓input和文字垂直居中對齊 */
+  color: #6C7275;
+  font-size: 16px;
+}
 
 .payMethod:last-child {
   border: none;
 }
 
 .shipMethod input,
-.payMethod input {
+.payMethod input,
+.member input {
   appearance: none; 
   width: 20px;
   height: 20px;
@@ -95,14 +109,16 @@
 
 
 .shipMethod input:checked,
-.payMethod input:checked {
+.payMethod input:checked,
+.member input:checked {
   background-color: #29755D; 
   border: 2px solid #F7BF58;
   position: relative;
 }
 
 .shipMethod input:checked::after,
-.payMethod input:checked::after {
+.payMethod input:checked::after,
+.member input:checked::after {
   content: '✔'; 
   font-size: 14px;
   color: #F7BF58;
@@ -126,6 +142,12 @@
   color: red;
   margin-left: 5px;
   min-height: 25px; /* 固定錯誤訊息區域的高度 */
+}
+
+.member {
+  margin-left: 8px;
+  margin-top: 10px;
+ 
 }
 
 /* 渲染表單 */
