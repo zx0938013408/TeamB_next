@@ -16,7 +16,8 @@ import Link from "next/link";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
-export default function ActivityDetailPage() {
+export default function ActivityDetailPage({ params }) {
+  const [backPath, setBackPath] = useState('/activity-list')
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
   const [showLightbox, setShowLightbox] = useState(false);
@@ -41,6 +42,14 @@ const socketRef = useRef(null);
   // 好物推薦
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const [shopType, setShopType] = useState([]); // ✅ 確保 hooks 不變
+  
+  // 回上一頁的內容(紀錄session)
+  useEffect(() => {
+    const from = sessionStorage.getItem('fromPage')
+    if (from) {
+      setBackPath(from)
+    }
+  }, [])
 
   useEffect(() => {
     const checkRegistrationStatus = async () => {
@@ -378,9 +387,9 @@ useEffect(() => {
         <nav aria-label="breadcrumb">
           <ol className={Styles.breadcrumb}>
             <li className={Styles.notActive}>
-              <a href="/activity-list" className={Styles.notActiveText}>
+              <Link href={backPath} className={Styles.notActiveText}>
                 回上一頁
-              </a>
+              </Link>
             </li>
           </ol>
         </nav>

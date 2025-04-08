@@ -360,6 +360,7 @@ const Member = () => {
                   <ActivityCard
                     key={activity.al_id}
                     activity={activity}
+                    fromFavorite={true}
                     onLikeToggle={() => {
                       fetchRegisteredActivities(auth.id);
                       fetchCreatedActivities(auth.id);

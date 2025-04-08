@@ -226,6 +226,21 @@ export default function ActivityListPage() {
   }, []);
   console.log("data:", listData); // end Modal 報名
 
+  // 回上一頁會記錄上次觀看點
+  useEffect(() => {
+    const savedPage = sessionStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage, 10));
+      sessionStorage.removeItem("currentPage"); // 用完就清掉
+    }
+  
+    const savedPosition = sessionStorage.getItem("scrollPosition");
+    if (savedPosition) {
+      window.scrollTo({ top: parseInt(savedPosition, 10), behavior: "auto" });
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }, []);
+
   const handleSortChange = (sortBy) => {
     const sorted = [...listData]; // 複製一份原始資料
 
@@ -328,6 +343,7 @@ export default function ActivityListPage() {
             <ActivityCard
               key={i}
               activity={activity}
+              currentPage={currentPage}
               registeredIds={registeredIds}
               onQuickSignUp={(activity, onRegisteredCallback) => {
                 setActivityName(activity);

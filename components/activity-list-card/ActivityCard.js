@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 
 
-export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle, onRegistered, }) {
+export default function ActivityCard({ activity, currentPage,  fromFavorite, onQuickSignUp, onLikeToggle, onRegistered, }) {
   // 取得當前日期
   const currentDate = new Date();
   const activityDate = new Date(activity.activity_time);
@@ -137,6 +137,17 @@ export default function ActivityCard({ activity, onQuickSignUp, onLikeToggle, on
             href={`/activity-list/${activity.al_id}`}
             onClick={() => {
               sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+              // 如果有 currentPage（活動列表頁）就記錄
+              if (typeof currentPage !== "undefined") {
+                sessionStorage.setItem("currentPage", currentPage.toString());
+                sessionStorage.setItem("fromPage", "/activity-list");
+              }
+          
+              // 如果有 （收藏活動 會員頁）就記錄
+              if (typeof fromFavorite !== "undefined" && fromFavorite === true) {
+                sessionStorage.setItem("memberTab", "favorite");
+                sessionStorage.setItem("fromPage", "/auth/member")
+              }
             }}
             >
               <button type="button" className={Styles.joinButton}>

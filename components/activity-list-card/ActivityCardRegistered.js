@@ -222,6 +222,11 @@ const handleCancel = async () => {
             <Link
               href="/activity-list/[al_id]"
               as={`/activity-list/${activity.al_id}`}
+              onClick={() => {
+                sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+                sessionStorage.setItem("fromPage", "/auth/member"); // ✅ 記錄來自會員頁
+                sessionStorage.setItem("memberTab", "registered");  // ✅ 回到「已報名」分頁
+              }}
             >
               <button type="button" className={Styles.joinButton}>
                 查看詳情

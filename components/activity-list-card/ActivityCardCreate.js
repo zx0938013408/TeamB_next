@@ -214,6 +214,11 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
             <Link
               href="/activity-list/[al_id]"
               as={`/activity-list/${activityData.al_id}`}
+              onClick={() => {
+                sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+                sessionStorage.setItem("fromPage", "/auth/member"); // ✅ 記住來源是會員頁
+                sessionStorage.setItem("memberTab", "created");     // ✅ 也可以記住是開團分頁
+              }}
             >
               <button type="button" className={Styles.joinButton}>
                 查看詳情
