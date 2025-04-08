@@ -49,21 +49,13 @@
 
 /* 左右側比例 */
 .sideBar {
-  flex: 0 0 20%;       /* ✅ 改成佔 container 20% */
-  max-width: 240px;    /* ✅ 可設一個最大寬度，避免太寬 */
+  flex: 0 0 20%;
+  max-width: 240px; 
   padding-right: 20px;
 }
 
 .mainContent {
   flex: 1;
-}
-
-/* 右側主要區域 */
-.itemsSection {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 
 /* 排序選單 */
@@ -110,12 +102,10 @@
 /* 卡片容器 */
 .cardContainer {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* ✅ 固定 4 欄 */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 24px;
   width: 100%;
-  max-width: 1280px; /* ✅ 對齊上面的灰色區塊寬度 */
-  margin: 0 auto;
-  padding: 0;
+  padding: 0 12px;
   box-sizing: border-box;
 }
 
@@ -133,20 +123,73 @@
   color: #666;
 }
 
+/* 平板 */
 @media screen and (max-width: 992px) {
+  .Main {
+    flex-direction: column;
+  }
+
+  .sideBar {
+    width: 100%;
+    max-width: none;
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .mainContent {
+    width: 100%;
+  }
+
   .cardContainer {
-    grid-template-columns: repeat(2, 1fr); /* 📱 平板：2 欄 */
+    max-width: none; /* 讓卡片寬度跟著 container 走 */
+    width: 100%;
+    padding: 0 12px; /* ✅ 加上左右 padding，與 sideBar 對齊 */
+    box-sizing: border-box;
   }
 }
 
+/* 手機 */
 @media screen and (max-width: 576px) {
   .container {
     width: 100% !important;
-    padding: 0 16px 40px 16px;
+    padding: 140px 16px 40px 16px;
     min-height: 100vh;
     box-sizing: border-box;
   }
+
+  .sideBar {
+    padding: 0 12px;
+  }
+
   .cardContainer {
     grid-template-columns: 1fr; /* 📱 手機：1 欄 */
   }
+
+  /* ✅ 手機版麵包屑樣式 */
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: #f9f9f9;
+    border-radius: 6px;
+  }
+
+  .separator {
+    margin: 0 4px;
+  }
+
+  .link {
+    font-size: 14px;
+  }
+
+  /* 標題 */
+.title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 9.6px;
 }
+}
+

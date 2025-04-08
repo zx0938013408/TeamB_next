@@ -33,7 +33,7 @@ export default function Search({ onSearchDone = () => {} }) {
     <div className={styles.inputWrapper}>
       <input
         type="text"
-        placeholder="search"
+        placeholder="買好裝備一起打球吧!"
         ref={searchRef}
         className={styles.input}
       />

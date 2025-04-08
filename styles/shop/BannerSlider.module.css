@@ -1,11 +1,14 @@
 .bannerWrapper {
-  min-height: 800px; /* 或 600px 也可以，看圖而定 */
   position: relative;
-  margin-top: 40px;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  overflow: hidden;
+  margin-top: 130px;
 }
 
 .swiper {
   height: 100%;
+  position: relative;
 }
 
 .bannerImage {
@@ -68,4 +71,37 @@
 .iconRight {
   position: relative;
   right: -2px;
+}
+
+/* 平板 */
+@media screen and (max-width: 992px) {
+  .bannerWrapper {
+    aspect-ratio: 3 / 1;
+    min-height: unset;
+  }
+  .bannerImage {
+    object-fit: contain; 
+  }
+  .iconButton {
+    display: none; 
+  }
+}
+
+/* 手機 */
+@media screen and (max-width: 576px) {
+  .bannerImage {
+    object-fit: contain;
+  }
+
+  .iconButton {
+    display: none;
+  }
+}
+
+/* 桌機 */
+@media screen and (min-width: 993px) {
+  .bannerWrapper {
+    aspect-ratio: unset;       
+    min-height: 500px;
+  }
 }

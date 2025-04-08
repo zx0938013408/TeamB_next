@@ -2,9 +2,12 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import styles from "@/styles/shop/BannerSlider.module.css";
+import "@/styles/globals.css"; 
 
 const images = [
   "/photo/banner_1.png",
@@ -16,7 +19,8 @@ export default function BannerSlider() {
   return (
     <div className={styles.bannerWrapper}>
       <Swiper
-        modules={[Navigation, Autoplay]}
+        modules={[Navigation, Autoplay, Pagination]}
+        pagination={{clickable:true}}
         spaceBetween={20}
         slidesPerView={1}
         navigation={{

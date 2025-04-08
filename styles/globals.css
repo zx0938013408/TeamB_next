@@ -1,28 +1,29 @@
-*{
-  font-family: 'Inter', sans-serif;
-/* 讓所有連結 (a) 預設沒有底線 */
-a {
-  text-decoration: none !important; 
-  color: inherit; /* 繼承父元素顏色 */
-}
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+* {
+  font-family: "Inter", sans-serif;
+  /* 讓所有連結 (a) 預設沒有底線 */
+  a {
+    text-decoration: none !important;
+    color: inherit; /* 繼承父元素顏色 */
+  }
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-.mainContainer {
-  margin-top: 150px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+  .mainContainer {
+    margin-top: 150px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-.content {
-  flex: 1; /* 讓內容區塊自動填滿空間 */
-}
+  .content {
+    flex: 1; /* 讓內容區塊自動填滿空間 */
+  }
 
-/* .footerContainer {
+  /* .footerContainer {
   width: 100vw;
   height: 100px;
   background: #528F7C;
@@ -31,8 +32,30 @@ html, body {
   align-items: center;
   color: white;
 } */
-section{
-  width: 100%;
-}
+  section {
+    width: 100%;
+  }
 }
 
+
+
+/* Swiper全域樣式 */
+.swiper-pagination {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
+
+.swiper-pagination-bullet {
+  background-color: #6C7275;
+  opacity: 0.4;
+  margin: 0 6px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #EE9124;
+  opacity: 1;
+}

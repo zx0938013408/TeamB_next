@@ -177,7 +177,25 @@
   background: none;
 }
 
-.btnPrimary,
+.btnPrimary {
+  padding: 10px 40px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  width: 49%;
+  background: #bde6d9;
+  color: #29755d;
+  border: 3px solid #29755d;
+}
+
+.btnPrimary:hover {
+  background: #29755d;
+  color: #ffffff;
+  border: 3px solid #bde6d9;
+}
+
 .btnSecondary {
   padding: 10px 40px;
   font-size: 16px;
@@ -186,23 +204,8 @@
   text-align: center;
   cursor: pointer;
   width: 49%;
-}
-
-.btnPrimary {
-  background: #bde6d9;
-  color: #29755d;
-  border: 3px solid #29755d63;
-}
-
-.btnPrimary:hover {
-  background: #7aaa9b;
-  color: #29755d;
-  border: 3px solid #29755d;
-}
-
-.btnSecondary {
   background: #f7bf58;
-  color: white;
+  color: #ffffff;
   border: 3px solid #ffca8d;
 }
 
@@ -271,48 +274,40 @@
 .title {
   width: 100%;
   margin-top: 60px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   text-align: center;
   color: black;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 700;
   letter-spacing: 9.6px;
   display: block;
 }
 
 .bDetailSection {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
   position: relative;
-  padding: 20px;
-  color: white; /* 讓文字可見 */
   width: 100%;
-  height: 1000px;
-
-  background-size: auto; /* 讓背景圖片保持原始大小 */
-  background-position: center; /* 讓圖片置中 */
-  background-repeat: no-repeat; /* 防止重複 */
+  max-width: 100%;
+  overflow: hidden;
 }
 
-/* 如果背景圖太亮，給它加個黑色透明遮罩 */
-.bDetailSection::before {
-  content: "";
+.detailImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.descriptionOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-/* 讓商品描述顯示在最上層 */
-.bDetailSection .description {
-  position: relative;
-  z-index: 1;
-  font-size: 20px;
-  font-weight: bold;
+  top: 46%;
+  left: 35%;
+  color: white;
+  padding: 12px 16px;
+  font-size: 35px;
+  font-weight: 600;
+  max-width: 100%;
+  line-height: 1.5;
+  /* 文字陰影 */
+  text-shadow: 2px 5px 4px rgba(0, 0, 0, 0.7);
 }
 
 /* section-c 大家還看了 */
@@ -321,13 +316,6 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-}
-
-.title {
-  color: #000000;
-  font-size: 38px;
-  font-weight: 700;
-  letter-spacing: 9.6px;
 }
 
 /* more */
@@ -371,8 +359,93 @@
     -24px 0 6px rgba(0, 0, 0, 0.2);
 }
 
-/* RWD 手機板 */
-@media (max-width: 768px) {
+/* 平板 */
+@media (max-width: 992px) {
+  .container {
+    width: 100%;
+    padding: 150px 24px 60px 24px;
+    box-sizing: border-box;
+  }
+
+  .Main {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .aContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .leftSection,
+  .rightSection {
+    width: 100%;
+    padding: 0;
+    height: auto;
+  }
+
+  .mainImage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mainImage img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 1 / 1;
+  }
+
+  .thumbnailImages {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .thumbnailImages img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .buttons {
+    gap: 12px;
+  }
+
+  .itemsSection {
+    padding: 0 24px;
+  }
+
+  .bContainer {
+    padding: 32px 0;
+  }
+
+  .title {
+    font-size: 30px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+
+  .descriptionOverlay {
+    position: absolute;
+    top: 46%;
+    left: 35%;
+    color: white;
+    padding: 12px 16px;
+    font-size: 30px;
+    font-weight: 600;
+    max-width: 100%;
+    line-height: 1.5;
+    /* 文字陰影 */
+    text-shadow: 2px 5px 4px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* 手機 */
+@media (max-width: 576px) {
   .container {
     width: 100% !important;
     padding: 150px 16px 40px 16px;
@@ -422,7 +495,6 @@
     gap: 8px;
     justify-content: space-between;
     flex-wrap: wrap;
-
   }
 
   .productInfo,
@@ -490,10 +562,6 @@
     padding: 0 16px;
   }
 
-  .more {
-    padding-right: 16px;
-  }
-
   .bContainer {
     padding: 24px 0;
   }
@@ -502,5 +570,31 @@
     width: 100%;
     height: auto;
     display: block;
+  }
+
+  .title {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: black;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 9.6px;
+    display: block;
+  }
+
+  .descriptionOverlay {
+    position: absolute;
+    top: 46%;
+    left: 35%;
+    color: white;
+    padding: 12px 16px;
+    font-size: 20px;
+    font-weight: 600;
+    max-width: 100%;
+    line-height: 1.5;
+    /* 文字陰影 */
+    text-shadow: 2px 5px 4px rgba(0, 0, 0, 0.7);
   }
 }
