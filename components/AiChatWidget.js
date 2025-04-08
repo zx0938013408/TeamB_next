@@ -102,6 +102,7 @@ export default function AiChatWidget() {
               <button onClick={() => handleSuggestion("已報名活動")}>
                 📋 已報名活動
               </button>
+              <button onClick={() => handleSuggestion("我想查詢我的訂單")}>🧾 我的訂單</button>
               {/* 可以擴充更多按鈕 */}
               {/* <button onClick={() => handleSuggestion("有哪些可報名的活動？")}>📅 活動清單</button> */}
             </div>
