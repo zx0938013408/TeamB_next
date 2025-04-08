@@ -1,13 +1,17 @@
 'use client';
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import styles from "./ScratchCard.module.css";
+import { SCRATCH_COUPON } from "@/config/coupons-api-path";
+import { useAuth } from '@/context/auth-context';
 
 const isSafari = typeof window !== 'undefined' &&
   /Safari/i.test(navigator.userAgent) &&
   !/Chrome/i.test(navigator.userAgent);
 
 const ScratchCard = () => {
+  const { auth } = useAuth(); 
+
   const canvasRef = useRef(null);
   const coverContainerRef = useRef(null);
   const imageRef = useRef(null);
@@ -18,10 +22,10 @@ const ScratchCard = () => {
   const [revealedPrize, setRevealedPrize] = useState(null);
 
   const prizes = [
-    { message: "🎉 恭喜獲得$50折價券 !", image: "/photo/coupon1.png" },
-    { message: "🎉 恭喜獲得$100折價券 !", image: "/photo/coupon2.png" },
-    { message: "🎉 恭喜獲得$150折價券 !", image: "/photo/coupon3.png" },
-    { message: "🎉 恭喜獲得$200折價券 !", image: "/photo/coupon4.png" }
+    { id: 1, message: "🎉 恭喜獲得$50折價券 !", image: "/photo/coupon1.png", amount: 50 },
+    { id: 2, message: "🎉 恭喜獲得$100折價券 !", image: "/photo/coupon2.png", amount: 100 },
+    { id: 3, message: "🎉 恭喜獲得$150折價券 !", image: "/photo/coupon3.png", amount: 150 },
+    { id: 4, message: "🎉 恭喜獲得$200折價券 !", image: "/photo/coupon4.png", amount: 200 }
   ];
 
   const getRandomPrize = () => {
@@ -29,10 +33,34 @@ const ScratchCard = () => {
     return prizes[randomIndex];
   };
 
+  const saveCouponToBackend = async (userId, couponId) => {
+    try {
+      console.log("🔍 儲存優惠券 userId:", userId, "couponId:", couponId);
+      const response = await fetch(SCRATCH_COUPON, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, couponId }),
+      });
+
+      const result = await response.json();
+      console.log("📦 儲存回應結果:", result);
+
+      if (result.success) {
+        console.log("✅ 優惠券成功儲存");
+      } else {
+        console.error("❌ 儲存優惠券失敗", result.error);
+      }
+    } catch (error) {
+      console.error("💥 儲存優惠券時發生錯誤: ", error);
+    }
+  };
+
   useEffect(() => {
     const prize = getRandomPrize();
     setRevealedPrize(prize);
-    setPrizeImage(prize.image); // 圖片先設定，但會被 canvas 擋住
+    setPrizeImage(prize.image);
   }, []);
 
   useEffect(() => {
@@ -120,7 +148,7 @@ const ScratchCard = () => {
   }, []);
 
   useEffect(() => {
-    if (isScratched && revealedPrize) {
+    if (isScratched && revealedPrize && auth?.id) {
       setMessage(revealedPrize.message);
 
       confetti({
@@ -137,8 +165,10 @@ const ScratchCard = () => {
       coverContainerRef.current?.addEventListener("transitionend", () => {
         coverContainerRef.current?.classList.add(styles.hidden);
       }, { once: true });
+
+      saveCouponToBackend(auth.id, revealedPrize.id);
     }
-  }, [isScratched, revealedPrize]);
+  }, [isScratched, revealedPrize, auth?.id]); // 加上 auth.id 作為依賴
 
   return (
     <div className={styles.container}>
@@ -161,3 +191,5 @@ const ScratchCard = () => {
 };
 
 export default ScratchCard;
+
+

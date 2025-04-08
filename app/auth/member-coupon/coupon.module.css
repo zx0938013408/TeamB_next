@@ -55,3 +55,8 @@
     border-bottom: 3px solid #29755D !important; /* 底部邊框顯示綠色 */
     color: #29755D; /* Tab文字顯示為綠色 */
   } 
+
+  .coupon img {
+    width: 40%;
+    margin-top: 30px;
+  }
