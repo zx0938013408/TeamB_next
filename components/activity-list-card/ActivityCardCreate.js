@@ -53,6 +53,9 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
           text: "修改成功！",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
 
         // 🔁 重新取得該活動資料並更新畫面
@@ -83,6 +86,9 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
       confirmButtonText: "送出",
       cancelButtonText: "取消",
       confirmButtonColor: "#29755D",
+      didClose: () =>{
+        document.body.style.overflow = ''
+      },
       inputValidator: (value) => {
         if (!value) {
           return "必須填寫取消原因";
@@ -112,6 +118,9 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
           text: "活動已取消，已通知報名者。",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         window.location.reload();
       } else {
@@ -205,6 +214,11 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
             <Link
               href="/activity-list/[al_id]"
               as={`/activity-list/${activityData.al_id}`}
+              onClick={() => {
+                sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+                sessionStorage.setItem("fromPage", "/auth/member"); // ✅ 記住來源是會員頁
+                sessionStorage.setItem("memberTab", "created");     // ✅ 也可以記住是開團分頁
+              }}
             >
               <button type="button" className={Styles.joinButton}>
                 查看詳情

@@ -1,6 +1,40 @@
+"use client"
 import { useState } from "react";
 import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
+import Swal from 'sweetalert2'
+
+// 運動許願池
+const handleSuggest = async () => {
+  const { value: sport, isConfirmed } = await Swal.fire({
+    title: '運動許願池',
+    text:'未來您希望 TeamB 網站可以新增哪一種球類/運動可以揪團？',
+    input: 'text',
+    inputPlaceholder: '例如：桌球、棒球、手球…',
+    showCancelButton: true,
+    confirmButtonText: '送出',
+    confirmButtonColor: "#29755D", // 修改按鈕顏色
+    cancelButtonText: '取消',
+    didClose: () =>{
+      document.body.style.overflow = ''
+    },
+    inputValidator: (value) => {
+      if (!value) return '請輸入球類名稱'
+    },
+  })
+
+  if (isConfirmed && sport) {
+    Swal.fire({
+      icon: 'success',
+      title: '你成功投票！',
+      text: `已收到你的建議：${sport}`,
+      confirmButtonColor: "#29755D", // 修改按鈕顏色
+      didClose: () =>{
+        document.body.style.overflow = ''
+      },
+    })
+  }
+}
 
 const sections = [
   {
@@ -25,7 +59,7 @@ const sections = [
     links: [
       { label: "品牌故事", href: "#" },
       { label: "聯繫我們", href: "#" },
-      { label: "活動列表", href: "#" },
+      { label: "運動許願池", onClick: handleSuggest },
     ],
   },
   {
@@ -74,11 +108,17 @@ const Navbar = ({ isOpen, setIsOpen }) => {
               {section.title}
             </div>
             <div className={`${styles.linkGroup} ${openIndex === index ? styles.show : ""}`}>
-              {section.links.map((link, i) => (
-                <a href={link.href} key={i} className={styles.navLink}>
-                  {link.label}
-                </a>
-              ))}
+            {section.links.map((link, i) =>
+  link.onClick ? (
+    <a key={i} onClick={link.onClick} className={styles.navLink} style={{ cursor: "pointer" }}>
+      {link.label}
+    </a>
+  ) : (
+    <a href={link.href} key={i} className={styles.navLink}>
+      {link.label}
+    </a>
+  )
+)}
             </div>
           </div>
         ))}

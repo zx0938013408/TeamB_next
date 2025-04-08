@@ -197,6 +197,9 @@ export default function ActivityCreatePage() {
           text: "截止時間不可晚於活動時間的3小時前，已自動調整！",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
 
         setFormData((prev) => ({
@@ -306,6 +309,9 @@ export default function ActivityCreatePage() {
           text: "活動建立成功！",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
 
         // ✅ 新增：自動報名自己 1 人
@@ -345,6 +351,9 @@ export default function ActivityCreatePage() {
           text: "建立失敗：" + (result.error?.issues?.[0]?.message || "未知錯誤"),  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         console.error();
       }
@@ -356,6 +365,9 @@ export default function ActivityCreatePage() {
         text: "發生錯誤，請稍後再試。",  // 顯示後端回傳的訊息
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D", // 修改按鈕顏色
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
     }
   };
@@ -437,6 +449,7 @@ export default function ActivityCreatePage() {
                   showConfirmButton: false,
                   allowOutsideClick: false,
                   didClose: () => {
+                    document.body.style.overflow = ''
                     window.location.href = "/auth/login"; // 或用 router.push
                   }
                 });

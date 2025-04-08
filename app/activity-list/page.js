@@ -10,6 +10,8 @@ import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import ScrollToTopButton from "@/components/ScrollToTopButton";
+
 
 export default function ActivityListPage() {
   const { auth } = useAuth();
@@ -163,6 +165,9 @@ export default function ActivityListPage() {
         text: "請選擇活動", // 顯示後端回傳的訊息
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D", // 修改按鈕顏色
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
       setLoading(false);
       return;
@@ -203,6 +208,9 @@ export default function ActivityListPage() {
           text: "活動報名成功", // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         closeModal(setAfterRegisterCallback(null));
         await fetchData(); // 正確呼叫更新列表
@@ -219,6 +227,21 @@ export default function ActivityListPage() {
     fetchData();
   }, []);
   console.log("data:", listData); // end Modal 報名
+
+  // 回上一頁會記錄上次觀看點
+  useEffect(() => {
+    const savedPage = sessionStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage, 10));
+      sessionStorage.removeItem("currentPage"); // 用完就清掉
+    }
+  
+    const savedPosition = sessionStorage.getItem("scrollPosition");
+    if (savedPosition) {
+      window.scrollTo({ top: parseInt(savedPosition, 10), behavior: "auto" });
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }, []);
 
   const handleSortChange = (sortBy) => {
     const sorted = [...listData]; // 複製一份原始資料
@@ -322,6 +345,7 @@ export default function ActivityListPage() {
             <ActivityCard
               key={i}
               activity={activity}
+              currentPage={currentPage}
               registeredIds={registeredIds}
               onQuickSignUp={(activity, onRegisteredCallback) => {
                 setActivityName(activity);
@@ -468,7 +492,7 @@ export default function ActivityListPage() {
                       onChange={(e) => setSelectedPeople(Number(e.target.value))}
                     >
                       {Array.from(
-                        { length: Math.min(4, activityName.need_num - activityName.registered_people) },
+                        { length: Math.min(4, activityName?.need_num - activityName?.registered_people) },
                         (_, i) => (
                           <option key={i + 1} value={i + 1}>
                             {i + 1} 人
@@ -520,6 +544,8 @@ export default function ActivityListPage() {
           </div>
         </div>
       </div>
+<ScrollToTopButton />
+
     </>
   );
 }

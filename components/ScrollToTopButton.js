@@ -40,7 +40,8 @@ const ScrollToTopButton = () => {
       }}
       aria-label="Scroll to top"
     >
-    ↑
+    <img src="/photo/top-up.png" style={{ width: '75%', display: 'block', margin: '0 auto' }} />
+    
     </button>
   );
 };

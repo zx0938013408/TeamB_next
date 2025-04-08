@@ -47,15 +47,22 @@ export default function ActivityCardRegistered({
           title: "資料已更新成功",
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D",
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         onRefresh();
 
       } else {
-        await Swal.fire({ icon: "error", title: "更新失敗", text: data.error });
+        await Swal.fire({ icon: "error", title: "更新失敗", text: data.error, didClose: () =>{
+          document.body.style.overflow = ''
+        }, });
       }
     } catch (error) {
       console.error("更新報名失敗", error);
-      await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+      await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" , didClose: () =>{
+        document.body.style.overflow = ''
+      },});
     }
   };
 
@@ -82,6 +89,9 @@ const handleCancel = async () => {
     confirmButtonText: "送出",
     cancelButtonText: "取消",
     confirmButtonColor: "#29755D",
+    didClose: () =>{
+      document.body.style.overflow = ''
+    },
     inputValidator: (value) => {
       if (!value) {
         return "請填寫取消原因";
@@ -107,15 +117,22 @@ const handleCancel = async () => {
         title: "已取消報名",
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D",
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
 
       if (typeof onRefresh === "function") onRefresh();
     } else {
-      await Swal.fire({ icon: "error", title: "取消失敗", text: data.error });
+      await Swal.fire({ icon: "error", title: "取消失敗", text: data.error, didClose: () =>{
+        document.body.style.overflow = ''
+      }, });
     }
   } catch (error) {
     console.error("取消報名錯誤", error);
-    await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤" });
+    await Swal.fire({ icon: "error", title: "錯誤", text: "伺服器錯誤", didClose: () =>{
+      document.body.style.overflow = ''
+    }, });
   }
 };
   // 判斷活動是否過期
@@ -205,6 +222,11 @@ const handleCancel = async () => {
             <Link
               href="/activity-list/[al_id]"
               as={`/activity-list/${activity.al_id}`}
+              onClick={() => {
+                sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+                sessionStorage.setItem("fromPage", "/auth/member"); // ✅ 記錄來自會員頁
+                sessionStorage.setItem("memberTab", "registered");  // ✅ 回到「已報名」分頁
+              }}
             >
               <button type="button" className={Styles.joinButton}>
                 查看詳情

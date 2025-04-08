@@ -61,6 +61,9 @@ const Member = () => {
           text: "請選擇活動",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
       setLoading(false);
       return;
@@ -357,6 +360,7 @@ const Member = () => {
                   <ActivityCard
                     key={activity.al_id}
                     activity={activity}
+                    fromFavorite={true}
                     onLikeToggle={() => {
                       fetchRegisteredActivities(auth.id);
                       fetchCreatedActivities(auth.id);
@@ -435,10 +439,15 @@ const Member = () => {
                         setSelectedPeople(Number(e.target.value))
                       } // ✅ 更新 `selectedPeople`
                     >
-                      <option value={1}>1 人</option>
-                      <option value={2}>2 人</option>
-                      <option value={3}>3 人</option>
-                      <option value={4}>4 人</option>
+                      {activityName &&
+                        Array.from(
+                          { length: Math.min(4, activityName?.need_num - activityName?.registered_people) },
+                          (_, i) => i + 1
+                      ).map((num) => (
+                          <option key={num} value={num}>
+                            {num} 人
+                          </option>
+                      ))}
                     </select>
                   </div>
                   <input

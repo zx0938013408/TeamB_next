@@ -14,9 +14,12 @@ import { ST } from "next/dist/shared/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 
-export default function ActivityDetailPage() {
+
+export default function ActivityDetailPage({ params }) {
+  const [backPath, setBackPath] = useState('/activity-list')
   const { al_id } = useParams();
   const [activity, setActivity] = useState(null);
   const [showLightbox, setShowLightbox] = useState(false);
@@ -41,6 +44,14 @@ const socketRef = useRef(null);
   // 好物推薦
   const [recommendedItems, setRecommendedItems] = useState([]); // ✅ 確保 hooks 不變
   const [shopType, setShopType] = useState([]); // ✅ 確保 hooks 不變
+  
+  // 回上一頁的內容(紀錄session)
+  useEffect(() => {
+    const from = sessionStorage.getItem('fromPage')
+    if (from) {
+      setBackPath(from)
+    }
+  }, [])
 
   useEffect(() => {
     const checkRegistrationStatus = async () => {
@@ -125,6 +136,9 @@ const socketRef = useRef(null);
           text: "請選擇活動",  // 顯示後端回傳的訊息
           confirmButtonText: "確定",
           confirmButtonColor: "#29755D", // 修改按鈕顏色
+          didClose: () =>{
+            document.body.style.overflow = ''
+          },
         });
         setLoading(false);
         return;
@@ -155,6 +169,9 @@ const socketRef = useRef(null);
             text: "活動報名成功",  // 顯示後端回傳的訊息
             confirmButtonText: "確定",
             confirmButtonColor: "#29755D", // 修改按鈕顏色
+            didClose: () =>{
+              document.body.style.overflow = ''
+            },
           });
           closeModal();
           await fetchActivityDetail(); // 正確呼叫更新列表
@@ -285,6 +302,9 @@ const handleAddMessage = async () => {
         text: data.error || "請稍後再試",
         confirmButtonText: "確定",
         confirmButtonColor: "#29755D",
+        didClose: () =>{
+          document.body.style.overflow = ''
+        },
       });
     }
   } catch (err) {
@@ -295,6 +315,9 @@ const handleAddMessage = async () => {
       text: "伺服器無回應或連線錯誤，請稍後再試。",
       confirmButtonText: "確定",
       confirmButtonColor: "#29755D",
+      didClose: () =>{
+        document.body.style.overflow = ''
+      },
     });
   }
 };
@@ -366,9 +389,9 @@ useEffect(() => {
         <nav aria-label="breadcrumb">
           <ol className={Styles.breadcrumb}>
             <li className={Styles.notActive}>
-              <a href="/activity-list" className={Styles.notActiveText}>
+              <Link href={backPath} className={Styles.notActiveText}>
                 回上一頁
-              </a>
+              </Link>
             </li>
           </ol>
         </nav>
@@ -513,6 +536,7 @@ useEffect(() => {
                     showConfirmButton: false,
                     allowOutsideClick: false,
                     didClose: () => {
+                      document.body.style.overflow = ''
                       window.location.href = "/auth/login"; // 或用 router.push
                     }
                   });
@@ -710,10 +734,11 @@ useEffect(() => {
                   setSelectedPeople(Number(e.target.value))
                 } // ✅ 更新 `selectedPeople`
               >
-                <option value={1}>1 人</option>
-                <option value={2} disabled={activity.need_num - activity.registered_people < 2}>2 人</option>
-                <option value={3} disabled={activity.need_num - activity.registered_people < 3}>3 人</option>
-                <option value={4} disabled={activity.need_num - activity.registered_people < 4}>4 人</option>
+                {Array.from({ length: Math.min(4, activity?.need_num - activity?.registered_people) }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1} 人
+                  </option>
+                ))}
               </select>
             </div>
             <input
@@ -759,6 +784,7 @@ useEffect(() => {
     </div>
   </div>
 </div>
+<ScrollToTopButton />
 
     </>
   );
