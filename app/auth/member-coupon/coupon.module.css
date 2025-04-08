@@ -19,7 +19,8 @@
     max-width: 920px;
     margin: 0px auto ;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     box-sizing: border-box;
     overflow-y: auto;      /* 允許上下捲動 */
     overflow-x: hidden;    /* 禁止左右捲動 */
@@ -56,7 +57,18 @@
     color: #29755D; /* Tab文字顯示為綠色 */
   } 
 
+ .coupon {
+  display: flex;
+  flex-wrap: wrap;
+  width: 40%;
+ }
+
   .coupon img {
-    width: 40%;
+  
+    width: 100%;
     margin-top: 30px;
+  }
+
+  .noCoupons {
+    font-size: 18px;
   }

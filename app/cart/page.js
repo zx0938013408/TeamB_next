@@ -331,7 +331,7 @@ export default function CartPage() {
               <div>
                 總數量:{' '}
                 <div className={styles.amount}>{selectedItemsCount}</div>個
-                &nbsp;&nbsp;/&nbsp;&nbsp;商品總金額:
+                &nbsp;/&nbsp;商品總金額:
                 <div className={styles.amount}>
                   NT$
                   {selectedItemsTotalAmount.toLocaleString()}

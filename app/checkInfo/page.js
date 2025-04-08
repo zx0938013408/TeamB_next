@@ -513,18 +513,8 @@ export default function CheckInfoPage() {
                   </td>
                   <td className={checkInfo.price}>NT${price.toLocaleString()}</td>
                   <td className={checkInfo.count}>
-                    <div className={styles.quantityControls}>×{quantity}</div>
+                    <div className={checkInfo.quantityControls}>×{quantity}</div>
                    </td>
-                  {/* <td className={checkInfo.count}>
-                    <div className={styles.quantityControls}>
-                      <input
-                        className={checkInfo.input}
-                        type="text"
-                        value={quantity}
-                        readOnly
-                      />
-                    </div>
-                  </td> */}
                   <td className={styles.subTotal}>
                     NT${(quantity * price).toLocaleString()}
                   </td>
