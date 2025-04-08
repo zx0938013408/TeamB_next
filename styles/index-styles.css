@@ -1326,13 +1326,14 @@
 
 @media (max-width: 768px) {
   .hero-container {
-    width: 100%;
-    height: auto;
+    width: 100vw;
+    height:100vh;
     background: #29755d;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 100px 0 50px 0;
+    padding: 100px 0 100px 0;
+    margin-top: 50px;
   }
   
   /* 內部內容 */
@@ -1343,7 +1344,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    border: 18px solid #dfdfdf;
+    border: 10px solid #dfdfdf;
   }
   
   .hero-divider {
@@ -1353,27 +1354,18 @@
   .hero-left,
 .hero-right {
   width: 100%;
-  padding: 20px 0;
+  padding-top: 30px;
 }
   .hero-logo {
     font-size: 72px;
     font-family: Inter, sans-serif;
     font-weight: 700;
     color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-    letter-spacing: 3px;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    letter-spacing: 5px;
   }
   
-  /* **中央分割線** */
-  .hero-divider {
-    width: 0px;
-    height: 100%;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    border-left: 10px solid #dfdfdf;
-  }
+
   
   /* 主要標題區域 */
   .hero-text {
@@ -1413,7 +1405,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-top: 9px solid #dfdfdf;
+    border-top: 0px solid #dfdfdf;
     padding: 40px 0;
   }
   
@@ -1456,12 +1448,13 @@
     align-items: center;
     background: #29755d;
     box-sizing: border-box;
+    padding-top: 100px;
   }
 
   .sports-container {
     width: 100%;
     height: auto;
-    padding: 50px 0;
+    padding: 50px 20px;
   }
 
   /* 九宮格 */

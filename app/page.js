@@ -148,6 +148,31 @@ const HomePage = () => {
       .from(".hero-divider", { duration: 1, scaleY: 0, transformOrigin: "center", ease: "power2.out" }, "-=0.5")
       .from([".hero-left", ".hero-right"], { duration: 1.2, opacity: 0, x: [80, -80], ease: "power2.out" }, "-=0.5")
       .add(() => {
+        if (window.innerWidth <= 768) {
+          // ✅ 手機版只顯示文字動畫，不顯示球動畫
+          gsap.to(".hero-logo", { duration: 1, opacity: 1, scale: 1, ease: "back.out(1.7)" });
+          gsap.to(".hero-title", { duration: 1, opacity: 1, y: 0, ease: "power2.out", delay: 0.5 });
+          gsap.to(".hero-subtitle", { duration: 1, opacity: 1, y: 0, ease: "power2.out", delay: 1 });
+          gsap.to([".hero-highlight", ".hero-scroll"], {
+            duration: 1,
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            ease: "back.out(1.7)",
+            delay: 2
+          });
+          gsap.to(".hero-container", { duration: 0.5, opacity: 0, display: "none", delay: 3.6 });
+          gsap.to(sportsEl, { duration: 1, opacity: 1, display: "flex", delay: 3.6 });
+          gsap.to(headerEl, {
+            duration: 1.5,
+            opacity: 1,
+            y: "0%",
+            position: "fixed",
+            ease: "power2.out",
+            delay: 3.7
+          });
+          return;
+        }
         // 新增球的動畫與陰影
         let ballContainer = document.createElement("div");
         ballContainer.style.position = "absolute";
