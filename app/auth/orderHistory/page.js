@@ -39,6 +39,7 @@ const OrderHistory = () => {
           <Link href="/auth/member-account" className={styles.menuItem}>帳號管理</Link>
           <Link href="/auth/orderHistory" className={styles.menuItem}>我的訂單</Link>
           <Link href="/auth/member-likes" className={styles.menuItem}>收藏商品</Link>
+          <Link href="/auth/member-coupon" className={styles.menuItem}>我的優惠券</Link>
           <button
     className={styles.menuItemBtn}
     onClick={() => {
