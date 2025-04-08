@@ -252,6 +252,7 @@ export default function ShopPage() {
                   <option value="price-desc">價格由高到低</option>
                 </select>
               </div>
+              
               <InfiniteCard items={products} onDataChange={setVisibleData} key={JSON.stringify(filters)}/>
               {visibleData.length === 0 ? (
                 <p className="text-gray-500">沒有找到符合條件的商品喔～</p>

@@ -178,7 +178,6 @@ export default function TopPage() {
             </div>
 
             <div className={styles.mainContent}>
-              <div className={styles.itemSection}>
                 {/* 排序選單 */}
                 <div className={styles.sortControls}>
                   <select
@@ -195,6 +194,7 @@ export default function TopPage() {
                 <div className={styles.titleBg}>
                   <div className={styles.title}>上衣</div>
                 </div>
+                
                 <InfiniteCard
                   items={products}
                   categoryId={1}
@@ -202,12 +202,12 @@ export default function TopPage() {
                 />
                 <div className={styles.cardContainer}>
                   {visibleData.map((item) => (
-                    <div key={item.id} className={styles.cardWrapper}>
+
                       <Card key={item.id} item={item} linkPath="/shop/top" />
-                    </div>
+
                   ))}
                 </div>
-              </div>
+
             </div>
           </div>
         </div>

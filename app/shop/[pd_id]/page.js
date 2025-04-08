@@ -413,14 +413,14 @@ export default function ProductDetailPage() {
                   <p className={styles.loading}>推薦商品載入中...</p>
                 )}
 
-                <div className={styles.more}>
+                {/* <div className={styles.more}>
                   <Link href="../shop/top" style={{ textDecoration: "none" }}>
                     <div className={styles.textBox}>
                       <div className={styles.text}>查看更多</div>
                       <span className={`icon-Right ${styles.iconRight}`} />
                     </div>
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
