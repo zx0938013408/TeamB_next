@@ -75,9 +75,6 @@ const Coupon = () => {
                 .map(coupon => (
                   <div key={coupon.user_coupon_id} className={styles.couponItem}>
                     <img src={`${AVATAR_PATH}${coupon.image}`} alt={`NT$${coupon.amount} 折價券`} />
-                    {/* <div className={styles.couponDetails}>
-                      <p>NT${coupon.amount} 折價券</p>
-                    </div> */}
                   </div>
                 ))
             ) : (
