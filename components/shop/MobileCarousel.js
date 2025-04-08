@@ -12,10 +12,24 @@ function MobileCarousel({ items }) {
     <div className={styles.carouselContainer}>
       <Swiper
         className={styles.mobileSwiper}
-        spaceBetween={16}
+        spaceBetween={24}
         slidesPerView={1.2}
         centeredSlides={true}
         loop={true}
+        breakpoints={{
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 12,
+          },
+          992: {
+            slidesPerView: 3,
+            spaceBetween: 16,
+          },
+          1200: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+          },
+        }}
         pagination={{
           clickable: true,
           el: ".custom-pagination", // 自訂容器
