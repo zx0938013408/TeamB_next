@@ -10,6 +10,8 @@ import { ACTIVITY_ADD_POST } from "@/config/activity-registered-api-path";
 import ActivityCard from "@/components/activity-list-card/ActivityCard";
 import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import ScrollToTopButton from "@/components/ScrollToTopButton";
+
 
 export default function ActivityListPage() {
   const { auth } = useAuth();
@@ -542,6 +544,8 @@ export default function ActivityListPage() {
           </div>
         </div>
       </div>
+<ScrollToTopButton />
+
     </>
   );
 }

@@ -14,6 +14,8 @@ import { ST } from "next/dist/shared/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
+import ScrollToTopButton from "@/components/ScrollToTopButton";
+
 
 
 export default function ActivityDetailPage({ params }) {
@@ -782,6 +784,7 @@ useEffect(() => {
     </div>
   </div>
 </div>
+<ScrollToTopButton />
 
     </>
   );
