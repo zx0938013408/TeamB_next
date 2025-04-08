@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCart } from '@/hooks/use-cart'
 import { useAuth } from '@/context/auth-context'
 import styles from '@/app/cart/cart.module.css'
@@ -20,11 +20,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import {ORDER_ADD_POST, ORDER_LIST, API_SERVER, AVATAR_PATH} from '@/config/orders-api-path'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { COUPON_LIST, USE_COUPON } from '@/config/coupons-api-path'
+import Select from 'react-select'
 
 
 export default function CheckInfoPage() {
   const { auth } = useAuth()
   const MySwal = withReactContent(Swal) // 將 SweetAlert2 包裝為 React 版本
+
 
   // 從useCart解構所需的context的value屬性
   const {
@@ -39,19 +42,41 @@ export default function CheckInfoPage() {
     selectedCity, 
     selectedArea, 
     address,
+    coupons,
+    setCoupons, 
+    selectedCoupon, 
+    setSelectedCoupon,
+    selectedCouponAmount,
+    setSelectedCouponAmount,
+    handleCouponChange, 
     clearAll
   } = useCart()
 
+  // 取得未使用的優惠券
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        const res = await fetch(`${COUPON_LIST}/${auth?.id}`);
+        const data = await res.json();
+        if (data.success) {
+          const availableCoupons = data.coupons.filter(coupon => !coupon.is_used); // 只顯示未使用的優惠券
+          console.log('可用的優惠券:', availableCoupons); // 加入這行來檢查
+          setCoupons(availableCoupons);
+        }
+      } catch (error) {
+        console.error("載入優惠券失敗：", error);
+      }
+    };
+
+    if (auth?.id) {
+      fetchCoupons();
+    }
+  }, [auth?.id]);
 
 
   // 建立ref，用來放置form表單
   const payFormDiv = useRef(null)
-  // 建立ref，用來放置金額
-  // const amountRef = useRef(null)
-  // 建立ref，用來放置商品名稱
-  // const itemsRef = useRef(null)
   
-
 
   // 建立form表單
   const createEcpayForm = (params, action) => {
@@ -179,6 +204,12 @@ export default function CheckInfoPage() {
   const handleOrderSubmission = async () => {
     const store711 = JSON.parse(localStorage.getItem("store711")) || {};
 
+    // 從 localStorage 取得已選的優惠券資料
+    const selectedCoupon = JSON.parse(localStorage.getItem('selectedCoupon'));
+    
+    // 檢查是否有選擇優惠券，並且取得優惠券 ID
+    const usedCouponId = selectedCoupon ? selectedCoupon.user_coupon_id : null;
+
     // 組合資料
     const orderData = {
       member_id: auth.id,
@@ -200,6 +231,7 @@ export default function CheckInfoPage() {
       detailed_address: shippingMethod === 1 ? address : "", // 宅配 
       store_name: store711.storename || null,  // 超商 (2)
       store_address: store711.storeaddress || null,  // 超商
+      used_user_coupon_id : usedCouponId || null,  // 新增此行，並確保用到的優惠券 ID
     };
 
     try {
@@ -215,8 +247,58 @@ export default function CheckInfoPage() {
 
 
       const resData = await response.json();
+      console.log("🔍 後端回傳的 resData：", resData); 
       if (resData.success) {
-        // 訂單成功提交，清空購物車與訂購資訊，並跳轉到訂單結果頁
+
+        const createdOrderId = resData.order_id; 
+
+        if (createdOrderId) {
+          // 確保 selectedCoupon 是物件且有 valid 欄位
+          if (selectedCoupon && selectedCoupon.user_coupon_id && selectedCoupon.amount > 0) {
+            const couponPayload = {
+              userId: auth.id,
+              couponId: selectedCoupon.user_coupon_id,
+              orderId: createdOrderId,
+            };
+  
+            console.log("✅ 傳給後端的優惠券資料：", couponPayload);
+  
+            // 確保優惠券資料正確，並發送到後端
+            await fetch(`${USE_COUPON}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(couponPayload),
+            });
+          } else {
+            console.log("❗️selectedCoupon 有問題，請確認優惠券資料");
+          }
+        } else {
+          console.log("❗️createdOrderId 無效，請檢查後端返回資料");
+        }
+  
+        console.log("selectedCoupon 是：", selectedCoupon);
+        // if (selectedCoupon) {
+        //   console.log("使用的優惠券資料：", {
+        //     userId: auth.id,
+        //     couponId: selectedCoupon.user_coupon_id,
+        //     orderId: createdOrderId,
+        //   });
+        
+        //   await fetch(`${USE_COUPON}`, {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //       userId: auth.id,
+        //       couponId: selectedCoupon.user_coupon_id,
+        //       orderId: createdOrderId,
+        //     }),
+        //   });
+        // }
+
         clearAll(); // 清空購物車與訂購資訊
        
       } else {
@@ -242,6 +324,47 @@ export default function CheckInfoPage() {
     }
   };
   
+  // 優惠券 select 樣式
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderRadius: '0px', 
+      borderColor: state.isFocused ? '#528F7C' : '#ccc', // 設定外框顏色
+      boxShadow: state.isFocused ? '0 2px 5px rgba(82, 143, 124, 0.5)' : 'none', // 聚焦時的陰影
+      '&:hover': {
+        borderColor: '#528F7C', // 滑鼠懸停時的外框顏色
+      },
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: '#528F7C', // 下拉指示器顏色
+    }),
+    indicatorSeparator: (base) => ({
+      ...base,
+      backgroundColor: '#528F7C', // 指示器分隔線顏色
+    }),
+
+    // 選擇後顯示的文字樣式
+    singleValue: (base) => ({
+      ...base,
+      fontSize: '18px',   
+      fontWeight: 'bold', 
+      color: '#29755D',
+      padding: '5px 10px'       
+    }),
+    // 下拉選單中每一個選項的樣式
+    option: (base, state) => ({
+      ...base,
+      fontSize: '18px',
+      backgroundColor: state.isFocused ? '#e6f0ec' : 'white', // hover 背景色
+      color: '#333',
+      cursor: 'pointer',
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      padding:'5px 10px' ,  // 設定你需要的 padding
+    }),
+  };
     
   return (
     <>
@@ -359,7 +482,6 @@ export default function CheckInfoPage() {
         </div>
        
 
-
         {/* 訂單詳情 */}
         <div className={styles.telHead}>付款詳情</div>
         <table title="購物車">
@@ -412,6 +534,51 @@ export default function CheckInfoPage() {
           </tbody>
         </table>
 
+        {/* 優惠券 */}
+        <div>
+          <Select
+            instanceId="coupon-select"
+            id="couponSelect"
+            value={coupons
+              .map(coupon => ({
+                value: coupon.user_coupon_id,
+                label: `NT$${coupon.amount} 折價券`,
+              }))
+              .find(option => option.value === selectedCoupon?.user_coupon_id) || null}
+            
+            onChange={handleCouponChange}  // 直接傳選中的 option 物件
+
+            options={coupons.map(coupon => ({
+              value: coupon.user_coupon_id,
+              label: `NT$${coupon.amount} 折價券`,
+              image: coupon.image, // 保留圖片資訊
+            }))}
+
+            // formatOptionLabel 簡化為只顯示優惠券名稱，但下拉選單顯示圖片
+            formatOptionLabel={(option, { context }) => {
+              if (context === 'menu') {
+                // 下拉選單顯示圖片
+                return (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img
+                      src={`${AVATAR_PATH}${option.image}`}
+                      alt={option.label}
+                      style={{ width: '150px', marginRight: '10px' }}
+                    />
+                    <span>{option.label}</span>
+                  </div>
+                );
+              }
+              // 選擇後只顯示名稱
+              return <span>{option.label}</span>;
+            }}
+
+            styles={customStyles}
+            placeholder="請選擇優惠券"
+          />
+        </div>
+        
+        
         <div className={styles.checkTotal}>
           <div className={styles.money}>
             <span>總數量:</span>
@@ -426,6 +593,10 @@ export default function CheckInfoPage() {
           <div className={styles.money}>
             <span>運費總金額:</span>
             <div className={styles.amount}>NT${shippingCost}</div>
+          </div>
+          <div className={styles.money}>
+            <span>優惠券折抵:</span>
+            <div className={styles.amount}>-NT${selectedCouponAmount}</div>
           </div>
           <div className={styles.money}>
             <span>付費總金額:</span>
