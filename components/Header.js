@@ -162,6 +162,9 @@ const Header = () => {
                         <a href="/auth/member-likes">
                           <li>收藏商品</li>
                         </a>
+                        <a href="/auth/member-coupon">
+                          <li>我的優惠券</li>
+                        </a>
                         <li onClick={handleLogout}>登出</li>
                       </ul>
                     )}

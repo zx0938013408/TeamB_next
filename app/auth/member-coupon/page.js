@@ -1,7 +1,7 @@
 "use client";
 import "../../../styles/globals.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../../../styles/auth/member.module.css";
 import { useAuth } from "../../../context/auth-context";
 import Header from "../../../components/Header";
@@ -11,20 +11,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import couponStyles from "./coupon.module.css";
 import Coupon from "./_components/coupon";
+import ScratchBtn from "@/app/test/page"; 
 
 const MemberCoupon = () => {
-  const { auth ,logout} = useAuth(); // 獲取會員認證資料
-  const [user, setUser] = useState(null); // 儲存用戶資料
-  const router = useRouter(); // 用於導航
-
- 
+  const { auth, logout } = useAuth();
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+  const couponRef = useRef(); // 用來操作 Coupon 的方法
 
   useEffect(() => {
     if (auth?.id) {
-      setUser(auth); // 設置用戶資料
+      setUser(auth);
     }
   }, [auth]);
-
 
   if (!user) return <p>載入中...</p>;
 
@@ -41,29 +40,31 @@ const MemberCoupon = () => {
           <Link href="/auth/member-likes" className={styles.menuItem}>收藏商品</Link>
           <Link href="/auth/member-coupon" className={styles.menuItem}>我的優惠券</Link>
           <button
-    className={styles.menuItemBtn}
-    onClick={() => {
-      logout();
-      toast("會員已登出", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
-      router.push("/"); // 登出後導回首頁或登入頁
-    }}
-  >
-    登出
-  </button>
+            className={styles.menuItemBtn}
+            onClick={() => {
+              logout();
+              toast("會員已登出", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+              });
+              router.push("/");
+            }}
+          >
+            登出
+          </button>
         </div>
 
         {/* 右側內容 */}
         <div className={couponStyles.content}>
           <div className={couponStyles.orderName}>我的優惠券</div>
-            {/* 根據選中的訂單狀態顯示訂單 */}
-            <div className={couponStyles.tabContent}>
-              <Coupon/>
-            </div>
+          <div className={couponStyles.tabContent}>
+            {/* 傳入刮完卡要更新優惠券的事件 */}
+            <ScratchBtn onPrizeClaimed={() => couponRef.current?.reloadCoupons()} />
+            {/*  給 Coupon 元件加 ref */}
+            <Coupon ref={couponRef} />
           </div>
+        </div>
       </div>
     </>
   );
