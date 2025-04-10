@@ -58,7 +58,8 @@ export default function VolleyballGame() {
         confirmButtonText: '再玩一次',
         cancelButtonText: '回到首頁',
         showCancelButton: true,
-        backdrop: true
+        backdrop: true,
+        allowOutsideClick: false // 禁止點擊空白區關閉
       }).then((result) => {
         if (result.isConfirmed) {
           window.location.reload();

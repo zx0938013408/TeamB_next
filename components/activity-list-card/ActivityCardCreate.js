@@ -124,11 +124,11 @@ export default function ActivityCardCreate({ activity, onQuickSignUp, onLikeTogg
         });
         window.location.reload();
       } else {
-        alert("取消失敗：" + result.error);
+        console.log("取消失敗：" + result.error);
       }
     } catch (err) {
       console.error("❌ 刪除活動失敗", err);
-      alert("發生錯誤，請稍後再試");
+      console.log("發生錯誤，請稍後再試");
     }
   };
 
