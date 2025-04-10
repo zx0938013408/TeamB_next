@@ -23,6 +23,7 @@ TeamB 運動揪團網站
 ### 1️⃣ 安裝前端（TeamB_next）
 
 -npm i
+
 -npm run dev
 
 
