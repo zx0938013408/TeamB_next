@@ -17,6 +17,7 @@ import "@/public/TeamB_Icon/style.css";
 import {MB_CONTACT_POST} from "../config/auth.api";
 import FloatingBallEffect from "@/components/FloatingBallEffect";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import Game from "@/components/Game";
 import { useAuth } from "../context/auth-context";
 
 gsap.registerPlugin(MotionPathPlugin);
@@ -357,6 +358,7 @@ const HomePage = () => {
       <Footer />
       <FloatingBallEffect />
 <ScrollToTopButton />
+<Game />
     </>
   );
 };

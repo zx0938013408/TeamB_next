@@ -10,7 +10,7 @@ import "@/app/game-basketball/game-basketball.css"
 
 export default function Home() {
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(30); // 預設遊戲玩30秒
+  const [timeLeft, setTimeLeft] = useState(15); // 預設遊戲玩30秒
   const [gameOver, setGameOver] = useState(false);
   const [balls, setBalls] = useState([]);
   const [countdown, setCountdown] = useState(3);
