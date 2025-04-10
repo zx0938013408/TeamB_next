@@ -62,13 +62,14 @@ export default function Home() {
         html: `
           <h3>🏆 前 5 高分排行榜：</h3>
           <ol style="text-align: left;">
-            ${newScores.map((s, i) => `<li>第 ${i + 1} 名：${s + 2} 分</li>`).join('')}
+            ${newScores.map((s, i) => `<li>第 ${i + 1} 名：${s} 分</li>`).join('')}
           </ol>`,
         confirmButtonText: '再玩一次',
         confirmButtonColor: "#29755D", // 修改按鈕顏色
         cancelButtonText: '回到首頁',
         showCancelButton: true,
-        backdrop: true
+        backdrop: true,
+        allowOutsideClick: false // 禁止點擊空白區關閉
       }).then((result) => {
         if (result.isConfirmed) {
           window.location.reload();
