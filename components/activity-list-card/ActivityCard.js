@@ -57,7 +57,7 @@ export default function ActivityCard({ activity, currentPage,  fromFavorite, onQ
     >
       {isExpired && <span className={Styles.expiredTag}>已過期</span>}
       <div className={`${Styles.list} row`}>
-        <div className={`${Styles.img} col-md-4`} style={{ position: 'relative' }}>
+        <div className={`${Styles.img} col-sm-4`} style={{ position: 'relative' }}>
           <div className={`${Styles.iconLikeStroke}`}>
             <LikeHeart
               checked={activity.is_favorite}
@@ -75,7 +75,7 @@ export default function ActivityCard({ activity, currentPage,  fromFavorite, onQ
             className={`${Styles.avatarImage}`}
           />
         </div>
-        <div className={`${Styles.information} col-md-6`}>
+        <div className={`${Styles.information} col-sm-6`}>
           <div className={`${Styles.title} row`}>
             <div className={`${Styles.titleIcons} col-1`}>
               {activity.sport_name === "籃球" ? (
