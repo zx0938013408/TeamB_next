@@ -25,7 +25,9 @@ TeamB 運動揪團網站
 npm i
 
 npm run dev
-
+---------------------------------
+##  後端網址
+https://github.com/zx0938013408/TeamB_node
 
 
   
