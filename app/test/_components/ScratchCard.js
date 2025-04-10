@@ -2,14 +2,14 @@
 import { useRef, useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import styles from "./ScratchCard.module.css";
-import { SCRATCH_COUPON } from "@/config/coupons-api-path";
 import { useAuth } from '@/context/auth-context';
+import { SCRATCH_COUPON } from "@/config/coupons-api-path";
 
 const isSafari = typeof window !== 'undefined' &&
   /Safari/i.test(navigator.userAgent) &&
   !/Chrome/i.test(navigator.userAgent);
 
-const ScratchCard = () => {
+const ScratchCard = ({ onPrizeClaimed }) => {
   const { auth } = useAuth(); 
 
   const canvasRef = useRef(null);
@@ -17,9 +17,10 @@ const ScratchCard = () => {
   const imageRef = useRef(null);
   const timeoutRef = useRef(null);
   const [isScratched, setIsScratched] = useState(false);
-  const [message, setMessage] = useState("刮開查看獎品！");
+  const [message, setMessage] = useState("刮開查看好禮！");
   const [prizeImage, setPrizeImage] = useState("");
   const [revealedPrize, setRevealedPrize] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const prizes = [
     { id: 1, message: "🎉 恭喜獲得$50折價券 !", image: "/photo/coupon1.png", amount: 50 },
@@ -28,15 +29,17 @@ const ScratchCard = () => {
     { id: 4, message: "🎉 恭喜獲得$200折價券 !", image: "/photo/coupon4.png", amount: 200 }
   ];
 
+  // 隨機獲得一個獎品
   const getRandomPrize = () => {
     const randomIndex = Math.floor(Math.random() * prizes.length);
     return prizes[randomIndex];
   };
 
+  // 保存優惠券到後端
   const saveCouponToBackend = async (userId, couponId) => {
     try {
-      console.log("🔍 儲存優惠券 userId:", userId, "couponId:", couponId);
-      const response = await fetch(SCRATCH_COUPON, {
+      console.log("儲存優惠券 userId:", userId, "couponId:", couponId);
+      const response = await fetch(SCRATCH_COUPON, {  
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,10 +48,13 @@ const ScratchCard = () => {
       });
 
       const result = await response.json();
-      console.log("📦 儲存回應結果:", result);
+      console.log("儲存回應結果:", result);
 
       if (result.success) {
         console.log("✅ 優惠券成功儲存");
+        if (onPrizeClaimed && typeof onPrizeClaimed === 'function') {
+          onPrizeClaimed(revealedPrize.id);
+        }
       } else {
         console.error("❌ 儲存優惠券失敗", result.error);
       }
@@ -57,14 +63,18 @@ const ScratchCard = () => {
     }
   };
 
+  // 初始化並隨機選擇一個獎品
   useEffect(() => {
     const prize = getRandomPrize();
     setRevealedPrize(prize);
     setPrizeImage(prize.image);
   }, []);
 
+  // 設定畫布、處理刮卡的邏輯
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+    
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     const devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -147,8 +157,10 @@ const ScratchCard = () => {
     };
   }, []);
 
+  // 當獎品被刮開後的處理邏輯
   useEffect(() => {
-    if (isScratched && revealedPrize && auth?.id) {
+    if (isScratched && revealedPrize && !isSaving) {
+      setIsSaving(true);
       setMessage(revealedPrize.message);
 
       confetti({
@@ -166,9 +178,12 @@ const ScratchCard = () => {
         coverContainerRef.current?.classList.add(styles.hidden);
       }, { once: true });
 
-      saveCouponToBackend(auth.id, revealedPrize.id);
+      // 儲存優惠券到後端
+      if (auth?.id) {
+        saveCouponToBackend(auth.id, revealedPrize.id);
+      }
     }
-  }, [isScratched, revealedPrize, auth?.id]); // 加上 auth.id 作為依賴
+  }, [isScratched, revealedPrize, onPrizeClaimed, isSaving, auth?.id]);
 
   return (
     <div className={styles.container}>
@@ -185,11 +200,15 @@ const ScratchCard = () => {
           <canvas ref={canvasRef} className={styles.canvas}></canvas>
         </div>
       </div>
-      <div className={styles.scratchCardText}>{message}</div>
+      <div className={styles.scratchCardText}>
+        {message}
+        <div className="mt-2 text-sm text-gray-600">
+          提醒：每月限領一次優惠
+        </div>
+      </div>
     </div>
   );
 };
 
 export default ScratchCard;
-
 

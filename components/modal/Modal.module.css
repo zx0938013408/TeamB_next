@@ -1,0 +1,58 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.4s ease;
+  }
+  
+  .modal {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 90%;
+    max-height: 580px;
+    position: relative;
+    /* box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); */
+    animation: scaleUp 0.4s ease;
+    backdrop-filter: blur(4px);
+  }
+  
+  .closeBtn {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+    transition: transform 0.2s;
+  }
+  
+  .closeBtn:hover {
+    transform: scale(1.2);
+  }
+
+  
+  
+  /* 動畫效果 */
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes scaleUp {
+    0% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
