@@ -537,6 +537,21 @@
   .img {
     width: 20%;
   }
+  .groupButton {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px; /* ✅ 主要是這個 gap 會讓子項目之間有距離 */
+  }
+
+  .buttonWrapper {
+    margin: 4px 0; /* ✅ 每個按鈕上下留白 */
+    width: 45%;     /* ✅ 按鈕寬度一致，兩個一排 */
+    display: flex;
+    justify-content: center;
+  }
+  .joinButton {
+    width: 100%;            /* ✅ 按鈕撐滿 .buttonWrapper，避免被擠壓 */
+  }
 }
 
 @media screen and (max-width: 767px){
