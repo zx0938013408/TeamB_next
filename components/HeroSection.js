@@ -1,7 +1,7 @@
 import React from "react";
 import "@/styles/index-styles.css";
 
-const HeroSection = React.forwardRef((_, ref) => {
+const HeroSection = React.forwardRef(function HeroSection(_, ref) {
   return (
     <section ref={ref} className="hero-container">
       <div className="hero-content">
@@ -23,5 +23,6 @@ const HeroSection = React.forwardRef((_, ref) => {
     </section>
   );
 });
+
 
 export default HeroSection;
