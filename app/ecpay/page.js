@@ -38,7 +38,7 @@ export default function EcpayPage() {
   const handleEcpay = async () => {
     // 先連到node伺服器後端，取得LINE Pay付款網址
     const res = await fetch(
-      `http://localhost:3001/ecpay-test-only?amount=${amountRef.current.value}&items=${itemsRef.current.value}`,
+      `https://teamb-node.onrender.com/ecpay-test-only?amount=${amountRef.current.value}&items=${itemsRef.current.value}`,
       {
         method: 'GET',
         // 讓fetch能夠傳送cookie

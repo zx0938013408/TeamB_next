@@ -1,5 +1,5 @@
 // 伺服器網址
-export const API_SERVER = "http://localhost:3001";
+export const API_SERVER = "https://teamb-node.onrender.com";
 
 // 頭貼的路
 export const AVATAR_PATH = `${API_SERVER}`;

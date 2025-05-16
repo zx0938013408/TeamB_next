@@ -7,7 +7,7 @@ export default function NotificationBell({ memberId, isOpen, onClick }) {
   const [unreadCount, setUnreadCount] = useState(0);
 
   const fetchMessages = async () => {
-    const res = await fetch(`http://localhost:3001/messages/${memberId}`);
+    const res = await fetch(`https://teamb-node.onrender.com/messages/${memberId}`);
     const data = await res.json();
     if (data.success) {
       setMessages(data.messages);
@@ -60,12 +60,12 @@ export default function NotificationBell({ memberId, isOpen, onClick }) {
   }, [memberId]);
 
   const markAsRead = async (id) => {
-    await fetch(`http://localhost:3001/messages/read/${id}`, { method: "PUT" });
+    await fetch(`https://teamb-node.onrender.com/messages/read/${id}`, { method: "PUT" });
     fetchMessages();
   };
 
   const deleteMessage = async (id) => {
-    await fetch(`http://localhost:3001/messages/${id}`, { method: "DELETE" });
+    await fetch(`https://teamb-node.onrender.com/messages/${id}`, { method: "DELETE" });
     fetchMessages();
   };
 
