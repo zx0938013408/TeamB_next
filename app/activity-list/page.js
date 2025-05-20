@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, Suspense } from "react";
 import Styles from "./activity-list.module.css";
 import "@/public/TeamB_Icon/style.css";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,8 +12,15 @@ import { useAuth } from "@/context/auth-context";
 import Swal from "sweetalert2"; // 引入 SweetAlert2
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 
-
 export default function ActivityListPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ActivityListContent />
+    </Suspense>
+  );
+}
+
+function ActivityListContent() {
   const { auth } = useAuth();
   const searchParams = useSearchParams();
   const keywordFromURL = searchParams.get("search");

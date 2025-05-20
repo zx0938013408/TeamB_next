@@ -19,21 +19,20 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const [lastVisitedPage, setLastVisitedPage] = useState("/auth/member");
 
   useEffect(() => {
     setIsClient(true);
+    if (typeof window !== 'undefined') {
+      setLastVisitedPage(localStorage.getItem("lastVisitedPage") || "/auth/member");
+    }
   }, []);
 
   useEffect(() => {
-    if (isClient) {
-      // ✅ 關鍵：禁止 Google 自動登入造成 token 錯誤
-      if (window.google?.accounts?.id) {
-        window.google.accounts.id.disableAutoSelect();
-      }
+    if (isClient && window.google?.accounts?.id) {
+      window.google.accounts.id.disableAutoSelect();
     }
   }, [isClient]);
-
-  const lastVisitedPage = localStorage.getItem("lastVisitedPage") || "/auth/member";
 
   const validateEmail = (email) => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;

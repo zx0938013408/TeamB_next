@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import {
   AB_LIST,
   AVATAR_PATH,
@@ -17,7 +17,15 @@ import {
 // import { useAuth } from "@/context/auth-context";
 import LikeHeart from "../../../components/like-hearts";
 
-export default function ABListPage() {
+export default function ShopListPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShopListContent />
+    </Suspense>
+  );
+}
+
+function ShopListContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchRef = useRef();
