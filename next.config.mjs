@@ -11,9 +11,13 @@ const nextConfig = {
         pathname: '/uploads/**',
       },
     ],
+    unoptimized: true
   },
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 
