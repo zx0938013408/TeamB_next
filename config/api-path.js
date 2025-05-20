@@ -1,4 +1,4 @@
-export const API_SERVER = `http://localhost:3001`;
+export const API_SERVER = `https://teamb-node.onrender.com`;
 
 
 // 頭貼的路

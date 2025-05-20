@@ -7,9 +7,9 @@ export const isDev = env === 'development'
 
 // 本機環境
 const local = {
-  apiURL: 'http://localhost:3001/api',
-  serverURL: 'http://localhost:3001',
-  avatarURL: 'http://localhost:3001/avatar',
+  apiURL: 'https://teamb-node.onrender.com/api',
+  serverURL: 'https://teamb-node.onrender.com',
+  avatarURL: 'https://teamb-node.onrender.com/avatar',
   nextUrl: 'http://localhost:3000',
 }
 
