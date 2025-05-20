@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import { AB_LIST } from "@/config/shop-api-path";
 import styles from "../category.module.css";
@@ -13,7 +13,15 @@ import Link from "next/link";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import FilterSideBar from "@/components/shop/FilterSideBar";
 
-export default function TopPage() {
+export default function AccessoryPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AccessoryContent />
+    </Suspense>
+  );
+}
+
+function AccessoryContent() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
   const [visibleData, setVisibleData] = useState([]);

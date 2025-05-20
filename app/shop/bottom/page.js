@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import { AB_LIST } from "@/config/shop-api-path";
 import styles from "../category.module.css";
@@ -14,6 +14,14 @@ import ScrollToTopButton from "@/components/ScrollToTopButton";
 import FilterSideBar from "@/components/shop/FilterSideBar";
 
 export default function TopPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BottomContent />
+    </Suspense>
+  );
+}
+
+function BottomContent() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
   const [visibleData, setVisibleData] = useState([]);
