@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../../styles/auth/login.module.css";
 import { useAuth } from "../../../context/auth-context";
 import { useRouter } from "next/navigation";
 import "font-awesome/css/font-awesome.min.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import {MB_GOOGLE_POST} from "../../../config/auth.api"
 
@@ -19,13 +18,20 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // ✅ 關鍵：禁止 Google 自動登入造成 token 錯誤
-    if (window.google?.accounts?.id) {
-      window.google.accounts.id.disableAutoSelect();
-    }
+    setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      // ✅ 關鍵：禁止 Google 自動登入造成 token 錯誤
+      if (window.google?.accounts?.id) {
+        window.google.accounts.id.disableAutoSelect();
+      }
+    }
+  }, [isClient]);
 
   const lastVisitedPage = localStorage.getItem("lastVisitedPage") || "/auth/member";
 
@@ -67,6 +73,10 @@ const Login = () => {
       setPasswordError("密碼錯誤");
     }
   };
+
+  if (!isClient) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>

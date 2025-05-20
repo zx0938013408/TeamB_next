@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import styles from "./shop.module.css";
@@ -16,6 +16,14 @@ import ScrollToTopButton from "@/components/ScrollToTopButton";
 import BannerSlider from "@/components/shop/BannerSlider";
 
 export default function ShopPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShopContent />
+    </Suspense>
+  );
+}
+
+function ShopContent() {
   const searchParams = useSearchParams();
   const [keyword, setKeyword] = useState("");
   const cardRef = useRef(null);
