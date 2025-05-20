@@ -1,14 +1,20 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import styles from "../../../styles/auth/reset-password.module.css"
 import axios from "axios"
 import { useRouter, useSearchParams } from "next/navigation"
 import {MB_RESET_POST} from "../../../config/auth.api"
 import Swal from "sweetalert2"; // 引入 sweetalert2
 
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
+  );
+}
 
-
-const ResetPassword = () => {
+function ResetPasswordContent() {
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
@@ -144,5 +150,3 @@ const ResetPassword = () => {
     </div>
   )
 }
-
-export default ResetPassword

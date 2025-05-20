@@ -1,8 +1,19 @@
-'use client'
+"use client"
 
 import { useShip711StoreCallback } from '../_hooks/use-ship-711-store'
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 export default function ShipCallbackPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShipCallbackContent />
+    </Suspense>
+  )
+}
+
+function ShipCallbackContent() {
+  const searchParams = useSearchParams()
   // 呼叫回送到母視窗用的勾子函式
   useShip711StoreCallback()
 

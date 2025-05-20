@@ -13,9 +13,17 @@ import { isDev } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import "@/public/TeamB_Icon/style.css"
 import {ORDER_ADD_POST} from '@/config/orders-api-path'
-
+import { Suspense } from 'react'
 
 export default function OrderResultPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OrderResultContent />
+    </Suspense>
+  )
+}
+
+function OrderResultContent() {
   const { auth } = useAuth()
 
   // 從useCart解構所需的context的value屬性
