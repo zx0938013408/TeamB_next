@@ -19,7 +19,7 @@ export default function NotificationBell({ memberId, isOpen, onClick }) {
     if (!memberId) return;
     fetchMessages();
 
-    const socket = new WebSocket("ws://localhost:3001");
+    const socket = new WebSocket("wss://teamb-node.onrender.com");
 
     socket.onopen = () => {
       console.log("✅ WebSocket 已連接");

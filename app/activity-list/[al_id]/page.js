@@ -231,7 +231,7 @@ useEffect(() => {
 useEffect(() => {
   if (!al_id) return;
 
-  const socket = new WebSocket("ws://localhost:3001"); // 請改成你的實際 WebSocket 位址
+  const socket = new WebSocket("wss://teamb-node.onrender.com"); // 請改成你的實際 WebSocket 位址
   socketRef.current = socket;
 
   socket.onopen = () => {

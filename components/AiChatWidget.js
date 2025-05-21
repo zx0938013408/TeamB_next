@@ -12,7 +12,7 @@ export default function AiChatWidget() {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3001");
+    const socket = new WebSocket("wss://teamb-node.onrender.com");
     socketRef.current = socket;
 
     socket.onopen = () => {

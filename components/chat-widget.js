@@ -11,7 +11,7 @@ export default function ChatWidget() {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:3001'); // 你的後端 WebSocket port
+    const socket = new WebSocket('wss://teamb-node.onrender.com'); // 你的後端 WebSocket port
     socketRef.current = socket;
 
     socket.onmessage = (event) => {
