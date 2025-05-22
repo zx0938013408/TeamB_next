@@ -15,10 +15,10 @@ const local = {
 
 // 營運環境設定(部署至Vercel)
 const production = {
-  apiURL: 'https://xxxxx.vercel.app/api',
-  serverURL: 'https://xxxxx.vercel.app',
-  avatarURL: 'https://xxxxx.vercel.app/avatar',
-  nextUrl: 'https://xxxxx.vercel.app',
+  apiURL: 'https://team-b-next-six.vercel.app/api',
+  serverURL: 'https://team-b-next-six.vercel.app',
+  avatarURL: 'https://team-b-next-six.vercel.app/avatar',
+  nextUrl: 'https://team-b-next-six.vercel.app',
 }
 
 export const apiURL = isDev ? local.apiURL : production.apiURL
